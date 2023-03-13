@@ -16,7 +16,7 @@ public class HelloController {
     @GetMapping
     public ResponseEntity<?> test(){
         Map<String, String> map = new HashMap<>();
-        map.put("hello", "hello");
+        map.put("hello", "hellolllllll");
 
         return new ResponseEntity<Map>(map, HttpStatus.OK);
     }
