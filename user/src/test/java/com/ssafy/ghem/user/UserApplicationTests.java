@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 
-@SpringBootTest
 @Transactional
 @Rollback(value = false)
 class UserApplicationTests {
