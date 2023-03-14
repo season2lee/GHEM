@@ -92,7 +92,8 @@ const followWrapper = css`
     cursor: pointer;
 
     :hover {
-      color: #7d7d7d;
+      transition: all 0.5s;
+      color: #c9c9c9;
     }
   }
 
