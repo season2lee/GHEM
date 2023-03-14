@@ -18,6 +18,8 @@ public class HelloController {
         Map<String, String> map = new HashMap<>();
         map.put("say", "hello");
         map.put("1", "1");
+        map.put("2", "2");
+
 
         return new ResponseEntity<Map>(map, HttpStatus.OK);
     }
