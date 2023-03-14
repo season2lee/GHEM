@@ -5,9 +5,9 @@ function SteadySeller() {
   return (
     <div>
       SteadySeller 윗줄
-      <CommonGameList />
+      {/* <CommonGameList /> */}
       아랫줄
-      <CommonGameList />
+      {/* <CommonGameList /> */}
     </div>
   );
 }
