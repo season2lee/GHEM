@@ -19,13 +19,11 @@ function LoginPage() {
 
   return (
     <div css={wrapper}>
-      <div css={linearWrapper}>
-        <div css={loginBoxWrapper}>
-          <h2>우리의 로고</h2>
-          <div css={oauthWrapper}>
-            <img src={kakaoOauthButton} onClick={() => handleOauthLoginClcik("kakao")} />
-            <img src={naverOauthButton} onClick={() => handleOauthLoginClcik("naver")} />
-          </div>
+      <div css={loginBoxWrapper}>
+        <h2>우리의 로고</h2>
+        <div css={oauthWrapper}>
+          <img src={kakaoOauthButton} onClick={() => handleOauthLoginClcik("kakao")} />
+          <img src={naverOauthButton} onClick={() => handleOauthLoginClcik("naver")} />
         </div>
       </div>
     </div>
@@ -33,13 +31,6 @@ function LoginPage() {
 }
 
 const wrapper = css`
-  width: 100vw;
-  height: 100vh;
-  background-color: #292233;
-`;
-
-const linearWrapper = css`
-  width: 100vw;
   height: 600px;
   background-image: linear-gradient(360deg, #292233 0%, rgba(41, 34, 51, 0) 169.72%), url(${loginBackground});
 `;
@@ -59,7 +50,6 @@ const loginBoxWrapper = css`
   align-items: center;
 
   > h2 {
-    color: #ffffff;
     margin-bottom: 150px;
   }
 

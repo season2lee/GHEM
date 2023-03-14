@@ -42,6 +42,8 @@ const globalStyles = css`
 
   html {
     font-size: 18px;
+    background-color: #292233;
+    color: white;
   }
 
   ::-webkit-scrollbar {
