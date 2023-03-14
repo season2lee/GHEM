@@ -6,12 +6,17 @@ plugins {
 }
 
 group = 'com.ssafy.ghem'
+version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+}
+
+war {
+	archiveName 'user.war'
 }
 
 repositories {
