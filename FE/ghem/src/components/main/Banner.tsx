@@ -4,7 +4,7 @@ import BannerGameList from "./banner/BannerGameList";
 function Banner() {
   return (
     <div>
-      Banner - WHAT FOR YOU
+      Banner
       <BannerGameList />
     </div>
   );
