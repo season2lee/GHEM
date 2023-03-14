@@ -1,9 +1,13 @@
 import React from 'react'
+import WelcomePage from './pages/WelcomePage'
 
 function App() {
   return (
-    <div>시작</div>
+    <div>
+      <WelcomePage />
+    </div>
   )
 }
 
 export default App
+
