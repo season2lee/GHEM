@@ -48,6 +48,7 @@ const profileMenuWrapper = css`
   align-items: center;
   position: relative;
   margin-bottom: 10px;
+  transition: all 1s;
 
   :hover {
     background-color: #584a6e;
