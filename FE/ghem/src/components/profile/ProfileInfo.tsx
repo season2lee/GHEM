@@ -36,13 +36,11 @@ const profileInfoWrapper = css`
 `;
 
 const nickname = css`
-  color: #ffffff;
   font-weight: bold;
   margin-bottom: 5px;
 `;
 
 const email = css`
-  color: #ffffff;
   margin-bottom: 20px;
 `;
 
@@ -58,6 +56,10 @@ const steamIdWrapper = css`
   position: relative;
   margin-bottom: 40px;
   cursor: pointer;
+
+  :hover {
+    background: #cfcfcf;
+  }
 
   > img {
     position: absolute;
@@ -86,9 +88,12 @@ const followWrapper = css`
   margin-bottom: 25px;
 
   > span {
-    color: #ffffff;
     font-size: 16px;
     cursor: pointer;
+
+    :hover {
+      color: #7d7d7d;
+    }
   }
 
   > div {
@@ -100,7 +105,7 @@ const followWrapper = css`
 
 const introduce = css`
   width: 250px;
-  height: 80px;
+  height: 70px;
   resize: none;
   border: none;
   outline: none;

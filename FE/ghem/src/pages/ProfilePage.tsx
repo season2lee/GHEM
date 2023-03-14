@@ -15,9 +15,6 @@ function ProfilePage() {
 
 const wrapper = css`
   padding: 50px 136px;
-  width: 100vw;
-  height: 100vh;
-  background-color: #292233;
 `;
 
 const profileWrapper = css`
@@ -25,7 +22,6 @@ const profileWrapper = css`
   height: 100%;
 
   > h2 {
-    color: #ffffff;
     margin-bottom: 30px;
   }
 `;

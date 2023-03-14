@@ -1,20 +1,19 @@
 import React from "react";
 import { css } from "@emotion/react";
 import ProfileInfo from "./ProfileInfo";
-import ProfileMenus from "./ProfileMenus";
+import ProfileMenuList from "./ProfileMenuList";
 
 function Profile() {
   return (
     <div css={profileWrapper}>
       <ProfileInfo />
-      <ProfileMenus />
+      <ProfileMenuList />
     </div>
   );
 }
 
 const profileWrapper = css`
   width: 350px;
-  height: 80vh;
   background: #352c42;
   border-radius: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
