@@ -19,6 +19,7 @@ function CommonGameList(props: CommonGameListProps) {
           <CommonGameListItem
             gameType={props.gameType}
             appid={item.appid}
+            imgType="header"
             key={item.appid}
           />
         );
