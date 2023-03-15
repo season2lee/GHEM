@@ -1,16 +1,16 @@
 /* 보완할 점들
-1. 존재하지 않는 APP_ID 입력시에 게임 정보가 없음을 표현하는 페이지로 렌더링 해야함
-2. 스켈레톤 UI 적용 필요
-3. 유저로부터 추천 여부 입력받는 컴포넌트는 따로 뺄 것
- */
+  1. 존재하지 않는 APP_ID 입력시에 게임 정보가 없음을 표현하는 페이지로 렌더링 해야함
+  2. 스켈레톤 UI 적용 필요
+*/
 
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { css } from '@emotion/react'
-import ImageHead from '../components/game_detail/ImageHead'
-import Section from '../components/Section'
+import ImageHead from '../components/gamedetail/ImageHead'
+import Section from '@/components/common/Section'
 import axios from 'axios'
-import gamePadImgURL from "../assets/game-controller.png"
+import RecommendChoice from '@components/gamedetail/RecommendChoice'
+import ChatBox from '@components/gamedetail/ChatBox'
+import { css } from '@emotion/react'
 
 type GameDataType = {
   appID: string,
@@ -20,7 +20,7 @@ type GameDataType = {
 
 function GameDetailPage() {
   const [gameData, setGameData] = useState<GameDataType | null>(null);  // 보여질 게임에 대한 상세 정보
-  const [recommChoice, setRecommChoice] = useState<"recommended" | "notrecommended" | "notchosen">("notchosen");  // 추천 여부 선택 입력받기
+  const [choice, setChoice] = useState<"recommended" | "notrecommended" | "notchosen">("notchosen");
   const appID = useParams().appid;  // URL의 path variable로 부터 APP_ID 추출
   const env = import.meta.env;
 
@@ -44,60 +44,47 @@ function GameDetailPage() {
   return (
     <div>
       {/* 라이브러리 이미지를 가진 헤드 컴포넌트*/}
-      {gameData &&
-        <ImageHead gameData={gameData} recommChoice={recommChoice}/>
-      }
+      {gameData && <ImageHead gameData={gameData} choice={choice}/>}
 
-      {/* 추천 여부 입력받는 컴포넌트 */}
-      <div css={recommInputContainer}>
-        <div css={recommInputContainerB}>
-          <img src={gamePadImgURL} alt="" style={{width: '10rem'}}/>
-          <h3>이 게임을 추천하시나요?</h3>
-          <div>
-            <button css={recommButtonStyle}>추천해요</button>
-            <button css={recommButtonStyle}>추천해요</button>
-          </div>
+      <div css={container}>
+        <div css={leftContainer}>
+          <RecommendChoice choice={choice} setChoice={setChoice}/>
+          <br />
+          {/* 리뷰 컴포넌트 */}
+          <Section>
+            <div style={{width: "100%", height: "50rem"}}>리뷰 컴포넌트</div>
+          </Section>
+          <br />
+
+          {/* 즐겨찾기한 유저들 컴포넌트 */}
+          <Section>
+            <div style={{width: "100%", height: "50rem"}}>즐겨찾기한 유저들 컴포넌트</div>
+          </Section>
+        </div>
+        <div css={rightContainer}>
+          {/* 채팅창 컴포넌트 */}
+          <ChatBox />
         </div>
       </div>
-      {/* 채팅창 컴포넌트 */}
-      {/* 리뷰 컴포넌트 */}
-      <Section>
-        <div>
-          
-        </div>
-      </Section>
     </div>
   )
 }
 
-const recommInputContainer = css`
-  width: 50%;
+const container = css`
+  width: 100%;
   display: flex;
-  justify-content: center;
 `
 
-const recommInputContainerB = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const leftContainer = css`
+  /* background-color: green; */
+  width: 67%;
+  padding: 1rem;
 `
 
-const recommButtonStyle = css`
-  background-color: rgb(0,117,255);
-  color: white;
-  padding: 1rem 1.5rem 1rem 1.5rem;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  box-shadow: none;
-  border-radius: 30px;
-  overflow: visible;
-  cursor: pointer;
-  &:hover {
-    background-color: rgba(0,133,255);
-  }
-  transition-property: background-color;
-  transition-duration: 300ms;
+const rightContainer = css`
+  /* background-color: blue; */
+  width: 33%;
+  padding: 1rem;
 `
 
 export default GameDetailPage
