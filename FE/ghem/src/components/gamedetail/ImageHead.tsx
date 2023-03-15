@@ -1,6 +1,7 @@
 /* 보완할 점들
-1. 전반적으로 레이아웃 설정이 불안정하다. 재조정 해야함
-2. 게임 설명이 담긴 <p>태그에서 설명이 매우 길어질 경우 truncate 해야함
+  1. 전반적으로 레이아웃 설정이 불안정하다. 재조정 해야함
+  2. 게임 설명이 담긴 <p>태그에서 설명이 길어질 경우 truncate 해야함
+  3. 이미지가 존재하지 않는 경우 디폴트 이미지 보여줄 것
 */
 import React, { useEffect } from 'react'
 
@@ -13,16 +14,16 @@ type ImageHeadProps = {
     name: string,
     shortDescription: string
   } | null,
-  recommChoice: "recommended" | "notrecommended" | "notchosen"
+  choice: "recommended" | "notrecommended" | "notchosen"
 }
 
-function ImageHead({gameData, recommChoice}: ImageHeadProps) {
+function ImageHead({gameData, choice}: ImageHeadProps) {
   return (
     <div>
       <div css={headContainer} style={{backgroundImage: `url('https://cdn.cloudflare.steamstatic.com/steam/apps/${gameData?.appID}/library_hero.jpg')`}}>
         <div css={descContinater}>
           <h1 css={detaillHead}>{gameData?.name}</h1>
-          <ChoiceDisplay recommChoice={recommChoice}/>
+          <ChoiceDisplay choice={choice}/>
           <p css={detailHeadParagraph}>
             {gameData?.shortDescription}
           </p>
@@ -36,6 +37,7 @@ const headContainer = css`
   position: relative;
   height: 27rem;
   background-position: center;
+  background-size: cover;
 `
 
 const descContinater = css`
@@ -43,13 +45,13 @@ const descContinater = css`
   height: 100%;
   position: absolute;
   background: rgb(41,34,51);
-  background: linear-gradient(90deg, rgba(41,34,51,0) 0%, rgba(41,34,51,0.8) 10%, rgba(41,34,51,1) 25%, rgba(41,34,51,1) 100%);
+  background: linear-gradient(90deg, rgba(41,34,51,1) 0%, rgba(41,34,51,1) 75%, rgba(41,34,51,0.8) 90%, rgba(41,34,51,0) 100%);
   top: 0;
-  right: 0;
-  padding-left: 8rem;
+  left: 0;
+  padding-left: 2rem;
   padding-top: 3.5rem;
   padding-bottom: 1rem;
-  padding-right: 2rem;
+  padding-right: 8rem;
 `
 
 const detaillHead = css`
