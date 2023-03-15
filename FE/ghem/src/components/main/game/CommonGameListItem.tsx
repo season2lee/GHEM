@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
 import DiscountGameDetail from "../discount/DiscountGameDetail";
 import HoverGameItem from "../HoverGameItem";
 
 type CommonGameListItemProps = {
   gameType?: "discount";
   appid: number;
-  imgType: "header" | "capsule" | "library";
+  imgType: "header" | "capsule";
 };
 
 function CommonGameListItem(props: CommonGameListItemProps) {
   const [isEnter, setIsEnter] = useState<boolean>(false);
-  const navigator = useNavigate();
 
   return (
     <div
@@ -19,7 +17,6 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         setIsEnter(true);
       }}
     >
-      CommonGameListItem
       <a href={`./detail/${props.appid}`}>
         {props.imgType === "header" && (
           <img
@@ -30,12 +27,6 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         {props.imgType === "capsule" && (
           <img
             src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appid}/hero_capsule.jpg`}
-            alt={`${props.appid}`}
-          />
-        )}
-        {props.imgType === "library" && (
-          <img
-            src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appid}/library_hero.jpg`}
             alt={`${props.appid}`}
           />
         )}

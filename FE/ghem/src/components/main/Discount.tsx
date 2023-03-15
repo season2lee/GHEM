@@ -5,7 +5,7 @@ function Discount() {
   return (
     <div>
       Discount
-      <CommonGameList gameType="discount" />
+      <CommonGameList gameType="discount" gameList={[]} imgType="header" />
     </div>
   );
 }

@@ -38,6 +38,7 @@ function TopRankNewRelease() {
           <CommonGameList
             gameList={rankList.item_ids}
             key={rankList.start_of_month}
+            imgType="header"
           />
         );
       })}
