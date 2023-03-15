@@ -1,6 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import filterIcon from "../../../assets/image/filterIcon.png";
+import GameCard from "./GameCard";
 
 function GameEvaluated() {
   return (
@@ -13,6 +14,11 @@ function GameEvaluated() {
           <span>필터</span>
           <img src={filterIcon} />
         </div>
+      </div>
+      <div css={gameCardWrapper}>
+        <GameCard />
+        <GameCard />
+        <GameCard />
       </div>
     </div>
   );
@@ -32,6 +38,7 @@ const headerWrapper = css`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 25px;
 
   > h3 > span {
     font-weight: normal;
@@ -55,6 +62,11 @@ const filterWrapper = css`
     height: 24px;
     margin-left: 5px;
   }
+`;
+
+const gameCardWrapper = css`
+  display: flex;
+  flex-direction: row;
 `;
 
 export default GameEvaluated;
