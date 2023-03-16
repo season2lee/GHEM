@@ -48,9 +48,8 @@ const Layout = css`
 `;
 const Section = css`
   height: 100%;
-  text-align: center;
-  h1 {
 
+  h1 {
     top: 5rem;
     font-size: 8rem;
     color: #f1f1f1;
@@ -75,7 +74,6 @@ const Section = css`
     right: 0.2rem;
     text-shadow: -2px 2px #f42fd3;
     clip-path: polygon(
-      1
       0 var(--t2), 100% var(--t2), 100% var(--b2), 0 var(--b2)
     )
   }

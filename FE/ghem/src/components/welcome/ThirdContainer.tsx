@@ -9,6 +9,7 @@ function ThirdContainer() {
           <img src={steamLogo}></img>
         </div>
         <div css={Section}>ThirdContainer</div>
+        
     </div>
     
   )
@@ -24,7 +25,7 @@ const Layout = css`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  background-image: url(http://1nova.com/wallpapers/wp-content/uploads/sites/34/2015/02/Retro-80s-Arcade-Game.jpg);
+ 
 `;
 
 const Section = css`
