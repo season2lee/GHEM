@@ -10,7 +10,7 @@ function ProfileMenus() {
   };
 
   return (
-    <div>
+    <div css={profileMenuWrapper}>
       <ProfileMenu text="게임 목록" />
       <ProfileMenu text="계정 정보" onClickOpenHiddenMenu={onClickOpenHiddenMenu} />
       {isOpenHiddenMenu && (
@@ -22,6 +22,10 @@ function ProfileMenus() {
     </div>
   );
 }
+
+const profileMenuWrapper = css`
+  width: 90%;
+`;
 
 const hiddenMenuWrapper = css`
   animation: fadein 1s;

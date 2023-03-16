@@ -7,9 +7,9 @@ function GameEvaluated() {
   return (
     <div css={gameEvaluatedWrapper}>
       <div css={headerWrapper}>
-        <h3>
+        <h4>
           평가했어요 <span>(10)</span>
-        </h3>
+        </h4>
         <div css={filterWrapper}>
           <span>필터</span>
           <img src={filterIcon} />
@@ -25,7 +25,7 @@ function GameEvaluated() {
 }
 
 const gameEvaluatedWrapper = css`
-  width: 1140px;
+  width: 100%;
   padding: 40px;
   background: #352c42;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -40,7 +40,7 @@ const headerWrapper = css`
   justify-content: space-between;
   margin-bottom: 25px;
 
-  > h3 > span {
+  > h4 > span {
     font-weight: normal;
     font-size: 18px;
   }
