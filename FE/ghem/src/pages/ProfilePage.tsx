@@ -1,13 +1,21 @@
 import React from "react";
 import { css } from "@emotion/react";
 import Profile from "../components/profile/Profile";
+import GameEvaluated from "../components/profile/gamelist/GameEvaluated";
+import GameInterested from "../components/profile/gamelist/GameInterested";
 
 function ProfilePage() {
   return (
     <div css={wrapper}>
       <div css={profileWrapper}>
         <h2>닉네임 님의 프로필</h2>
-        <Profile />
+        <div>
+          <Profile />
+          <div css={gameListWrapper}>
+            <GameEvaluated />
+            <GameInterested />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -24,6 +32,17 @@ const profileWrapper = css`
   > h2 {
     margin-bottom: 30px;
   }
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+
+const gameListWrapper = css`
+  display: flex;
+  flex-direction: column;
 `;
 
 export default ProfilePage;
