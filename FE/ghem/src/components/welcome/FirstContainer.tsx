@@ -23,12 +23,12 @@ function FirstContainer() {
   return (
     <div css={Layout}>
       <div css={Section}>
-        <h1 id="title" data-text="GHEM"></h1>
+        <h1 id="title" data-text="GHEM">GHEM</h1>
+
       </div>
       <div css={Grid}>
-        <div id="retro" css={Retro}>
-          <div id="retro-grid" />
-        </div>
+        <div></div>
+        <div></div>
       </div>
     </div>
   );
@@ -47,11 +47,12 @@ const Layout = css`
   text-align: center;
 `;
 const Section = css`
-  height: 50%;
-
+  height: 100%;
+  text-align: center;
   h1 {
-    right: 15rem;
-    font-size: 10rem;
+
+    top: 5rem;
+    font-size: 8rem;
     color: #f1f1f1;
     position: relative;
   }
@@ -65,16 +66,18 @@ const Section = css`
 
   h1::before {
     text-shadow: 2px -2px #2a96d4;
-    /* clip-path: polygon(
-      0 var(--t1), 100% var(--t1), 100% var(--b1), 0 var(--b1)
-    ) */
+    clip-path: polygon(
+      10 var(--t1), 100% var(--t1), 100% var(--b1), 0 var(--b1)
+    )
   }
 
   h1::after {
+    right: 0.2rem;
     text-shadow: -2px 2px #f42fd3;
-    /* clip-path: polygon(
+    clip-path: polygon(
+      1
       0 var(--t2), 100% var(--t2), 100% var(--b2), 0 var(--b2)
-    ) */
+    )
   }
 `;
 
@@ -85,26 +88,28 @@ const Grid = css`
   height: 100%;
   width: 100%;
   perspective: 300px;
-`;
+  z-index: 10;
+  transform: skew(-60deg, 0deg);
 
-const Retro = css`
+  :nth-child(1) {
+  width: 100%;
+  height: 100%;
   position: absolute;
-  top: 0;
-  width: 800px;
-  margin: 0 auto;
-  font-size: 0;
-  transform: rotateX(60deg);
+  z-index: 11;
+  background: radial-gradient(ellipse at 50% 50%, rgba(14, 20, 22, 0) 0%, #0e1416 80%);
+}
+ :nth-child(2){
+  width: 300%;
+  height: 60%;
+  background-image: linear-gradient(to right, rgba(255, 0, 162, 0.3) 1px, transparent 0), linear-gradient(to bottom, rgba(255, 0, 221, 0.3) 1px, transparent 0);
+  background-size: 45px 30px;
+  background-repeat: repeat;
+  transform-origin: 100% 0 0;
+  animation: play 15s linear infinite;
+ }
 
-  .retro-grid {
-    position: absolute;
-    width: 100%;
-    background: linear-gradient(#430f4b, #030103);
-    will-change: transform;
-    animation-name: grid;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-  }
 `;
+
+
 
 export default FirstContainer;
