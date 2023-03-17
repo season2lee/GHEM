@@ -5,7 +5,9 @@ function ForthContainer() {
   return (
     <div css={Layout} >
         <div >ForthContainer</div>
-        <div>ForthContainer</div>
+        <div>
+          <button>추천</button>
+        </div>
     </div>
     
   )

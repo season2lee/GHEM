@@ -26,6 +26,7 @@ const Container = css`
 
   ::-webkit-scrollbar {
     width: 6px;
+    display: none;
   }
   ::-webkit-scrollbar-track {
     background-color: white;

@@ -21,12 +21,12 @@ function FirstContainer() {
   }, 100);
 
   return (
-    <div css={Layout}>
-      <div css={Section}>
+    <div css={layout}>
+      <div css={section}>
         <h1 id="title" data-text="GHEM">GHEM</h1>
 
       </div>
-      <div css={Grid}>
+      <div css={grid}>
         <div></div>
         <div></div>
       </div>
@@ -34,7 +34,7 @@ function FirstContainer() {
   );
 }
 
-const Layout = css`
+const layout = css`
   scroll-snap-align: start;
   width: 100%;
   height: 100vh;
@@ -46,7 +46,7 @@ const Layout = css`
   justify-content: center;
   text-align: center;
 `;
-const Section = css`
+const section = css`
   height: 100%;
 
   h1 {
@@ -64,9 +64,10 @@ const Section = css`
   }
 
   h1::before {
+    right: -0.2rem;
     text-shadow: 2px -2px #2a96d4;
     clip-path: polygon(
-      10 var(--t1), 100% var(--t1), 100% var(--b1), 0 var(--b1)
+      0 var(--t1), 100% var(--t1), 100% var(--b1), 0 var(--b1)
     )
   }
 
@@ -79,7 +80,7 @@ const Section = css`
   }
 `;
 
-const Grid = css`
+const grid = css`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,7 +98,7 @@ const Grid = css`
   background: radial-gradient(ellipse at 50% 50%, rgba(14, 20, 22, 0) 0%, #0e1416 80%);
 }
  :nth-child(2){
-  width: 300%;
+  width: 140%;
   height: 60%;
   background-image: linear-gradient(to right, rgba(255, 0, 162, 0.3) 1px, transparent 0), linear-gradient(to bottom, rgba(255, 0, 221, 0.3) 1px, transparent 0);
   background-size: 45px 30px;
