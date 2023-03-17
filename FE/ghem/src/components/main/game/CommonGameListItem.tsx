@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import React, { useState } from "react";
 import DiscountGameDetail from "../discount/DiscountGameDetail";
 import HoverGameItem from "../HoverGameItem";
@@ -20,6 +21,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
       <a href={`./detail/${props.appid}`}>
         {props.imgType === "header" && (
           <img
+            css={selectTmg}
             src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appid}/header.jpg`}
             alt={`${props.appid}`}
           />
@@ -36,6 +38,13 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     </div>
   );
 }
+
+const selectTmg = css`
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+`;
 
 export default CommonGameListItem;
 
