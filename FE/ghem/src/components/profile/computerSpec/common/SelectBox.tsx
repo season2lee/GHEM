@@ -18,7 +18,7 @@ const select = css`
     appearance: none; */
 
   cursor: pointer;
-  width: 200px;
+  width: 150px;
   height: 40px;
   outline: none;
   background: none;
@@ -26,6 +26,7 @@ const select = css`
   font-size: 16px;
   border: none;
   border-bottom: 1px solid white;
+  margin-right: 30px;
 
   > option {
     background: #352c42;

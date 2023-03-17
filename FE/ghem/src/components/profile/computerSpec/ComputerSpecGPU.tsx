@@ -17,13 +17,16 @@ function ComputerSpecGPU() {
 const ComputerSpecWrapper = css`
   display: flex;
   flex-direction: column;
+
+  > h5 {
+    margin-bottom: 20px;
+  }
 `;
 
 const selectBoxWrapper = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
 `;
 
 export default ComputerSpecGPU;

@@ -5,7 +5,7 @@ import SelectBox from "./common/SelectBox";
 function ComputerSpecOS() {
   return (
     <div css={ComputerSpecWrapper}>
-      <h5>CPU</h5>
+      <h5>OS</h5>
       <div css={selectBoxWrapper}>
         <SelectBox />
       </div>
@@ -16,6 +16,10 @@ function ComputerSpecOS() {
 const ComputerSpecWrapper = css`
   display: flex;
   flex-direction: column;
+
+  > h5 {
+    margin-bottom: 20px;
+  }
 `;
 
 const selectBoxWrapper = css`

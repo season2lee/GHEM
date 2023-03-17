@@ -21,9 +21,10 @@ function ComputerSpec() {
         <ComputerSpecCPU />
         <ComputerSpecGPU />
         <div css={ramOsWrapper}>
-          <ComputerSpecRAM />
           <ComputerSpecOS />
+          <ComputerSpecRAM />
         </div>
+        <button>등록하기</button>
       </div>
     </div>
   );
@@ -36,31 +37,46 @@ const computerSpecWrapper = css`
 `;
 
 const computerSpecBox = css`
-  width: 100%;
   padding: 40px;
   background: #352c42;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+
+  > div {
+    margin-bottom: 40px;
+  }
+
+  > button {
+    margin-top: 30px;
+    width: 30%;
+    padding: 15px 0;
+    background: #756292;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
 `;
 
 const computerSpecHeader = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
 
   > svg {
     color: #f90808;
     cursor: pointer;
+    margin-left: 10px;
   }
 `;
 
 const ramOsWrapper = css`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
 `;
 
 export default ComputerSpec;
