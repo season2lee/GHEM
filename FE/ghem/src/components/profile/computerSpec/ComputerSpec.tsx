@@ -24,14 +24,16 @@ function ComputerSpec() {
           <ComputerSpecOS />
           <ComputerSpecRAM />
         </div>
-        <button>등록하기</button>
+        <div css={buttonWrapper}>
+          <button>등록하기</button>
+        </div>
       </div>
     </div>
   );
 }
 
 const computerSpecWrapper = css`
-  width: 70%;
+  width: auto;
   display: flex;
   flex-direction: column;
 `;
@@ -43,29 +45,14 @@ const computerSpecBox = css`
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-
-  > div {
-    margin-bottom: 40px;
-  }
-
-  > button {
-    margin-top: 30px;
-    width: 30%;
-    padding: 15px 0;
-    background: #756292;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    outline: none;
-  }
 `;
 
 const computerSpecHeader = css`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
 
   > svg {
     color: #f90808;
@@ -77,6 +64,31 @@ const computerSpecHeader = css`
 const ramOsWrapper = css`
   display: flex;
   flex-direction: row;
+  margin-bottom: 40px;
+`;
+
+const buttonWrapper = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  > button {
+    margin-top: 10px;
+    width: 30%;
+    padding: 15px 0;
+    background: #756292;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+
+    :hover {
+      transition: all 1s;
+      background: #a692c4;
+    }
+  }
 `;
 
 export default ComputerSpec;
