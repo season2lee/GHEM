@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import MainPage from "./pages/MainPage";
 import WelcomePage from "./pages/WelcomePage";
 import StarBackground from "./components/common/StarBackground";
+import ProfileUpdate from "@components/profile/ProfileUpdate";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/profile/*" element={<ProfilePage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/" element={<WelcomePage />} />
+        <Route path="/update/profile" element={<ProfileUpdate />} />
       </Routes>
       <Footer />
     </BrowserRouter>
