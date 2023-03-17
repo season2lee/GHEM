@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/detail/:appid" element={<GameDetailPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/*" element={<ProfilePage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/" element={<WelcomePage />} />
       </Routes>
