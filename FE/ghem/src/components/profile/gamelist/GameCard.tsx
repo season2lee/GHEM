@@ -2,32 +2,47 @@ import React from "react";
 import { css } from "@emotion/react";
 import testGameImage from "../../../assets/image/testGameImage.jpg";
 import meatballIcon from "../../../assets/image/meatballIcon.png";
+import { FaHeart } from "react-icons/fa";
 
-function GameCard() {
+type GameCardProps = {
+  path?: string;
+};
+
+function GameCard({ path }: GameCardProps) {
+  const handleRemoveLike = (): void => {
+    alert("관심 목록에서 해제하시겠습니까?");
+  };
+
   return (
     <div css={gameCardWrapper}>
       <div css={gameImageWrapper}>
         <img src={testGameImage} />
-        <div css={gameMeatballWrapper}>
-          <img src={meatballIcon} />
-        </div>
+        {path === "interest" ? (
+          <div css={likeButtonWrapper}>
+            <FaHeart size="25" onClick={handleRemoveLike} />
+          </div>
+        ) : (
+          <div css={gameMeatballWrapper}>
+            <img src={meatballIcon} />
+          </div>
+        )}
       </div>
       <div css={gameContentWrapper}>
-        <span>
-          <b>게임 이름</b>
-        </span>
-        <span>내 평점</span>
+        <div css={gameContentHeader}>
+          <b>카트 라이더</b>
+          {path !== "interest" && <span>평점</span>}
+        </div>
+        {path !== "interest" && <span>이 게임 정말 재밌어요 킹왕짱 !</span>}
       </div>
     </div>
   );
 }
 
 const gameCardWrapper = css`
-  width: 309px;
-  height: 245px;
-  background: #ffffff;
+  min-width: 310px;
+  background: #292233;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
+  border-radius: 10px;
   margin-right: 20px;
   display: flex;
   flex-direction: column;
@@ -38,7 +53,7 @@ const gameImageWrapper = css`
 
   > img {
     width: 100%;
-    border-radius: 15px 15px 0 0;
+    border-radius: 5px 5px 0 0;
   }
 `;
 
@@ -60,15 +75,46 @@ const gameMeatballWrapper = css`
   }
 `;
 
+const likeButtonWrapper = css`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 35px;
+  height: 23px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+
+  > svg {
+    color: #ff0000;
+
+    :hover {
+      transition: all 0.2s;
+      color: #ff8282;
+    }
+  }
+`;
+
 const gameContentWrapper = css`
   display: flex;
   flex-direction: column;
-  padding: 5px 10px;
+  padding: 10px 15px 15px 15px;
   cursor: pointer;
 
   > span {
-    color: black;
-    margin-bottom: 5px;
+    font-size: 15px;
+  }
+`;
+
+const gameContentHeader = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+
+  > span {
+    font-size: 13px;
   }
 `;
 
