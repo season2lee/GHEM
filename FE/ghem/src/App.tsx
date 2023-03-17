@@ -8,8 +8,6 @@ import ProfilePage from "./pages/ProfilePage";
 import MainPage from "./pages/MainPage";
 import WelcomePage from "./pages/WelcomePage";
 import StarBackground from "./components/common/StarBackground";
-import GameList from "@components/profile/gameList/GameList";
-import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
 
 function App() {
   return (
