@@ -24,6 +24,7 @@ function ProfileInfo() {
 }
 
 const profileInfoWrapper = css`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,7 +46,7 @@ const email = css`
 `;
 
 const steamIdWrapper = css`
-  width: 180px;
+  width: 70%;
   height: 39px;
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -53,6 +54,7 @@ const steamIdWrapper = css`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   position: relative;
   margin-bottom: 40px;
   cursor: pointer;
@@ -63,27 +65,25 @@ const steamIdWrapper = css`
 
   > img {
     position: absolute;
-    left: 25px;
+    left: 20px;
     width: 30px;
     height: 30px;
   }
 
   > span {
-    position: absolute;
-    left: 80px;
     color: #7d7d7d;
     font-size: 16px;
   }
 `;
 
 const followWrapper = css`
-  width: 250px;
+  width: 100%;
   border-top: 1px solid #716969;
   border-bottom: 1px solid #716969;
   padding: 10px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   margin-bottom: 25px;
 
@@ -100,19 +100,18 @@ const followWrapper = css`
   > div {
     height: 30px;
     border: 1px solid #716969;
-    margin: 0 40px;
   }
 `;
 
 const introduce = css`
-  width: 250px;
+  width: 90%;
   height: 70px;
   resize: none;
   border: none;
   outline: none;
   background-color: #352c42;
   color: #ffffff;
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 30px;
 `;
 

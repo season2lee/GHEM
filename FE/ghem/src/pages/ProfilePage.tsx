@@ -1,8 +1,8 @@
 import React from "react";
 import { css } from "@emotion/react";
 import Profile from "../components/profile/Profile";
-import GameEvaluated from "../components/profile/gamelist/GameEvaluated";
-import GameInterested from "../components/profile/gamelist/GameInterested";
+import GameEvaluated from "@components/profile/gameList/GameEvaluated";
+import GameInterested from "@components/profile/gameList/GameInterested";
 
 function ProfilePage() {
   return (
@@ -34,6 +34,7 @@ const profileWrapper = css`
   }
 
   > div {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -41,6 +42,7 @@ const profileWrapper = css`
 `;
 
 const gameListWrapper = css`
+  width: 70%;
   display: flex;
   flex-direction: column;
 `;
