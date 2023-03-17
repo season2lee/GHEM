@@ -19,6 +19,8 @@ function GameEvaluated() {
         <GameCard />
         <GameCard />
         <GameCard />
+        <GameCard />
+        <GameCard />
       </div>
     </div>
   );
@@ -67,6 +69,7 @@ const filterWrapper = css`
 const gameCardWrapper = css`
   display: flex;
   flex-direction: row;
+  overflow-x: scroll;
 `;
 
 export default GameEvaluated;
