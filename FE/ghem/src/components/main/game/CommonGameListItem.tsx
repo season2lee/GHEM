@@ -38,3 +38,5 @@ function CommonGameListItem(props: CommonGameListItemProps) {
 }
 
 export default CommonGameListItem;
+
+// src={`https://cdn.akamai.steamstatic.com/steam/apps/${props.appid}/capsule_616x353.jpg`}
