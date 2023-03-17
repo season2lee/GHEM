@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import rightArrow from "../../assets/image/rightArrow.png";
 import bottomArrow from "../../assets/image/bottomArrow.png";
+import { useNavigate } from "react-router";
 
 type ProfileMenuProps = {
   text: "게임 목록" | "계정 정보" | "프로필 수정" | "내 컴퓨터 사양";
@@ -8,6 +9,8 @@ type ProfileMenuProps = {
 };
 
 function ProfileMenu({ text, onClickOpenHiddenMenu }: ProfileMenuProps) {
+  const navigate = useNavigate();
+
   const handleMoveToProfileMenuPage = (): void => {
     switch (text) {
       case "게임 목록":
@@ -22,7 +25,7 @@ function ProfileMenu({ text, onClickOpenHiddenMenu }: ProfileMenuProps) {
         // 프로필 수정 페이지로 이동
         break;
       case "내 컴퓨터 사양":
-        // 내 컴퓨터 사양 페이지로 이동
+        navigate("/profile/computerspec");
         break;
       default:
     }

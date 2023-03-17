@@ -8,6 +8,8 @@ import ProfilePage from "./pages/ProfilePage";
 import MainPage from "./pages/MainPage";
 import WelcomePage from "./pages/WelcomePage";
 import StarBackground from "./components/common/StarBackground";
+import GameList from "@components/profile/gameList/GameList";
+import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
 
 function App() {
   return (
@@ -17,7 +19,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/detail/:appid" element={<GameDetailPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/*" element={<ProfilePage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/" element={<WelcomePage />} />
       </Routes>

@@ -1,8 +1,9 @@
 import React from "react";
 import { css } from "@emotion/react";
+import { Routes, Route } from "react-router-dom";
 import Profile from "../components/profile/Profile";
-import GameEvaluated from "@components/profile/gameList/GameEvaluated";
-import GameInterested from "@components/profile/gameList/GameInterested";
+import GameList from "@components/profile/gameList/GameList";
+import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
 
 function ProfilePage() {
   return (
@@ -11,10 +12,10 @@ function ProfilePage() {
         <h2>닉네임 님의 프로필</h2>
         <div>
           <Profile />
-          <div css={gameListWrapper}>
-            <GameEvaluated />
-            <GameInterested />
-          </div>
+          <Routes>
+            <Route path="/gamelist" element={<GameList />} />
+            <Route path="/computerspec" element={<ComputerSpec />} />
+          </Routes>
         </div>
       </div>
     </div>
@@ -39,12 +40,6 @@ const profileWrapper = css`
     flex-direction: row;
     justify-content: space-between;
   }
-`;
-
-const gameListWrapper = css`
-  width: 70%;
-  display: flex;
-  flex-direction: column;
 `;
 
 export default ProfilePage;
