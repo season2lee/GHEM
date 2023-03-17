@@ -17,6 +17,7 @@ function ComputerSpecGPU() {
 const ComputerSpecWrapper = css`
   display: flex;
   flex-direction: column;
+  margin-bottom: 40px;
 
   > h5 {
     margin-bottom: 20px;
