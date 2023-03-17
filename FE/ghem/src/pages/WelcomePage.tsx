@@ -4,17 +4,24 @@ import FirstContainer from "../components/welcome/FirstContainer";
 import SecondContainer from "../components/welcome/SecondContainer";
 import ThirdContainer from "../components/welcome/ThirdContainer";
 import ForthContainer from "../components/welcome/ForthContainer";
+import CategoryPage from "./CategoryPage";
 
 function WelcomePage() {
+  const [recommend, setRecommend] = useState<true | false>(false);
+
   return (
     <div>
-      <div css={Container}>
+      {recommend ? (
+        <CategoryPage />
+      ) : (
+        <div css={Container}>
           <FirstContainer />
           <SecondContainer />
           <ThirdContainer />
-          <ForthContainer />
+          <ForthContainer setRecommend={setRecommend} />
+        </div>
+      )}
     </div>
-    </div>  
   );
 }
 

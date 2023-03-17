@@ -24,11 +24,13 @@ function FirstContainer() {
     <div css={layout}>
       <div css={section}>
         <h1 id="title" data-text="GHEM">GHEM</h1>
-
       </div>
-      <div css={grid}>
-        <div></div>
-        <div></div>
+      <div css={section}>
+        {/* <div css={grid}>
+          <div></div>
+          <div></div>
+        </div> */}
+
       </div>
     </div>
   );
@@ -43,11 +45,11 @@ const layout = css`
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   text-align: center;
 `;
 const section = css`
-  height: 100%;
+  height: 50%;
+  
 
   h1 {
     top: 5rem;
@@ -84,7 +86,7 @@ const grid = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 50%;
   width: 100%;
   perspective: 300px;
   z-index: 10;

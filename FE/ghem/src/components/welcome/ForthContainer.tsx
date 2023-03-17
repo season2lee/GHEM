@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { css } from '@emotion/react';
 
-function ForthContainer() {
+type RecommendProps = {
+  setRecommend:Dispatch<SetStateAction<boolean>>
+}
+
+function ForthContainer({setRecommend}:RecommendProps) {
+
+  const recommendHandler =()=>{
+    setRecommend(true)
+  }
+
   return (
     <div css={Layout} >
         <div >ForthContainer</div>
         <div>
-          <button>추천</button>
+          <button onClick={recommendHandler}>추천받기</button>
         </div>
     </div>
     
