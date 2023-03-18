@@ -1,12 +1,12 @@
 import React from "react";
 import { css } from "@emotion/react";
-import baseProfile from "../../assets/image/baseProfile.png";
 import steamLogo from "../../assets/image/steamLogo.png";
+import ProfileImage from "./common/ProfileImage";
 
 function ProfileInfo() {
   return (
     <div css={profileInfoWrapper}>
-      <img src={baseProfile} />
+      <ProfileImage size={130} path="info" />
       <p css={nickname}>닉네임</p>
       <p css={email}>email@email.com</p>
       <div css={steamIdWrapper}>
@@ -28,17 +28,11 @@ const profileInfoWrapper = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  > img {
-    width: 130px;
-    height: 130px;
-    margin-bottom: 20px;
-  }
 `;
 
 const nickname = css`
   font-weight: bold;
-  margin-bottom: 5px;
+  margin: 20px 0 5px 0;
 `;
 
 const email = css`
