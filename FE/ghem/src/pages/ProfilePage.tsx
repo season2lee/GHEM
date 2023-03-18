@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Profile from "../components/profile/Profile";
 import GameList from "@components/profile/gameList/GameList";
 import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
+import FollowModal from "@components/profile/follow/FollowModal";
 
 function ProfilePage() {
   return (
@@ -18,6 +19,7 @@ function ProfilePage() {
           </Routes>
         </div>
       </div>
+      <FollowModal />
     </div>
   );
 }
