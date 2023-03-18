@@ -22,7 +22,7 @@ function ProfileMenu({ text, onClickOpenHiddenMenu }: ProfileMenuProps) {
         }
         break;
       case "프로필 수정":
-        // 프로필 수정 페이지로 이동
+        navigate("/update/profile");
         break;
       case "내 컴퓨터 사양":
         navigate("/profile/computerspec");
