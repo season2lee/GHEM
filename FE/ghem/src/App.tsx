@@ -8,7 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import MainPage from "./pages/MainPage";
 import WelcomePage from "./pages/WelcomePage";
 import StarBackground from "./components/common/StarBackground";
-import ProfileUpdate from "@components/profile/ProfileUpdate";
+import ProfileUpdate from "@components/profile/update/ProfileUpdate";
 
 function App() {
   return (
