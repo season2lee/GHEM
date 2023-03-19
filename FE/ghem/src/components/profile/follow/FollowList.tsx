@@ -3,14 +3,15 @@ import { css } from "@emotion/react";
 import FollowListItem from "./FollowListItem";
 
 type FollowListProps = {
-  path: string;
+  type: string;
 };
 
-function FollowList({ path }: FollowListProps) {
+function FollowList({ type }: FollowListProps) {
   return (
     <div css={wrapper}>
       <span>총 3명</span>
       <div>
+        <FollowListItem />
         <FollowListItem />
         <FollowListItem />
         <FollowListItem />
@@ -27,6 +28,8 @@ const wrapper = css`
   }
 
   > div {
+    margin-top: 20px;
+    max-height: 320px;
     overflow-y: scroll;
   }
 `;

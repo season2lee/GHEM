@@ -1,15 +1,26 @@
 import React from "react";
 import { css } from "@emotion/react";
+import baseProfile from "../../../assets/image/baseProfile.png";
 
 function FollowListItem() {
+  const moveToOtherProfile = (): void => {
+    // 다른 유저 프로필로 이동
+    alert("다른 사람 프로필로 이동");
+  };
+
+  const handleFollowUser = (): void => {
+    // 다른 유저 팔로우
+    alert("다른 유저 팔로우");
+  };
+
   return (
     <div css={wrapper}>
-      <div css={userInfoWrapper}>
-        <img />
+      <div css={userInfoWrapper} onClick={moveToOtherProfile}>
+        <img src={baseProfile} />
         <span>티코</span>
         <small>@steamid</small>
       </div>
-      <button>팔로우</button>
+      <button onClick={handleFollowUser}>팔로우</button>
     </div>
   );
 }
@@ -17,7 +28,7 @@ function FollowListItem() {
 const wrapper = css`
   width: 100%;
   padding: 10px;
-  margin: 15px 0;
+  margin-bottom: 15px;
   background: #ffffff;
   border: 1px solid #d9d9d9;
   border-radius: 5px;
@@ -25,7 +36,10 @@ const wrapper = css`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
+
+  :hover {
+    background: #f3f3f3;
+  }
 
   > button {
     cursor: pointer;
@@ -34,7 +48,12 @@ const wrapper = css`
     background: #756292;
     border-radius: 20px;
     color: white;
-    padding: 5px 10px;
+    padding: 5px 12px;
+
+    :hover {
+      transition: all 0.5s;
+      background: #695883;
+    }
   }
 `;
 
@@ -43,10 +62,21 @@ const userInfoWrapper = css`
   flex-direction: row;
   align-items: center;
   color: #7d7d7d;
+  cursor: pointer;
+
+  > img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+  }
 
   > span {
     font-size: 16px;
     margin: 0 5px;
+  }
+
+  > small {
+    font-size: 14px;
   }
 `;
 

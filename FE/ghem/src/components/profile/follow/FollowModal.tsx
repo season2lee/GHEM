@@ -1,12 +1,27 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import { AiOutlineClose } from "react-icons/ai";
 import FollowList from "./FollowList";
 
-function FollowModal() {
+type FollowModalProps = {
+  handleOpenFollowModal: () => void;
+  type: string;
+};
+
+function FollowModal({ handleOpenFollowModal, type }: FollowModalProps) {
+  const [followType, setFollowType] = useState<string>("");
+
   const handleCloseModal = (): void => {
-    alert("모달 닫기");
+    handleOpenFollowModal();
   };
+
+  const handleChangeFollowType = (type: string): void => {
+    setFollowType(type);
+  };
+
+  useEffect(() => {
+    setFollowType(type);
+  }, []);
 
   return (
     <div css={wrapper}>
@@ -18,10 +33,20 @@ function FollowModal() {
           <AiOutlineClose onClick={handleCloseModal} />
         </div>
         <div css={followMenuWrapper}>
-          <span>팔로워</span>
-          <span>팔로우</span>
+          <span
+            onClick={() => handleChangeFollowType("팔로잉")}
+            css={[followSpan, followType === "팔로잉" ? isActive : ""]}
+          >
+            팔로잉
+          </span>
+          <span
+            onClick={() => handleChangeFollowType("팔로워")}
+            css={[followSpan, followType === "팔로워" ? isActive : ""]}
+          >
+            팔로워
+          </span>
         </div>
-        <FollowList path="follow" />
+        <FollowList type="팔로잉" />
       </div>
     </div>
   );
@@ -69,16 +94,21 @@ const followMenuWrapper = css`
   margin: 25px 0 15px 0;
   border-bottom: 1px solid #c1c1c1;
   padding: 0 0 8px 0;
+`;
 
-  > span {
-    color: #7d7d7d;
-    cursor: pointer;
-    margin-right: 10px;
+const followSpan = css`
+  color: #7d7d7d;
+  cursor: pointer;
+  margin-right: 10px;
 
-    :hover {
-      font-weight: bold;
-    }
+  :hover {
+    font-weight: bold;
   }
+`;
+
+const isActive = css`
+  font-weight: bold;
+  color: #756292;
 `;
 
 export default FollowModal;
