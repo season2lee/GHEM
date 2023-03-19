@@ -4,12 +4,14 @@ import testGameImage from "../../../assets/image/testGameImage.jpg";
 import meatballIcon from "../../../assets/image/meatballIcon.png";
 import { FaHeart } from "react-icons/fa";
 import MenuDropdown from "../common/MenuDropdown";
+import { useNavigate } from "react-router-dom";
 
 type GameCardProps = {
   path?: string;
 };
 
 function GameCard({ path }: GameCardProps) {
+  const navigate = useNavigate();
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
 
   const handleOpenMenu = (): void => {
@@ -18,6 +20,10 @@ function GameCard({ path }: GameCardProps) {
 
   const handleRemoveLike = (): void => {
     alert("관심 목록에서 해제하시겠습니까?");
+  };
+
+  const moveToGameDetail = (id: number): void => {
+    navigate(`/detail/${id}`);
   };
 
   return (
@@ -35,7 +41,7 @@ function GameCard({ path }: GameCardProps) {
           </div>
         )}
       </div>
-      <div css={gameContentWrapper}>
+      <div css={gameContentWrapper} onClick={() => moveToGameDetail(1)}>
         <div css={gameContentHeader}>
           <b>카트 라이더</b>
           {path !== "interest" && <span>평점</span>}
