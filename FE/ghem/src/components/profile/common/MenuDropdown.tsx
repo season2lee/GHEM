@@ -1,12 +1,15 @@
-import React from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import { TbPencilMinus } from "react-icons/tb";
 import { AiOutlineDelete } from "react-icons/ai";
+import GameReviewModal from "../gameList/GameReviewModal";
 
 function MenuDropdown() {
-  const handleModifyGame = (): void => {
-    // 수정 모달 띄우기
-    alert("수정 모달 띄우기");
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
+  const handleOpenModifyModal = (e: React.MouseEvent): void => {
+    e.stopPropagation();
+    setIsOpenModal(!isOpenModal);
   };
 
   const handleDeleteGame = (): void => {
@@ -16,7 +19,7 @@ function MenuDropdown() {
 
   return (
     <div css={wrapper}>
-      <div css={menuWrapper} onClick={handleModifyGame}>
+      <div css={menuWrapper} onClick={handleOpenModifyModal}>
         <TbPencilMinus size="20" />
         <span>수정하기</span>
       </div>
@@ -24,6 +27,7 @@ function MenuDropdown() {
         <AiOutlineDelete size="20" />
         <span>삭제하기</span>
       </div>
+      {isOpenModal && <GameReviewModal handleOpenModifyModal={(e) => handleOpenModifyModal(e)} />}
     </div>
   );
 }
