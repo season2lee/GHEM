@@ -30,6 +30,7 @@ const profileImageWrapper = (size: number) => css`
   > img {
     width: ${size}px;
     height: ${size}px;
+    border-radius: 50%;
   }
 `;
 
