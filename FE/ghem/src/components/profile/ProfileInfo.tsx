@@ -21,7 +21,7 @@ function ProfileInfo() {
       <p css={nickname}>닉네임</p>
       <p css={email}>email@email.com</p>
       <div css={steamIdWrapper}>
-        <img src={steamLogo} />
+        <img src={steamLogo} alt="스팀 로고" />
         <span>미등록</span>
       </div>
       <div css={followWrapper}>

@@ -16,7 +16,7 @@ function FollowListItem() {
   return (
     <div css={wrapper}>
       <div css={userInfoWrapper} onClick={moveToOtherProfile}>
-        <img src={baseProfile} />
+        <img src={baseProfile} alt="유저 프로필 이미지" />
         <span>티코</span>
         <small>@steamid</small>
       </div>
