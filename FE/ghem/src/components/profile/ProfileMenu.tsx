@@ -34,7 +34,11 @@ function ProfileMenu({ text, onClickOpenHiddenMenu }: ProfileMenuProps) {
   return (
     <div css={profileMenuWrapper} onClick={handleMoveToProfileMenuPage}>
       <span>{text}</span>
-      {text === "계정 정보" ? <img src={bottomArrow} /> : <img src={rightArrow} />}
+      {text === "계정 정보" ? (
+        <img src={bottomArrow} alt="하방향 화살표" />
+      ) : (
+        <img src={rightArrow} alt="우방향 화살표" />
+      )}
     </div>
   );
 }
