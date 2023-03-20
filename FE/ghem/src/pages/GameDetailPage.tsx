@@ -12,6 +12,7 @@ import axios from 'axios'
 import RecommendChoice from '@components/gamedetail/RecommendChoice'
 import ChatBox from '@components/gamedetail/chatbox/ChatBox'
 import { css } from '@emotion/react'
+import ReviewInput from '@components/gamedetail/review/ReviewInput'
 
 type GameDataType = {
   appID: string,
@@ -53,7 +54,10 @@ function GameDetailPage() {
           <br />
           {/* 리뷰 컴포넌트 */}
           <Section>
-            <div style={{width: "100%", height: "50rem"}}>리뷰 컴포넌트</div>
+            <div style={{width: "100%", height: "50rem"}}>
+              <h2>리뷰</h2>
+              <ReviewInput />
+            </div>
           </Section>
           <br />
 

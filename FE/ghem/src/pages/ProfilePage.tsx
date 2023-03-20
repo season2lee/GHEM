@@ -2,7 +2,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import { Routes, Route } from "react-router-dom";
 import Profile from "../components/profile/Profile";
-import GameList from "@components/profile/gameList/GameList";
+import GameList from "@components/profile/gamelist/GameList";
 import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
 
 function ProfilePage() {

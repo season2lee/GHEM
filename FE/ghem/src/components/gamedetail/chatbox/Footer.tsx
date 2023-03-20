@@ -2,8 +2,13 @@
 
 import { css } from '@emotion/react'
 import React, { useRef } from 'react'
+import { MessageType } from './MessageType';
 
-function Footer() {
+type FooterProps = {
+  setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>
+}
+
+function Footer({setMessages}: FooterProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // 보내기 버튼 클릭 했을 때의 핸들러
@@ -17,7 +22,7 @@ function Footer() {
   
   return (
     <form css={container}>
-      <textarea css={textareaStyle} cols={30} rows={4} ref={textareaRef}></textarea>
+      <textarea css={textareaStyle} cols={30} rows={3} ref={textareaRef}></textarea>
       <div>
         <button onClick={sendClickHandler} css={sendButtonStyle}>보내기</button>
       </div>
@@ -46,8 +51,8 @@ const textareaStyle = css`
 
 const sendButtonStyle = css`
   position: absolute;
-  bottom: 4px;
-  right: 4px;
+  bottom: 10px;
+  right: 10px;
   border-radius: 5px;
   padding: 7px 10px;
   border: none;
