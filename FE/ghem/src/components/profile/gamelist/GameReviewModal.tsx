@@ -14,7 +14,7 @@ function GameReviewModal({ handleOpenModifyModal }: GameReviewModalProps) {
   return (
     <div css={wrapper} onClick={(e) => e.stopPropagation()}>
       <div css={gameReviewModalWrapper}>
-        <img src={testGameImage} />
+        <img src={testGameImage} alt="게임 이미지" />
         <div css={gameContentWrapper}>
           <div css={headerWrapper}>
             <span>카트라이더</span>

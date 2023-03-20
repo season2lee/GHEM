@@ -10,55 +10,59 @@ type CommonGameListProps = {
   gameType?: "discount";
   gameList?: GameList[];
   imgType: "header" | "capsule";
+  scrollType: "left" | "right";
 };
 
 function CommonGameList(props: CommonGameListProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDrag, setIsDrag] = useState<boolean>(false);
-  const [startX, setStartX] = useState<number>();
+  const [canClick, setCanClick] = useState<boolean>(true); // 드래그 중이 아닐 때만 클릭 가능함을 나타내는 변수
+  const [isMouseOn, setIsMouseOn] = useState<boolean>(false);
+  const [startX, setStartX] = useState<number>(0);
+  const [forTime, setForTime] = useState<number>(0);
 
-  // current type error 때문에 임의로 만들어주는 코드...
+  // current type error 때문에 임의로 만들어주는 코드
   const scrollElement = scrollRef.current as HTMLDivElement;
 
-  const throttle = (func: Function, ms: number) => {
-    let throttled = false;
-    return (e: HTMLDivElement) => {
-      if (!throttled) {
-        throttled = true;
-        setTimeout(() => {
-          func(e);
-          throttled = false;
-        }, ms);
-      }
-    };
-  };
+  useEffect(() => {
+    const timeout = setTimeout(() => setForTime(forTime + 1), 10);
+
+    if (props.scrollType === "left" && scrollElement && !isMouseOn) {
+      scrollElement.scrollLeft += 1;
+    }
+
+    if (props.scrollType === "right" && scrollElement && !isMouseOn) {
+      scrollElement.scrollLeft -= 1;
+    }
+
+    return () => clearTimeout(timeout);
+  }, [forTime]);
 
   const onDragStart = (e: React.MouseEvent<HTMLElement>) => {
-    // e.stopPropagation();
     setIsDrag(true);
-    setStartX(e.pageX + scrollElement.scrollLeft);
+    console.log(props.scrollType, "scroll");
+    setStartX(e.pageX);
+  };
+
+  const onDragLeave = () => {
+    setIsDrag(false);
+    setIsMouseOn(false);
+    setTimeout(() => setCanClick(true), 50); // 약간의 시간차가 있어야 클릭과 드래그를 구분 가능
   };
 
   const onDragEnd = () => {
     setIsDrag(false);
+    setTimeout(() => setCanClick(true), 50); // 약간의 시간차가 있어야 클릭과 드래그를 구분 가능
   };
 
   const onDragMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (isDrag && startX && scrollRef.current) {
-      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
-
-      scrollElement.scrollLeft = startX - e.pageX;
-
-      if (scrollLeft === 0) {
-        setStartX(e.pageX);
-      } else if (scrollWidth <= clientWidth + scrollLeft) {
-        setStartX(e.pageX + scrollLeft);
-      }
+    if (isDrag) {
+      setCanClick(false); // 드래그에 있어야 일반 클릭과 드래그를 true false 나누어 처리 가능
+      e.preventDefault();
+      scrollElement.scrollLeft += startX - e.pageX;
+      setStartX(e.pageX);
     }
   };
-
-  const delay = 10;
-  const onThrottleDragMove = throttle(onDragMove, delay);
 
   return (
     <div
@@ -66,9 +70,11 @@ function CommonGameList(props: CommonGameListProps) {
       id="gameList"
       ref={scrollRef}
       onMouseDown={onDragStart}
-      onMouseMove={isDrag ? onThrottleDragMove : null}
+      onMouseMove={onDragMove}
       onMouseUp={onDragEnd}
-      onMouseLeave={onDragEnd}
+      onMouseLeave={onDragLeave}
+      onMouseOver={() => setIsMouseOn(true)}
+      // onMouseOut={() => setIsMouseOn(false)}
     >
       {props.gameList?.map((item) => {
         return (
@@ -77,6 +83,7 @@ function CommonGameList(props: CommonGameListProps) {
             appid={item.appid}
             imgType={props.imgType}
             key={item.appid}
+            canClick={canClick}
           />
         );
       })}
@@ -86,7 +93,6 @@ function CommonGameList(props: CommonGameListProps) {
 
 const rowScroll = css`
   display: flex;
-  padding: 20px;
   overflow: scroll;
   /* 가로 스크롤 */
   overflow: auto;

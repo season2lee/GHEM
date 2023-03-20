@@ -11,7 +11,7 @@ function BannerGameList() {
         </span>
         <span>◎</span>
       </p>
-      <BannerGameItem />
+      <BannerGameItem appId={367520} title={"hollow"} />
     </div>
   );
 }
