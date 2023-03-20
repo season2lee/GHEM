@@ -72,6 +72,10 @@ const profileMenuWrapper = css`
     width: 20px;
     height: 20px;
   }
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 export default ProfileMenu;

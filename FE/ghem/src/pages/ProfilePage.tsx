@@ -32,7 +32,6 @@ const wrapper = css`
 
 const profileWrapper = css`
   width: 100%;
-  /* height: 100%; */
 
   > h2 {
     margin-bottom: 30px;
