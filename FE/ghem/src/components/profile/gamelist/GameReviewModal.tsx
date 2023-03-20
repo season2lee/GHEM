@@ -14,7 +14,7 @@ function GameReviewModal({ handleOpenModifyModal }: GameReviewModalProps) {
   return (
     <div css={wrapper} onClick={(e) => e.stopPropagation()}>
       <div css={gameReviewModalWrapper}>
-        <img src={testGameImage} />
+        <img src={testGameImage} alt="게임 이미지" />
         <div css={gameContentWrapper}>
           <div css={headerWrapper}>
             <span>카트라이더</span>
@@ -72,7 +72,7 @@ const gameContentWrapper = css`
     height: 200px;
     resize: none;
     outline: none;
-    background: EAE7EF;
+    background: #eae7ef;
     border: none;
     border-radius: 5px;
     padding: 10px;

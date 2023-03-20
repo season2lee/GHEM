@@ -10,7 +10,7 @@ type ProfileImageProps = {
 function ProfileImage({ size, path }: ProfileImageProps) {
   return (
     <div css={profileImageWrapper(size)}>
-      <img src={baseProfile} />
+      <img src={baseProfile} alt="유저 프로필 이미지" />
       {path === "update" && (
         <div css={fileInputWrapper}>
           <label htmlFor="file">수정</label>
@@ -31,6 +31,11 @@ const profileImageWrapper = (size: number) => css`
     width: ${size}px;
     height: ${size}px;
     border-radius: 50%;
+
+    @media (max-width: 768px) {
+      width: 120px;
+      height: 120px;
+    }
   }
 `;
 
@@ -55,6 +60,15 @@ const fileInputWrapper = css`
     padding: 0;
     overflow: hidden;
     border: 0;
+  }
+
+  @media (max-width: 768px) {
+    bottom: 15px;
+    left: 48px;
+
+    > label {
+      font-size: 15px;
+    }
   }
 `;
 

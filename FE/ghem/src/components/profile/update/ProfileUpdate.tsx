@@ -52,6 +52,11 @@ const profileUpdateWrapper = css`
   > h3 {
     margin-bottom: 30px;
   }
+
+  @media (max-width: 768px) {
+    width: 450px;
+    padding: 50px 60px;
+  }
 `;
 
 const rowFlexWrapper = css`
@@ -60,6 +65,10 @@ const rowFlexWrapper = css`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    align-items: flex-start;
+  }
 `;
 
 const buttonWrapper = css`
@@ -77,6 +86,14 @@ const buttonWrapper = css`
     border: none;
     color: white;
     border-radius: 5px;
+  }
+
+  @media (max-width: 768px) {
+    gap: 30px;
+
+    > button {
+      padding: 12px 40px;
+    }
   }
 
   > button:nth-of-type(1) {

@@ -93,11 +93,11 @@ function StarBackground() {
 
   return (
     <div>
-       <canvas css={Star} id='stars'> </canvas> 
+       <canvas css={star} id='stars'> </canvas> 
     </div>
   )
 }
-const Star = css`
+const star = css`
   position: fixed;
   top:0;
   z-index: -1;

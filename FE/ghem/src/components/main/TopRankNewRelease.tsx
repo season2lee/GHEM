@@ -15,6 +15,7 @@ type RankList = {
 
 function TopRankNewRelease() {
   const [topRankLists, setTopRankLists] = useState<RankList[]>([]);
+
   useEffect(() => {
     TopRankListApi();
     return () => {};
@@ -33,15 +34,21 @@ function TopRankNewRelease() {
 
   return (
     <div>
-      {topRankLists?.map((rankList) => {
-        return (
-          <CommonGameList
-            gameList={rankList.item_ids}
-            key={rankList.start_of_month}
-            imgType="header"
-          />
-        );
-      })}
+      <CommonGameList
+        gameList={topRankLists[0]?.item_ids}
+        imgType="header"
+        scrollType="left"
+      />
+      <CommonGameList
+        gameList={topRankLists[1]?.item_ids}
+        imgType="header"
+        scrollType="right"
+      />
+      <CommonGameList
+        gameList={topRankLists[2]?.item_ids}
+        imgType="header"
+        scrollType="left"
+      />
     </div>
   );
 }
