@@ -21,6 +21,7 @@ public class HelloController {
         map.put("2", "2");
         map.put("3", "3");
         map.put("4", "4");
+        map.put("5", "5");
 
         return new ResponseEntity<Map>(map, HttpStatus.OK);
     }
