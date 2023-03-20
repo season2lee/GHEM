@@ -29,14 +29,14 @@ function GameCard({ path }: GameCardProps) {
   return (
     <div css={gameCardWrapper}>
       <div css={gameImageWrapper}>
-        <img src={testGameImage} />
+        <img src={testGameImage} alt="게임 이미지" />
         {path === "interest" ? (
           <div css={likeButtonWrapper}>
             <FaHeart size="25" onClick={handleRemoveLike} />
           </div>
         ) : (
           <div css={gameMeatballWrapper} onClick={handleOpenMenu}>
-            <img src={meatballIcon} />
+            <img src={meatballIcon} alt="미트볼 메뉴 아이콘" />
             {isOpenMenu && <MenuDropdown />}
           </div>
         )}

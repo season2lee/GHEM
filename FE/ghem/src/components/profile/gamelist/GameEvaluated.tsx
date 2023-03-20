@@ -19,7 +19,7 @@ function GameEvaluated() {
         </h4>
         <div css={filterWrapper} onClick={handleOpenFilter}>
           <span>필터</span>
-          <img src={filterIcon} />
+          <img src={filterIcon} alt="필터 아이콘" />
           {isOpenFilter && <FilterDropdown />}
         </div>
       </div>
