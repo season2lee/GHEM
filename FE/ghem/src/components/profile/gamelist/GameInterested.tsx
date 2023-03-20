@@ -20,7 +20,7 @@ function GameInterested() {
 }
 
 const gameInterestedWrapper = css`
-  width: 100%;
+  width: auto;
   padding: 40px;
   background: #352c42;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);

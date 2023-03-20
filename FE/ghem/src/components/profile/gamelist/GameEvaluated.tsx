@@ -1,18 +1,26 @@
-import React from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import filterIcon from "../../../assets/image/filterIcon.png";
 import GameCard from "./GameCard";
+import FilterDropdown from "../common/FilterDropdown";
 
 function GameEvaluated() {
+  const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
+
+  const handleOpenFilter = (): void => {
+    setIsOpenFilter(!isOpenFilter);
+  };
+
   return (
     <div css={gameEvaluatedWrapper}>
       <div css={headerWrapper}>
         <h4>
           평가했어요 <span>(10)</span>
         </h4>
-        <div css={filterWrapper}>
+        <div css={filterWrapper} onClick={handleOpenFilter}>
           <span>필터</span>
           <img src={filterIcon} />
+          {isOpenFilter && <FilterDropdown />}
         </div>
       </div>
       <div css={gameCardWrapper}>
@@ -27,7 +35,7 @@ function GameEvaluated() {
 }
 
 const gameEvaluatedWrapper = css`
-  width: 100%;
+  width: auto;
   padding: 40px;
   background: #352c42;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -53,6 +61,7 @@ const filterWrapper = css`
   flex-direction: row;
   align-items: center;
   cursor: pointer;
+  position: relative;
 
   :hover {
     transition: all 0.5s;

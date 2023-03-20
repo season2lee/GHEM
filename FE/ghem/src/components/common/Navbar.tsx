@@ -8,7 +8,7 @@ function Navbar() {
       <NavLink to="/">Ghem</NavLink>
       <div>
         <NavLink to="/main">main</NavLink>
-        <NavLink to="/profile">profile</NavLink>
+        <NavLink to="/profile/gamelist">profile</NavLink>
         <NavLink to="/login">login</NavLink>
       </div>
     </div>

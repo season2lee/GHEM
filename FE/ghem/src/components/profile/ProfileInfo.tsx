@@ -1,12 +1,23 @@
-import React from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
-import baseProfile from "../../assets/image/baseProfile.png";
 import steamLogo from "../../assets/image/steamLogo.png";
+import ProfileImage from "./common/ProfileImage";
+import FollowModal from "./follow/FollowModal";
 
 function ProfileInfo() {
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [followType, setFollowType] = useState<string>("");
+
+  const handleOpenFollowModal = (type?: string): void => {
+    if (type) {
+      setFollowType(type);
+    }
+    setIsOpenModal(!isOpenModal);
+  };
+
   return (
     <div css={profileInfoWrapper}>
-      <img src={baseProfile} />
+      <ProfileImage size={130} path="info" />
       <p css={nickname}>닉네임</p>
       <p css={email}>email@email.com</p>
       <div css={steamIdWrapper}>
@@ -14,11 +25,12 @@ function ProfileInfo() {
         <span>미등록</span>
       </div>
       <div css={followWrapper}>
-        <span>팔로워 1</span>
+        <span onClick={() => handleOpenFollowModal("팔로잉")}>팔로잉 2</span>
         <div></div>
-        <span>팔로잉 2</span>
+        <span onClick={() => handleOpenFollowModal("팔로워")}>팔로워 1</span>
       </div>
       <textarea css={introduce} readOnly value={"자기소개"}></textarea>
+      {isOpenModal && <FollowModal handleOpenFollowModal={handleOpenFollowModal} type={followType} />}
     </div>
   );
 }
@@ -28,17 +40,11 @@ const profileInfoWrapper = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  > img {
-    width: 130px;
-    height: 130px;
-    margin-bottom: 20px;
-  }
 `;
 
 const nickname = css`
   font-weight: bold;
-  margin-bottom: 5px;
+  margin: 20px 0 5px 0;
 `;
 
 const email = css`
