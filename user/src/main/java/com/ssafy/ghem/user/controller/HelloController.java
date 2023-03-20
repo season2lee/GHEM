@@ -20,7 +20,7 @@ public class HelloController {
         map.put("1", "1");
         map.put("2", "2");
         map.put("3", "3");
-
+        map.put("4", "4");
 
         return new ResponseEntity<Map>(map, HttpStatus.OK);
     }
