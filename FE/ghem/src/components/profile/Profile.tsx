@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
-import ProfileInfo from "./ProfileInfo";
-import ProfileMenuList from "./ProfileMenuList";
+import ProfileInfo from "./info/ProfileInfo";
+import ProfileMenuList from "./menu/ProfileMenuList";
 
 function Profile() {
   return (
@@ -22,6 +22,10 @@ const profileWrapper = css`
   flex-direction: column;
   align-items: center;
   padding: 30px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export default Profile;

@@ -12,19 +12,33 @@ function ProfileMenus() {
   return (
     <div css={profileMenuWrapper}>
       <ProfileMenu text="게임 목록" />
-      <ProfileMenu text="계정 정보" onClickOpenHiddenMenu={onClickOpenHiddenMenu} />
-      {isOpenHiddenMenu && (
-        <div css={hiddenMenuWrapper}>
-          <ProfileMenu text="프로필 수정" />
-          <ProfileMenu text="내 컴퓨터 사양" />
-        </div>
-      )}
+      <div>
+        <ProfileMenu text="계정 정보" onClickOpenHiddenMenu={onClickOpenHiddenMenu} />
+        {isOpenHiddenMenu && (
+          <div css={hiddenMenuWrapper}>
+            <ProfileMenu text="프로필 수정" />
+            <ProfileMenu text="내 컴퓨터 사양" />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 const profileMenuWrapper = css`
   width: 90%;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    > div {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
 `;
 
 const hiddenMenuWrapper = css`

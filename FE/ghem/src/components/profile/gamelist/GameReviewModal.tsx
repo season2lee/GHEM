@@ -72,7 +72,7 @@ const gameContentWrapper = css`
     height: 200px;
     resize: none;
     outline: none;
-    background: EAE7EF;
+    background: #eae7ef;
     border: none;
     border-radius: 5px;
     padding: 10px;

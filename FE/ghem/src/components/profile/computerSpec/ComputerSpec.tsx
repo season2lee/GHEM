@@ -36,6 +36,10 @@ const computerSpecWrapper = css`
   width: auto;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const computerSpecBox = css`
