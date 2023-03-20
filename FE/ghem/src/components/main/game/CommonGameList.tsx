@@ -15,90 +15,41 @@ type CommonGameListProps = {
 function CommonGameList(props: CommonGameListProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDrag, setIsDrag] = useState<boolean>(false);
-  // const [startX, setStartX] = useState<number>();
+  const [canClick, setCanClick] = useState<boolean>(true); // 드래그 중이 아닐 때만 클릭 가능함을 나타내는 변수
+  const [startX, setStartX] = useState<number>(0);
 
-  // current type error 때문에 임의로 만들어주는 코드...
+  // current type error 때문에 임의로 만들어주는 코드
   const scrollElement = scrollRef.current as HTMLDivElement;
-
-  const slider = document.querySelector("#gameList") as HTMLDivElement;
-  let startX: number;
-  let scrollLeft: number;
 
   const onDragStart = (e: React.MouseEvent<HTMLElement>) => {
     setIsDrag(true);
-    startX = e.pageX - slider.offsetLeft;
-    console.log(startX, slider.offsetLeft);
-    scrollLeft = slider.scrollLeft;
-    // scrollElement.scrollLeft = 1000000;
+    setStartX(e.pageX);
   };
 
   const onDragLeave = () => {
     setIsDrag(false);
+    setTimeout(() => setCanClick(true), 50); // 약간의 시간차가 있어야 클릭과 드래그를 구분 가능
   };
 
   const onDragEnd = () => {
     setIsDrag(false);
+    setTimeout(() => setCanClick(true), 50); // 약간의 시간차가 있어야 클릭과 드래그를 구분 가능
   };
 
   const onDragMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (!isDrag) return;
-    e.preventDefault();
-    const x = e.pageX - slider.offsetLeft;
-    console.log("move", e.pageX);
-    const walk = x - startX;
-    // scrollElement.scrollLeft = scrollLeft - walk;
-    scrollElement.scrollLeft += 50;
+    if (isDrag) {
+      setCanClick(false); // 드래그에 있어야 일반 클릭과 드래그를 true false 나누어 처리 가능
+      e.preventDefault();
+      scrollElement.scrollLeft += startX - e.pageX;
+      setStartX(e.pageX);
+    }
   };
-
-  // const throttle = (func: Function, ms: number) => {
-  //   let throttled = false;
-  //   return (e: HTMLDivElement) => {
-  //     if (!throttled) {
-  //       throttled = true;
-  //       setTimeout(() => {
-  //         func(e);
-  //         throttled = false;
-  //       }, ms);
-  //     }
-  //   };
-  // };
-
-  // const onDragStart = (e: React.MouseEvent<HTMLElement>) => {
-  //   // e.stopPropagation();
-  //   setIsDrag(true);
-  //   setStartX(e.pageX + scrollElement.scrollLeft);
-  // };
-
-  // const onDragEnd = () => {
-  //   setIsDrag(false);
-  // };
-
-  // const onDragMove = (e: React.MouseEvent<HTMLElement>) => {
-  //   if (isDrag && startX && scrollRef.current) {
-  //     const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
-
-  //     scrollElement.scrollLeft = startX - e.pageX;
-
-  //     if (scrollLeft === 0) {
-  //       setStartX(e.pageX);
-  //     } else if (scrollWidth <= clientWidth + scrollLeft) {
-  //       setStartX(e.pageX + scrollLeft);
-  //     }
-  //   }
-  // };
-
-  // const delay = 10;
-  // const onThrottleDragMove = throttle(onDragMove, delay);
 
   return (
     <div
       css={rowScroll}
       id="gameList"
       ref={scrollRef}
-      // onMouseDown={onDragStart}
-      // onMouseMove={isDrag ? onThrottleDragMove : null}
-      // onMouseUp={onDragEnd}
-      // onMouseLeave={onDragEnd}
       onMouseDown={onDragStart}
       onMouseMove={onDragMove}
       onMouseUp={onDragEnd}
@@ -111,6 +62,7 @@ function CommonGameList(props: CommonGameListProps) {
             appid={item.appid}
             imgType={props.imgType}
             key={item.appid}
+            canClick={canClick}
           />
         );
       })}
