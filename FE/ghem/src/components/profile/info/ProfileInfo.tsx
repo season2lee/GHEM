@@ -9,9 +9,13 @@ import ProfileIntroduce from "./ProfileIntroduce";
 function ProfileInfo() {
   return (
     <div css={profileInfoWrapper}>
-      <ProfileImage size={130} path="info" />
-      <ProfileAccount />
-      <ProfileFollow />
+      <div css={profileWrapper}>
+        <div css={profileImageAccountWrapper}>
+          <ProfileImage size={130} path="info" />
+          <ProfileAccount />
+        </div>
+        <ProfileFollow />
+      </div>
       <ProfileIntroduce />
     </div>
   );
@@ -22,6 +26,32 @@ const profileInfoWrapper = css`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const profileWrapper = css`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+`;
+
+const profileImageAccountWrapper = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    gap: 15px;
+    flex-direction: row;
+  }
 `;
 
 export default ProfileInfo;

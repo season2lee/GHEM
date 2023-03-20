@@ -20,11 +20,19 @@ const wrapper = css`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 768px) {
+    align-items: flex-start;
+  }
 `;
 
 const nickname = css`
   font-weight: bold;
   margin: 20px 0 5px 0;
+
+  @media (max-width: 768px) {
+    margin: 0;
+  }
 `;
 
 const email = css`
@@ -59,6 +67,10 @@ const steamIdWrapper = css`
   > span {
     color: #7d7d7d;
     font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 0;
   }
 `;
 

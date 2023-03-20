@@ -48,6 +48,25 @@ const followWrapper = css`
     height: 30px;
     border: 1px solid #716969;
   }
+
+  @media (max-width: 768px) {
+    width: 30%;
+    flex-direction: column;
+    border: none;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+
+    > span {
+      padding: 10px 15px;
+      background: #756292;
+      border-radius: 10px;
+    }
+
+    > div {
+      display: none;
+    }
+  }
 `;
 
 export default ProfileFollow;

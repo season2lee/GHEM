@@ -53,15 +53,6 @@ const fileInputWrapper = css`
     }
   }
 
-  @media (max-width: 768px) {
-    bottom: 15px;
-    left: 48px;
-
-    > label {
-      font-size: 15px;
-    }
-  }
-
   > input {
     position: absolute;
     width: 0;
@@ -69,6 +60,15 @@ const fileInputWrapper = css`
     padding: 0;
     overflow: hidden;
     border: 0;
+  }
+
+  @media (max-width: 768px) {
+    bottom: 15px;
+    left: 48px;
+
+    > label {
+      font-size: 15px;
+    }
   }
 `;
 
