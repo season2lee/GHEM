@@ -1,6 +1,7 @@
 /* 보완할 점들
   1. 존재하지 않는 APP_ID 입력시에 게임 정보가 없음을 표현하는 페이지로 렌더링 해야함
   2. 스켈레톤 UI 적용 필요
+  3. loadData()로 인해 렌더링이 두 번 연달아 일어나는 현상 고치기
 */
 
 import React, { useEffect, useState } from 'react'
@@ -9,8 +10,9 @@ import ImageHead from '../components/gamedetail/ImageHead'
 import Section from '@/components/common/Section'
 import axios from 'axios'
 import RecommendChoice from '@components/gamedetail/RecommendChoice'
-import ChatBox from '@components/gamedetail/ChatBox'
+import ChatBox from '@components/gamedetail/chatbox/ChatBox'
 import { css } from '@emotion/react'
+import ReviewInput from '@components/gamedetail/review/ReviewInput'
 
 type GameDataType = {
   appID: string,
@@ -38,7 +40,7 @@ function GameDetailPage() {
   }
   
   useEffect(() => {
-    loadGameData();
+    loadGameData();  // 렌더링을 두 번 연달아 일어나게 한다
   }, [])
   
   return (
@@ -52,7 +54,10 @@ function GameDetailPage() {
           <br />
           {/* 리뷰 컴포넌트 */}
           <Section>
-            <div style={{width: "100%", height: "50rem"}}>리뷰 컴포넌트</div>
+            <div style={{width: "100%", height: "50rem"}}>
+              <h2>리뷰</h2>
+              <ReviewInput />
+            </div>
           </Section>
           <br />
 

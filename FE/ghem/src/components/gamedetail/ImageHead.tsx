@@ -2,6 +2,7 @@
   1. 전반적으로 레이아웃 설정이 불안정하다. 재조정 해야함
   2. 게임 설명이 담긴 <p>태그에서 설명이 길어질 경우 truncate 해야함
   3. 이미지가 존재하지 않는 경우 디폴트 이미지 보여줄 것
+  radial-gradient(ellipse 100% 100% at 50% 0,rgba(21,21,23,.55) 0,rgba(26,27,30,.65) 32%,#1a1b1e 100%)
 */
 import React, { useEffect } from 'react'
 
