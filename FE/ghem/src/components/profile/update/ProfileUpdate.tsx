@@ -5,8 +5,15 @@ import ProfileNickname from "./ProfileNickname";
 import ProfileInput from "./ProfileInput";
 import ProfileGender from "./ProfileGender";
 import ProfileIntroduce from "./ProfileIntroduce";
+import { useNavigate } from "react-router-dom";
 
 function ProfileUpdate() {
+  const navigate = useNavigate();
+
+  const handleCancelUpdateProfile = (): void => {
+    navigate("/profile/gamelist");
+  };
+
   return (
     <div css={wrapper}>
       <div css={profileUpdateWrapper}>
@@ -21,7 +28,7 @@ function ProfileUpdate() {
         <ProfileIntroduce />
         <div css={buttonWrapper}>
           <button>수정</button>
-          <button>취소</button>
+          <button onClick={handleCancelUpdateProfile}>취소</button>
         </div>
       </div>
     </div>
