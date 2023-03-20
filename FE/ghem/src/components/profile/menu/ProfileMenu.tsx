@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
-import rightArrow from "../../assets/image/rightArrow.png";
-import bottomArrow from "../../assets/image/bottomArrow.png";
+import rightArrow from "../../../assets/image/rightArrow.png";
+import bottomArrow from "../../../assets/image/bottomArrow.png";
 import { useNavigate } from "react-router";
 
 type ProfileMenuProps = {
@@ -71,6 +71,10 @@ const profileMenuWrapper = css`
     right: 35px;
     width: 20px;
     height: 20px;
+  }
+
+  @media (max-width: 768px) {
+    justify-content: center;
   }
 `;
 

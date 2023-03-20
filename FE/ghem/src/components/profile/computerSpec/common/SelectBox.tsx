@@ -13,10 +13,6 @@ function SelectBox() {
 }
 
 const select = css`
-  /* -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none; */
-
   cursor: pointer;
   width: 150px;
   height: 40px;

@@ -6,10 +6,14 @@ function ProfileGender() {
     <div css={wrapper}>
       <h5>성별</h5>
       <div css={inputWrapper}>
-        <input type="radio" name="gender" value="male" defaultChecked />
-        남자
-        <input type="radio" name="gender" value="female" />
-        여자
+        <div css={genderWrapper}>
+          <input type="radio" name="gender" value="male" id="male" defaultChecked />
+          <label htmlFor="male">남자</label>
+        </div>
+        <div css={genderWrapper}>
+          <input type="radio" name="gender" value="female" id="female" />
+          <label htmlFor="female">여자</label>
+        </div>
       </div>
     </div>
   );
@@ -26,6 +30,23 @@ const inputWrapper = css`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: normal;
+  }
+`;
+
+const genderWrapper = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 15px;
+
+  @media (max-width: 768px) {
+    margin-right: 0;
+    margin-top: 10px;
+  }
 
   > input {
     -webkit-appearance: none;
@@ -58,10 +79,6 @@ const inputWrapper = css`
     :checked::after {
       display: block;
     }
-  }
-
-  > input:nth-of-type(2) {
-    margin-left: 25px;
   }
 `;
 

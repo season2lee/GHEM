@@ -16,6 +16,10 @@ const gameListWrapper = css`
   width: 70%;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export default GameList;

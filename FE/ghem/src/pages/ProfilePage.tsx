@@ -24,11 +24,14 @@ function ProfilePage() {
 
 const wrapper = css`
   padding: 50px 136px;
+
+  @media (max-width: 768px) {
+    padding: 50px 70px;
+  }
 `;
 
 const profileWrapper = css`
   width: 100%;
-  height: 100%;
 
   > h2 {
     margin-bottom: 30px;
@@ -39,6 +42,17 @@ const profileWrapper = css`
     display: flex;
     flex-direction: row;
     gap: 60px;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > div {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 `;
 
