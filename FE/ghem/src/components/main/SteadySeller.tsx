@@ -17,8 +17,8 @@ function SteadySeller() {
   const TopRankListApi = async () => {
     try {
       const response = await axios.get(
-        // "https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/"
-        "https://api.steampowered.com/ISteamChartsService/GetGamesByConcurrentPlayers/v1/?"
+        "https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/"
+        // "https://api.steampowered.com/ISteamChartsService/GetGamesByConcurrentPlayers/v1/?"
       );
       setSteadyGameList(response.data.response.ranks);
     } catch (err) {
@@ -28,19 +28,19 @@ function SteadySeller() {
 
   return (
     <div>
-      SteadySeller 윗줄
       <CommonGameList
         gameList={steadyGameList.slice(0, 50)}
         // imgType="capsule"
         imgType="header"
-        scrollType="right"
+        scrollType={1}
+        gameType="steady"
       />
-      아랫줄
       <CommonGameList
         gameList={steadyGameList.slice(50, 100)}
         // imgType="capsule"
         imgType="header"
-        scrollType="left"
+        scrollType={-1}
+        gameType="steady"
       />
     </div>
   );
