@@ -6,7 +6,7 @@ import ProfileInput from "./ProfileInput";
 import ProfileGender from "./ProfileGender";
 import ProfileIntroduce from "./ProfileIntroduce";
 import { useNavigate } from "react-router-dom";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function ProfileUpdate() {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import ProfileMenu from "./ProfileMenu";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function ProfileMenus() {
   const [isOpenHiddenMenu, setIsOpenHiddenMenu] = useState<boolean>(false);

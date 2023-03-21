@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function ComputerSpecGPU() {
   return (

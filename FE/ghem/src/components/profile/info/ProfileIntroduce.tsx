@@ -1,6 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function ProfileIntroduce() {
   return <textarea css={introduce} readOnly value={"자기소개"}></textarea>;

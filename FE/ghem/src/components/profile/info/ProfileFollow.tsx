@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import FollowModal from "./../follow/FollowModal";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function ProfileFollow() {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);

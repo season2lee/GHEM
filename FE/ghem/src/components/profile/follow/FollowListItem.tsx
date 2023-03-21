@@ -1,11 +1,14 @@
 import React from "react";
 import { css } from "@emotion/react";
 import baseProfile from "../../../assets/image/baseProfile.png";
+import { useNavigate } from "react-router-dom";
 
 function FollowListItem() {
+  const navigate = useNavigate();
+
   const moveToOtherProfile = (): void => {
-    // 다른 유저 프로필로 이동
-    alert("다른 사람 프로필로 이동");
+    navigate("/profile/1/gamelist"); // 임시 유저 아이디
+    // 모달 닫기
   };
 
   const handleFollowUser = (): void => {
