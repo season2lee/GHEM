@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import React from "react";
 import Banner from "../components/main/Banner";
 import Discount from "../components/main/Discount";
@@ -7,7 +8,7 @@ import TopRankNewRelease from "../components/main/TopRankNewRelease";
 
 function MainPage() {
   return (
-    <div>
+    <div css={centerDiv}>
       MainPage
       <Banner />
       <Discount />
@@ -20,5 +21,9 @@ function MainPage() {
     </div>
   );
 }
+
+const centerDiv = css`
+  text-align: center;
+`;
 
 export default MainPage;
