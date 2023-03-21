@@ -14,6 +14,7 @@ function Profile() {
 }
 
 const profileWrapper = css`
+  min-width: 310px;
   width: 25%;
   height: 100%;
   background: #352c42;

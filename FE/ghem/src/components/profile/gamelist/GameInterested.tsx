@@ -1,6 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import GameCard from "./GameCard";
+import { mobile } from "@/Mixin";
 
 function GameInterested() {
   return (
@@ -33,6 +34,18 @@ const gameInterestedWrapper = css`
   > h4 > span {
     font-weight: normal;
     font-size: 18px;
+  }
+
+  ${mobile} {
+    padding: 30px;
+
+    > h4 {
+      font-size: 20px;
+    }
+
+    > h4 > span {
+      font-size: 16px;
+    }
   }
 `;
 
