@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import FollowModal from "./../follow/FollowModal";
+import { mobile } from "@/Mixin";
 
 function ProfileFollow() {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -44,28 +45,9 @@ const followWrapper = css`
     }
   }
 
-  > div {
+  > div:nth-of-type(1) {
     height: 30px;
     border: 1px solid #716969;
-  }
-
-  @media (max-width: 768px) {
-    width: 30%;
-    flex-direction: column;
-    border: none;
-    gap: 20px;
-    padding: 0;
-    margin: 0;
-
-    > span {
-      padding: 10px 15px;
-      background: #756292;
-      border-radius: 10px;
-    }
-
-    > div {
-      display: none;
-    }
   }
 `;
 

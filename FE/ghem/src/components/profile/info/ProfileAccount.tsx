@@ -1,6 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import steamLogo from "../../../assets/image/steamLogo.png";
+import { mobile } from "@/Mixin";
 
 function ProfileAccount() {
   return (
@@ -21,7 +22,7 @@ const wrapper = css`
   flex-direction: column;
   align-items: center;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     align-items: flex-start;
   }
 `;
@@ -30,13 +31,19 @@ const nickname = css`
   font-weight: bold;
   margin: 20px 0 5px 0;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     margin: 0;
+    font-size: 18px;
   }
 `;
 
 const email = css`
   margin-bottom: 20px;
+
+  ${mobile} {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
 `;
 
 const steamIdWrapper = css`
@@ -69,8 +76,20 @@ const steamIdWrapper = css`
     font-size: 16px;
   }
 
-  @media (max-width: 768px) {
+  ${mobile} {
     margin-bottom: 0;
+    height: 35px;
+
+    > img {
+      left: 10px;
+      width: 23px;
+      height: 23px;
+    }
+
+    > span {
+      color: #7d7d7d;
+      font-size: 13px;
+    }
   }
 `;
 

@@ -2,9 +2,10 @@ import { css } from "@emotion/react";
 import rightArrow from "../../../assets/image/rightArrow.png";
 import bottomArrow from "../../../assets/image/bottomArrow.png";
 import { useNavigate } from "react-router";
+import { mobile } from "@/Mixin";
 
 type ProfileMenuProps = {
-  text: "게임 목록" | "계정 정보" | "프로필 수정" | "내 컴퓨터 사양";
+  text: "게임 목록" | "계정 정보" | "프로필 수정" | "컴퓨터 사양";
   onClickOpenHiddenMenu?: () => void;
 };
 
@@ -24,7 +25,7 @@ function ProfileMenu({ text, onClickOpenHiddenMenu }: ProfileMenuProps) {
       case "프로필 수정":
         navigate("/update/profile");
         break;
-      case "내 컴퓨터 사양":
+      case "컴퓨터 사양":
         navigate("/profile/computerspec");
         break;
       default:
@@ -73,8 +74,19 @@ const profileMenuWrapper = css`
     height: 20px;
   }
 
-  @media (max-width: 768px) {
+  ${mobile} {
     justify-content: center;
+
+    > span {
+      font-size: 15px;
+      left: 15px;
+    }
+
+    > img {
+      right: 15px;
+      width: 15px;
+      height: 15px;
+    }
   }
 `;
 

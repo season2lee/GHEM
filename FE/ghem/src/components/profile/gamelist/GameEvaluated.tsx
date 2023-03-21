@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import filterIcon from "../../../assets/image/filterIcon.png";
 import GameCard from "./GameCard";
 import FilterDropdown from "../common/FilterDropdown";
+import { mobile } from "@/Mixin";
 
 function GameEvaluated() {
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
@@ -41,6 +42,10 @@ const gameEvaluatedWrapper = css`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   margin-bottom: 50px;
+
+  ${mobile} {
+    padding: 30px;
+  }
 `;
 
 const headerWrapper = css`
@@ -53,6 +58,16 @@ const headerWrapper = css`
   > h4 > span {
     font-weight: normal;
     font-size: 18px;
+  }
+
+  ${mobile} {
+    > h4 {
+      font-size: 20px;
+    }
+
+    > h4 > span {
+      font-size: 16px;
+    }
   }
 `;
 
@@ -72,6 +87,17 @@ const filterWrapper = css`
     width: 24px;
     height: 24px;
     margin-left: 5px;
+  }
+
+  ${mobile} {
+    > span {
+      font-size: 16px;
+    }
+
+    > img {
+      width: 20px;
+      height: 20px;
+    }
   }
 `;
 

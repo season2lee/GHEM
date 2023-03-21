@@ -1,5 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
+import { mobile } from "@/Mixin";
 
 function ProfileGender() {
   return (
@@ -31,7 +32,7 @@ const inputWrapper = css`
   flex-direction: row;
   align-items: center;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     flex-direction: column;
     align-items: normal;
   }
@@ -43,7 +44,7 @@ const genderWrapper = css`
   align-items: center;
   margin-right: 15px;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     margin-right: 0;
     margin-top: 10px;
   }

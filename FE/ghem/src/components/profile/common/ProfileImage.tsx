@@ -1,6 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import baseProfile from "../../../assets/image/baseProfile.png";
+import { mobile } from "@/Mixin";
 
 type ProfileImageProps = {
   size: number;
@@ -32,9 +33,9 @@ const profileImageWrapper = (size: number) => css`
     height: ${size}px;
     border-radius: 50%;
 
-    @media (max-width: 768px) {
-      width: 120px;
-      height: 120px;
+    ${mobile} {
+      width: 100px;
+      height: 100px;
     }
   }
 `;
@@ -62,9 +63,9 @@ const fileInputWrapper = css`
     border: 0;
   }
 
-  @media (max-width: 768px) {
+  ${mobile} {
     bottom: 15px;
-    left: 48px;
+    left: 38px;
 
     > label {
       font-size: 15px;
