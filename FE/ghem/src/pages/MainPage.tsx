@@ -14,6 +14,7 @@ function MainPage() {
       <TopRankNewRelease />
       <hr />
       <FriendRecommend />
+      <hr />
       <SteadySeller />
       먼가 깐지나는 말
     </div>

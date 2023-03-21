@@ -5,7 +5,7 @@ import DiscountGameDetail from "../discount/DiscountGameDetail";
 import HoverGameItem from "../HoverGameItem";
 
 type CommonGameListItemProps = {
-  gameType?: "discount";
+  gameType?: "discount" | "steady";
   appid: number;
   imgType: "header" | "capsule";
   canClick: boolean;
@@ -24,14 +24,16 @@ function CommonGameListItem(props: CommonGameListItemProps) {
 
   return (
     <div
-      onMouseEnter={() => {
+      onMouseOver={() => {
         setIsEnter(true);
+      }}
+      onMouseLeave={() => {
+        setIsEnter(false);
       }}
     >
       <div onClick={toDetail}>
         {props.imgType === "header" && (
           <img
-            css={selectTmg}
             src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appid}/header.jpg`}
             alt={`${props.appid}`}
           />
@@ -44,17 +46,10 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         )}
       </div>
       {props.gameType === "discount" && <DiscountGameDetail />}
-      {isEnter && <HoverGameItem setIsEnter={setIsEnter} />}
+      {isEnter && <HoverGameItem setIsEnter={setIsEnter} appid={props.appid} />}
     </div>
   );
 }
-
-const selectTmg = css`
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-`;
 
 export default CommonGameListItem;
 
