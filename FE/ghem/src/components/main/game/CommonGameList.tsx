@@ -16,6 +16,8 @@ type CommonGameListProps = {
   gameList?: GameList[];
   imgType: "header" | "capsule";
   scrollType: -1 | 1;
+  setAppid: React.Dispatch<React.SetStateAction<number | null>>;
+  setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function CommonGameList(props: CommonGameListProps) {
@@ -87,7 +89,7 @@ function CommonGameList(props: CommonGameListProps) {
               WebkitTransform: `rotate(${-10 * props.scrollType}deg)`,
               transform: `rotate(${-10 * props.scrollType}deg)`,
             }
-          : undefined
+          : {}
       }
       id="gameList"
       ref={scrollRef}
@@ -111,6 +113,8 @@ function CommonGameList(props: CommonGameListProps) {
             finalPrice={item.finalPrice}
             largeImage={item.largeImage}
             smallImage={item.smallImage}
+            setAppid={props.setAppid}
+            setIsEnter={props.setIsEnter}
           />
         );
       })}

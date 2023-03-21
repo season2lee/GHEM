@@ -7,7 +7,12 @@ type RankList = {
   appid: number;
 };
 
-function SteadySeller() {
+type SteadySellerProps = {
+  setAppid: React.Dispatch<React.SetStateAction<number | null>>;
+  setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function SteadySeller(props: SteadySellerProps) {
   const [steadyGameList, setSteadyGameList] = useState<RankList[]>([]);
   useEffect(() => {
     TopRankListApi();
@@ -34,6 +39,8 @@ function SteadySeller() {
         imgType="header"
         scrollType={1}
         gameType="steady"
+        setAppid={props.setAppid}
+        setIsEnter={props.setIsEnter}
       />
       <CommonGameList
         gameList={steadyGameList.slice(50, 100)}
@@ -41,6 +48,8 @@ function SteadySeller() {
         imgType="header"
         scrollType={-1}
         gameType="steady"
+        setAppid={props.setAppid}
+        setIsEnter={props.setIsEnter}
       />
     </div>
   );
