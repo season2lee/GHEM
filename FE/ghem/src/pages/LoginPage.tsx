@@ -33,15 +33,17 @@ function LoginPage() {
 const wrapper = css`
   height: 600px;
   background-image: linear-gradient(360deg, #292233 0%, rgba(41, 34, 51, 0) 169.72%), url(${loginBackground});
+  background-repeat: repeat-x;
+  position: relative;
 `;
 
 const loginBoxWrapper = css`
   margin: 0 auto;
-  width: 750px;
-  height: 550px;
+  width: 650px;
+  height: 500px;
   position: absolute;
-  left: calc(50% - 750px / 2);
-  top: calc(50% - 550px / 2);
+  left: calc(50% - 650px / 2);
+  top: calc(50% - 500px / 2);
   background: #352c42;
   border-radius: 5px;
   display: flex;
@@ -56,6 +58,10 @@ const loginBoxWrapper = css`
   @media (max-width: 768px) {
     width: 350px;
     left: calc(50% - 350px / 2);
+
+    > h2 {
+      font-size: 28px;
+    }
   }
 `;
 
@@ -63,12 +69,27 @@ const oauthWrapper = css`
   width: 250px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 120px;
 
   > img {
     cursor: pointer;
     width: 70px;
     height: 70px;
+    transition: all 0.2s linear;
+
+    :hover {
+      transform: scale(1.2);
+    }
+  }
+
+  @media (max-width: 768px) {
+    gap: 80px;
+
+    > img {
+      width: 55px;
+      height: 55px;
+    }
   }
 `;
 
