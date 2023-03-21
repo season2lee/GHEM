@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import rightArrow from "../../../assets/image/rightArrow.png";
 import bottomArrow from "../../../assets/image/bottomArrow.png";
 import { useNavigate } from "react-router";
+import { mobile } from "@/Mixin";
 
 type ProfileMenuProps = {
   text: "게임 목록" | "계정 정보" | "프로필 수정" | "내 컴퓨터 사양";
@@ -73,7 +74,7 @@ const profileMenuWrapper = css`
     height: 20px;
   }
 
-  @media (max-width: 768px) {
+  ${mobile} {
     justify-content: center;
   }
 `;

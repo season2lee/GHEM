@@ -2,6 +2,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import ProfileInfo from "./info/ProfileInfo";
 import ProfileMenuList from "./menu/ProfileMenuList";
+import { mobile } from "@/Mixin";
 
 function Profile() {
   return (
@@ -23,7 +24,7 @@ const profileWrapper = css`
   align-items: center;
   padding: 30px;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     width: 100%;
   }
 `;

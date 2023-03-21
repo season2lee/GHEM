@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import FollowModal from "./../follow/FollowModal";
+import { mobile } from "@/Mixin";
 
 function ProfileFollow() {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -49,7 +50,7 @@ const followWrapper = css`
     border: 1px solid #716969;
   }
 
-  @media (max-width: 768px) {
+  ${mobile} {
     width: 30%;
     flex-direction: column;
     border: none;

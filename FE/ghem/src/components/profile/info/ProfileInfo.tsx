@@ -5,6 +5,7 @@ import FollowModal from "../follow/FollowModal";
 import ProfileAccount from "./ProfileAccount";
 import ProfileFollow from "./ProfileFollow";
 import ProfileIntroduce from "./ProfileIntroduce";
+import { mobile } from "@/Mixin";
 
 function ProfileInfo() {
   return (
@@ -34,7 +35,7 @@ const profileWrapper = css`
   flex-direction: column;
   align-items: center;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     width: 100%;
     flex-direction: row;
     justify-content: space-between;
@@ -48,7 +49,7 @@ const profileImageAccountWrapper = css`
   align-items: center;
   width: 100%;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     gap: 15px;
     flex-direction: row;
   }

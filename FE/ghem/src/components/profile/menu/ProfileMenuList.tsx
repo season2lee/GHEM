@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import ProfileMenu from "./ProfileMenu";
+import { mobile } from "@/Mixin";
 
 function ProfileMenus() {
   const [isOpenHiddenMenu, setIsOpenHiddenMenu] = useState<boolean>(false);
@@ -28,7 +29,7 @@ function ProfileMenus() {
 const profileMenuWrapper = css`
   width: 90%;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     display: flex;
     flex-direction: row;
     gap: 20px;
