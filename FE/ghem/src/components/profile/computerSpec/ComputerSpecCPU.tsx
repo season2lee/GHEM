@@ -1,6 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
+import { mobile } from "@/util/Mixin";
 
 function ComputerSpecCPU() {
   return (
@@ -22,6 +23,10 @@ const ComputerSpecWrapper = css`
 
   > h5 {
     margin-bottom: 20px;
+
+    ${mobile} {
+      font-size: 18px;
+    }
   }
 `;
 

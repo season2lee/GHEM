@@ -5,6 +5,7 @@ import ComputerSpecCPU from "./ComputerSpecCPU";
 import ComputerSpecGPU from "./ComputerSpecGPU";
 import ComputerSpecRAM from "./ComputerSpecRAM";
 import ComputerSpecOS from "./ComputerSpecOS";
+import { mobile } from "@/util/Mixin";
 
 function ComputerSpec() {
   const handleResetComputerSpec = (): void => {
@@ -37,7 +38,7 @@ const computerSpecWrapper = css`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     width: 100%;
   }
 `;
@@ -62,6 +63,12 @@ const computerSpecHeader = css`
     color: #f90808;
     cursor: pointer;
     margin-left: 10px;
+  }
+
+  ${mobile} {
+    > h4 {
+      font-size: 20px;
+    }
   }
 `;
 

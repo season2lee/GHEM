@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import ProfileMenu from "./ProfileMenu";
+import { mobile } from "@/util/Mixin";
 
 function ProfileMenus() {
   const [isOpenHiddenMenu, setIsOpenHiddenMenu] = useState<boolean>(false);
@@ -17,7 +18,7 @@ function ProfileMenus() {
         {isOpenHiddenMenu && (
           <div css={hiddenMenuWrapper}>
             <ProfileMenu text="프로필 수정" />
-            <ProfileMenu text="내 컴퓨터 사양" />
+            <ProfileMenu text="컴퓨터 사양" />
           </div>
         )}
       </div>
@@ -28,7 +29,8 @@ function ProfileMenus() {
 const profileMenuWrapper = css`
   width: 90%;
 
-  @media (max-width: 768px) {
+  ${mobile} {
+    width: 100%;
     display: flex;
     flex-direction: row;
     gap: 20px;

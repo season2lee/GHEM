@@ -2,6 +2,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import GameEvaluated from "@components/profile/gameList/GameEvaluated";
 import GameInterested from "@components/profile/gameList/GameInterested";
+import { mobile } from "@/util/Mixin";
 
 function GameList() {
   return (
@@ -17,7 +18,7 @@ const gameListWrapper = css`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     width: 100%;
   }
 `;

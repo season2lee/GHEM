@@ -5,15 +5,20 @@ import DiscountGameDetail from "../discount/DiscountGameDetail";
 import HoverGameItem from "../HoverGameItem";
 
 type CommonGameListItemProps = {
-  gameType?: "discount";
+  gameType?: "discount" | "steady";
   appid: number;
   imgType: "header" | "capsule";
   canClick: boolean;
+  setAppid: React.Dispatch<React.SetStateAction<number | null>>;
+  setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
+  discountPercent?: number;
+  originalPrice?: number;
+  finalPrice?: number;
+  largeImage?: string;
+  smallImage?: string;
 };
 
 function CommonGameListItem(props: CommonGameListItemProps) {
-  const [isEnter, setIsEnter] = useState<boolean>(false);
-
   const navigator = useNavigate();
 
   const toDetail = () => {
@@ -24,14 +29,17 @@ function CommonGameListItem(props: CommonGameListItemProps) {
 
   return (
     <div
-      onMouseEnter={() => {
-        setIsEnter(true);
+      onMouseOver={() => {
+        props.setAppid(props.appid);
+        props.setIsEnter(true);
+      }}
+      onMouseLeave={() => {
+        props.setIsEnter(false);
       }}
     >
       <div onClick={toDetail}>
         {props.imgType === "header" && (
           <img
-            css={selectTmg}
             src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appid}/header.jpg`}
             alt={`${props.appid}`}
           />
@@ -43,18 +51,18 @@ function CommonGameListItem(props: CommonGameListItemProps) {
           />
         )}
       </div>
-      {props.gameType === "discount" && <DiscountGameDetail />}
-      {isEnter && <HoverGameItem setIsEnter={setIsEnter} />}
+      {props.gameType === "discount" && (
+        <DiscountGameDetail
+          discountPercent={props.discountPercent}
+          originalPrice={props.originalPrice}
+          finalPrice={props.finalPrice}
+          largeImage={props.largeImage}
+          smallImage={props.smallImage}
+        />
+      )}
     </div>
   );
 }
-
-const selectTmg = css`
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-`;
 
 export default CommonGameListItem;
 

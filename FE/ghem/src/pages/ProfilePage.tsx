@@ -1,9 +1,10 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { Routes, Route } from "react-router-dom";
-import Profile from "../components/profile/Profile";
+import Profile from "@components/profile/Profile";
 import GameList from "@components/profile/gameList/GameList";
 import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
+import { mobile } from "@/util/Mixin";
 
 function ProfilePage() {
   return (
@@ -13,7 +14,7 @@ function ProfilePage() {
         <div>
           <Profile />
           <Routes>
-            <Route path="/gamelist" element={<GameList />} />
+            <Route path="/:userid/gamelist" element={<GameList />} />
             <Route path="/computerspec" element={<ComputerSpec />} />
           </Routes>
         </div>
@@ -25,8 +26,8 @@ function ProfilePage() {
 const wrapper = css`
   padding: 50px 136px;
 
-  @media (max-width: 768px) {
-    padding: 50px 70px;
+  ${mobile} {
+    padding: 30px 15px;
   }
 `;
 
@@ -44,7 +45,7 @@ const profileWrapper = css`
     gap: 60px;
   }
 
-  @media (max-width: 768px) {
+  ${mobile} {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,6 +53,10 @@ const profileWrapper = css`
     > div {
       flex-direction: column;
       align-items: center;
+    }
+
+    > h2 {
+      font-size: 24px;
     }
   }
 `;

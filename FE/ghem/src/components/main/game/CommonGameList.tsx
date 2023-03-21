@@ -4,13 +4,20 @@ import CommonGameListItem from "./CommonGameListItem";
 
 type GameList = {
   appid: number;
+  discountPercent?: number;
+  originalPrice?: number;
+  finalPrice?: number;
+  largeImage?: string;
+  smallImage?: string;
 };
 
 type CommonGameListProps = {
-  gameType?: "discount";
+  gameType?: "discount" | "steady";
   gameList?: GameList[];
   imgType: "header" | "capsule";
-  scrollType: "left" | "right";
+  scrollType: -1 | 1;
+  setAppid: React.Dispatch<React.SetStateAction<number | null>>;
+  setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function CommonGameList(props: CommonGameListProps) {
@@ -19,6 +26,7 @@ function CommonGameList(props: CommonGameListProps) {
   const [canClick, setCanClick] = useState<boolean>(true); // 드래그 중이 아닐 때만 클릭 가능함을 나타내는 변수
   const [isMouseOn, setIsMouseOn] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
+  const [currentScroll, setCurrentScroll] = useState<number>(0);
   const [forTime, setForTime] = useState<number>(0);
 
   // current type error 때문에 임의로 만들어주는 코드
@@ -27,12 +35,20 @@ function CommonGameList(props: CommonGameListProps) {
   useEffect(() => {
     const timeout = setTimeout(() => setForTime(forTime + 1), 10);
 
-    if (props.scrollType === "left" && scrollElement && !isMouseOn) {
+    if (props.scrollType === -1 && scrollElement && !isMouseOn) {
+      if (scrollElement.scrollLeft === currentScroll) {
+        scrollElement.scrollLeft = 0;
+      }
+      setCurrentScroll(scrollElement.scrollLeft);
       scrollElement.scrollLeft += 1;
     }
 
-    if (props.scrollType === "right" && scrollElement && !isMouseOn) {
-      scrollElement.scrollLeft -= 1;
+    if (props.scrollType === 1 && scrollElement && !isMouseOn) {
+      if (scrollElement.scrollLeft === currentScroll) {
+        scrollElement.scrollLeft = 100000;
+      }
+      setCurrentScroll(scrollElement.scrollLeft);
+      scrollElement.scrollLeft -= 0.7;
     }
 
     return () => clearTimeout(timeout);
@@ -40,7 +56,6 @@ function CommonGameList(props: CommonGameListProps) {
 
   const onDragStart = (e: React.MouseEvent<HTMLElement>) => {
     setIsDrag(true);
-    console.log(props.scrollType, "scroll");
     setStartX(e.pageX);
   };
 
@@ -67,6 +82,15 @@ function CommonGameList(props: CommonGameListProps) {
   return (
     <div
       css={rowScroll}
+      style={
+        props.gameType === "steady"
+          ? {
+              msTransform: `rotate(${-10 * props.scrollType}deg)`,
+              WebkitTransform: `rotate(${-10 * props.scrollType}deg)`,
+              transform: `rotate(${-10 * props.scrollType}deg)`,
+            }
+          : {}
+      }
       id="gameList"
       ref={scrollRef}
       onMouseDown={onDragStart}
@@ -84,6 +108,13 @@ function CommonGameList(props: CommonGameListProps) {
             imgType={props.imgType}
             key={item.appid}
             canClick={canClick}
+            discountPercent={item.discountPercent}
+            originalPrice={item.originalPrice}
+            finalPrice={item.finalPrice}
+            largeImage={item.largeImage}
+            smallImage={item.smallImage}
+            setAppid={props.setAppid}
+            setIsEnter={props.setIsEnter}
           />
         );
       })}
@@ -94,8 +125,9 @@ function CommonGameList(props: CommonGameListProps) {
 const rowScroll = css`
   display: flex;
   overflow: scroll;
-  /* 가로 스크롤 */
-  overflow: auto;
+  margin: 3rem;
+  /* 가로 스크롤 + 숨기기 */
+  overflow: hidden;
   white-space: nowrap;
   /* scroll bar 제거 ( chrome 환경)*/
   &::-webkit-scrollbar {
