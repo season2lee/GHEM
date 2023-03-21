@@ -9,6 +9,11 @@ type CommonGameListItemProps = {
   appid: number;
   imgType: "header" | "capsule";
   canClick: boolean;
+  discountPercent?: number;
+  originalPrice?: number;
+  finalPrice?: number;
+  largeImage?: string;
+  smallImage?: string;
 };
 
 function CommonGameListItem(props: CommonGameListItemProps) {
@@ -45,7 +50,15 @@ function CommonGameListItem(props: CommonGameListItemProps) {
           />
         )}
       </div>
-      {props.gameType === "discount" && <DiscountGameDetail />}
+      {props.gameType === "discount" && (
+        <DiscountGameDetail
+          discountPercent={props.discountPercent}
+          originalPrice={props.originalPrice}
+          finalPrice={props.finalPrice}
+          largeImage={props.largeImage}
+          smallImage={props.smallImage}
+        />
+      )}
       {isEnter && <HoverGameItem setIsEnter={setIsEnter} appid={props.appid} />}
     </div>
   );
