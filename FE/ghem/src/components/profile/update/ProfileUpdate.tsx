@@ -6,6 +6,7 @@ import ProfileInput from "./ProfileInput";
 import ProfileGender from "./ProfileGender";
 import ProfileIntroduce from "./ProfileIntroduce";
 import { useNavigate } from "react-router-dom";
+import { mobile } from "@/Mixin";
 
 function ProfileUpdate() {
   const navigate = useNavigate();
@@ -37,6 +38,10 @@ function ProfileUpdate() {
 
 const wrapper = css`
   padding: 50px 136px;
+
+  ${mobile} {
+    padding: 30px 15px;
+  }
 `;
 
 const profileUpdateWrapper = css`
@@ -53,7 +58,7 @@ const profileUpdateWrapper = css`
     margin-bottom: 30px;
   }
 
-  @media (max-width: 768px) {
+  ${mobile} {
     width: 450px;
     padding: 50px 60px;
   }
@@ -66,7 +71,7 @@ const rowFlexWrapper = css`
   align-items: center;
   justify-content: center;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     align-items: flex-start;
   }
 `;
@@ -88,7 +93,7 @@ const buttonWrapper = css`
     border-radius: 5px;
   }
 
-  @media (max-width: 768px) {
+  ${mobile} {
     gap: 30px;
 
     > button {

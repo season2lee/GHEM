@@ -5,6 +5,7 @@ import meatballIcon from "../../../assets/image/meatballIcon.png";
 import { FaHeart } from "react-icons/fa";
 import MenuDropdown from "../common/MenuDropdown";
 import { useNavigate } from "react-router-dom";
+import { mobile } from "@/Mixin";
 
 type GameCardProps = {
   path?: string;
@@ -60,6 +61,10 @@ const gameCardWrapper = css`
   margin-right: 20px;
   display: flex;
   flex-direction: column;
+
+  ${mobile} {
+    min-width: 250px;
+  }
 `;
 
 const gameImageWrapper = css`
