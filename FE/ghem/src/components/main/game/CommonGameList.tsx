@@ -4,6 +4,11 @@ import CommonGameListItem from "./CommonGameListItem";
 
 type GameList = {
   appid: number;
+  discountPercent?: number;
+  originalPrice?: number;
+  finalPrice?: number;
+  largeImage?: string;
+  smallImage?: string;
 };
 
 type CommonGameListProps = {
@@ -78,9 +83,9 @@ function CommonGameList(props: CommonGameListProps) {
       style={
         props.gameType === "steady"
           ? {
-              msTransform: `rotate(${10 * props.scrollType}deg)`,
-              WebkitTransform: `rotate(${10 * props.scrollType}deg)`,
-              transform: `rotate(${10 * props.scrollType}deg)`,
+              msTransform: `rotate(${-10 * props.scrollType}deg)`,
+              WebkitTransform: `rotate(${-10 * props.scrollType}deg)`,
+              transform: `rotate(${-10 * props.scrollType}deg)`,
             }
           : undefined
       }
@@ -101,6 +106,11 @@ function CommonGameList(props: CommonGameListProps) {
             imgType={props.imgType}
             key={item.appid}
             canClick={canClick}
+            discountPercent={item.discountPercent}
+            originalPrice={item.originalPrice}
+            finalPrice={item.finalPrice}
+            largeImage={item.largeImage}
+            smallImage={item.smallImage}
           />
         );
       })}
