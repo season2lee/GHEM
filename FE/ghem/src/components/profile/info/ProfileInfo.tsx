@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { css } from "@emotion/react";
 import ProfileImage from "../common/ProfileImage";
-import FollowModal from "../follow/FollowModal";
 import ProfileAccount from "./ProfileAccount";
 import ProfileFollow from "./ProfileFollow";
 import ProfileIntroduce from "./ProfileIntroduce";

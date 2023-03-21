@@ -65,7 +65,7 @@ const fileInputWrapper = css`
 
   ${mobile} {
     bottom: 15px;
-    left: 48px;
+    left: 38px;
 
     > label {
       font-size: 15px;

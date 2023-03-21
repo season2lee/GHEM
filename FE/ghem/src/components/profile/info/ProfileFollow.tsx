@@ -45,7 +45,7 @@ const followWrapper = css`
     }
   }
 
-  > div {
+  > div:nth-of-type(1) {
     height: 30px;
     border: 1px solid #716969;
   }

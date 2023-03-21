@@ -33,7 +33,7 @@ const nickname = css`
 
   ${mobile} {
     margin: 0;
-    font-size: 16px;
+    font-size: 18px;
   }
 `;
 
@@ -42,7 +42,7 @@ const email = css`
 
   ${mobile} {
     margin-bottom: 10px;
-    font-size: 14px;
+    font-size: 16px;
   }
 `;
 

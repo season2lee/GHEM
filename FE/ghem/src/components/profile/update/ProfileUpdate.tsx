@@ -38,6 +38,10 @@ function ProfileUpdate() {
 
 const wrapper = css`
   padding: 50px 136px;
+
+  ${mobile} {
+    padding: 30px 15px;
+  }
 `;
 
 const profileUpdateWrapper = css`

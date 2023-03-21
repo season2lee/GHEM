@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Profile from "@components/profile/Profile";
 import GameList from "@components/profile/gameList/GameList";
 import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
+import { mobile } from "@/Mixin";
 
 function ProfilePage() {
   return (
@@ -25,7 +26,7 @@ function ProfilePage() {
 const wrapper = css`
   padding: 50px 136px;
 
-  @media (max-width: 768px) {
+  ${mobile} {
     padding: 30px 15px;
   }
 `;
@@ -44,7 +45,7 @@ const profileWrapper = css`
     gap: 60px;
   }
 
-  @media (max-width: 768px) {
+  ${mobile} {
     display: flex;
     flex-direction: column;
     align-items: center;

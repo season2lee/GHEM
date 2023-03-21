@@ -64,6 +64,12 @@ const computerSpecHeader = css`
     cursor: pointer;
     margin-left: 10px;
   }
+
+  ${mobile} {
+    > h4 {
+      font-size: 20px;
+    }
+  }
 `;
 
 const ramOsWrapper = css`

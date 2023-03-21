@@ -1,5 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
+import { mobile } from "@/Mixin";
 
 function ComputerSpecRAM() {
   return (
@@ -19,6 +20,10 @@ const ComputerSpecWrapper = css`
 
   > h5 {
     margin-bottom: 20px;
+
+    ${mobile} {
+      font-size: 18px;
+    }
   }
 `;
 
