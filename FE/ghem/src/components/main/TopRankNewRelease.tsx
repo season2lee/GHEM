@@ -37,17 +37,17 @@ function TopRankNewRelease() {
       <CommonGameList
         gameList={topRankLists[0]?.item_ids}
         imgType="header"
-        scrollType="left"
+        scrollType={-1}
       />
       <CommonGameList
         gameList={topRankLists[1]?.item_ids}
         imgType="header"
-        scrollType="right"
+        scrollType={1}
       />
       <CommonGameList
         gameList={topRankLists[2]?.item_ids}
         imgType="header"
-        scrollType="left"
+        scrollType={-1}
       />
     </div>
   );

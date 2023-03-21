@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import BannerGameItemDetail from "./BannerGameItemDetail";
 
@@ -16,7 +16,12 @@ function BannerGameItem(props: BannerGameItemProps) {
 
   return (
     <div>
-      <div css={backImgDiv}>
+      <div
+        css={backImgDiv}
+        style={{
+          backgroundImage: `url('https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appId}/library_hero.jpg')`,
+        }}
+      >
         <div css={blurDiv}>
           <div css={flexDiv}>
             <img
@@ -36,7 +41,6 @@ function BannerGameItem(props: BannerGameItemProps) {
 
 const backImgDiv = css`
   text-align: center;
-  background-image: url("https://cdn.cloudflare.steamstatic.com/steam/apps/${367520}/library_hero.jpg");
 `;
 
 const blurDiv = css`
