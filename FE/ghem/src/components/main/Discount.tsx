@@ -22,7 +22,12 @@ type Special = {
   small_capsule_image: string;
 };
 
-function Discount() {
+type DiscountProps = {
+  setAppid: React.Dispatch<React.SetStateAction<number | null>>;
+  setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function Discount(props: DiscountProps) {
   const [discountList, setDiscountList] = useState<DiscountList[]>([]);
 
   useEffect(() => {
@@ -64,6 +69,8 @@ function Discount() {
         gameList={discountList}
         imgType="header"
         scrollType={1}
+        setAppid={props.setAppid}
+        setIsEnter={props.setIsEnter}
       />
     </div>
   );
