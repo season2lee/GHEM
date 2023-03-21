@@ -34,13 +34,6 @@ const profileWrapper = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  ${mobile} {
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 40px;
-  }
 `;
 
 const profileImageAccountWrapper = css`
@@ -52,6 +45,7 @@ const profileImageAccountWrapper = css`
   ${mobile} {
     gap: 15px;
     flex-direction: row;
+    margin-bottom: 20px;
   }
 `;
 

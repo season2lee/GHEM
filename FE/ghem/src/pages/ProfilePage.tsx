@@ -1,8 +1,8 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { Routes, Route } from "react-router-dom";
-import Profile from "../components/profile/Profile";
-import GameList from "@components/profile/gamelist/GameList";
+import Profile from "@components/profile/Profile";
+import GameList from "@components/profile/gameList/GameList";
 import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
 
 function ProfilePage() {
@@ -26,7 +26,7 @@ const wrapper = css`
   padding: 50px 136px;
 
   @media (max-width: 768px) {
-    padding: 50px 70px;
+    padding: 30px 15px;
   }
 `;
 
@@ -52,6 +52,10 @@ const profileWrapper = css`
     > div {
       flex-direction: column;
       align-items: center;
+    }
+
+    > h2 {
+      font-size: 24px;
     }
   }
 `;

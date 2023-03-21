@@ -18,7 +18,7 @@ function ProfileMenus() {
         {isOpenHiddenMenu && (
           <div css={hiddenMenuWrapper}>
             <ProfileMenu text="프로필 수정" />
-            <ProfileMenu text="내 컴퓨터 사양" />
+            <ProfileMenu text="컴퓨터 사양" />
           </div>
         )}
       </div>
@@ -30,6 +30,7 @@ const profileMenuWrapper = css`
   width: 90%;
 
   ${mobile} {
+    width: 100%;
     display: flex;
     flex-direction: row;
     gap: 20px;

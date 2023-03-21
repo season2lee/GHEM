@@ -33,11 +33,17 @@ const nickname = css`
 
   ${mobile} {
     margin: 0;
+    font-size: 16px;
   }
 `;
 
 const email = css`
   margin-bottom: 20px;
+
+  ${mobile} {
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
 `;
 
 const steamIdWrapper = css`
@@ -72,6 +78,18 @@ const steamIdWrapper = css`
 
   ${mobile} {
     margin-bottom: 0;
+    height: 35px;
+
+    > img {
+      left: 10px;
+      width: 23px;
+      height: 23px;
+    }
+
+    > span {
+      color: #7d7d7d;
+      font-size: 13px;
+    }
   }
 `;
 

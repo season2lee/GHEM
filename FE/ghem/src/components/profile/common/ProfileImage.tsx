@@ -34,8 +34,8 @@ const profileImageWrapper = (size: number) => css`
     border-radius: 50%;
 
     ${mobile} {
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
     }
   }
 `;
