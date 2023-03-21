@@ -14,7 +14,7 @@ function ProfilePage() {
         <div>
           <Profile />
           <Routes>
-            <Route path="/gamelist" element={<GameList />} />
+            <Route path="/:userid/gamelist" element={<GameList />} />
             <Route path="/computerspec" element={<ComputerSpec />} />
           </Routes>
         </div>
