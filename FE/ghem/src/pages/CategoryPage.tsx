@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { css } from "@emotion/react";
 import CategorySelect from "@components/category/CategorySelect";
-import ChoiceGameForRecommendPage from "./ChoiceGameForRecommendPage";
+import ChoiceGameForRecommendPage from "./ChoiceGamePage";
 
 function CategoryPage() {
   const [isMove, setIsMove] = useState<boolean>(false);

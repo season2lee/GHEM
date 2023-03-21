@@ -1,7 +1,5 @@
 import React, {useState}from 'react';
-import axios from "axios";
 import { CategoryData } from './CategoryTestData';
-// import CategoryItem from './CategoryItem';
 import { css } from '@emotion/react';
 
 type CategoryProps = {
@@ -60,7 +58,7 @@ function CategorySelect({setIsMove}:CategoryProps) {
               type="checkbox"
               value={item.gerne}
               onChange={e =>{onSelectedItem(e.target.checked, e.target.value);}}
-              checked={selectedList.includes(item.gerne)?true:false }
+              checked={selectedList.includes(item.gerne)? true:false }
               />
               <div>{item.gerne}</div>
             </label>
