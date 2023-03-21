@@ -11,19 +11,16 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"userId", "nickname", "gender", "userBirth","steamId"})
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue //(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
     private String nickname;
     private int gender;
 
-    @Column(name="user_profile")
     private String userProfile;
 
-    @Column(name="user_birth")
     private String userBirth;
 
-    @Column(name = "steam_id")
     private String steamId;
     private String introduce;
 

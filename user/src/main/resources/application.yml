@@ -12,7 +12,7 @@ spring:
     password: d107
 
   jpa:
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: create
 
