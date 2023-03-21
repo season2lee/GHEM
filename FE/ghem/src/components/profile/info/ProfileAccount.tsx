@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import steamLogo from "../../../assets/image/steamLogo.png";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function ProfileAccount() {
   return (

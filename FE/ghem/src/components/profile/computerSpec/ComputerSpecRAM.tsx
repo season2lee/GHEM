@@ -1,6 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function ComputerSpecRAM() {
   return (

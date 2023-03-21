@@ -3,7 +3,7 @@ import ProfileImage from "../common/ProfileImage";
 import ProfileAccount from "./ProfileAccount";
 import ProfileFollow from "./ProfileFollow";
 import ProfileIntroduce from "./ProfileIntroduce";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function ProfileInfo() {
   return (

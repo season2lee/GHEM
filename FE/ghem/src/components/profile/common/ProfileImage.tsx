@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import baseProfile from "../../../assets/image/baseProfile.png";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 type ProfileImageProps = {
   size: number;

@@ -5,7 +5,7 @@ import meatballIcon from "../../../assets/image/meatballIcon.png";
 import { FaHeart } from "react-icons/fa";
 import MenuDropdown from "../common/MenuDropdown";
 import { useNavigate } from "react-router-dom";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 type GameCardProps = {
   path?: string;

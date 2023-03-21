@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Profile from "@components/profile/Profile";
 import GameList from "@components/profile/gameList/GameList";
 import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function ProfilePage() {
   return (
