@@ -1,5 +1,6 @@
 package com.ssafy.ghem.user.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,8 @@ import java.util.Map;
 public class HelloController {
 
     @GetMapping
+    @ApiOperation(value = "테스트"
+            , notes = "테스트 API")
     ResponseEntity<?> sayHello(){
         Map<String, String> map = new HashMap<>();
         map.put("say", "hello");
