@@ -5,7 +5,7 @@ import HoverGameTitle from "./hover-modal/HoverGameTitle";
 
 type HoverGameItemProps = {
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
-  appid: number;
+  appid: number | null;
 };
 
 function HoverGameItem(props: HoverGameItemProps) {

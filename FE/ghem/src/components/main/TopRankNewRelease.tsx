@@ -13,7 +13,12 @@ type RankList = {
   item_ids: RankItemList[];
 };
 
-function TopRankNewRelease() {
+type TopRankNewReleaseProps = {
+  setAppid: React.Dispatch<React.SetStateAction<number | null>>;
+  setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function TopRankNewRelease(props: TopRankNewReleaseProps) {
   const [topRankLists, setTopRankLists] = useState<RankList[]>([]);
 
   useEffect(() => {
@@ -38,16 +43,22 @@ function TopRankNewRelease() {
         gameList={topRankLists[0]?.item_ids}
         imgType="header"
         scrollType={-1}
+        setAppid={props.setAppid}
+        setIsEnter={props.setIsEnter}
       />
       <CommonGameList
         gameList={topRankLists[1]?.item_ids}
         imgType="header"
         scrollType={1}
+        setAppid={props.setAppid}
+        setIsEnter={props.setIsEnter}
       />
       <CommonGameList
         gameList={topRankLists[2]?.item_ids}
         imgType="header"
         scrollType={-1}
+        setAppid={props.setAppid}
+        setIsEnter={props.setIsEnter}
       />
     </div>
   );

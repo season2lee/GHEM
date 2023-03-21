@@ -9,6 +9,8 @@ type CommonGameListItemProps = {
   appid: number;
   imgType: "header" | "capsule";
   canClick: boolean;
+  setAppid: React.Dispatch<React.SetStateAction<number | null>>;
+  setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   discountPercent?: number;
   originalPrice?: number;
   finalPrice?: number;
@@ -17,8 +19,6 @@ type CommonGameListItemProps = {
 };
 
 function CommonGameListItem(props: CommonGameListItemProps) {
-  const [isEnter, setIsEnter] = useState<boolean>(false);
-
   const navigator = useNavigate();
 
   const toDetail = () => {
@@ -30,10 +30,11 @@ function CommonGameListItem(props: CommonGameListItemProps) {
   return (
     <div
       onMouseOver={() => {
-        setIsEnter(true);
+        props.setAppid(props.appid);
+        props.setIsEnter(true);
       }}
       onMouseLeave={() => {
-        setIsEnter(false);
+        props.setIsEnter(false);
       }}
     >
       <div onClick={toDetail}>
@@ -59,7 +60,6 @@ function CommonGameListItem(props: CommonGameListItemProps) {
           smallImage={props.smallImage}
         />
       )}
-      {isEnter && <HoverGameItem setIsEnter={setIsEnter} appid={props.appid} />}
     </div>
   );
 }
