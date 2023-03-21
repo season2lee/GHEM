@@ -5,7 +5,7 @@ import ComputerSpecCPU from "./ComputerSpecCPU";
 import ComputerSpecGPU from "./ComputerSpecGPU";
 import ComputerSpecRAM from "./ComputerSpecRAM";
 import ComputerSpecOS from "./ComputerSpecOS";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function ComputerSpec() {
   const handleResetComputerSpec = (): void => {

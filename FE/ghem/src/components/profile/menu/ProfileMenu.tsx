@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import rightArrow from "../../../assets/image/rightArrow.png";
 import bottomArrow from "../../../assets/image/bottomArrow.png";
 import { useNavigate } from "react-router";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 type ProfileMenuProps = {
   text: "게임 목록" | "계정 정보" | "프로필 수정" | "컴퓨터 사양";

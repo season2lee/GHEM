@@ -2,7 +2,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import ProfileInfo from "./info/ProfileInfo";
 import ProfileMenuList from "./menu/ProfileMenuList";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function Profile() {
   return (

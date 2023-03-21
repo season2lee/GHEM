@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import filterIcon from "../../../assets/image/filterIcon.png";
 import GameCard from "./GameCard";
 import FilterDropdown from "../common/FilterDropdown";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function GameEvaluated() {
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);

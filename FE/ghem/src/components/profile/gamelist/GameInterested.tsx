@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import GameCard from "./GameCard";
-import { mobile } from "@/Mixin";
+import { mobile } from "@/util/Mixin";
 
 function GameInterested() {
   return (
