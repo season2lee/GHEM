@@ -2,7 +2,7 @@ import { useState } from "react";
 import { css } from "@emotion/react";
 import { TbPencilMinus } from "react-icons/tb";
 import { AiOutlineDelete } from "react-icons/ai";
-import GameReviewModal from "../gameList/GameReviewModal";
+import GameReviewModal from "../gamelist/GameReviewModal";
 
 function MenuDropdown() {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -27,7 +27,11 @@ function MenuDropdown() {
         <AiOutlineDelete size="20" />
         <span>삭제하기</span>
       </div>
-      {isOpenModal && <GameReviewModal handleOpenModifyModal={(e) => handleOpenModifyModal(e)} />}
+      {isOpenModal && (
+        <GameReviewModal
+          handleOpenModifyModal={(e) => handleOpenModifyModal(e)}
+        />
+      )}
     </div>
   );
 }
