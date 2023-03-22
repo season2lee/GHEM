@@ -15,7 +15,7 @@ function ProfileMenu({ text, onClickOpenHiddenMenu }: ProfileMenuProps) {
   const handleMoveToProfileMenuPage = (): void => {
     switch (text) {
       case "게임 목록":
-        navigate("/profile/gamelist");
+        navigate("/profile/1/gamelist");
         break;
       case "계정 정보":
         if (onClickOpenHiddenMenu) {

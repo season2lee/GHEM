@@ -12,7 +12,7 @@ function ProfileUpdate() {
   const navigate = useNavigate();
 
   const handleCancelUpdateProfile = (): void => {
-    navigate("/profile/gamelist");
+    navigate("/profile/1/gamelist");
   };
 
   return (
