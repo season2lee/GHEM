@@ -8,14 +8,25 @@ type GameList = {
 
 type ChoiceGameListProps = {
   gameList?: GameList[];
-  imgType: "header" | "capsule";
+
 };
 
-function ChoiceGameList({ gameList, imgType }: ChoiceGameListProps) {
-  const [data, setData] = useState<number[]>([]);
+function ChoiceGameList({ gameList }: ChoiceGameListProps) {
+  const [good, setGood] = useState<number[]>([]);
+  const [soso, setSoso] = useState<number[]>([]);
+  const [bad, setBad] = useState<number[]>([]);
+
   useEffect(() => {
-    // console.log(data);
-  }, [data]);
+    console.log(good);
+  }, [good]);
+
+  useEffect(() => {
+    console.log(soso);
+  }, [soso]);
+
+  useEffect(() => {
+    console.log(bad);
+  }, [bad]);
 
   return (
     <div css={choiceList}>
@@ -23,10 +34,13 @@ function ChoiceGameList({ gameList, imgType }: ChoiceGameListProps) {
         return (
           <ChoiceGameListItem
             appid={item.appid}
-            imgType={imgType}
             key={item.appid}
-            data={data}
-            setData={setData}
+            good={good}
+            setGood={setGood}
+            soso={soso}
+            setSoso={setSoso}
+            bad={bad}
+            setBad={setBad}
           />
         );
       })}
