@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
-import GameEvaluated from "@components/profile/gameList/GameEvaluated";
-import GameInterested from "@components/profile/gameList/GameInterested";
+import GameEvaluated from "@components/profile/gamelist/GameEvaluated";
+import GameInterested from "@components/profile/gamelist/GameInterested";
 import { mobile } from "@/util/Mixin";
 
 function GameList() {
