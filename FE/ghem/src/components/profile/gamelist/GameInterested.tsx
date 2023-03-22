@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { css } from "@emotion/react";
 import GameCard from "./GameCard";
 import { mobile } from "@/util/Mixin";
@@ -13,6 +13,10 @@ type gameListItem = {
 };
 
 function GameInterested() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollElement = scrollRef.current;
+  const [isDrag, setIsDrag] = useState<boolean>(false);
+  const [startX, setStartX] = useState<number>(0);
   const [gameList, setGameList] = useState<gameListItem[]>([
     {
       id: 1,
@@ -51,12 +55,42 @@ function GameInterested() {
     },
   ]);
 
+  const handleDragStart = (e: React.MouseEvent) => {
+    setIsDrag(true);
+    setStartX(e.pageX);
+  };
+
+  const handleDragEnd = () => {
+    setIsDrag(false);
+  };
+
+  const handleDragMove = (e: React.MouseEvent) => {
+    if (isDrag) {
+      e.preventDefault();
+      if (scrollElement) {
+        scrollElement.scrollLeft += startX - e.pageX;
+      }
+      setStartX(e.pageX);
+    }
+  };
+
+  const handleDragLeave = () => {
+    setIsDrag(false);
+  };
+
   return (
     <div css={gameInterestedWrapper}>
       <h4>
         찜했어요 <span>(20)</span>
       </h4>
-      <div css={gameCardWrapper}>
+      <div
+        css={gameCardWrapper}
+        ref={scrollRef}
+        onMouseDown={handleDragStart}
+        onMouseMove={handleDragMove}
+        onMouseUp={handleDragEnd}
+        onMouseLeave={handleDragLeave}
+      >
         {gameList.map((game, idx) => (
           <GameCard key={idx} game={game} path="interest" />
         ))}
@@ -97,7 +131,7 @@ const gameInterestedWrapper = css`
 const gameCardWrapper = css`
   display: flex;
   flex-direction: row;
-  overflow-x: scroll;
+  overflow-x: hidden;
 `;
 
 export default GameInterested;
