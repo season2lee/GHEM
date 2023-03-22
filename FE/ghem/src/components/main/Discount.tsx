@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import CommonGameList from "./game/CommonGameList";
@@ -64,8 +65,10 @@ function Discount(props: DiscountProps) {
   };
 
   return (
-    <div>
-      Discount
+    <div css={discountDiv}>
+      <span>
+        <b>IN DISCOUNT</b>
+      </span>
       <CommonGameList
         gameType="discount"
         gameList={discountList}
@@ -80,5 +83,15 @@ function Discount(props: DiscountProps) {
     </div>
   );
 }
+
+const discountDiv = css`
+  > span {
+    font-size: 60px;
+  }
+  margin: 10rem 6rem;
+  padding: 1rem 0rem 1rem 0rem;
+  background-color: #352c42;
+  border-radius: 30px;
+`;
 
 export default Discount;

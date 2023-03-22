@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
+import chad from '@/assets/image/chad.jpeg';
 
 function ReviewInput() {
   const [isFocused, setIsFocused] = useState(false);
@@ -26,7 +26,10 @@ function ReviewInput() {
 
   return (
     <div>
-      <input onChange={onChangeHandler} css={reviewInputStyle} type="text" ref={inputRef} onFocus={onFocusHandler} placeholder="입력해주세요..." />
+      <div css={inputContainer}>
+        <img src={chad} css={profileImageStyle} />
+        <input onChange={onChangeHandler} css={reviewInputStyle} type="text" ref={inputRef} onFocus={onFocusHandler} placeholder="입력해주세요..." />
+      </div>
       {isFocused &&
       <div css={buttonsContainer}>
         <button onClick={onClickCancel} css={cancelButton}>취소</button>
@@ -36,6 +39,20 @@ function ReviewInput() {
     </div>
   )
 }
+
+const inputContainer = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const profileImageStyle = css`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+`
+
 const reviewInputStyle = css`
   width: 100%;
   background-color: transparent;
@@ -55,7 +72,6 @@ const reviewInputStyle = css`
 const buttonsContainer = css`
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px;
 `
 
 const cancelButton = css`

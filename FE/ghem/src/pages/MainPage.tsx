@@ -13,7 +13,6 @@ function MainPage() {
   const [colId, setColId] = useState<string>("empty");
   return (
     <div css={centerDiv}>
-      MainPage ######################
       <Banner />
       <Discount
         setAppid={setAppid}
