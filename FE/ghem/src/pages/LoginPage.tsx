@@ -19,6 +19,7 @@ function LoginPage() {
 
   return (
     <div css={wrapper}>
+      <div css={bgWrapper}></div>
       <div css={loginBoxWrapper}>
         <h2>우리의 로고</h2>
         <div css={oauthWrapper}>
@@ -31,10 +32,20 @@ function LoginPage() {
 }
 
 const wrapper = css`
+  position: relative;
+  height: 100vh;
+  max-width: 100vw;
+`;
+
+const bgWrapper = css`
+  width: 100%;
   height: 600px;
   background-image: linear-gradient(360deg, #292233 0%, rgba(41, 34, 51, 0) 169.72%), url(${loginBackground});
   background-repeat: repeat-x;
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
 `;
 
 const loginBoxWrapper = css`
@@ -50,6 +61,7 @@ const loginBoxWrapper = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 
   > h2 {
     margin-bottom: 150px;
