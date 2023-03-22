@@ -12,7 +12,7 @@ function MainPage() {
   const [appid, setAppid] = useState<number | null>(null);
   return (
     <div css={centerDiv}>
-      MainPage
+      MainPage ######################
       <Banner />
       <Discount setAppid={setAppid} setIsEnter={setIsEnter} />
       <TopRankNewRelease setAppid={setAppid} setIsEnter={setIsEnter} />
