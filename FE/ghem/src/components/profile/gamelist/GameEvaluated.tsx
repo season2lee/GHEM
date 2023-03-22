@@ -4,8 +4,54 @@ import filterIcon from "../../../assets/image/filterIcon.png";
 import GameCard from "./GameCard";
 import FilterDropdown from "../common/FilterDropdown";
 import { mobile } from "@/util/Mixin";
+import testGameImage from "../../../assets/image/testGameImage.jpg";
+
+type gameListItem = {
+  id: number;
+  img: string;
+  title: string;
+  grade: string;
+  review: string;
+};
 
 function GameEvaluated() {
+  const [gameList, setGameList] = useState<gameListItem[]>([
+    {
+      id: 1,
+      img: testGameImage,
+      title: "카트라이더1",
+      grade: "5점",
+      review: "이 게임 진짜 재밌어요",
+    },
+    {
+      id: 2,
+      img: testGameImage,
+      title: "카트라이더2",
+      grade: "5점",
+      review: "이 게임 진짜 재밌어요",
+    },
+    {
+      id: 3,
+      img: testGameImage,
+      title: "카트라이더3",
+      grade: "5점",
+      review: "이 게임 진짜 재밌어요",
+    },
+    {
+      id: 4,
+      img: testGameImage,
+      title: "카트라이더4",
+      grade: "5점",
+      review: "이 게임 진짜 재밌어요",
+    },
+    {
+      id: 5,
+      img: testGameImage,
+      title: "카트라이더5",
+      grade: "5점",
+      review: "이 게임 진짜 재밌어요",
+    },
+  ]);
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
 
   const handleOpenFilter = (): void => {
@@ -25,11 +71,9 @@ function GameEvaluated() {
         </div>
       </div>
       <div css={gameCardWrapper}>
-        <GameCard />
-        <GameCard />
-        <GameCard />
-        <GameCard />
-        <GameCard />
+        {gameList.map((game, idx) => (
+          <GameCard key={idx} game={game} />
+        ))}
       </div>
     </div>
   );

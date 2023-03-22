@@ -7,11 +7,20 @@ import MenuDropdown from "../common/MenuDropdown";
 import { useNavigate } from "react-router-dom";
 import { mobile } from "@/util/Mixin";
 
-type GameCardProps = {
-  path?: string;
+type gameListItem = {
+  id: number;
+  img: string;
+  title: string;
+  grade: string;
+  review: string;
 };
 
-function GameCard({ path }: GameCardProps) {
+type GameCardProps = {
+  path?: string;
+  game: gameListItem;
+};
+
+function GameCard({ path, game }: GameCardProps) {
   const navigate = useNavigate();
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
 
@@ -30,7 +39,7 @@ function GameCard({ path }: GameCardProps) {
   return (
     <div css={gameCardWrapper}>
       <div css={gameImageWrapper}>
-        <img src={testGameImage} alt="게임 이미지" />
+        <img src={game.img} alt="게임 이미지" />
         {path === "interest" ? (
           <div css={likeButtonWrapper}>
             <FaHeart size="25" onClick={handleRemoveLike} />
@@ -44,10 +53,10 @@ function GameCard({ path }: GameCardProps) {
       </div>
       <div css={gameContentWrapper} onClick={() => moveToGameDetail(1)}>
         <div css={gameContentHeader}>
-          <b>카트 라이더</b>
-          {path !== "interest" && <span>평점</span>}
+          <b>{game.title}</b>
+          {path !== "interest" && <span>{game.grade}</span>}
         </div>
-        {path !== "interest" && <span>이 게임 정말 재밌어요 킹왕짱 !</span>}
+        {path !== "interest" && <span>{game.review}</span>}
       </div>
     </div>
   );
