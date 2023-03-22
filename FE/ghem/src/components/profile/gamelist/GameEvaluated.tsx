@@ -1,15 +1,88 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { css } from "@emotion/react";
 import filterIcon from "../../../assets/image/filterIcon.png";
 import FilterDropdown from "../common/FilterDropdown";
 import { mobile } from "@/util/Mixin";
 import GameCard from "./GameCard";
+import testGameImage from "../../../assets/image/testGameImage.jpg";
+
+type gameListItem = {
+  id: number;
+  img: string;
+  title: string;
+  grade: string;
+  review: string;
+};
 
 function GameEvaluated() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollElement = scrollRef.current;
+  const [isDrag, setIsDrag] = useState<boolean>(false);
+  const [startX, setStartX] = useState<number>(0);
+  const [gameList, setGameList] = useState<gameListItem[]>([
+    {
+      id: 1,
+      img: testGameImage,
+      title: "카트라이더1",
+      grade: "5점",
+      review: "이 게임 진짜 재밌어요",
+    },
+    {
+      id: 2,
+      img: testGameImage,
+      title: "카트라이더2",
+      grade: "5점",
+      review: "이 게임 진짜 재밌어요",
+    },
+    {
+      id: 3,
+      img: testGameImage,
+      title: "카트라이더3",
+      grade: "5점",
+      review: "이 게임 진짜 재밌어요",
+    },
+    {
+      id: 4,
+      img: testGameImage,
+      title: "카트라이더4",
+      grade: "5점",
+      review: "이 게임 진짜 재밌어요",
+    },
+    {
+      id: 5,
+      img: testGameImage,
+      title: "카트라이더5",
+      grade: "5점",
+      review: "이 게임 진짜 재밌어요",
+    },
+  ]);
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
 
   const handleOpenFilter = (): void => {
     setIsOpenFilter(!isOpenFilter);
+  };
+
+  const handleDragStart = (e: React.MouseEvent) => {
+    setIsDrag(true);
+    setStartX(e.pageX);
+  };
+
+  const handleDragEnd = () => {
+    setIsDrag(false);
+  };
+
+  const handleDragMove = (e: React.MouseEvent) => {
+    if (isDrag) {
+      e.preventDefault();
+      if (scrollElement) {
+        scrollElement.scrollLeft += startX - e.pageX;
+      }
+      setStartX(e.pageX);
+    }
+  };
+
+  const handleDragLeave = () => {
+    setIsDrag(false);
   };
 
   return (
@@ -24,12 +97,17 @@ function GameEvaluated() {
           {isOpenFilter && <FilterDropdown />}
         </div>
       </div>
-      <div css={gameCardWrapper}>
-        <GameCard />
-        <GameCard />
-        <GameCard />
-        <GameCard />
-        <GameCard />
+      <div
+        css={gameCardWrapper}
+        ref={scrollRef}
+        onMouseDown={handleDragStart}
+        onMouseMove={handleDragMove}
+        onMouseUp={handleDragEnd}
+        onMouseLeave={handleDragLeave}
+      >
+        {gameList.map((game, idx) => (
+          <GameCard key={idx} game={game} />
+        ))}
       </div>
     </div>
   );
@@ -104,7 +182,7 @@ const filterWrapper = css`
 const gameCardWrapper = css`
   display: flex;
   flex-direction: row;
-  overflow-x: scroll;
+  overflow-x: hidden;
 `;
 
 export default GameEvaluated;
