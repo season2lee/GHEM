@@ -27,7 +27,11 @@ function MenuDropdown() {
         <AiOutlineDelete size="20" />
         <span>삭제하기</span>
       </div>
-      {isOpenModal && <GameReviewModal handleOpenModifyModal={(e) => handleOpenModifyModal(e)} />}
+      {isOpenModal && (
+        <GameReviewModal
+          handleOpenModifyModal={(e) => handleOpenModifyModal(e)}
+        />
+      )}
     </div>
   );
 }
