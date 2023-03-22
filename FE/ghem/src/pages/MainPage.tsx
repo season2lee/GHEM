@@ -1,8 +1,6 @@
 import HoverGameItem from "@components/main/HoverGameItem";
 import { css } from "@emotion/react";
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
-import { MainHoverType, mainHover } from "@/store/mainState";
 import Banner from "../components/main/Banner";
 import Discount from "../components/main/Discount";
 import FriendRecommend from "../components/main/FriendRecommend";
@@ -10,14 +8,11 @@ import SteadySeller from "../components/main/SteadySeller";
 import TopRankNewRelease from "../components/main/TopRankNewRelease";
 
 function MainPage() {
-  const [currentMainHover, setCurrentMainHover] =
-    useRecoilState<MainHoverType>(mainHover);
   const [isEnter, setIsEnter] = useState<boolean>(false);
   const [appid, setAppid] = useState<number | null>(null);
-
   return (
     <div css={centerDiv}>
-      MainPage !!!!!!!
+      MainPage ######################
       <Banner />
       <Discount setAppid={setAppid} setIsEnter={setIsEnter} />
       <TopRankNewRelease setAppid={setAppid} setIsEnter={setIsEnter} />
@@ -26,9 +21,7 @@ function MainPage() {
       <hr />
       <SteadySeller setAppid={setAppid} setIsEnter={setIsEnter} />
       먼가 깐지나는 말
-      {currentMainHover.isEnter && (
-        <HoverGameItem setIsEnter={setIsEnter} appid={appid} />
-      )}
+      {isEnter && <HoverGameItem setIsEnter={setIsEnter} appid={appid} />}
     </div>
   );
 }

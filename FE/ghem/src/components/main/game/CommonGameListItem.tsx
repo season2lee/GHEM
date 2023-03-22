@@ -1,7 +1,5 @@
 import { css } from "@emotion/react";
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
-import { MainHoverType, mainHover } from "@/store/mainState";
 import { useNavigate } from "react-router";
 import DiscountGameDetail from "../discount/DiscountGameDetail";
 import HoverGameItem from "../HoverGameItem";
@@ -21,9 +19,6 @@ type CommonGameListItemProps = {
 };
 
 function CommonGameListItem(props: CommonGameListItemProps) {
-  const [currentMainHover, setCurrentMainHover] =
-    useRecoilState<MainHoverType>(mainHover);
-
   const navigator = useNavigate();
 
   const toDetail = () => {
