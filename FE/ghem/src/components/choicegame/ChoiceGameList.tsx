@@ -17,15 +17,15 @@ function ChoiceGameList({ gameList }: ChoiceGameListProps) {
   const [bad, setBad] = useState<number[]>([]);
 
   useEffect(() => {
-    console.log(good);
+    console.log("good",good);
   }, [good]);
 
   useEffect(() => {
-    console.log(soso);
+    console.log("soso",soso);
   }, [soso]);
 
   useEffect(() => {
-    console.log(bad);
+    console.log("bad",bad);
   }, [bad]);
 
   return (
