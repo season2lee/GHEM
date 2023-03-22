@@ -40,7 +40,6 @@ function ChoiceGamePage() {
       <div>
         <ChoiceGameList
           gameList={gameList[0]?.item_ids}
-          imgType="capsule"
         />
       </div>
     </div>
