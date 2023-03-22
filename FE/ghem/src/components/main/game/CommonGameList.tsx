@@ -18,6 +18,9 @@ type CommonGameListProps = {
   scrollType: -1 | 1;
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
+  setColId: React.Dispatch<React.SetStateAction<string>>;
+  colId: string;
+  currentColId: string;
 };
 
 function CommonGameList(props: CommonGameListProps) {
@@ -35,7 +38,12 @@ function CommonGameList(props: CommonGameListProps) {
   useEffect(() => {
     const timeout = setTimeout(() => setForTime(forTime + 1), 10);
 
-    if (props.scrollType === -1 && scrollElement && !isMouseOn) {
+    if (
+      props.scrollType === -1 &&
+      scrollElement &&
+      !isMouseOn &&
+      props.currentColId !== props.colId
+    ) {
       if (scrollElement.scrollLeft === currentScroll) {
         scrollElement.scrollLeft = 0;
       }
@@ -43,7 +51,12 @@ function CommonGameList(props: CommonGameListProps) {
       scrollElement.scrollLeft += 1;
     }
 
-    if (props.scrollType === 1 && scrollElement && !isMouseOn) {
+    if (
+      props.scrollType === 1 &&
+      scrollElement &&
+      !isMouseOn &&
+      props.currentColId !== props.colId
+    ) {
       if (scrollElement.scrollLeft === currentScroll) {
         scrollElement.scrollLeft = 100000;
       }
@@ -115,6 +128,8 @@ function CommonGameList(props: CommonGameListProps) {
             smallImage={item.smallImage}
             setAppid={props.setAppid}
             setIsEnter={props.setIsEnter}
+            setColId={props.setColId}
+            colId={props.colId}
           />
         );
       })}

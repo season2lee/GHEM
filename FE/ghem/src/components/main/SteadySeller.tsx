@@ -10,6 +10,8 @@ type RankList = {
 type SteadySellerProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
+  setColId: React.Dispatch<React.SetStateAction<string>>;
+  currentColId: string;
 };
 
 function SteadySeller(props: SteadySellerProps) {
@@ -41,6 +43,9 @@ function SteadySeller(props: SteadySellerProps) {
         gameType="steady"
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
+        setColId={props.setColId}
+        colId="steady1"
+        currentColId={props.currentColId}
       />
       <CommonGameList
         gameList={steadyGameList.slice(50, 100)}
@@ -50,6 +55,9 @@ function SteadySeller(props: SteadySellerProps) {
         gameType="steady"
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
+        setColId={props.setColId}
+        colId="steady2"
+        currentColId={props.currentColId}
       />
     </div>
   );
