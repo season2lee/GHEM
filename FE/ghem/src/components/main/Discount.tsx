@@ -25,6 +25,8 @@ type Special = {
 type DiscountProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
+  setColId: React.Dispatch<React.SetStateAction<string>>;
+  currentColId: string;
 };
 
 function Discount(props: DiscountProps) {
@@ -71,6 +73,9 @@ function Discount(props: DiscountProps) {
         scrollType={1}
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
+        setColId={props.setColId}
+        colId="discount1"
+        currentColId={props.currentColId}
       />
     </div>
   );

@@ -10,18 +10,41 @@ import TopRankNewRelease from "../components/main/TopRankNewRelease";
 function MainPage() {
   const [isEnter, setIsEnter] = useState<boolean>(false);
   const [appid, setAppid] = useState<number | null>(null);
+  const [colId, setColId] = useState<string>("empty");
   return (
     <div css={centerDiv}>
       MainPage ######################
       <Banner />
-      <Discount setAppid={setAppid} setIsEnter={setIsEnter} />
-      <TopRankNewRelease setAppid={setAppid} setIsEnter={setIsEnter} />
+      <Discount
+        setAppid={setAppid}
+        setIsEnter={setIsEnter}
+        setColId={setColId}
+        currentColId={colId}
+      />
+      <TopRankNewRelease
+        setAppid={setAppid}
+        setIsEnter={setIsEnter}
+        setColId={setColId}
+        currentColId={colId}
+      />
       <hr />
       <FriendRecommend />
       <hr />
-      <SteadySeller setAppid={setAppid} setIsEnter={setIsEnter} />
+      <SteadySeller
+        setAppid={setAppid}
+        setIsEnter={setIsEnter}
+        setColId={setColId}
+        currentColId={colId}
+      />
       먼가 깐지나는 말
-      {isEnter && <HoverGameItem setIsEnter={setIsEnter} appid={appid} />}
+      {isEnter && (
+        <HoverGameItem
+          setIsEnter={setIsEnter}
+          appid={appid}
+          colId={colId}
+          setColId={setColId}
+        />
+      )}
     </div>
   );
 }

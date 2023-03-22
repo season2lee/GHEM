@@ -5,7 +5,9 @@ import HoverGameTitle from "./hover-modal/HoverGameTitle";
 
 type HoverGameItemProps = {
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
+  setColId: React.Dispatch<React.SetStateAction<string>>;
   appid: number | null;
+  colId: string;
 };
 
 function HoverGameItem(props: HoverGameItemProps) {
@@ -15,8 +17,9 @@ function HoverGameItem(props: HoverGameItemProps) {
       onMouseLeave={() => {
         props.setIsEnter(false);
       }}
-      onMouseOver={() => {
+      onMouseOver={(e) => {
         props.setIsEnter(true);
+        props.setColId(props.colId);
       }}
     >
       HoverGameItem
