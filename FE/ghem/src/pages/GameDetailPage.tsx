@@ -13,12 +13,17 @@ import RecommendChoice from '@components/gamedetail/RecommendChoice'
 import ChatBox from '@components/gamedetail/chatbox/ChatBox'
 import { css } from '@emotion/react'
 import ReviewInput from '@components/gamedetail/review/ReviewInput'
+import Review from '@components/gamedetail/review/Review'
+import Pagination from '@components/gamedetail/review/Pagination'
+import { dummyReviews } from '@components/gamedetail/review/dummyReviews'
 
 type GameDataType = {
   appID: string,
   name: string,
   shortDescription: string
 }
+
+const tempArr = [1,2,3,4,5];
 
 function GameDetailPage() {
   const [gameData, setGameData] = useState<GameDataType | null>(null);  // 보여질 게임에 대한 상세 정보
@@ -54,9 +59,20 @@ function GameDetailPage() {
           <br />
           {/* 리뷰 컴포넌트 */}
           <Section>
-            <div style={{width: "100%", height: "50rem"}}>
-              <h2>리뷰</h2>
+            <div style={{width: "100%"}}>
+              <h2 style={{marginBottom: "10px"}}>리뷰</h2>
               <ReviewInput />
+              <div style={{marginTop: "30px"}}>
+                {dummyReviews.map((review, index) => {
+                  return <div>
+                    <Review review={review} />
+                    {index !== dummyReviews.length-1 && (
+                      <div css={replyBorder}></div>
+                    )}
+                  </div>
+                })}
+              </div>
+              <Pagination />
             </div>
           </Section>
           <br />
@@ -90,6 +106,12 @@ const rightContainer = css`
   /* background-color: blue; */
   width: 33%;
   padding: 1rem;
+`
+
+const replyBorder = css`
+  /* border-bottom: 1px solid rgb(117, 98, 146); */
+  margin-top: 5px;
+  margin-bottom: 30px;
 `
 
 export default GameDetailPage

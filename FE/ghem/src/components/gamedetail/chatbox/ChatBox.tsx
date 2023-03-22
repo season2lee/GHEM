@@ -1,10 +1,12 @@
 import { css } from '@emotion/react'
 import React, { useState } from 'react'
-import Body from './Body'
+
+import Header from './header/Header'
+import Body from './body/Body'
+import Footer from './footer/Footer'
+
 import { dummyMessages } from './dummyMessages'
-import Footer from './Footer'
-import Header from './Header'
-import { MessageType } from './MessageType'
+import { MessageType } from './body/MessageType'
 
 function ChatBox() {
   const [messages, setMessages] = useState<MessageType[]>(dummyMessages);
