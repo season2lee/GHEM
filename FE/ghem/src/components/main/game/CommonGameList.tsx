@@ -95,15 +95,15 @@ function CommonGameList(props: CommonGameListProps) {
   return (
     <div
       css={rowScroll}
-      style={
-        props.gameType === "steady"
-          ? {
-              msTransform: `rotate(${-10 * props.scrollType}deg)`,
-              WebkitTransform: `rotate(${-10 * props.scrollType}deg)`,
-              transform: `rotate(${-10 * props.scrollType}deg)`,
-            }
-          : {}
-      }
+      // style={
+      //   props.gameType === "steady"
+      //     ? {
+      //         msTransform: `rotate(${-10 * props.scrollType}deg)`,
+      //         WebkitTransform: `rotate(${-10 * props.scrollType}deg)`,
+      //         transform: `rotate(${-10 * props.scrollType}deg)`,
+      //       }
+      //     : {}
+      // }
       id="gameList"
       ref={scrollRef}
       onMouseDown={onDragStart}
@@ -140,7 +140,9 @@ function CommonGameList(props: CommonGameListProps) {
 const rowScroll = css`
   display: flex;
   overflow: scroll;
-  margin: 3rem;
+  background-color: #584a6e;
+  padding: 1rem 0rem;
+  margin: 1rem 0rem;
   /* 가로 스크롤 + 숨기기 */
   overflow: hidden;
   white-space: nowrap;

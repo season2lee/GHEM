@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CommonGameList from "./game/CommonGameList";
@@ -40,7 +41,14 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
   };
 
   return (
-    <div>
+    <div css={topRankDiv}>
+      <span>
+        <b>TOP RANK</b>
+      </span>
+      <br />
+      <span>
+        <b>NEW RELEASE</b>
+      </span>
       <CommonGameList
         gameList={topRankLists[0]?.item_ids}
         imgType="header"
@@ -74,5 +82,15 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
     </div>
   );
 }
+
+const topRankDiv = css`
+  > span {
+    font-size: 60px;
+  }
+  margin: 10rem 6rem;
+  padding: 1rem 0rem 1rem 0rem;
+  background-color: #352c42;
+  border-radius: 30px;
+`;
 
 export default TopRankNewRelease;
