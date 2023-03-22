@@ -11,6 +11,8 @@ type CommonGameListItemProps = {
   canClick: boolean;
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
+  setColId: React.Dispatch<React.SetStateAction<string>>;
+  colId: string;
   discountPercent?: number;
   originalPrice?: number;
   finalPrice?: number;
@@ -31,10 +33,12 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     <div
       onMouseOver={() => {
         props.setAppid(props.appid);
+        props.setColId(props.colId);
         props.setIsEnter(true);
       }}
       onMouseLeave={() => {
         props.setIsEnter(false);
+        props.setColId("empty");
       }}
     >
       <div onClick={toDetail}>

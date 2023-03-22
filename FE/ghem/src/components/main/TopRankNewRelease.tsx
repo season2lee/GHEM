@@ -16,6 +16,8 @@ type RankList = {
 type TopRankNewReleaseProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
+  setColId: React.Dispatch<React.SetStateAction<string>>;
+  currentColId: string;
 };
 
 function TopRankNewRelease(props: TopRankNewReleaseProps) {
@@ -45,6 +47,9 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         scrollType={-1}
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
+        setColId={props.setColId}
+        colId="toprate1"
+        currentColId={props.currentColId}
       />
       <CommonGameList
         gameList={topRankLists[1]?.item_ids}
@@ -52,6 +57,9 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         scrollType={1}
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
+        setColId={props.setColId}
+        colId="toprate2"
+        currentColId={props.currentColId}
       />
       <CommonGameList
         gameList={topRankLists[2]?.item_ids}
@@ -59,6 +67,9 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         scrollType={-1}
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
+        setColId={props.setColId}
+        colId="toprate3"
+        currentColId={props.currentColId}
       />
     </div>
   );
