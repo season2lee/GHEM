@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CommonGameList from "./game/CommonGameList";
@@ -34,7 +35,10 @@ function SteadySeller(props: SteadySellerProps) {
   };
 
   return (
-    <div>
+    <div css={steadyDiv}>
+      <span>
+        <b>BY ALL USER</b>
+      </span>
       <CommonGameList
         gameList={steadyGameList.slice(0, 50)}
         // imgType="capsule"
@@ -62,5 +66,15 @@ function SteadySeller(props: SteadySellerProps) {
     </div>
   );
 }
+
+const steadyDiv = css`
+  > span {
+    font-size: 60px;
+  }
+  margin: 10rem 6rem;
+  padding: 1rem 0rem 1rem 0rem;
+  background-color: #352c42;
+  border-radius: 30px;
+`;
 
 export default SteadySeller;
