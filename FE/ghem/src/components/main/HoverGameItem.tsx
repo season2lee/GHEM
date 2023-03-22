@@ -16,6 +16,7 @@ function HoverGameItem(props: HoverGameItemProps) {
       css={hoverModal}
       onMouseLeave={() => {
         props.setIsEnter(false);
+        props.setColId("empty");
       }}
       onMouseOver={(e) => {
         props.setIsEnter(true);

@@ -31,6 +31,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
 
   return (
     <div
+      css={gameItem}
       onMouseOver={() => {
         props.setAppid(props.appid);
         props.setColId(props.colId);
@@ -44,6 +45,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
       <div onClick={toDetail}>
         {props.imgType === "header" && (
           <img
+            css={imgsize}
             src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appid}/header.jpg`}
             alt={`${props.appid}`}
           />
@@ -67,6 +69,15 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     </div>
   );
 }
+
+const gameItem = css`
+  margin: 5px;
+`;
+
+const imgsize = css`
+  width: 22rem;
+  height: auto;
+`;
 
 export default CommonGameListItem;
 
