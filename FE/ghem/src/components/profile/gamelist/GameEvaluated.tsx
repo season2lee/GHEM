@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import filterIcon from "../../../assets/image/filterIcon.png";
-import GameCard from "./GameCard";
 import FilterDropdown from "../common/FilterDropdown";
 import { mobile } from "@/util/Mixin";
+import GameCard from "./GameCard";
 
 function GameEvaluated() {
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
