@@ -3,14 +3,17 @@ import { css } from "@emotion/react";
 import loginBackground from "../assets/image/loginBackground.jpg";
 import kakaoOauthButton from "../assets/image/kakaoOauthButton.png";
 import naverOauthButton from "../assets/image/naverOauthButton.png";
-import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
-  const navigate = useNavigate();
   const env = import.meta.env;
+
   const KAKAO_REST_API_KEY = env.VITE_KAKAO_REST_API_KEY;
   const KAKAO_REDIRECT_URI = env.VITE_KAKAO_REDIRECT_URI;
   const KAKAO_CALLBACK_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}`;
+
+  const NAVER_REST_API_KEY = env.VITE_NAVER_REST_API_KEY;
+  const NAVER_REDIRECT_URI = env.VITE_NAVER_REDIRECT_URI;
+  const NAVER_CALLBACK_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_REST_API_KEY}&state=test&redirect_uri=${NAVER_REDIRECT_URI}`;
 
   const handleOauthLoginClcik = (flag: string): void => {
     switch (flag) {
@@ -19,7 +22,7 @@ function LoginPage() {
         // navigate(KAKAO_CALLBACK_URL); -> 이거 왜 안먹혔는지 알아보기
         break;
       case "naver":
-        console.log("naver login");
+        window.location.href = NAVER_CALLBACK_URL;
         break;
       default:
     }

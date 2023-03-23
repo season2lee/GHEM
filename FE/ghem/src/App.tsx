@@ -10,6 +10,7 @@ import WelcomePage from "./pages/WelcomePage";
 import StarBackground from "./components/common/StarBackground";
 import ProfileUpdate from "@components/profile/update/ProfileUpdate";
 import KakaoLogin from "@components/login/KakaoLogin";
+import NaverLogin from "@components/login/NaverLogin";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<WelcomePage />} />
         <Route path="/update/profile" element={<ProfileUpdate />} />
         <Route path="/oauth/kakao/callback" element={<KakaoLogin />} />
+        <Route path="/oauth/naver/callback" element={<NaverLogin />} />
       </Routes>
       <Footer />
     </BrowserRouter>
