@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.RequestWrapper;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -31,11 +33,11 @@ public class UserController {
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("{user_id}")
     @ApiOperation(value = "사용자 디테일 정보 조회",
             notes = "user_id를 넘겨주세요!",
             response = String.class)
-    public ResponseEntity<?> getUserDetail(Long user_id){
+    public ResponseEntity<?> getUserDetail(@PathVariable Long user_id){
         HttpVo http = userService.getUserDetail(user_id);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
