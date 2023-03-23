@@ -1,15 +1,27 @@
 import { css } from "@emotion/react";
 import React from "react";
+import { useNavigate } from "react-router";
 
-function FriendListItem() {
+type FriendListItemProps = {
+  id: string;
+};
+
+function FriendListItem(props: FriendListItemProps) {
+  const navigator = useNavigate();
+
   return (
-    <div css={friedCard}>
+    <div
+      css={friedCard}
+      onClick={() => {
+        navigator(`../profile/${props.id}/gamelist`);
+      }}
+    >
       <img
         css={imgSize}
         src="https://cdn.pixabay.com/photo/2017/07/31/23/50/people-2562102_960_720.jpg"
         alt=""
       />
-      <p>id</p>
+      <p>{props.id}</p>
     </div>
   );
 }
