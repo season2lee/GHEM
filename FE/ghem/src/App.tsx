@@ -8,7 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import MainPage from "./pages/MainPage";
 import WelcomePage from "./pages/WelcomePage";
 import StarBackground from "./components/common/StarBackground";
-import ProfileUpdate from "@components/profile/update/ProfileUpdate";
+import ProfileUpdatePage from "@/pages/ProfileUpdatePage";
 import KakaoLogin from "@components/login/KakaoLogin";
 import NaverLogin from "@components/login/NaverLogin";
 
@@ -23,7 +23,7 @@ function App() {
         <Route path="/profile/*" element={<ProfilePage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/" element={<WelcomePage />} />
-        <Route path="/update/profile" element={<ProfileUpdate />} />
+        <Route path="/update/profile" element={<ProfileUpdatePage />} />
         <Route path="/oauth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/oauth/naver/callback" element={<NaverLogin />} />
       </Routes>
