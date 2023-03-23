@@ -1,16 +1,32 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getRequestKakaoLogin } from "@/api/oauth";
+
+type responseType = {
+  AccessToken: string;
+  userId: number;
+  userNickname: string | null;
+};
 
 function KakaoLogin() {
   const location = useLocation();
+  const navigate = useNavigate();
   const authorizationCode: string = location.search.split("=")[1];
 
   const handleKakaoLogin = async (code: string) => {
-    const response = await getRequestKakaoLogin(code);
+    const response: responseType = await getRequestKakaoLogin(code);
     console.log("response : ", response);
-    // 로그인 되면 유저가 닉네임이 있는지 확인하고 없으면 마이페이지로 강제이동
-    // 닉네임 있으면 메인페이지로 이동
+
+    if (response) {
+      localStorage.setItem("accessToken", response.AccessToken);
+
+      // 닉네임을 설정하지 않은 유저라면 (최초 로그인)
+      if (response.userNickname !== null) {
+        navigate("/update/profile");
+      } else {
+        navigate(`/profile/${response.userId}/gamelist`);
+      }
+    }
   };
 
   useEffect(() => {
