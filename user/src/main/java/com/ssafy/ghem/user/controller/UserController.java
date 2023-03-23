@@ -42,6 +42,16 @@ public class UserController {
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
+    @GetMapping("nickname/{nickname}")
+    @ApiOperation(value = "닉네임 중복 체크 조회",
+            notes = "posible이 true를 리턴하면 해당 닉네임 사용가능 \n" +
+                    "false를 리턴하면 해당 닉네임 사용불가능",
+            response = String.class)
+    public ResponseEntity<?> checkNickname(@PathVariable String nickname){
+        HttpVo http = userService.checkNickname(nickname);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
+
     @PutMapping("/steam")
     @ApiOperation(value = "스팀아이디를 설정할 때, 사용하시면 됩니다.\n" +
             "ID에 특수기호를 삽입하지 못하도록 해주세요!!!",
