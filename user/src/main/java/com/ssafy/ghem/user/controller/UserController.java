@@ -37,8 +37,8 @@ public class UserController {
     @ApiOperation(value = "사용자 디테일 정보 조회",
             notes = "user_id를 넘겨주세요!",
             response = String.class)
-    public ResponseEntity<?> getUserDetail(@PathVariable Long user_id){
-        HttpVo http = userService.getUserDetail(user_id);
+    public ResponseEntity<?> getUserDetail(@PathVariable String user_id){
+        HttpVo http = userService.getUserDetail(Long.parseLong(user_id));
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
