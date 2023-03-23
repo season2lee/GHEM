@@ -20,6 +20,9 @@ public class UserController {
 
     @PutMapping()
     @ApiOperation(value = "처음 닉네임과 자기소개 설정 및 닉네임/자기소개 수정에 사용하시면 됩니다.\n" +
+            "user_id : 유저이름\n" +
+            "nickname : aasd\n"+
+            "introduce : asdasdasd\n" +
             "#은 꼭 막아주세요!!!!",
             notes = "",
             response = String.class)
