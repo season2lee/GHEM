@@ -45,9 +45,9 @@ public class OauthServiceImpl implements OauthService {
         log.info("UserInfo: " + userInfo);
 
 
-        User user = null;
+        User user = userCommonRepository.findUserById(userInfo.getId());
         // 회원가입 진행
-        if(userCommonRepository.findUserById(userInfo.getId()) == null) {
+        if(user == null) {
             user = User.builder()
                     .id(userInfo.getId())
                     .userProfile(userInfo.getUserProfile())

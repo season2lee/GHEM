@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -19,9 +21,10 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<?> updateUserInfo(UserInfo userInfo){
+    public ResponseEntity<?> updateUserInfo(@RequestBody UserInfo userInfo){
         HttpVo http = new HttpVo();
 
+        log.info("{}", userInfo);
         userService.updateUserInfo(userInfo);
 
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
