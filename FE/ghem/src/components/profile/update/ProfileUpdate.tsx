@@ -19,9 +19,8 @@ function ProfileUpdate() {
     <div css={wrapper}>
       <div css={profileUpdateWrapper}>
         <h3>프로필 수정</h3>
-        <ProfileImage size={150} path="update" />
+        <ProfileImage size={150} />
         <ProfileNickname />
-        <ProfileInput header="Steam ID" />
         <div css={rowFlexWrapper}>
           <ProfileGender />
           <ProfileInput header="생년월일" />

@@ -182,7 +182,11 @@ const filterWrapper = css`
 const gameCardWrapper = css`
   display: flex;
   flex-direction: row;
-  overflow-x: hidden;
+  overflow-x: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default GameEvaluated;

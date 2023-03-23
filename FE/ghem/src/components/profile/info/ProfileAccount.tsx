@@ -7,7 +7,6 @@ function ProfileAccount() {
   return (
     <div css={wrapper}>
       <p css={nickname}>닉네임</p>
-      <p css={email}>email@email.com</p>
       <div css={steamIdWrapper}>
         <img src={steamLogo} alt="스팀 로고" />
         <span>미등록</span>
@@ -29,20 +28,11 @@ const wrapper = css`
 
 const nickname = css`
   font-weight: bold;
-  margin: 20px 0 5px 0;
+  margin: 20px 0 20px 0;
 
   ${mobile} {
-    margin: 0;
+    margin: 0 0 10px 0;
     font-size: 18px;
-  }
-`;
-
-const email = css`
-  margin-bottom: 20px;
-
-  ${mobile} {
-    margin-bottom: 10px;
-    font-size: 16px;
   }
 `;
 
