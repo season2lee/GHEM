@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
         map.put("user", user);
 
         http.setFlag(true);
+        http.setData(map);
         return http;
     }
 
@@ -68,8 +69,8 @@ public class UserServiceImpl implements UserService {
                     .connect(url)
                     .data("mode", "login")
                     .data("kinds", "outlogin")
-                    .data("user_id", "아이디")
-                    .data("passwd", "비밀번호")
+                    .data("newlogindialog_TextInput_2eKVn", "qkrtjsdyd7607")
+                    .data("newlogindialog_TextInput_2eKVn", "qkr04637607!")
                     .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36")
                     .method(Connection.Method.POST).execute();
 
