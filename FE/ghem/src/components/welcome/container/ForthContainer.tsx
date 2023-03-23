@@ -1,21 +1,19 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { css } from '@emotion/react';
+import { useNavigate } from 'react-router';
 
-type RecommendProps = {
-  setRecommend:Dispatch<SetStateAction<boolean>>
-}
+function ForthContainer() {
+  const navigate = useNavigate()
 
-function ForthContainer({setRecommend}:RecommendProps) {
-
-  const recommendHandler =()=>{
-    setRecommend(true)
+  const CategoryHandler = () =>{
+    navigate("/cateogory")
   }
 
   return (
     <div css={Layout} >
         <div >ForthContainer</div>
         <div>
-          <button onClick={recommendHandler}>추천받기</button>
+          <button onClick={CategoryHandler}>추천받기</button>
         </div>
     </div>
     
@@ -23,7 +21,7 @@ function ForthContainer({setRecommend}:RecommendProps) {
 }
 
 const Layout = css`
-  scroll-snap-align: start;
+  /* scroll-snap-align: start; */
   width: 100%;
   height: 100vh;
   font-size: 1em;

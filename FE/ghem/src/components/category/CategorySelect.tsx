@@ -1,13 +1,12 @@
 import React, {useState}from 'react';
 import { CategoryData } from './CategoryTestData';
 import { css } from '@emotion/react';
-
-type CategoryProps = {
-  setIsMove: React.Dispatch<React.SetStateAction<boolean>>
-}
+import { useNavigate } from 'react-router';
 
 
-function CategorySelect({setIsMove}:CategoryProps) {
+
+function CategorySelect() {
+  const navigate = useNavigate()
   const [selectedList, setSelectedList] = useState<string[]>([])
   
 
@@ -26,7 +25,7 @@ function CategorySelect({setIsMove}:CategoryProps) {
   }
 
   const onMoveToChoice = () => {
-    setIsMove(true)
+    navigate("/choicegame")
   }
 
   return (

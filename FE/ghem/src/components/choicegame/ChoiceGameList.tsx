@@ -18,6 +18,7 @@ function ChoiceGameList({ gameList }: ChoiceGameListProps) {
 
   useEffect(() => {
     console.log("good",good);
+    console.log(good.length)
   }, [good]);
 
   useEffect(() => {
