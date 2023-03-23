@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router";
 import DiscountGameDetail from "../discount/DiscountGameDetail";
-import HoverGameItem from "../HoverGameItem";
+import { PageXY } from "@/pages/MainPage";
 
 type CommonGameListItemProps = {
   gameType?: "discount" | "steady";
@@ -12,7 +12,9 @@ type CommonGameListItemProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   setColId: React.Dispatch<React.SetStateAction<string>>;
+  setPageXY: React.Dispatch<React.SetStateAction<PageXY>>;
   colId: string;
+  isDrag: boolean;
   discountPercent?: number;
   originalPrice?: number;
   finalPrice?: number;
@@ -32,10 +34,13 @@ function CommonGameListItem(props: CommonGameListItemProps) {
   return (
     <div
       css={gameItem}
-      onMouseOver={() => {
+      onMouseOver={(e) => {
         props.setAppid(props.appid);
         props.setColId(props.colId);
-        props.setIsEnter(true);
+        if (!props.isDrag) {
+          props.setIsEnter(true);
+          props.setPageXY({ x: e.clientX, y: e.clientY });
+        }
       }}
       onMouseLeave={() => {
         props.setIsEnter(false);
@@ -75,7 +80,7 @@ const gameItem = css`
 `;
 
 const imgsize = css`
-  width: 22rem;
+  width: 15rem;
   height: auto;
 `;
 
