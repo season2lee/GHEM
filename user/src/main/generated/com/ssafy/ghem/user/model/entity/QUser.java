@@ -19,15 +19,13 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
-    public final NumberPath<Integer> gender = createNumber("gender", Integer.class);
+    public final StringPath id = createString("id");
 
     public final StringPath introduce = createString("introduce");
 
     public final StringPath nickname = createString("nickname");
 
     public final StringPath steamId = createString("steamId");
-
-    public final StringPath userBirth = createString("userBirth");
 
     public final NumberPath<Long> userId = createNumber("userId", Long.class);
 
