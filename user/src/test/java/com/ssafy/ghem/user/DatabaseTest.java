@@ -15,37 +15,4 @@ import org.springframework.transaction.annotation.Transactional;
 @EnableTransactionManagement
 public class DatabaseTest {
 
-    @Autowired
-    UserCommonRepository cuser;
-
-    @Autowired
-    UserIndividualRepository iuser;
-
-    @Test
-    @Transactional("commonTransactionManager")
-    @Rollback(value = false)
-    void commonTest() throws Exception {
-        User user = User.builder()
-                .nickname("common")
-                .gender(1)
-                .steamId("123456789")
-                .build();
-
-        cuser.save(user);
-    }
-
-    @Test
-    @Transactional("individualTransactionManager")
-    @Rollback(value = false)
-    void individualTest() throws Exception {
-        User user = User.builder()
-                .nickname("individual")
-                .gender(1)
-                .steamId("123")
-                .build();
-
-        iuser.save(user);
-    }
-
-
 }

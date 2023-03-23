@@ -17,8 +17,8 @@ public class ContollerExceptionHandler {
         HttpVo http = new HttpVo();
 
         log.error("error ", e.getClass().getName());
-        http.setName(e.getClass().getName());
-        http.setErrMessage(e.getMessage());
+//        http.setName(e.getClass().getName());
+//        http.setErrMessage(e.getMessage());
 
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
