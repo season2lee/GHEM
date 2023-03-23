@@ -7,4 +7,5 @@ import com.ssafy.ghem.user.model.vo.UserInfo;
 public interface UserService {
     HttpVo updateUserInfo(UserInfo userInfo);
     HttpVo updateSteamId(SteamUser steamUser);
+    HttpVo getUserDetail(Long user_id);
 }
