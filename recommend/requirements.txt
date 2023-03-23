@@ -1,0 +1,9 @@
+numpy
+pandas
+sklearn
+fastapi
+uvicorn
+contextlib
+operator
+pymysql
+psycopg2
