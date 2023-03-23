@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CommonGameList from "./game/CommonGameList";
+import { PageXY } from "@/pages/MainPage";
 
 type RankItemList = {
   appid: number;
@@ -18,6 +19,7 @@ type TopRankNewReleaseProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   setColId: React.Dispatch<React.SetStateAction<string>>;
+  setPageXY: React.Dispatch<React.SetStateAction<PageXY>>;
   currentColId: string;
 };
 
@@ -56,6 +58,7 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
         setColId={props.setColId}
+        setPageXY={props.setPageXY}
         colId="toprate1"
         currentColId={props.currentColId}
       />
@@ -66,6 +69,7 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
         setColId={props.setColId}
+        setPageXY={props.setPageXY}
         colId="toprate2"
         currentColId={props.currentColId}
       />
@@ -76,6 +80,7 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
         setColId={props.setColId}
+        setPageXY={props.setPageXY}
         colId="toprate3"
         currentColId={props.currentColId}
       />

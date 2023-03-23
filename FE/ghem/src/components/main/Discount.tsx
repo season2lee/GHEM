@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import CommonGameList from "./game/CommonGameList";
+import { PageXY } from "@/pages/MainPage";
 
 type DiscountList = {
   appid: number;
@@ -27,6 +28,7 @@ type DiscountProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   setColId: React.Dispatch<React.SetStateAction<string>>;
+  setPageXY: React.Dispatch<React.SetStateAction<PageXY>>;
   currentColId: string;
 };
 
@@ -77,6 +79,7 @@ function Discount(props: DiscountProps) {
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
         setColId={props.setColId}
+        setPageXY={props.setPageXY}
         colId="discount1"
         currentColId={props.currentColId}
       />

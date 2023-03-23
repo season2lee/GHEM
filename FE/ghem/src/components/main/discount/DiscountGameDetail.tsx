@@ -13,10 +13,10 @@ type DiscountGameDetailProps = {
 function DiscountGameDetail(props: DiscountGameDetailProps) {
   return (
     <div>
-      DiscountGameDetail
-      {props.discountPercent}
-      {props.finalPrice}
-      {props.originalPrice}
+      <p>DiscountGameDetail</p>
+      <p>{props.discountPercent}</p>
+      <p>{props.finalPrice}</p>
+      <p>{props.originalPrice}</p>
       <DiscountGameTag />
       <DiscountGamePrice />
     </div>
