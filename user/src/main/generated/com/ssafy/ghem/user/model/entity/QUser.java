@@ -27,7 +27,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath steamId = createString("steamId");
 
-    public final NumberPath<Long> userId = createNumber("userId", Long.class);
+    public final NumberPath<Long> user_id = createNumber("user_id", Long.class);
 
     public final StringPath userProfile = createString("userProfile");
 
