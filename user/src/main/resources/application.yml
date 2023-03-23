@@ -1,3 +1,5 @@
+
+
 spring:
   datasource:
     jdbcUrl: jdbc:mysql://j8d107.p.ssafy.io:3306/ghem?useUniCode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowMultiQueries=true
@@ -14,7 +16,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
 
     show-sql: true
     properties:
@@ -26,4 +28,6 @@ logging:
     org.hibernate.sql : debug
     org.hibernate.type : trace
 
+server:
+  port: 8080
 
