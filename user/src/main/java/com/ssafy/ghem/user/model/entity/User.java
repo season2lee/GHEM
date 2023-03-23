@@ -12,7 +12,7 @@ import javax.persistence.*;
 @ToString(of = {"userId", "id", "userProfile"})
 public class User {
     @Id @GeneratedValue
-    @Column(name = "user_id")
+    @Column(name = "userId")
     private Long userId;
     private String id;
     private String nickname;
