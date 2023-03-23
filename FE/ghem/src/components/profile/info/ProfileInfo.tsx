@@ -4,13 +4,14 @@ import ProfileAccount from "./ProfileAccount";
 import ProfileFollow from "./ProfileFollow";
 import ProfileIntroduce from "./ProfileIntroduce";
 import { mobile } from "@/util/Mixin";
+import baseProfile from "../../../assets/image/baseProfile.png";
 
 function ProfileInfo() {
   return (
     <div css={profileInfoWrapper}>
       <div css={profileWrapper}>
         <div css={profileImageAccountWrapper}>
-          <ProfileImage size={130} />
+          <ProfileImage size={130} src={baseProfile} />
           <ProfileAccount />
         </div>
         <ProfileFollow />

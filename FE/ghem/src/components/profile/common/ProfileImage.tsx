@@ -1,16 +1,16 @@
 import React from "react";
 import { css } from "@emotion/react";
-import baseProfile from "../../../assets/image/baseProfile.png";
 import { mobile } from "@/util/Mixin";
 
 type ProfileImageProps = {
   size: number;
+  src: string;
 };
 
-function ProfileImage({ size }: ProfileImageProps) {
+function ProfileImage({ size, src }: ProfileImageProps) {
   return (
     <div css={profileImageWrapper(size)}>
-      <img src={baseProfile} alt="유저 프로필 이미지" />
+      <img src={src} alt="유저 프로필 이미지" />
     </div>
   );
 }

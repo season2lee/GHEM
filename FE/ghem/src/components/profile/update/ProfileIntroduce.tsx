@@ -1,14 +1,30 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 
-function ProfileIntroduce() {
+type ProfileIntroduceProps = {
+  introduce: string;
+  setIntroduce: React.Dispatch<React.SetStateAction<string>>;
+};
+
+function ProfileIntroduce({ introduce, setIntroduce }: ProfileIntroduceProps) {
+  const [length, setLength] = useState<number>(0);
+
+  const handleChangeIntroduce = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    setIntroduce(e.target.value);
+    setLength(e.target.value.length);
+  };
+
+  useEffect(() => {
+    setLength(introduce.length);
+  }, []);
+
   return (
     <div css={wrapper}>
       <div css={headerWrapper}>
         <h5>자기소개</h5>
-        <span>( 10 / 150 )</span>
+        <span>( {length} / 150 )</span>
       </div>
-      <textarea />
+      <textarea value={introduce} onChange={handleChangeIntroduce} />
     </div>
   );
 }
