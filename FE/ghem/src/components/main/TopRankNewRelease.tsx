@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CommonGameList from "./game/CommonGameList";
+import { PageXY } from "@/pages/MainPage";
 
 type RankItemList = {
   appid: number;
@@ -18,6 +19,7 @@ type TopRankNewReleaseProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   setColId: React.Dispatch<React.SetStateAction<string>>;
+  setPageXY: React.Dispatch<React.SetStateAction<PageXY>>;
   currentColId: string;
 };
 
@@ -42,13 +44,9 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
 
   return (
     <div css={topRankDiv}>
-      <span>
-        <b>TOP RANK</b>
-      </span>
+      <span>TOP RANK</span>
       <br />
-      <span>
-        <b>NEW RELEASE</b>
-      </span>
+      <span>NEW RELEASE</span>
       <CommonGameList
         gameList={topRankLists[0]?.item_ids}
         imgType="header"
@@ -56,6 +54,7 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
         setColId={props.setColId}
+        setPageXY={props.setPageXY}
         colId="toprate1"
         currentColId={props.currentColId}
       />
@@ -66,6 +65,7 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
         setColId={props.setColId}
+        setPageXY={props.setPageXY}
         colId="toprate2"
         currentColId={props.currentColId}
       />
@@ -76,6 +76,7 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
         setColId={props.setColId}
+        setPageXY={props.setPageXY}
         colId="toprate3"
         currentColId={props.currentColId}
       />
@@ -86,6 +87,9 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
 const topRankDiv = css`
   > span {
     font-size: 60px;
+    color: #fff;
+    text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 4px #fff, 0 0 7px #f6b4ff,
+      0 0 10px #f1c1ff, 0 0 15px #ffd8f8, 0 0 18px #eb68ff, 0 0 23px #ffa9cb;
   }
   margin: 10rem 6rem;
   padding: 1rem 0rem 1rem 0rem;

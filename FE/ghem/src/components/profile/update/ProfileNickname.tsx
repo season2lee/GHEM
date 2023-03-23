@@ -7,6 +7,7 @@ function ProfileNickname() {
     <div css={wrapper}>
       <div css={headerWrapper}>
         <h5>닉네임</h5>
+        <h5>*</h5>
         <span>(최대 6자)</span>
       </div>
       <div css={inputWrapper}>
@@ -27,6 +28,11 @@ const headerWrapper = css`
   flex-direction: row;
   align-items: flex-end;
   margin-bottom: 10px;
+
+  > h5:nth-of-type(2) {
+    color: #f90808;
+    margin-left: 3px;
+  }
 
   > span {
     margin-left: 10px;

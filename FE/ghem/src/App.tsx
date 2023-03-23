@@ -8,7 +8,9 @@ import ProfilePage from "./pages/ProfilePage";
 import MainPage from "./pages/MainPage";
 import WelcomePage from "./pages/WelcomePage";
 import StarBackground from "./components/common/StarBackground";
-import ProfileUpdate from "@components/profile/update/ProfileUpdate";
+import ProfileUpdatePage from "@/pages/ProfileUpdatePage";
+import KakaoLogin from "@components/login/KakaoLogin";
+import NaverLogin from "@components/login/NaverLogin";
 
 function App() {
   return (
@@ -20,8 +22,15 @@ function App() {
         <Route path="/detail/:appid" element={<GameDetailPage />} />
         <Route path="/profile/*" element={<ProfilePage />} />
         <Route path="/main" element={<MainPage />} />
+<<<<<<< HEAD
         <Route path="/*" element={<WelcomePage />} />
         <Route path="/update/profile" element={<ProfileUpdate />} />
+=======
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="/update/profile" element={<ProfileUpdatePage />} />
+        <Route path="/oauth/kakao/callback" element={<KakaoLogin />} />
+        <Route path="/oauth/naver/callback" element={<NaverLogin />} />
+>>>>>>> 6b745dd687045bce68e5e56b3610e3b98e54a129
       </Routes>
       <Footer />
     </BrowserRouter>

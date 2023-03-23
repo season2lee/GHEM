@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import React, { useEffect, useRef, useState } from "react";
 import CommonGameListItem from "./CommonGameListItem";
+import { PageXY } from "@/pages/MainPage";
 
 type GameList = {
   appid: number;
@@ -19,6 +20,7 @@ type CommonGameListProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   setColId: React.Dispatch<React.SetStateAction<string>>;
+  setPageXY: React.Dispatch<React.SetStateAction<PageXY>>;
   colId: string;
   currentColId: string;
 };
@@ -36,7 +38,7 @@ function CommonGameList(props: CommonGameListProps) {
   const scrollElement = scrollRef.current as HTMLDivElement;
 
   useEffect(() => {
-    const timeout = setTimeout(() => setForTime(forTime + 1), 10);
+    const timeout = setTimeout(() => setForTime(forTime + 1), 20);
 
     if (
       props.scrollType === -1 &&
@@ -48,7 +50,7 @@ function CommonGameList(props: CommonGameListProps) {
         scrollElement.scrollLeft = 0;
       }
       setCurrentScroll(scrollElement.scrollLeft);
-      scrollElement.scrollLeft += 1;
+      scrollElement.scrollLeft += 1.5;
     }
 
     if (
@@ -61,7 +63,7 @@ function CommonGameList(props: CommonGameListProps) {
         scrollElement.scrollLeft = 100000;
       }
       setCurrentScroll(scrollElement.scrollLeft);
-      scrollElement.scrollLeft -= 0.7;
+      scrollElement.scrollLeft -= 0.6;
     }
 
     return () => clearTimeout(timeout);
@@ -85,6 +87,7 @@ function CommonGameList(props: CommonGameListProps) {
 
   const onDragMove = (e: React.MouseEvent<HTMLElement>) => {
     if (isDrag) {
+      props.setIsEnter(false);
       setCanClick(false); // 드래그에 있어야 일반 클릭과 드래그를 true false 나누어 처리 가능
       e.preventDefault();
       scrollElement.scrollLeft += startX - e.pageX;
@@ -129,7 +132,9 @@ function CommonGameList(props: CommonGameListProps) {
             setAppid={props.setAppid}
             setIsEnter={props.setIsEnter}
             setColId={props.setColId}
+            setPageXY={props.setPageXY}
             colId={props.colId}
+            isDrag={isDrag}
           />
         );
       })}
@@ -144,7 +149,7 @@ const rowScroll = css`
   padding: 1rem 0rem;
   margin: 1rem 0rem;
   /* 가로 스크롤 + 숨기기 */
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
   /* scroll bar 제거 ( chrome 환경)*/
   &::-webkit-scrollbar {

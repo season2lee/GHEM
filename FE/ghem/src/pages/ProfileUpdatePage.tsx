@@ -1,34 +1,49 @@
-import React from "react";
+import { useEffect } from "react";
 import { css } from "@emotion/react";
-import ProfileImage from "../common/ProfileImage";
-import ProfileNickname from "./ProfileNickname";
-import ProfileInput from "./ProfileInput";
-import ProfileGender from "./ProfileGender";
-import ProfileIntroduce from "./ProfileIntroduce";
+import ProfileImage from "../components/profile/common/ProfileImage";
+import ProfileNickname from "../components/profile/update/ProfileNickname";
+import ProfileInput from "../components/profile/update/ProfileInput";
+import ProfileGender from "../components/profile/update/ProfileGender";
+import ProfileIntroduce from "../components/profile/update/ProfileIntroduce";
 import { useNavigate } from "react-router-dom";
 import { mobile } from "@/util/Mixin";
+import { useRecoilState } from "recoil";
+import { userInfoState, userInfoStateType } from "@/store/mainState";
+import { getUserProfile, putUserProfile } from "@/api/user";
 
-function ProfileUpdate() {
+function ProfileUpdatePage() {
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
+  const getUserProfileFunc = async (id: number) => {
+    const response = await getUserProfile(id);
+    console.log("response : ", response);
+  };
+
+  // userId로 유저 프로필 가져와서 세팅하기
+  useEffect(() => {
+    getUserProfileFunc(userInfo.user_id);
+  }, []);
 
   const handleCancelUpdateProfile = (): void => {
-    navigate("/profile/gamelist");
+    navigate("/profile/1/gamelist"); // 임시 라우팅
   };
+
+  const handleUpdateProfile = async (): Promise<void> => {};
 
   return (
     <div css={wrapper}>
       <div css={profileUpdateWrapper}>
         <h3>프로필 수정</h3>
-        <ProfileImage size={150} path="update" />
+        <ProfileImage size={150} />
         <ProfileNickname />
-        <ProfileInput header="Steam ID" />
         <div css={rowFlexWrapper}>
           <ProfileGender />
           <ProfileInput header="생년월일" />
         </div>
         <ProfileIntroduce />
         <div css={buttonWrapper}>
-          <button>수정</button>
+          <button onClick={handleUpdateProfile}>수정</button>
           <button onClick={handleCancelUpdateProfile}>취소</button>
         </div>
       </div>
@@ -120,4 +135,4 @@ const buttonWrapper = css`
   }
 `;
 
-export default ProfileUpdate;
+export default ProfileUpdatePage;
