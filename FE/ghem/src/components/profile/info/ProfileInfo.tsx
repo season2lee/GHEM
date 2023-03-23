@@ -10,7 +10,7 @@ function ProfileInfo() {
     <div css={profileInfoWrapper}>
       <div css={profileWrapper}>
         <div css={profileImageAccountWrapper}>
-          <ProfileImage size={130} path="info" />
+          <ProfileImage size={130} />
           <ProfileAccount />
         </div>
         <ProfileFollow />
