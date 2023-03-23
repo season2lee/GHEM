@@ -29,12 +29,10 @@ public class OauthController {
                     "해당 주소로 url 연결 부탁합니다.",
             response = String.class)
     public ResponseEntity<?> oauthKakao(@RequestParam String code){
-        HttpVo http = new HttpVo();
+
         log.info("code: " + code);
 
-
-
-
+        HttpVo http = oauthService.tryOauthKakao(code);
 
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
