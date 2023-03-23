@@ -36,7 +36,7 @@ function CommonGameList(props: CommonGameListProps) {
   const scrollElement = scrollRef.current as HTMLDivElement;
 
   useEffect(() => {
-    const timeout = setTimeout(() => setForTime(forTime + 1), 10);
+    const timeout = setTimeout(() => setForTime(forTime + 1), 20);
 
     if (
       props.scrollType === -1 &&
@@ -48,7 +48,7 @@ function CommonGameList(props: CommonGameListProps) {
         scrollElement.scrollLeft = 0;
       }
       setCurrentScroll(scrollElement.scrollLeft);
-      scrollElement.scrollLeft += 1;
+      scrollElement.scrollLeft += 0.9;
     }
 
     if (
@@ -61,7 +61,7 @@ function CommonGameList(props: CommonGameListProps) {
         scrollElement.scrollLeft = 100000;
       }
       setCurrentScroll(scrollElement.scrollLeft);
-      scrollElement.scrollLeft -= 0.7;
+      scrollElement.scrollLeft -= 0.5;
     }
 
     return () => clearTimeout(timeout);
@@ -144,7 +144,7 @@ const rowScroll = css`
   padding: 1rem 0rem;
   margin: 1rem 0rem;
   /* 가로 스크롤 + 숨기기 */
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
   /* scroll bar 제거 ( chrome 환경)*/
   &::-webkit-scrollbar {
