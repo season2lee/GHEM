@@ -41,6 +41,8 @@ function BannerGameItem(props: BannerGameItemProps) {
 
 const backImgDiv = css`
   text-align: center;
+  width: 100vw;
+  height: auto;
 `;
 
 const blurDiv = css`
