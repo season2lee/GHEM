@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 public class UserInfo {
-    private Long userId;
+    private Long user_id;
     private String id;
     private String nickname;
     private String userProfile;
@@ -15,8 +15,8 @@ public class UserInfo {
     private String introduce;
 
     @Builder
-    public UserInfo(Long userId, String id, String nickname, String userProfile, String steamId, String introduce) {
-        this.userId = userId;
+    public UserInfo(Long user_id, String id, String nickname, String userProfile, String steamId, String introduce) {
+        this.user_id = user_id;
         this.id = id;
         this.nickname = nickname;
         this.userProfile = userProfile;
