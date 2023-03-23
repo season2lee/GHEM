@@ -16,7 +16,7 @@ function ProfileUpdatePage() {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   const getUserProfileFunc = async (id: number) => {
-    const response = getUserProfile(id);
+    const response = await getUserProfile(id);
     console.log("response : ", response);
   };
 
