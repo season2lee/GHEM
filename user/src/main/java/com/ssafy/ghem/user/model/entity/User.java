@@ -12,8 +12,8 @@ import javax.persistence.*;
 @ToString(of = {"userId", "id", "userProfile"})
 public class User {
     @Id @GeneratedValue
-    @Column(name = "userId")
-    private Long userId;
+    @Column(name = "user_id")
+    private Long user_id;
     private String id;
     private String nickname;
     private String userProfile;
