@@ -1,13 +1,9 @@
 import React from 'react'
 import { css } from '@emotion/react';
-import steamLogo from "../../assets/image/steamLogo.png";
 
 function ThirdContainer() {
   return (
     <div css={Layout} >
-        <div css={Section} >
-          <img src={steamLogo}></img>
-        </div>
         <div css={Section}>ThirdContainer</div>
         
     </div>
@@ -16,7 +12,7 @@ function ThirdContainer() {
 }
 
 const Layout = css`
-  scroll-snap-align: start;
+  /* scroll-snap-align: start; */
   width: 100%;
   height: 100vh;
   font-family: sans-serif;
@@ -31,9 +27,6 @@ const Layout = css`
 const Section = css`
   width:50%;
   text-align: center;
-  img {
-    filter:  invert(100%) sepia(1%) saturate(2%) hue-rotate(221deg) brightness(101%) contrast(101%);
-  }
 `;
 
 
