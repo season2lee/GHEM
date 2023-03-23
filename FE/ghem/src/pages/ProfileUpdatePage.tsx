@@ -17,10 +17,13 @@ function ProfileUpdatePage() {
 
   const getUserProfileFunc = async (id: number) => {
     const response = await getUserProfile(id);
-    console.log("response : ", response);
+
+    if (response) {
+      const { user } = response;
+      // 불러온 유저 데이터로 데이터 세팅하기
+    }
   };
 
-  // userId로 유저 프로필 가져와서 세팅하기
   useEffect(() => {
     getUserProfileFunc(userInfo.user_id);
   }, []);
