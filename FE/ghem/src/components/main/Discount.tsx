@@ -68,9 +68,7 @@ function Discount(props: DiscountProps) {
 
   return (
     <div css={discountDiv}>
-      <span>
-        <b css={discountText}>IN DISCOUNT</b>
-      </span>
+      <span css={discountText}>N DISCOUNT</span>
       <CommonGameList
         gameType="discount"
         gameList={discountList}
