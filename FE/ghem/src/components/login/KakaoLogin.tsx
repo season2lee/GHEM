@@ -21,7 +21,7 @@ function KakaoLogin() {
       localStorage.setItem("accessToken", response.AccessToken);
 
       // 닉네임을 설정하지 않은 유저라면 (최초 로그인)
-      if (response.userNickname !== null) {
+      if (response.userNickname === null) {
         navigate("/update/profile");
       } else {
         navigate(`/profile/${response.userId}/gamelist`);
