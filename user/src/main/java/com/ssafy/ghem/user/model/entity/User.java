@@ -8,8 +8,9 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"userId", "id", "userProfile"})
+@ToString(of = {"user_id", "id", "userProfile"})
 public class User {
     @Id @GeneratedValue
     @Column(name = "user_id")
@@ -25,4 +26,6 @@ public class User {
         this.id = id;
         this.userProfile = userProfile;
     }
+
+
 }
