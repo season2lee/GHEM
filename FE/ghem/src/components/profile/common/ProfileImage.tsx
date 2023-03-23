@@ -5,19 +5,12 @@ import { mobile } from "@/util/Mixin";
 
 type ProfileImageProps = {
   size: number;
-  path: string;
 };
 
-function ProfileImage({ size, path }: ProfileImageProps) {
+function ProfileImage({ size }: ProfileImageProps) {
   return (
     <div css={profileImageWrapper(size)}>
       <img src={baseProfile} alt="유저 프로필 이미지" />
-      {path === "update" && (
-        <div css={fileInputWrapper}>
-          <label htmlFor="file">수정</label>
-          <input type="file" id="file" />
-        </div>
-      )}
     </div>
   );
 }
@@ -36,39 +29,6 @@ const profileImageWrapper = (size: number) => css`
     ${mobile} {
       width: 100px;
       height: 100px;
-    }
-  }
-`;
-
-const fileInputWrapper = css`
-  position: absolute;
-  bottom: 15px;
-  left: 62px;
-  color: #352c42;
-
-  > label {
-    cursor: pointer;
-
-    :hover {
-      color: #756292;
-    }
-  }
-
-  > input {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-  }
-
-  ${mobile} {
-    bottom: 15px;
-    left: 38px;
-
-    > label {
-      font-size: 15px;
     }
   }
 `;
