@@ -21,7 +21,7 @@ import java.util.HashMap;
 @Configuration
 @PropertySource({ "classpath:application.yml" })
 @EnableJpaRepositories(
-        basePackages = "com.ssafy.ghem.user.common.repository", // Master Repository 경로
+        basePackages = "com.ssafy.ghem.user.model.respository.common", // Master Repository 경로
         entityManagerFactoryRef = "commonManager",
         transactionManagerRef = "commonTransactionManager"
 )
