@@ -1,16 +1,24 @@
-import React from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import steamLogo from "../../../assets/image/steamLogo.png";
 import { mobile } from "@/util/Mixin";
+import ProfileSteamIdModal from "./ProfileSteamIdModal";
 
 function ProfileAccount() {
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
+  const handleOpenSteamIdModal = (): void => {
+    setIsOpenModal(!isOpenModal);
+  };
+
   return (
     <div css={wrapper}>
       <p css={nickname}>닉네임</p>
-      <div css={steamIdWrapper}>
+      <div css={steamIdWrapper} onClick={handleOpenSteamIdModal}>
         <img src={steamLogo} alt="스팀 로고" />
         <span>미등록</span>
       </div>
+      {isOpenModal && <ProfileSteamIdModal handleOpenSteamIdModal={handleOpenSteamIdModal} />}
     </div>
   );
 }
@@ -51,6 +59,7 @@ const steamIdWrapper = css`
   cursor: pointer;
 
   :hover {
+    transition: all 0.3s;
     background: #cfcfcf;
   }
 
