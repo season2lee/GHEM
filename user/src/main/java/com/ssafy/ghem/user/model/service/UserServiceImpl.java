@@ -58,6 +58,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public HttpVo checkNickname(String nickname) {
+        HttpVo http = new HttpVo();
+        Map<String, Object> map = new HashMap<>();
+
+        User user = userCommonRepository.findUserByNickname(nickname);
+        if(user == null){
+            map.put("isPossible", true);
+        } else{
+            map.put("isPossible", false);
+        }
+
+        http.setFlag(true);
+        http.setData(map);
+        return http;
+    }
+
+    @Override
     @Transactional
     public HttpVo updateSteamId(SteamUser steamUser) {
         HttpVo http = new HttpVo();

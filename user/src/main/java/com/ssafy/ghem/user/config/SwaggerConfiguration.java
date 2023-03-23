@@ -32,6 +32,8 @@ public class SwaggerConfiguration {
                 .description("<h3>User API에 대한 문서를 제공한다.</h3>")
                 .version("0.0").build();
 
+
+
         return new Docket(DocumentationType.SWAGGER_2) // Swagger 2.0 기반의 문서 작성
                 .apiInfo(apiInfo) // 문서에 대한 정보를 설정한다.
                 .groupName("b. User")
