@@ -44,13 +44,9 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
 
   return (
     <div css={topRankDiv}>
-      <span>
-        <b>TOP RANK</b>
-      </span>
+      <span>TOP RANK</span>
       <br />
-      <span>
-        <b>NEW RELEASE</b>
-      </span>
+      <span>NEW RELEASE</span>
       <CommonGameList
         gameList={topRankLists[0]?.item_ids}
         imgType="header"
