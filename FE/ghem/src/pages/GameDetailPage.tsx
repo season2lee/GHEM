@@ -64,7 +64,7 @@ function GameDetailPage() {
               <ReviewInput />
               <div style={{marginTop: "30px"}}>
                 {dummyReviews.map((review, index) => {
-                  return <div>
+                  return <div key={index}>
                     <Review review={review} />
                     {index !== dummyReviews.length-1 && (
                       <div css={replyBorder}></div>
