@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CommonGameList from "./game/CommonGameList";
+import { PageXY } from "@/pages/MainPage";
 
 type RankList = {
   rank: number;
@@ -12,6 +13,7 @@ type SteadySellerProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   setColId: React.Dispatch<React.SetStateAction<string>>;
+  setPageXY: React.Dispatch<React.SetStateAction<PageXY>>;
   currentColId: string;
 };
 
@@ -48,6 +50,7 @@ function SteadySeller(props: SteadySellerProps) {
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
         setColId={props.setColId}
+        setPageXY={props.setPageXY}
         colId="steady1"
         currentColId={props.currentColId}
       />
@@ -60,6 +63,7 @@ function SteadySeller(props: SteadySellerProps) {
         setAppid={props.setAppid}
         setIsEnter={props.setIsEnter}
         setColId={props.setColId}
+        setPageXY={props.setPageXY}
         colId="steady2"
         currentColId={props.currentColId}
       />

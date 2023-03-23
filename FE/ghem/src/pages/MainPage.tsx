@@ -7,10 +7,16 @@ import FriendRecommend from "../components/main/FriendRecommend";
 import SteadySeller from "../components/main/SteadySeller";
 import TopRankNewRelease from "../components/main/TopRankNewRelease";
 
+export type PageXY = {
+  x: number;
+  y: number;
+};
+
 function MainPage() {
   const [isEnter, setIsEnter] = useState<boolean>(false);
   const [appid, setAppid] = useState<number | null>(null);
   const [colId, setColId] = useState<string>("empty");
+  const [pageXY, setPageXY] = useState<PageXY>({ x: 0, y: 0 });
   return (
     <div css={centerDiv}>
       <Banner />
@@ -18,12 +24,14 @@ function MainPage() {
         setAppid={setAppid}
         setIsEnter={setIsEnter}
         setColId={setColId}
+        setPageXY={setPageXY}
         currentColId={colId}
       />
       <TopRankNewRelease
         setAppid={setAppid}
         setIsEnter={setIsEnter}
         setColId={setColId}
+        setPageXY={setPageXY}
         currentColId={colId}
       />
       <hr />
@@ -33,6 +41,7 @@ function MainPage() {
         setAppid={setAppid}
         setIsEnter={setIsEnter}
         setColId={setColId}
+        setPageXY={setPageXY}
         currentColId={colId}
       />
       먼가 깐지나는 말
@@ -41,6 +50,7 @@ function MainPage() {
           setIsEnter={setIsEnter}
           appid={appid}
           colId={colId}
+          pageXY={pageXY}
           setColId={setColId}
         />
       )}
