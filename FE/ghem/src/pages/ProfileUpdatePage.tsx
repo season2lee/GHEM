@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import ProfileImage from "../components/profile/common/ProfileImage";
 import ProfileNickname from "../components/profile/update/ProfileNickname";
@@ -7,13 +7,17 @@ import ProfileGender from "../components/profile/update/ProfileGender";
 import ProfileIntroduce from "../components/profile/update/ProfileIntroduce";
 import { useNavigate } from "react-router-dom";
 import { mobile } from "@/util/Mixin";
-import { useRecoilState } from "recoil";
-import { userInfoState, userInfoStateType } from "@/store/mainState";
 import { getUserProfile, putUserProfile } from "@/api/user";
+import baseProfile from "../assets/image/baseProfile.png";
 
 function ProfileUpdatePage() {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const userId: string | null = localStorage.getItem("id");
+  const [nickname, setNickname] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+  const [birth, setBirth] = useState<string>("");
+  const [introduce, setIntroduce] = useState<string>("");
+  const [profileImage, setProfileImage] = useState<string>(baseProfile);
 
   const getUserProfileFunc = async (id: number) => {
     const response = await getUserProfile(id);
@@ -21,30 +25,38 @@ function ProfileUpdatePage() {
     if (response) {
       const { user } = response;
       // 불러온 유저 데이터로 데이터 세팅하기
+      if (nickname) setNickname(user.nickname);
+      if (introduce) setIntroduce(user.introduce);
     }
   };
 
-  useEffect(() => {
-    getUserProfileFunc(userInfo.user_id);
-  }, []);
-
   const handleCancelUpdateProfile = (): void => {
-    navigate("/profile/1/gamelist"); // 임시 라우팅
+    navigate(`/profile/${userId}/gamelist`); // 임시 라우팅
   };
 
   const handleUpdateProfile = async (): Promise<void> => {};
+
+  useEffect(() => {
+    if (userId) {
+      const id: number = Number(userId);
+      getUserProfileFunc(id);
+    }
+    // else {
+    //   window.location.href = "/login";
+    // }
+  }, []);
 
   return (
     <div css={wrapper}>
       <div css={profileUpdateWrapper}>
         <h3>프로필 수정</h3>
-        <ProfileImage size={150} />
-        <ProfileNickname />
+        <ProfileImage size={150} src={profileImage} />
+        <ProfileNickname nickname={nickname} setNickname={setNickname} />
         <div css={rowFlexWrapper}>
           <ProfileGender />
           <ProfileInput header="생년월일" />
         </div>
-        <ProfileIntroduce />
+        <ProfileIntroduce introduce={introduce} setIntroduce={setIntroduce} />
         <div css={buttonWrapper}>
           <button onClick={handleUpdateProfile}>수정</button>
           <button onClick={handleCancelUpdateProfile}>취소</button>
