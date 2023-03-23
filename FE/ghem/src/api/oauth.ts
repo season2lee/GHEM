@@ -2,7 +2,7 @@ import { instance as axios } from "./instance";
 
 // GET
 
-const getRequestKakaoLogin = async (code: string) => {
+export const getRequestKakaoLogin = async (code: string) => {
   try {
     const { data } = await axios.get(`/oauth2/code/kakao?code=${code}`);
 
@@ -13,7 +13,7 @@ const getRequestKakaoLogin = async (code: string) => {
   }
 };
 
-const getRequestNaverLogin = async (code: string) => {
+export const getRequestNaverLogin = async (code: string) => {
   try {
     const { data } = await axios.get(`/oauth2/code/naver?code=${code}`);
 
@@ -23,5 +23,3 @@ const getRequestNaverLogin = async (code: string) => {
     console.log(error);
   }
 };
-
-export { getRequestKakaoLogin, getRequestNaverLogin };
