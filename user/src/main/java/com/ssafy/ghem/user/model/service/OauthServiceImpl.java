@@ -61,7 +61,7 @@ public class OauthServiceImpl implements OauthService {
         String accessToken = jwtProvider.createToken(user.getUser_id());
         map.put("AccessToken", accessToken);
         map.put("userId", user.getUser_id());
-        map.put("userNicname", user.getNickname());
+        map.put("userNickname", user.getNickname());
 
         http.setData(map);
         http.setFlag(true);
