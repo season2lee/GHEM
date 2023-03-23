@@ -18,7 +18,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PutMapping()
+    @PutMapping
     @ApiOperation(value = "처음 닉네임과 자기소개 설정 및 닉네임/자기소개 수정에 사용하시면 됩니다.\n" +
             "user_id : 유저이름\n" +
             "nickname : aasd\n"+
@@ -28,6 +28,15 @@ public class UserController {
             response = String.class)
     public ResponseEntity<?> updateUserInfo(@RequestBody UserInfo userInfo){
         HttpVo http = userService.updateUserInfo(userInfo);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
+
+    @GetMapping
+    @ApiOperation(value = "사용자 디테일 정보 조회",
+            notes = "user_id를 넘겨주세요!",
+            response = String.class)
+    public ResponseEntity<?> getUserDetail(Long user_id){
+        HttpVo http = userService.getUserDetail(user_id);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 

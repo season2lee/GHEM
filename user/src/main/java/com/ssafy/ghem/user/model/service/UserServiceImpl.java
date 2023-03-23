@@ -10,11 +10,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Slf4j
@@ -41,24 +44,48 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public HttpVo getUserDetail(Long user_id) {
+        HttpVo http = new HttpVo();
+        Map<String, Object> map = new HashMap<>();
+
+        User user = userCommonRepository.findById(user_id)
+                .orElseThrow(() -> new NoModify("해당 사용자를 찾을 수 없습니다. user_id: " + user_id));
+        map.put("user", user);
+
+        http.setFlag(true);
+        return http;
+    }
+
+    @Override
+    @Transactional
     public HttpVo updateSteamId(SteamUser steamUser) {
         HttpVo http = new HttpVo();
 
 
         try {
-            Jsoup.connect("https://store.steampowered.com/login/?redir=&redir_ssl=1&snr=1_4_springsale__global-header").get();
-            Connection.Response loginPageResponse = Jsoup.connect("https://www.test.co.kr/login/login.htm")
-                    .timeout(3000)
-                    .header("Origin", "http://test.co.kr")
-                    .header("Referer", "https://www.test.co.kr/login/login.htm")
-                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
-                    .header("Content-Type", "application/x-www-form-urlencoded")
-                    .header("Accept-Encoding", "gzip, deflate, br")
-                    .header("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4")
-                    .method(Connection.Method.GET)
-                    .execute();
+            String url = "https://store.steampowered.com/login/?redir=&redir_ssl=1&snr=1_4_springsale__global-header";
+            Connection.Response rs = (Connection.Response) Jsoup
+                    .connect(url)
+                    .data("mode", "login")
+                    .data("kinds", "outlogin")
+                    .data("user_id", "아이디")
+                    .data("passwd", "비밀번호")
+                    .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36")
+                    .method(Connection.Method.POST).execute();
 
-            Map<String, String> cookies = loginPageResponse.cookies();
+            Document doc = rs.parse();
+
+            Pattern p = Pattern.compile("alert\\((.+)\\)");
+            Matcher m = p.matcher(doc.html());
+            m.find();
+
+
+            Document mainPage = Jsoup.connect("https://store.steampowered.com/login/?redir=&redir_ssl=1&snr=1_4_springsale__global-header")
+                    .cookies(rs.cookies()).get();
+
+            System.out.println(mainPage.html());
+            System.out.println(m.group());
+
         } catch (Exception e){
             e.printStackTrace();
         }
