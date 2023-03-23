@@ -1,0 +1,12 @@
+package com.ssafy.ghem.user.model.respository.common;
+
+import com.ssafy.ghem.user.model.entity.Game;
+import com.ssafy.ghem.user.model.entity.User;
+import com.ssafy.ghem.user.model.entity.UserGame;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+public interface UserGameCommonRepository extends JpaRepository<UserGame, Long> {
+    @Query(value = "select u from UserGame u where u.game=:game and u.user=:user")
+    UserGame findByUserGame(Game game, User user);
+}
