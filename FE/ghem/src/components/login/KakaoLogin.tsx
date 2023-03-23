@@ -18,10 +18,11 @@ function KakaoLogin() {
 
   const handleKakaoLogin = async (code: string) => {
     const response: responseType = await getRequestKakaoLogin(code);
-    console.log("response : ", response);
 
     if (response) {
       localStorage.setItem("accessToken", response.AccessToken);
+      localStorage.setItem("id", JSON.stringify(response.userId));
+
       setUserInfo((prev) => {
         return {
           ...prev,
