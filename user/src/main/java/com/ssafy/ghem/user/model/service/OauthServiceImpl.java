@@ -2,7 +2,7 @@ package com.ssafy.ghem.user.model.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.ghem.user.controller.exception.AccessDeny;
+import com.ssafy.ghem.user.controller.exception.NoModify;
 import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.vo.HttpVo;
@@ -60,6 +60,8 @@ public class OauthServiceImpl implements OauthService {
         // 로그인 진행
         String accessToken = jwtProvider.createToken(user.getUserId());
         map.put("AccessToken", accessToken);
+        map.put("userId", user.getUserId());
+        map.put("userNicname", user.getNickname());
 
         http.setData(map);
         http.setFlag(true);
@@ -94,7 +96,7 @@ public class OauthServiceImpl implements OauthService {
                     String.class
             );
         } catch (Exception e){
-            throw new AccessDeny("RestTemplate 전송 오류");
+            throw new NoModify("RestTemplate 전송 오류");
         }
 
 
