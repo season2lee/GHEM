@@ -26,11 +26,11 @@ public class UserServiceImpl implements UserService {
         HttpVo http = new HttpVo();
         Map<String, Object> map = new HashMap<>();
 
-        User user = userCommonRepository.findById(userInfo.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다. user_id: " + userInfo.getUserId()));
+        User user = userCommonRepository.findById(userInfo.getUser_id())
+                .orElseThrow(() -> new NoModify("해당 사용자를 찾을 수 없습니다. user_id: " + userInfo.getUser_id()));
 
         user.setNickname(userInfo.getNickname());
-        user.setIntroduce(user.getIntroduce());
+        user.setIntroduce(userInfo.getIntroduce());
 
         http.setFlag(true);
         return http;

@@ -19,14 +19,12 @@ public class UserController {
 
     private final UserService userService;
 
-
-    @PostMapping
+    @PutMapping
     public ResponseEntity<?> updateUserInfo(@RequestBody UserInfo userInfo){
-        HttpVo http = new HttpVo();
-
-        log.info("{}", userInfo);
-        userService.updateUserInfo(userInfo);
-
+        HttpVo http = userService.updateUserInfo(userInfo);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
+
+
+
 }

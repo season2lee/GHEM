@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"user_id", "id", "userProfile"})
+@Table(name="users")
 public class User {
     @Id @GeneratedValue
     @Column(name = "user_id")
