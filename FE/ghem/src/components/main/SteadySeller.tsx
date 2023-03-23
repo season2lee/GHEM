@@ -38,9 +38,7 @@ function SteadySeller(props: SteadySellerProps) {
 
   return (
     <div css={steadyDiv}>
-      <span>
-        <b css={steadyText}>BY ALL USER</b>
-      </span>
+      <span css={steadyText}>BY ALL USER</span>
       <CommonGameList
         gameList={steadyGameList.slice(0, 50)}
         // imgType="capsule"
