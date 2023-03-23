@@ -9,6 +9,7 @@ import MainPage from "./pages/MainPage";
 import WelcomePage from "./pages/WelcomePage";
 import StarBackground from "./components/common/StarBackground";
 import ProfileUpdate from "@components/profile/update/ProfileUpdate";
+import KakaoLogin from "@components/login/KakaoLogin";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/main" element={<MainPage />} />
         <Route path="/" element={<WelcomePage />} />
         <Route path="/update/profile" element={<ProfileUpdate />} />
+        <Route path="/oauth/kakao/callback" element={<KakaoLogin />} />
       </Routes>
       <Footer />
     </BrowserRouter>
