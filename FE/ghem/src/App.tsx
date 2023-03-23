@@ -22,15 +22,10 @@ function App() {
         <Route path="/detail/:appid" element={<GameDetailPage />} />
         <Route path="/profile/*" element={<ProfilePage />} />
         <Route path="/main" element={<MainPage />} />
-<<<<<<< HEAD
         <Route path="/*" element={<WelcomePage />} />
-        <Route path="/update/profile" element={<ProfileUpdate />} />
-=======
-        <Route path="/" element={<WelcomePage />} />
         <Route path="/update/profile" element={<ProfileUpdatePage />} />
         <Route path="/oauth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/oauth/naver/callback" element={<NaverLogin />} />
->>>>>>> 6b745dd687045bce68e5e56b3610e3b98e54a129
       </Routes>
       <Footer />
     </BrowserRouter>
