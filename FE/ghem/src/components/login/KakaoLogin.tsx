@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getRequestKakaoLogin } from "@/api/oauth";
 // import { useSetRecoilState } from "recoil";
 // import { userInfoState, userInfoStateType } from "@/store/mainState";
+import Loading from "@components/common/Loading";
 
 type responseType = {
   AccessToken: string;
@@ -44,7 +45,7 @@ function KakaoLogin() {
     handleKakaoLogin(authorizationCode);
   }, []);
 
-  return <div>Loading... 화면 만들어야 함</div>;
+  return <Loading />;
 }
 
 export default KakaoLogin;

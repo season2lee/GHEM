@@ -57,6 +57,7 @@ function GameEvaluated() {
     },
   ]);
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
+  const [isDragMove, setIsDragMove] = useState<boolean>(false);
 
   const handleOpenFilter = (): void => {
     setIsOpenFilter(!isOpenFilter);
@@ -65,6 +66,7 @@ function GameEvaluated() {
   const handleDragStart = (e: React.MouseEvent) => {
     setIsDrag(true);
     setStartX(e.pageX);
+    setIsDragMove(false);
   };
 
   const handleDragEnd = () => {
@@ -78,11 +80,8 @@ function GameEvaluated() {
         scrollElement.scrollLeft += startX - e.pageX;
       }
       setStartX(e.pageX);
+      setIsDragMove(true);
     }
-  };
-
-  const handleDragLeave = () => {
-    setIsDrag(false);
   };
 
   return (
@@ -103,10 +102,9 @@ function GameEvaluated() {
         onMouseDown={handleDragStart}
         onMouseMove={handleDragMove}
         onMouseUp={handleDragEnd}
-        onMouseLeave={handleDragLeave}
       >
         {gameList.map((game, idx) => (
-          <GameCard key={idx} game={game} />
+          <GameCard key={idx} game={game} isDragMove={isDragMove} />
         ))}
       </div>
     </div>

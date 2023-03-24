@@ -18,9 +18,10 @@ type gameListItem = {
 type GameCardProps = {
   path?: string;
   game: gameListItem;
+  isDragMove: boolean;
 };
 
-function GameCard({ path, game }: GameCardProps) {
+function GameCard({ path, game, isDragMove }: GameCardProps) {
   const navigate = useNavigate();
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
 
@@ -29,11 +30,13 @@ function GameCard({ path, game }: GameCardProps) {
   };
 
   const handleRemoveLike = (): void => {
-    alert("관심 목록에서 해제하시겠습니까?");
+    // 관심 목록에서 해제
   };
 
   const moveToGameDetail = (id: number): void => {
-    navigate(`/detail/${id}`);
+    if (!isDragMove) {
+      navigate(`/detail/${id}`);
+    }
   };
 
   return (
