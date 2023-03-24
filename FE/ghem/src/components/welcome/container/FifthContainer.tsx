@@ -1,14 +1,15 @@
-import React, { useState, useRef } from "react";
+import React,{useRef} from "react";
 import { css } from "@emotion/react";
 import useIntersectionObsever from "@/util/hooks/useIntersectionObserver";
-import gameRecommend from "@/assets/image/gameRecommend.png";
+import computerChecked from "@/assets/image/computerChecked.png";
 
-function ThirdContainer() {
+function FifthContainer() {
   const ref = useRef<HTMLDivElement>(null);
   const isInViewport = useIntersectionObsever(ref);
 
   return (
     <div css={layout}>
+    
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
       <h3>
           무슨 게임 할 지 항상 고민 하셨나요?
@@ -20,7 +21,7 @@ function ThirdContainer() {
         </h3>
       </div>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-      <img css={image}src={gameRecommend}></img>
+      <img css={image} src={computerChecked}></img>
       </div>
     </div>
   );
@@ -61,4 +62,4 @@ width:100%;
 height:80%;
 `
 
-export default ThirdContainer;
+export default FifthContainer;

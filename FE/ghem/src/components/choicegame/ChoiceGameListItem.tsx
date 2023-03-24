@@ -73,31 +73,6 @@ function ChoiceGameListItem({
     setChecked(false);
   };
 
-  const CheckList = () => {
-    if (good.includes(appid)) {
-      return (
-        <>
-          <button onClick={ClickSosohandler}>😐</button>
-          <button onClick={ClickBadhandler}>😥</button>
-        </>
-      );
-    } else if (soso.includes(appid)) {
-      return (
-        <>
-          <button onClick={RemoveHandler}>평가 취소하기</button>
-          <button onClick={ClickGoodhandler}>😄</button>
-          <button onClick={ClickBadhandler}>😥</button>
-        </>
-      );
-    } else if (bad.includes(appid)) {
-      <>
-        <button onClick={RemoveHandler}>평가 취소하기</button>
-        <button onClick={ClickGoodhandler}>😄</button>
-        <button onClick={ClickSosohandler}>😐</button>
-      </>;
-    }
-  };
-
   return (
     <div>
       <Card checked={checked}>

@@ -19,21 +19,17 @@ function SecondContainer() {
         <img css={logo} src={steamLogo}></img>
       </div>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-        <h2>
-          무슨 게임 할 지 항상 고민 하셨나요?
-          <br />
-          steam에서 추천해주는 게임이 지루하셨나요?
-          <br />
-          까다로운 당신의 취향에 딱 맞는 서비스를 받아보세요
-          <br />
-        </h2>
+        <h3>무슨 게임 할 지 항상 고민 하셨나요?</h3>
+        <br />
+        <h3>steam에서 추천해주는 게임이 지루하셨나요?</h3>
+        <br />
+        <h3>까다로운 당신의 취향에 딱 맞는 서비스를 받아보세요</h3>
       </div>
     </div>
   );
 }
 
 const layout = css`
-  /* scroll-snap-align: start; */
   width: 100%;
   height: 100vh;
   font-size: 1em;
@@ -44,6 +40,7 @@ const layout = css`
 `;
 
 const section = css`
+  z-index: 100;
   height: 50%;
   width: 50%;
   text-align: center;
@@ -64,6 +61,8 @@ const section = css`
       }
     }
   }
+
+  
 `;
 const footer = css`
   height: 50%;
@@ -122,6 +121,5 @@ const logo = css`
   filter: invert(100%) sepia(1%) saturate(2%) hue-rotate(221deg)
     brightness(101%) contrast(101%);
 `;
-
 
 export default SecondContainer;

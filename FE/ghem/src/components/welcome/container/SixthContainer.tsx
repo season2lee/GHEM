@@ -1,26 +1,15 @@
 import React, { useState, useRef } from "react";
 import { css } from "@emotion/react";
 import useIntersectionObsever from "@/util/hooks/useIntersectionObserver";
-import gameRecommend from "@/assets/image/gameRecommend.png";
 
-function ThirdContainer() {
+function SixthContainer() {
   const ref = useRef<HTMLDivElement>(null);
   const isInViewport = useIntersectionObsever(ref);
 
   return (
     <div css={layout}>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-      <h3>
-          무슨 게임 할 지 항상 고민 하셨나요?
-          <br />
-          steam에서 추천해주는 게임이 지루하셨나요?
-          <br />
-          까다로운 당신의 취향에 딱 맞는 서비스를 받아보세요
-          <br />
-        </h3>
-      </div>
-      <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-      <img css={image}src={gameRecommend}></img>
+        <div>card1</div>
       </div>
     </div>
   );
@@ -29,7 +18,6 @@ function ThirdContainer() {
 const layout = css`
   width: 100%;
   height: 100vh;
-  font-family: sans-serif;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -38,9 +26,9 @@ const layout = css`
 `;
 
 const section = css`
-  z-index: 100;
+z-index: 100;
   height: 100vh;
-  width: 50%;
+  width: 100%;
   text-align: center;
   &.animation {
     animation-name: opacity;
@@ -56,9 +44,5 @@ const section = css`
     }
   }
 `;
-const image = css`
-width:100%;
-height:80%;
-`
 
-export default ThirdContainer;
+export default SixthContainer;
