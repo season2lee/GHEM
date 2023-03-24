@@ -40,6 +40,8 @@ function HoverGameItem(props: HoverGameItemProps) {
 const hoverModal = css`
   position: fixed;
   background-color: azure;
+  width: 30%;
+  height: 40%;
   padding: 5rem;
   color: black;
   border-radius: 10px;
