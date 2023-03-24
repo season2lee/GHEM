@@ -39,8 +39,9 @@ function SteadySeller(props: SteadySellerProps) {
   return (
     <div css={steadyDiv}>
       <span css={steadyText}>BY ALL USER</span>
+      <div css={divheight} />
       <CommonGameList
-        gameList={steadyGameList.slice(0, 50)}
+        gameList={steadyGameList.slice(0, 30)}
         // imgType="capsule"
         imgType="header"
         scrollType={1}
@@ -52,8 +53,9 @@ function SteadySeller(props: SteadySellerProps) {
         colId="steady1"
         currentColId={props.currentColId}
       />
+      <div css={divheight} />
       <CommonGameList
-        gameList={steadyGameList.slice(50, 100)}
+        gameList={steadyGameList.slice(30, 60)}
         // imgType="capsule"
         imgType="header"
         scrollType={-1}
@@ -65,9 +67,27 @@ function SteadySeller(props: SteadySellerProps) {
         colId="steady2"
         currentColId={props.currentColId}
       />
+      <div css={divheight} />
+      <CommonGameList
+        gameList={steadyGameList.slice(60, 90)}
+        // imgType="capsule"
+        imgType="header"
+        scrollType={1}
+        gameType="steady"
+        setAppid={props.setAppid}
+        setIsEnter={props.setIsEnter}
+        setColId={props.setColId}
+        setPageXY={props.setPageXY}
+        colId="steady3"
+        currentColId={props.currentColId}
+      />
     </div>
   );
 }
+
+const divheight = css`
+  height: 2rem;
+`;
 
 const steadyDiv = css`
   > span {
@@ -77,6 +97,7 @@ const steadyDiv = css`
   padding: 1rem 0rem 1rem 0rem;
   background-color: #352c42;
   border-radius: 30px;
+  overflow: hidden;
 `;
 
 const steadyText = css`
