@@ -1,18 +1,27 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import { mobile } from "@/util/Mixin";
 
-function ProfileGender() {
+type ProfileGenderProps = {
+  gender: number;
+  setGender: React.Dispatch<React.SetStateAction<number>>;
+};
+
+function ProfileGender({ gender, setGender }: ProfileGenderProps) {
+  const handleChangeGender = (flag: number) => {
+    setGender(flag);
+  };
+
   return (
     <div css={wrapper}>
       <h5>성별</h5>
       <div css={inputWrapper}>
         <div css={genderWrapper}>
-          <input type="radio" name="gender" value="male" id="male" defaultChecked />
+          <input type="radio" name="gender" id="male" onChange={() => handleChangeGender(0)} checked={gender === 0} />
           <label htmlFor="male">남자</label>
         </div>
         <div css={genderWrapper}>
-          <input type="radio" name="gender" value="female" id="female" />
+          <input type="radio" name="gender" id="female" onChange={() => handleChangeGender(1)} checked={gender === 1} />
           <label htmlFor="female">여자</label>
         </div>
       </div>
