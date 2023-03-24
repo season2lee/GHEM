@@ -39,6 +39,8 @@ function ProfileUpdatePage() {
 
   const handleUpdateProfile = async (): Promise<void> => {
     if (userId) {
+      setIntroduce(introduce.replaceAll("<br>", "\r\n")); // 개행 처리
+
       const changedUserInfo: userInfoType = {
         user_id: userId,
         nickname: nickname,
