@@ -26,7 +26,6 @@ function RecommendChoice({choice, setChoice}: RecommendChoiceProps) {
 
   // 비추천 버튼 클릭 핸들러
   const clickNotRecommHandler = () => {
-    console.log("비추천비추천");
     setChoice((oldState) => {
       if (oldState === "notrecommended") {
         return "notchosen"
