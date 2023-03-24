@@ -21,6 +21,8 @@ public class User {
     private String id;
     private String nickname;
     private String userProfile;
+    private int gender;
+    private String birth;
     private String steamId;
     private String introduce;
 
