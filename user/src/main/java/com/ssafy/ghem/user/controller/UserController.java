@@ -21,12 +21,13 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping
-    @ApiOperation(value = "처음 닉네임과 자기소개 설정 및 닉네임/자기소개 수정에 사용하시면 됩니다.\n" +
-            "user_id : 유저이름\n" +
-            "nickname : aasd\n"+
-            "introduce : asdasdasd\n" +
-            "#은 꼭 막아주세요!!!!",
-            notes = "",
+    @ApiOperation(value = "처음 닉네임과 자기소개 설정 및 닉네임/자기소개 수정에 사용하시면 됩니다.\n",
+            notes = "user_id : 유저 교유번호\n" +
+                    "nickname : 설정하고자 하는 닉네임\n"+
+                    "introduce : 설정하고자 하는 자기소개\n" +
+                    "gender : 설정하고자 하는 성별" +
+                    "birth :  설정하고자 하는 생일" +
+                    "#은 꼭 막아주세요!!!!",
             response = String.class)
     public ResponseEntity<?> updateUserInfo(@RequestBody UserInfo userInfo){
         HttpVo http = userService.updateUserInfo(userInfo);

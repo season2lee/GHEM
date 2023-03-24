@@ -15,6 +15,7 @@ public class Game {
     private Long appId;
     private String title;
     private String genre;
+    @Column(name = "release_date")
     private String releaseDate;
     private int rating;
     private String rating_desc;

@@ -20,7 +20,11 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
+    public final StringPath birth = createString("birth");
+
     public final ListPath<UserGame, QUserGame> games = this.<UserGame, QUserGame>createList("games", UserGame.class, QUserGame.class, PathInits.DIRECT2);
+
+    public final NumberPath<Integer> gender = createNumber("gender", Integer.class);
 
     public final StringPath id = createString("id");
 
