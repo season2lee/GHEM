@@ -11,11 +11,12 @@ type ProfileMenuProps = {
 
 function ProfileMenu({ text, onClickOpenHiddenMenu }: ProfileMenuProps) {
   const navigate = useNavigate();
+  const userId: number | null = Number(localStorage.getItem("id"));
 
   const handleMoveToProfileMenuPage = (): void => {
     switch (text) {
       case "게임 목록":
-        navigate("/profile/1/gamelist");
+        navigate(`/profile/${userId}/gamelist`);
         break;
       case "계정 정보":
         if (onClickOpenHiddenMenu) {
