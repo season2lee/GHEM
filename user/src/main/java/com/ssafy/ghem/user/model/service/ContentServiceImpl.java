@@ -59,6 +59,7 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
+    @Transactional
     public HttpVo listContent(Long app_id) {
         HttpVo http = new HttpVo();
         Map<String, Object> map = new HashMap<>();
@@ -71,6 +72,25 @@ public class ContentServiceImpl implements ContentService{
 
         http.setFlag(true);
         http.setData(gameReviewList);
+        return http;
+    }
+
+    @Override
+    public HttpVo updateContent(ContentInfo contentInfo) {
+        HttpVo http = new HttpVo();
+        Map<String, Object> map = new HashMap<>();
+
+        User user = userCommonRepository.findById(contentInfo.getUser_id())
+                .orElseThrow(() -> new DoesNotExistData("해당하는 유저 정보가 없습니다."));
+        Game game = gameCommonRepository.findById(contentInfo.getApp_id())
+                .orElseThrow(() -> new DoesNotExistData("해당하는 게임 정보가 없습니다."));
+
+        GameReview gameReview = gameReviewCommonRepository.findByUserAndGame(user, game);
+
+        gameReview.setContent(contentInfo.getContent());
+
+        http.setFlag(true);
+        http.setData(map);
         return http;
     }
 }

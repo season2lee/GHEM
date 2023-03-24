@@ -16,7 +16,7 @@ public class Game {
     private String title;
     private String genre;
     @Column(name = "release_date")
-    private String releaseDate;
+    private String release_date;
     private int rating;
     private String rating_desc;
     private int positive_reviews;
@@ -27,7 +27,7 @@ public class Game {
         this.appId = appId;
         this.title = title;
         this.genre = genre;
-        this.releaseDate = releaseDate;
+        this.release_date = releaseDate;
         this.rating = rating;
         this.rating_desc = rating_desc;
         this.positive_reviews = positive_reviews;
