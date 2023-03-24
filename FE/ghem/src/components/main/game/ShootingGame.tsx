@@ -6,7 +6,7 @@ type TargetPosition = {
   y: number;
 };
 
-const ShootingGame = () => {
+function ShootingGame() {
   const [score, setScore] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [targetPosition, setTargetPosition] = useState<TargetPosition>({
@@ -74,7 +74,7 @@ const ShootingGame = () => {
       )}
     </div>
   );
-};
+}
 
 const shootingGame = css`
   display: flex;
