@@ -48,7 +48,9 @@ function ProfileUpdatePage() {
       };
 
       const response = await putUserProfile(changedUserInfo);
-      if (response) navigate(`/profile/${userId}/gamelist`);
+      if (response) {
+        navigate(`/profile/${userId}/gamelist`);
+      }
     }
   };
 
