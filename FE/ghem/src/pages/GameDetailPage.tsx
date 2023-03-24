@@ -6,10 +6,9 @@
 
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import ImageHead from '../components/gamedetail/ImageHead'
-import Section from '@/components/common/Section'
+import ImageHead from '@components/gamedetail/imagehead/ImageHead'
+import Section from '@components/common/Section'
 import axios from 'axios'
-import RecommendChoice from '@components/gamedetail/RecommendChoice'
 import ChatBox from '@components/gamedetail/chatbox/ChatBox'
 import { css } from '@emotion/react'
 import ReviewInput from '@components/gamedetail/review/ReviewInput'
@@ -23,11 +22,9 @@ type GameDataType = {
   shortDescription: string
 }
 
-const tempArr = [1,2,3,4,5];
-
 function GameDetailPage() {
   const [gameData, setGameData] = useState<GameDataType | null>(null);  // 보여질 게임에 대한 상세 정보
-  const [choice, setChoice] = useState<"recommended" | "notrecommended" | "notchosen">("notchosen");
+  const [currentRating, setCurrentRating] = useState(0);
   const appID = useParams().appid;  // URL의 path variable로 부터 APP_ID 추출
   const env = import.meta.env;
 
@@ -51,17 +48,15 @@ function GameDetailPage() {
   return (
     <div>
       {/* 라이브러리 이미지를 가진 헤드 컴포넌트*/}
-      {gameData && <ImageHead gameData={gameData} choice={choice}/>}
+      {gameData && <ImageHead gameData={gameData} currentRating={currentRating} setCurrentRating={setCurrentRating} />}
 
       <div css={container}>
         <div css={leftContainer}>
-          <RecommendChoice choice={choice} setChoice={setChoice}/>
-          <br />
           {/* 리뷰 컴포넌트 */}
           <Section>
             <div style={{width: "100%"}}>
-              <h2 style={{marginBottom: "10px"}}>리뷰</h2>
-              <ReviewInput />
+              <h2 style={{marginBottom: "20px"}}>리뷰</h2>
+              <ReviewInput isRated={currentRating !== 0}/>
               <div style={{marginTop: "30px"}}>
                 {dummyReviews.map((review, index) => {
                   return <div key={index}>
@@ -93,19 +88,20 @@ function GameDetailPage() {
 
 const container = css`
   width: 100%;
+  padding: 50px;
   display: flex;
 `
 
 const leftContainer = css`
   /* background-color: green; */
   width: 67%;
-  padding: 1rem;
+  padding: 0px 1rem 0px 0px;
 `
 
 const rightContainer = css`
   /* background-color: blue; */
   width: 33%;
-  padding: 1rem;
+  padding: 0px 0px 0px 1rem;
 `
 
 const replyBorder = css`
