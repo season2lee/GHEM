@@ -5,7 +5,9 @@ import { NavLink } from "react-router-dom";
 function Navbar() {
   return (
     <div css={navbar}>
-      <NavLink to="/">Ghem</NavLink>
+      <NavLink to="/" css={title}>
+        <b>Ghem</b>
+      </NavLink>
       <div>
         <NavLink to="/main">main</NavLink>
         <NavLink to="/profile/1/gamelist">profile</NavLink>
@@ -33,6 +35,10 @@ const navbar = css`
   > a {
     padding: 1rem;
   }
+`;
+
+const title = css`
+  font-size: 1.5rem;
 `;
 
 export default Navbar;

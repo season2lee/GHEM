@@ -47,9 +47,14 @@ function CommonGameListItem(props: CommonGameListItemProps) {
           props.setIsEnter(true);
           let x: number = e.clientX;
           let y: number = e.clientY;
-          // if (e.clientX) {
-
-          // }
+          let windowWidth: number = window.innerWidth;
+          let windowHeight: number = window.innerHeight;
+          if (x > windowWidth / 2) {
+            x -= windowWidth * 0.3;
+          }
+          if (y > windowHeight / 2) {
+            y -= windowHeight * 0.4;
+          }
           props.setPageXY({ x, y });
         }
       }}
