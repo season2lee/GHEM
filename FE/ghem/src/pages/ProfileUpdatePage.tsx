@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import ProfileImage from "../components/profile/common/ProfileImage";
 import ProfileNickname from "../components/profile/update/ProfileNickname";
-import ProfileInput from "../components/profile/update/ProfileInput";
+import ProfileBirth from "../components/profile/update/ProfileBirth";
 import ProfileGender from "../components/profile/update/ProfileGender";
 import ProfileIntroduce from "../components/profile/update/ProfileIntroduce";
 import { useNavigate } from "react-router-dom";
@@ -54,7 +54,7 @@ function ProfileUpdatePage() {
         <ProfileNickname nickname={nickname} setNickname={setNickname} />
         <div css={rowFlexWrapper}>
           <ProfileGender />
-          <ProfileInput header="생년월일" />
+          <ProfileBirth birth={birth} setBirth={setBirth} />
         </div>
         <ProfileIntroduce introduce={introduce} setIntroduce={setIntroduce} />
         <div css={buttonWrapper}>
