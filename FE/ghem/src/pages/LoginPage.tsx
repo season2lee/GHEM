@@ -1,9 +1,10 @@
 import React from "react";
 import { css } from "@emotion/react";
 import loginBackground from "../assets/image/loginBackground.jpg";
-import kakaoOauthButton from "../assets/image/kakaoOauthButton.png";
-import naverOauthButton from "../assets/image/naverOauthButton.png";
+import kakaoOauth from "../assets/image/kakaoOauth.png";
+import naverOauth from "../assets/image/naverOauth.png";
 import forLogo from "../assets/image/for_logo.png";
+import { mobile } from "@/util/Mixin";
 
 function LoginPage() {
   const env = import.meta.env;
@@ -35,14 +36,8 @@ function LoginPage() {
       <div css={loginBoxWrapper}>
         <img src={forLogo} alt="GHEM" css={logoSize} />
         <div css={oauthWrapper}>
-          <img
-            src={kakaoOauthButton}
-            onClick={() => handleOauthLoginClcik("kakao")}
-          />
-          <img
-            src={naverOauthButton}
-            onClick={() => handleOauthLoginClcik("naver")}
-          />
+          <img src={kakaoOauth} onClick={() => handleOauthLoginClcik("kakao")} />
+          <img src={naverOauth} onClick={() => handleOauthLoginClcik("naver")} />
         </div>
       </div>
     </div>
@@ -63,12 +58,7 @@ const wrapper = css`
 const bgWrapper = css`
   width: 100%;
   height: 600px;
-  background-image: linear-gradient(
-      360deg,
-      #292233 0%,
-      rgba(41, 34, 51, 0) 169.72%
-    ),
-    url(${loginBackground});
+  background-image: linear-gradient(360deg, #292233 0%, rgba(41, 34, 51, 0) 169.72%), url(${loginBackground});
   background-repeat: repeat-x;
   position: absolute;
   left: 0;
@@ -83,7 +73,6 @@ const loginBoxWrapper = css`
   position: absolute;
   left: calc(50% - 650px / 2);
   top: calc(50% - 500px / 2);
-  /* background: #352c42; */
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -91,45 +80,31 @@ const loginBoxWrapper = css`
   align-items: center;
   z-index: 2;
 
-  > h2 {
-    margin-bottom: 150px;
-  }
-
   @media (max-width: 768px) {
     width: 350px;
     left: calc(50% - 350px / 2);
-
-    > h2 {
-      font-size: 28px;
-    }
   }
 `;
 
 const oauthWrapper = css`
-  width: 250px;
+  width: 400px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-  gap: 120px;
+  gap: 30px;
 
   > img {
     cursor: pointer;
-    width: 70px;
-    height: 70px;
+    width: 100%;
     transition: all 0.2s linear;
 
     :hover {
-      transform: scale(1.2);
+      transform: scale(1.1);
     }
   }
 
-  @media (max-width: 768px) {
-    gap: 80px;
-
-    > img {
-      width: 55px;
-      height: 55px;
-    }
+  ${mobile} {
+    width: 300px;
   }
 `;
 
