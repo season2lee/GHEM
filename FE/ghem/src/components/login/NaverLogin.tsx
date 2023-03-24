@@ -17,7 +17,7 @@ function NaverLogin() {
     handleNaverLogin(authorizationCode);
   }, []);
 
-  return <div>NaverLogin</div>;
+  return <div>Loading 화면 만들어야함</div>;
 }
 
 export default NaverLogin;
