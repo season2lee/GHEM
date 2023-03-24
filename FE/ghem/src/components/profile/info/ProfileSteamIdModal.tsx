@@ -1,14 +1,38 @@
-import React from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import { AiOutlineClose } from "react-icons/ai";
+import { putUserSteamAccount, steamAccountType } from "@/api/user";
 
 type ProfileSteamIdModalProps = {
   handleOpenSteamIdModal: () => void;
 };
 
 function ProfileSteamIdModal({ handleOpenSteamIdModal }: ProfileSteamIdModalProps) {
+  const [steamId, setSteamId] = useState<string>("");
+  const [steamPassword, setSteamPassword] = useState<string>("");
+  const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; // 특수문자 정규식
+
   const handleCloseModal = (): void => {
     handleOpenSteamIdModal();
+  };
+
+  const handleChangeSteamId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.replace(regExp, "");
+    setSteamId(e.target.value);
+  };
+
+  const handleRegistSteamAccount = async (): Promise<void> => {
+    const steamAccount: steamAccountType = {
+      steamId: steamId,
+      steamPassword: steamPassword,
+    };
+
+    const response = await putUserSteamAccount(steamAccount);
+    if (response) {
+      // 정상적으로 등록되었습니다.
+    } else {
+      // 일치하는 계정이 없습니다.
+    }
   };
 
   return (
@@ -18,10 +42,15 @@ function ProfileSteamIdModal({ handleOpenSteamIdModal }: ProfileSteamIdModalProp
           <h5>Steam ID 등록</h5>
           <AiOutlineClose onClick={handleCloseModal} size="23" />
         </div>
-        <input type="text" placeholder="Steam ID" />
-        <input type="password" placeholder="Password" />
+        <input type="text" placeholder="Steam ID" value={steamId} onChange={handleChangeSteamId} />
+        <input
+          type="password"
+          placeholder="Password"
+          value={steamPassword}
+          onChange={(e) => setSteamPassword(e.target.value)}
+        />
         <div css={buttonWrapper}>
-          <button>등록</button>
+          <button onClick={handleRegistSteamAccount}>등록</button>
         </div>
       </div>
     </div>

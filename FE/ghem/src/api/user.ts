@@ -33,3 +33,19 @@ export const putUserProfile = async (userInfo: userInfoType) => {
     console.log(error);
   }
 };
+
+export type steamAccountType = {
+  steamId: string;
+  steamPassword: string;
+};
+
+export const putUserSteamAccount = async (steamAccount: steamAccountType) => {
+  try {
+    const { data } = await axios.put("/steam", steamAccount);
+
+    if (data.flag) return true;
+    else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
