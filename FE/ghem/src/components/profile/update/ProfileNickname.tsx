@@ -1,4 +1,3 @@
-import React from "react";
 import { css } from "@emotion/react";
 import { AiOutlineCheck } from "react-icons/ai";
 
@@ -9,6 +8,9 @@ type ProfileNicknameProps = {
 
 function ProfileNickname({ nickname, setNickname }: ProfileNicknameProps) {
   const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (e.target.value.length >= 6) {
+      e.target.value = e.target.value.substr(0, 6);
+    }
     setNickname(e.target.value);
   };
 
@@ -20,7 +22,7 @@ function ProfileNickname({ nickname, setNickname }: ProfileNicknameProps) {
         <span>(최대 6자)</span>
       </div>
       <div css={inputWrapper}>
-        <input type="text" value={nickname} onChange={(e) => handleChangeNickname(e)} />
+        <input type="text" value={nickname} onChange={handleChangeNickname} />
         <AiOutlineCheck />
       </div>
     </div>

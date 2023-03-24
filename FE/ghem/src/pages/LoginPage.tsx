@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import loginBackground from "../assets/image/loginBackground.jpg";
 import kakaoOauthButton from "../assets/image/kakaoOauthButton.png";
 import naverOauthButton from "../assets/image/naverOauthButton.png";
+import forLogo from "../assets/image/for_logo.png";
 
 function LoginPage() {
   const env = import.meta.env;
@@ -32,15 +33,26 @@ function LoginPage() {
     <div css={wrapper}>
       <div css={bgWrapper}></div>
       <div css={loginBoxWrapper}>
-        <h2>우리의 로고</h2>
+        <img src={forLogo} alt="GHEM" css={logoSize} />
         <div css={oauthWrapper}>
-          <img src={kakaoOauthButton} onClick={() => handleOauthLoginClcik("kakao")} />
-          <img src={naverOauthButton} onClick={() => handleOauthLoginClcik("naver")} />
+          <img
+            src={kakaoOauthButton}
+            onClick={() => handleOauthLoginClcik("kakao")}
+          />
+          <img
+            src={naverOauthButton}
+            onClick={() => handleOauthLoginClcik("naver")}
+          />
         </div>
       </div>
     </div>
   );
 }
+
+const logoSize = css`
+  width: 100%;
+  height: auto;
+`;
 
 const wrapper = css`
   position: relative;
@@ -51,7 +63,12 @@ const wrapper = css`
 const bgWrapper = css`
   width: 100%;
   height: 600px;
-  background-image: linear-gradient(360deg, #292233 0%, rgba(41, 34, 51, 0) 169.72%), url(${loginBackground});
+  background-image: linear-gradient(
+      360deg,
+      #292233 0%,
+      rgba(41, 34, 51, 0) 169.72%
+    ),
+    url(${loginBackground});
   background-repeat: repeat-x;
   position: absolute;
   left: 0;
@@ -66,7 +83,7 @@ const loginBoxWrapper = css`
   position: absolute;
   left: calc(50% - 650px / 2);
   top: calc(50% - 500px / 2);
-  background: #352c42;
+  /* background: #352c42; */
   border-radius: 5px;
   display: flex;
   flex-direction: column;

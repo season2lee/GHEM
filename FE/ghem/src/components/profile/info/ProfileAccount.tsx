@@ -4,7 +4,12 @@ import steamLogo from "../../../assets/image/steamLogo.png";
 import { mobile } from "@/util/Mixin";
 import ProfileSteamIdModal from "./ProfileSteamIdModal";
 
-function ProfileAccount() {
+type ProfileAccountProps = {
+  nickname: string;
+  steamId: string;
+};
+
+function ProfileAccount({ nickname, steamId }: ProfileAccountProps) {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const handleOpenSteamIdModal = (): void => {
@@ -13,10 +18,10 @@ function ProfileAccount() {
 
   return (
     <div css={wrapper}>
-      <p css={nickname}>닉네임</p>
+      <p css={nicknameP}>{nickname}</p>
       <div css={steamIdWrapper} onClick={handleOpenSteamIdModal}>
         <img src={steamLogo} alt="스팀 로고" />
-        <span>미등록</span>
+        <span>{steamId}</span>
       </div>
       {isOpenModal && <ProfileSteamIdModal handleOpenSteamIdModal={handleOpenSteamIdModal} />}
     </div>
@@ -34,7 +39,7 @@ const wrapper = css`
   }
 `;
 
-const nickname = css`
+const nicknameP = css`
   font-weight: bold;
   margin: 20px 0 20px 0;
 
