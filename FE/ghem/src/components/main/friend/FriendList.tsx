@@ -6,9 +6,7 @@ function FriendList() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [canClick, setCanClick] = useState<boolean>(true);
-  const [isMouseOn, setIsMouseOn] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
-  const [currentScroll, setCurrentScroll] = useState<number>(0);
 
   const scrollElement = scrollRef.current as HTMLDivElement;
 
@@ -19,7 +17,6 @@ function FriendList() {
 
   const onDragLeave = () => {
     setIsDrag(false);
-    setIsMouseOn(false);
     setTimeout(() => setCanClick(true), 50); // 약간의 시간차가 있어야 클릭과 드래그를 구분 가능
   };
 
@@ -45,14 +42,13 @@ function FriendList() {
       onMouseMove={onDragMove}
       onMouseUp={onDragEnd}
       onMouseLeave={onDragLeave}
-      onMouseOver={() => setIsMouseOn(true)}
     >
-      <FriendListItem id="1" />
-      <FriendListItem id="2" />
-      <FriendListItem id="3" />
-      <FriendListItem id="4" />
-      <FriendListItem id="5" />
-      <FriendListItem id="6" />
+      <FriendListItem canClick={canClick} id="1" />
+      <FriendListItem canClick={canClick} id="2" />
+      <FriendListItem canClick={canClick} id="3" />
+      <FriendListItem canClick={canClick} id="4" />
+      <FriendListItem canClick={canClick} id="5" />
+      <FriendListItem canClick={canClick} id="6" />
     </div>
   );
 }

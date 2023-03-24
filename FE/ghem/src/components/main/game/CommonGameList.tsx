@@ -98,15 +98,15 @@ function CommonGameList(props: CommonGameListProps) {
   return (
     <div
       css={rowScroll}
-      // style={
-      //   props.gameType === "steady"
-      //     ? {
-      //         msTransform: `rotate(${-10 * props.scrollType}deg)`,
-      //         WebkitTransform: `rotate(${-10 * props.scrollType}deg)`,
-      //         transform: `rotate(${-10 * props.scrollType}deg)`,
-      //       }
-      //     : {}
-      // }
+      style={
+        props.gameType === "steady"
+          ? {
+              msTransform: `rotate(${-5 * props.scrollType}deg)`,
+              WebkitTransform: `rotate(${-5 * props.scrollType}deg)`,
+              transform: `rotate(${-5 * props.scrollType}deg)`,
+            }
+          : {}
+      }
       id="gameList"
       ref={scrollRef}
       onMouseDown={onDragStart}

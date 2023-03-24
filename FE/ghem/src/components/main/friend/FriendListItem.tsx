@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 
 type FriendListItemProps = {
   id: string;
+  canClick: boolean;
 };
 
 function FriendListItem(props: FriendListItemProps) {
@@ -13,7 +14,9 @@ function FriendListItem(props: FriendListItemProps) {
     <div
       css={friedCard}
       onClick={() => {
-        navigator(`../profile/${props.id}/gamelist`);
+        if (props.canClick) {
+          navigator(`../profile/${props.id}/gamelist`);
+        }
       }}
     >
       <img
