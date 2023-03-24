@@ -3,7 +3,6 @@ package com.ssafy.ghem.user;
 
 import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
-import com.ssafy.ghem.user.model.respository.individual.UserIndividualRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

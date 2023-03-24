@@ -50,5 +50,4 @@ public class ContentController {
         HttpVo http = contentService.updateContent(contentInfo);//contentService.listContent(app_id);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
-
 }
