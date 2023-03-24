@@ -1,5 +1,6 @@
 package com.ssafy.ghem.user.controller.exception.handler;
 
+import com.ssafy.ghem.user.controller.exception.DoesNotExistData;
 import com.ssafy.ghem.user.controller.exception.NoModify;
 import com.ssafy.ghem.user.model.vo.HttpVo;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ import java.util.Map;
 public class ContollerExceptionHandler {
 
     @ExceptionHandler(NoModify.class)
-    public ResponseEntity<?> accessDeny(Exception e){
+    public ResponseEntity<?> NoModify(Exception e){
         HttpVo http = new HttpVo();
         Map<String, String> map = new HashMap<>();
         log.error("error ", e.getClass().getName());
@@ -24,6 +25,20 @@ public class ContollerExceptionHandler {
         map.put("errName", e.getClass().getName());
         map.put("errMessage", e.toString());
 
+        http.setData(map);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(DoesNotExistData.class)
+    public ResponseEntity<?> DoesNotExistData(Exception e){
+        HttpVo http = new HttpVo();
+        Map<String, String> map = new HashMap<>();
+        log.error("error ", e.getClass().getName());
+
+        map.put("errName", e.getClass().getName());
+        map.put("errMessage", e.toString());
+
+        http.setData(map);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
