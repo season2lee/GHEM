@@ -93,7 +93,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
 }
 
 const gameItem = css`
-  margin: 5px;
+  /* margin: 5px; */
 `;
 
 const imgsize = css`
