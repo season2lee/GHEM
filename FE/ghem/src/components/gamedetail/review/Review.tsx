@@ -5,7 +5,6 @@
 
 import React from 'react'
 import chad from '@/assets/image/chad.jpeg';
-import thumbup from '@/assets/image/thumbup.svg';
 import thumbupLine from '@/assets/image/thumbup-line.svg';
 
 import { css } from '@emotion/react';
@@ -37,10 +36,9 @@ function Review({review}: ReviewProps) {
             <p css={nameStyle}>{review.name}</p>
             <p css={dateStyle}>{review.date}</p>
           </div>
-          <div css={tempContainer}>
-            <img src={thumbup} css={thumbImageStyle} />
-            <p css={recommStyle}>추천</p>
-          </div>
+          {/* 해당 유저가 평가한 점수 들어갈 것 
+            ...
+          */}
         </div>
         {/* 리뷰 텍스트 */}
         <div css={reviewContentStyle}>
@@ -85,23 +83,6 @@ const dateStyle = css`
   color: gray;
 `
 
-const tempContainer = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 10px;
-`
-
-const thumbImageStyle = css`
-  height: 1.2rem;
-  margin-bottom: 3px;
-`
-
-const recommStyle = css`
-  color: rgb(28,132,255);
-  font-weight: bold;
-`
-
 const reviewContentStyle = css`
   font-size: 16px;
   line-height: 1.3rem;
@@ -109,7 +90,7 @@ const reviewContentStyle = css`
 
 const helpfulContainer = css`
   display: flex;
-  /* justify-content: flex-end; */
+  margin-top: 5px;
 `
 
 const helpfulTextStyle = css`

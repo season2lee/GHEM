@@ -7,7 +7,6 @@
 import React, { useEffect } from 'react'
 
 import { css } from '@emotion/react'
-import ChoiceDisplay from './ChoiceDisplay'
 
 type ImageHeadProps = {
   gameData: {
@@ -24,7 +23,6 @@ function ImageHead({gameData, choice}: ImageHeadProps) {
       <div css={headContainer} style={{backgroundImage: `url('https://cdn.cloudflare.steamstatic.com/steam/apps/${gameData?.appID}/library_hero.jpg')`}}>
         <div css={descContinater}>
           <h1 css={detaillHead}>{gameData?.name}</h1>
-          <ChoiceDisplay choice={choice}/>
           <p css={detailHeadParagraph}>
             {gameData?.shortDescription}
           </p>

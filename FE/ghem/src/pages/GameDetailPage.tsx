@@ -9,7 +9,6 @@ import { useParams } from 'react-router'
 import ImageHead from '../components/gamedetail/ImageHead'
 import Section from '@/components/common/Section'
 import axios from 'axios'
-import RecommendChoice from '@components/gamedetail/RecommendChoice'
 import ChatBox from '@components/gamedetail/chatbox/ChatBox'
 import { css } from '@emotion/react'
 import ReviewInput from '@components/gamedetail/review/ReviewInput'
@@ -55,8 +54,6 @@ function GameDetailPage() {
 
       <div css={container}>
         <div css={leftContainer}>
-          <RecommendChoice choice={choice} setChoice={setChoice}/>
-          <br />
           {/* 리뷰 컴포넌트 */}
           <Section>
             <div style={{width: "100%"}}>
