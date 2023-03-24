@@ -146,8 +146,8 @@ const rowScroll = css`
   display: flex;
   overflow: scroll;
   /* background-color: #584a6e; */
-  /* padding: 1rem 0rem;
-  margin: 1rem 0rem; */
+  padding: 1rem 0rem;
+  /* margin: 1rem 0rem; */
   /* 가로 스크롤 + 숨기기 */
   /* overflow: hidden; */
   white-space: nowrap;
