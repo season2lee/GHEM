@@ -8,4 +8,5 @@ public interface ReviewService {
     HttpVo checkReview(ReviewInfo reviewInfo);
     HttpVo deleteReview(Long user_game_id);
     HttpVo updateReview(ReviewInfo reviewInfo);
+    HttpVo listReview(Long user_id);
 }

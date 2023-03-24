@@ -31,6 +31,16 @@ public class ReviewController {
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
+    @GetMapping("/my/{user_id}")
+    @ApiOperation(value = "내가한 모든 평가 리스트를 주는 API",
+            notes = "user_id = 유저 고유번호",
+            response = String.class
+    )
+    public ResponseEntity<?> listReview(@PathVariable Long user_id){
+        HttpVo http = reviewService.listReview(user_id);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
+
     @GetMapping("/check")
     @ApiOperation(value = "게임의 평가 여부를 알려주는 API",
         notes = "app_id = 게임 고유번호" +
@@ -42,7 +52,7 @@ public class ReviewController {
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
-    @DeleteMapping("{user_game_id}")
+    @DeleteMapping("delete/{user_game_id}")
     @ApiOperation(value = "게임에 대한 평가를 삭제하는 API",
             response = String.class
     )

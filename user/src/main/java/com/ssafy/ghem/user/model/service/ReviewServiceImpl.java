@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -102,6 +103,23 @@ public class ReviewServiceImpl implements ReviewService {
         userGame.setRating(reviewInfo.getRating());
 
         http.setFlag(true);
+        return http;
+    }
+
+    @Override
+    @Transactional
+    public HttpVo listReview(Long user_id) {
+        HttpVo http = new HttpVo();
+        Map<String, Object> map = new HashMap<>();
+
+        User user = userCommonRepository.findById(user_id)
+                .orElseThrow(() -> new DoesNotExistData("해당하는 유저 정보가 없습니다."));
+
+        List<UserGame> userGameList = userGameCommonRepository.findByUser(user);
+        map.put("Estimate_List", userGameList);
+
+        http.setFlag(true);
+        http.setData(map);
         return http;
     }
 }
