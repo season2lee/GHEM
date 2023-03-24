@@ -1,9 +1,7 @@
 numpy
 pandas
-sklearn
+scikit-learn
 fastapi
 uvicorn
-contextlib
-operator
 pymysql
 psycopg2
