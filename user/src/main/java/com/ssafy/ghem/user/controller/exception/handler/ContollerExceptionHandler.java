@@ -25,6 +25,7 @@ public class ContollerExceptionHandler {
         map.put("errName", e.getClass().getName());
         map.put("errMessage", e.toString());
 
+        http.setData(map);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
@@ -37,6 +38,7 @@ public class ContollerExceptionHandler {
         map.put("errName", e.getClass().getName());
         map.put("errMessage", e.toString());
 
+        http.setData(map);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
