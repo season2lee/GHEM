@@ -23,8 +23,8 @@ import java.util.Set;
 
 @OpenAPIDefinition(
         servers = {
-                @io.swagger.v3.oas.annotations.servers.Server(url = "http://localhost:32000", description = "localhost"),
-                @io.swagger.v3.oas.annotations.servers.Server(url = "http://j8d107.p.ssafy.io:32000/user/", description = "ec2"),
+                @io.swagger.v3.oas.annotations.servers.Server(url = "http://192.168.49.2:32000/user", description = "localhost"),
+                @io.swagger.v3.oas.annotations.servers.Server(url = "http://j8d107.p.ssafy.io:32000/user", description = "ec2"),
         }
 )
 @Configuration
