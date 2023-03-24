@@ -14,7 +14,7 @@ function ProfileUpdatePage() {
   const navigate = useNavigate();
   const userId: string | null = localStorage.getItem("id");
   const [nickname, setNickname] = useState<string>("");
-  const [gender, setGender] = useState<string>("");
+  const [gender, setGender] = useState<number>(0);
   const [birth, setBirth] = useState<string>("");
   const [introduce, setIntroduce] = useState<string>("");
   const [profileImage, setProfileImage] = useState<string>(baseProfile);
@@ -24,9 +24,14 @@ function ProfileUpdatePage() {
 
     if (response) {
       const { user } = response;
+      console.log(user);
       // 불러온 유저 데이터로 데이터 세팅하기
       if (nickname) setNickname(user.nickname);
+      if (gender) setNickname(user.gender); // dto 확인 필요
+      if (birth) setNickname(user.birth); // dto 확인 필요
       if (introduce) setIntroduce(user.introduce);
+      // 프로필 이미지 파싱
+      setProfileImage(user.userProfile);
     }
   };
 
@@ -34,7 +39,9 @@ function ProfileUpdatePage() {
     navigate(`/profile/${userId}/gamelist`); // 임시 라우팅
   };
 
-  const handleUpdateProfile = async (): Promise<void> => {};
+  const handleUpdateProfile = async (): Promise<void> => {
+    console.log(gender);
+  };
 
   useEffect(() => {
     if (userId) {
@@ -53,7 +60,7 @@ function ProfileUpdatePage() {
         <ProfileImage size={150} src={profileImage} />
         <ProfileNickname nickname={nickname} setNickname={setNickname} />
         <div css={rowFlexWrapper}>
-          <ProfileGender />
+          <ProfileGender gender={gender} setGender={setGender} />
           <ProfileBirth birth={birth} setBirth={setBirth} />
         </div>
         <ProfileIntroduce introduce={introduce} setIntroduce={setIntroduce} />
