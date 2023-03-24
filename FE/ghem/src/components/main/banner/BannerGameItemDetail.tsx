@@ -11,10 +11,10 @@ function BannerGameItemDetail() {
 }
 
 const bannerDetail = css`
-  margin: 0rem 6rem 2rem;
-  padding: 1rem 0rem 1rem 1rem;
-  background-color: #352c42;
-  border-radius: 0px 0px 30px 30px;
+  /* margin: 0rem 6rem 2rem;
+  padding: 1rem 0rem 1rem 1rem; */
+  background-color: #584a6e;
+  /* border-radius: 0px 0px 30px 30px; */
 `;
 
 export default BannerGameItemDetail;
