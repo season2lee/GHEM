@@ -24,6 +24,7 @@ type GameDataType = {
 
 function GameDetailPage() {
   const [gameData, setGameData] = useState<GameDataType | null>(null);  // 보여질 게임에 대한 상세 정보
+  const [currentRating, setCurrentRating] = useState(0);
   const appID = useParams().appid;  // URL의 path variable로 부터 APP_ID 추출
   const env = import.meta.env;
 
@@ -47,15 +48,15 @@ function GameDetailPage() {
   return (
     <div>
       {/* 라이브러리 이미지를 가진 헤드 컴포넌트*/}
-      {gameData && <ImageHead gameData={gameData}/>}
+      {gameData && <ImageHead gameData={gameData} currentRating={currentRating} setCurrentRating={setCurrentRating} />}
 
       <div css={container}>
         <div css={leftContainer}>
           {/* 리뷰 컴포넌트 */}
           <Section>
             <div style={{width: "100%"}}>
-              <h2 style={{marginBottom: "10px"}}>리뷰</h2>
-              <ReviewInput />
+              <h2 style={{marginBottom: "20px"}}>리뷰</h2>
+              <ReviewInput isRated={currentRating !== 0}/>
               <div style={{marginTop: "30px"}}>
                 {dummyReviews.map((review, index) => {
                   return <div key={index}>

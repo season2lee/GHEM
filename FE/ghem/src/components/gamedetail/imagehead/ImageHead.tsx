@@ -14,10 +14,12 @@ type ImageHeadProps = {
     appID: string,
     name: string,
     shortDescription: string
-  } | null
+  } | null,
+  currentRating: number,
+  setCurrentRating: React.Dispatch<React.SetStateAction<number>>,
 }
 
-function ImageHead({gameData}: ImageHeadProps) {
+function ImageHead({gameData, currentRating, setCurrentRating}: ImageHeadProps) {
   if (gameData === null) {
     return (
       <div>스켈레톤...</div>
@@ -28,7 +30,7 @@ function ImageHead({gameData}: ImageHeadProps) {
         <div css={infoContainer}>
           <h1 style={{fontSize: "5rem"}}>{gameData.name}</h1>
           <p css={descContinater}>{gameData.shortDescription}</p>
-          <StarRating />
+          <StarRating currentRating={currentRating} setCurrentRating={setCurrentRating} starSize={3}  />
         </div>
       </ImageContainer>
     )
