@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useRef,useEffect } from "react";
 import { css,keyframes } from "@emotion/react";
+import useIntersectionObsever from "../../../util/hooks/useIntersectionObserver";
 
 
 function FirstContainer() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInViewport = useIntersectionObsever(ref)
+
   // setInterval(() => {
   //   const title = document.getElementById("title");
   //   const titleStyle = title?.style;
