@@ -19,7 +19,7 @@ function ProfileIntroduce({ introduce, setIntroduce }: ProfileIntroduceProps) {
 
   useEffect(() => {
     setLength(introduce.length);
-  }, []);
+  }, [introduce]);
 
   return (
     <div css={wrapper}>
