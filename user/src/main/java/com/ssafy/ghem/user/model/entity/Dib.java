@@ -1,7 +1,6 @@
 package com.ssafy.ghem.user.model.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
 
 @Entity
@@ -9,16 +8,15 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="dibs")
 public class Dib {
-    @Id @Generated
-    @Column(name = "dibs_Id")
-    private Long dibs_Id;
+    @Id @GeneratedValue
+    @Column(name = "dibs_id")
+    private Long dibs_id;
+    private Long user_id;
+    private Long app_id;
 
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "app_id")
-    private Game game;
+    @Builder
+    public Dib(Long user_id, Long app_id) {
+        this.user_id = user_id;
+        this.app_id = app_id;
+    }
 }
