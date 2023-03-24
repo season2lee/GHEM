@@ -17,12 +17,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.HashSet;
 import java.util.Set;
 
-@OpenAPIDefinition(
-        servers = {
-                @Server(url = "http://j8d107.p.ssafy.io:32000/user/", description = "ec2"),
-                @Server(url = "http://localhost:8080", description = "localhost")
-        }
-)
+//@OpenAPIDefinition(
+//        servers = {
+//                @Server(url = "http://j8d107.p.ssafy.io:32000/user/", description = "ec2"),
+//                @Server(url = "http://localhost:8080", description = "localhost")
+//        }
+//)
 @Configuration
 @EnableSwagger2
 public class SwaggerConfiguration {
