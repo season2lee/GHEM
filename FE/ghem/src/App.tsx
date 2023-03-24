@@ -24,7 +24,7 @@ function App() {
         <Route path="/*" element={<WelcomePage />} />
         <Route path="/update/profile" element={<ProfileUpdatePage />} />
         <Route path="/oauth/kakao/callback" element={<KakaoLogin />} />
-        <Route path="/oauth/naver/callback" element={<NaverLogin />} />z
+        <Route path="/oauth/naver/callback" element={<NaverLogin />} />
       </Routes>
       <Footer />
     </BrowserRouter>
