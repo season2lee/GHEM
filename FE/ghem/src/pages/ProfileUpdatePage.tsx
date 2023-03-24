@@ -2,19 +2,19 @@ import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import ProfileImage from "../components/profile/common/ProfileImage";
 import ProfileNickname from "../components/profile/update/ProfileNickname";
-import ProfileInput from "../components/profile/update/ProfileInput";
+import ProfileBirth from "../components/profile/update/ProfileBirth";
 import ProfileGender from "../components/profile/update/ProfileGender";
 import ProfileIntroduce from "../components/profile/update/ProfileIntroduce";
 import { useNavigate } from "react-router-dom";
 import { mobile } from "@/util/Mixin";
-import { getUserProfile, putUserProfile } from "@/api/user";
+import { getUserProfile, putUserProfile, userInfoType } from "@/api/user";
 import baseProfile from "../assets/image/baseProfile.png";
 
 function ProfileUpdatePage() {
   const navigate = useNavigate();
-  const userId: string | null = localStorage.getItem("id");
+  const userId: number | null = Number(localStorage.getItem("id"));
   const [nickname, setNickname] = useState<string>("");
-  const [gender, setGender] = useState<string>("");
+  const [gender, setGender] = useState<number>(0);
   const [birth, setBirth] = useState<string>("");
   const [introduce, setIntroduce] = useState<string>("");
   const [profileImage, setProfileImage] = useState<string>(baseProfile);
@@ -24,26 +24,44 @@ function ProfileUpdatePage() {
 
     if (response) {
       const { user } = response;
-      // 불러온 유저 데이터로 데이터 세팅하기
-      if (nickname) setNickname(user.nickname);
-      if (introduce) setIntroduce(user.introduce);
+
+      if (user.nickname) setNickname(user.nickname);
+      if (user.gender) setGender(user.gender);
+      if (user.birth) setBirth(user.birth);
+      if (user.introduce) setIntroduce(user.introduce);
+      setProfileImage(user.userProfile.substr(1, user.userProfile.length - 2));
     }
   };
 
   const handleCancelUpdateProfile = (): void => {
-    navigate(`/profile/${userId}/gamelist`); // 임시 라우팅
+    navigate(`/profile/${userId}/gamelist`);
   };
 
-  const handleUpdateProfile = async (): Promise<void> => {};
+  const handleUpdateProfile = async (): Promise<void> => {
+    if (userId) {
+      const changedUserInfo: userInfoType = {
+        user_id: userId,
+        nickname: nickname,
+        gender: gender,
+        birth: birth,
+        introduce: introduce,
+      };
+
+      const response = await putUserProfile(changedUserInfo);
+      if (response) {
+        navigate(`/profile/${userId}/gamelist`);
+      }
+    }
+  };
 
   useEffect(() => {
     if (userId) {
-      const id: number = Number(userId);
-      getUserProfileFunc(id);
+      getUserProfileFunc(userId);
     }
-    // else {
-    //   window.location.href = "/login";
-    // }
+    // 비로그인 유저는 로그인 페이지로 이동
+    else {
+      navigate("/login");
+    }
   }, []);
 
   return (
@@ -53,8 +71,8 @@ function ProfileUpdatePage() {
         <ProfileImage size={150} src={profileImage} />
         <ProfileNickname nickname={nickname} setNickname={setNickname} />
         <div css={rowFlexWrapper}>
-          <ProfileGender />
-          <ProfileInput header="생년월일" />
+          <ProfileGender gender={gender} setGender={setGender} />
+          <ProfileBirth birth={birth} setBirth={setBirth} />
         </div>
         <ProfileIntroduce introduce={introduce} setIntroduce={setIntroduce} />
         <div css={buttonWrapper}>

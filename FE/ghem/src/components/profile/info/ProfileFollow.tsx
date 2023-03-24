@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import FollowModal from "./../follow/FollowModal";
-import { mobile } from "@/util/Mixin";
 
-function ProfileFollow() {
+type ProfileFollowProps = {};
+
+function ProfileFollow({}: ProfileFollowProps) {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [followType, setFollowType] = useState<string>("");
 
