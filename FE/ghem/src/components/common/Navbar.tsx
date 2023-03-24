@@ -1,8 +1,17 @@
 import { css } from "@emotion/react";
-import React from "react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+  const userId: number | null = Number(localStorage.getItem("id"));
+
+  const moveToMyProfile = () => {
+    if (userId) {
+      navigate(`/profile/${userId}/gamelist`);
+    }
+  };
+
   return (
     <div css={navbar}>
       <NavLink to="/" css={title}>
@@ -10,7 +19,7 @@ function Navbar() {
       </NavLink>
       <div>
         <NavLink to="/main">main</NavLink>
-        <NavLink to="/profile/1/gamelist">profile</NavLink>
+        <span onClick={moveToMyProfile}>profile</span>
         <NavLink to="/login">login</NavLink>
       </div>
     </div>
@@ -27,6 +36,9 @@ const navbar = css`
   width: 100%;
   div {
     padding: 1rem;
+  }
+  > div > span {
+    cursor: pointer;
   }
   a {
     color: #f1eff4;
