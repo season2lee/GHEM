@@ -41,5 +41,15 @@ public class ContentController {
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
+    @PutMapping("/modify")
+    @ApiOperation(value = "해당 게임의 작성된 모든 리뷰 글을 수정하는 API",
+            notes = "app_id = 게임 고유번호" +
+                    "user_id = 유저 고유번호" +
+                    "content = 수정하려는 글",
+            response = String.class)
+    public ResponseEntity<?> updateContent(@RequestBody ContentInfo contentInfo){
+        HttpVo http = contentService.updateContent(contentInfo);//contentService.listContent(app_id);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
 
 }
