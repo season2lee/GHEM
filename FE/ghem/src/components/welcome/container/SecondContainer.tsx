@@ -1,9 +1,8 @@
 import React, { useRef } from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import useIntersectionObsever from "../hooks/useIntersectionObserver";
+import useIntersectionObsever from "../../../util/hooks/useIntersectionObserver";
 import steamLogo from "../../../assets/image/steamLogo.png";
-import MouseGeo from "../common/MouseGeo";
 
 // type SecondContainer = {
 //   position:number
@@ -120,10 +119,8 @@ const text = css`
 `;
 
 const logo = css`
-  z-index: 100;
   filter: invert(100%) sepia(1%) saturate(2%) hue-rotate(221deg)
     brightness(101%) contrast(101%);
-  position: absolute;
 `;
 
 
