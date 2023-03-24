@@ -76,6 +76,7 @@ public class ContentServiceImpl implements ContentService{
     }
 
     @Override
+    @Transactional
     public HttpVo updateContent(ContentInfo contentInfo) {
         HttpVo http = new HttpVo();
         Map<String, Object> map = new HashMap<>();
