@@ -1,6 +1,7 @@
 package com.ssafy.ghem.user.config;
 
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -20,18 +21,18 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.HashSet;
 import java.util.Set;
 
-//@OpenAPIDefinition(
-//        servers = {
-//                @Server(url = "http://j8d107.p.ssafy.io:32000/user/", description = "ec2"),
-//                @Server(url = "http://localhost:8080", description = "localhost")
-//        }
-//)
+@OpenAPIDefinition(
+        servers = {
+                @io.swagger.v3.oas.annotations.servers.Server(url = "http://localhost:32000", description = "localhost"),
+                @io.swagger.v3.oas.annotations.servers.Server(url = "http://j8d107.p.ssafy.io:32000/user/", description = "ec2"),
+        }
+)
 @Configuration
 @EnableSwagger2
 public class SwaggerConfiguration {
     @Bean
     public OpenAPI customOpenAPI() {
-        return new OpenAPI().addServersItem(new Server().url("/"))
+        return new OpenAPI().addServersItem(new Server().url("http://j8d107.p.ssafy.io:32000/user"))
                 .components(new Components().addSecuritySchemes("basicScheme",
                         new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic")))
                 .info(new Info().title("SpringShop API").version("V0")
