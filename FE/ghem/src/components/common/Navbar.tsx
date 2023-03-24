@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import React from "react";
+import { useState, useEffect } from "react";
 import logoTitle from "../../assets/image/for_logo.png";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -7,12 +7,25 @@ import { useNavigate } from "react-router-dom";
 function Navbar() {
   const navigate = useNavigate();
   const userId: number | null = Number(localStorage.getItem("id"));
+  const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
 
   const moveToMyProfile = () => {
     if (userId) {
       navigate(`/profile/${userId}/gamelist`);
     }
   };
+
+  const handleLogOut = () => {
+    localStorage.clear();
+    setIsLoginStatus(false);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    if (userId) {
+      setIsLoginStatus(true);
+    }
+  }, [userId]);
 
   return (
     <div css={navbar}>
@@ -21,11 +34,13 @@ function Navbar() {
       </NavLink>
       <div>
         <NavLink to="/main">main</NavLink>
-        <span onClick={moveToMyProfile}>profile</span>
-        <NavLink to="/login">login</NavLink>
-        <NavLink to="/logout" id="logout">
-          logout
-        </NavLink>
+        {isLoginStatus && <span onClick={moveToMyProfile}>profile</span>}
+        {!isLoginStatus && <NavLink to="/login">login</NavLink>}
+        {isLoginStatus && (
+          <span id="logout" onClick={handleLogOut}>
+            logout
+          </span>
+        )}
       </div>
     </div>
   );
@@ -45,7 +60,8 @@ const navbar = css`
   > div > span {
     cursor: pointer;
   }
-  a {
+  a,
+  span {
     color: #f1eff4;
     margin: 0rem 1rem;
   }
