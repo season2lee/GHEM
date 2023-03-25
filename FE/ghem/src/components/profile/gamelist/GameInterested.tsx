@@ -54,10 +54,12 @@ function GameInterested() {
       review: "이 게임 진짜 재밌어요",
     },
   ]);
+  const [isDragMove, setIsDragMove] = useState<boolean>(false);
 
   const handleDragStart = (e: React.MouseEvent) => {
     setIsDrag(true);
     setStartX(e.pageX);
+    setIsDragMove(false);
   };
 
   const handleDragEnd = () => {
@@ -71,11 +73,8 @@ function GameInterested() {
         scrollElement.scrollLeft += startX - e.pageX;
       }
       setStartX(e.pageX);
+      setIsDragMove(true);
     }
-  };
-
-  const handleDragLeave = () => {
-    setIsDrag(false);
   };
 
   return (
@@ -89,10 +88,9 @@ function GameInterested() {
         onMouseDown={handleDragStart}
         onMouseMove={handleDragMove}
         onMouseUp={handleDragEnd}
-        onMouseLeave={handleDragLeave}
       >
         {gameList.map((game, idx) => (
-          <GameCard key={idx} game={game} path="interest" />
+          <GameCard key={idx} game={game} path="interest" isDragMove={isDragMove} />
         ))}
       </div>
     </div>
