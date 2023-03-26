@@ -10,12 +10,14 @@ import StarBackground from "./components/common/StarBackground";
 import ProfileUpdatePage from "@/pages/ProfileUpdatePage";
 import KakaoLogin from "@components/login/KakaoLogin";
 import NaverLogin from "@components/login/NaverLogin";
+import ScrollToTop from "./util/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <StarBackground />
+      <ScrollToTop />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/detail/:appid" element={<GameDetailPage />} />
