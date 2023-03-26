@@ -7,7 +7,7 @@ import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.respository.common.GameCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.individual.DibsIndividualRepository;
-import com.ssafy.ghem.user.model.vo.DibsInfo;
+import com.ssafy.ghem.user.model.vo.DibsVO;
 import com.ssafy.ghem.user.model.vo.HttpVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class DibsServiceImpl implements DibsService{
     private final DibsIndividualRepository dibsIndividualRepository;
 
     @Override
-    public HttpVo doDibs(DibsInfo dibsInfo) {
+    public HttpVo doDibs(DibsVO dibsInfo) {
         HttpVo http = new HttpVo();
 
         User user = getUser(dibsInfo.getUserId());
@@ -70,9 +70,9 @@ public class DibsServiceImpl implements DibsService{
         User user = getUser(user_id);
 
         List<Dib> dibs = dibsIndividualRepository.getListByAppId(user_id);
-        List<DibsInfo> dibsInfos = new ArrayList();
+        List<DibsVO> dibsInfos = new ArrayList();
         for(Dib dib : dibs){
-            dibsInfos.add(new DibsInfo(dib.getDibs_id(),
+            dibsInfos.add(new DibsVO(dib.getDibs_id(),
                     dib.getApp_id(),
                     dib.getUser_id(),
                     getGame(dib.getApp_id())));

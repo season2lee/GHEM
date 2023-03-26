@@ -8,8 +8,7 @@ import com.ssafy.ghem.user.model.respository.common.GameCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserGameCommonRepository;
 import com.ssafy.ghem.user.model.vo.HttpVo;
-import com.ssafy.ghem.user.model.vo.ReviewInfo;
-import lombok.Builder;
+import com.ssafy.ghem.user.model.vo.ReviewVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public HttpVo doReview(ReviewInfo reviewInfo) {
+    public HttpVo doReview(ReviewVO reviewInfo) {
         HttpVo http = new HttpVo();
 
         User user = userCommonRepository.findById(reviewInfo.getUser_id())
@@ -53,7 +52,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public HttpVo checkReview(ReviewInfo reviewInfo) {
+    public HttpVo checkReview(ReviewVO reviewInfo) {
         HttpVo http = new HttpVo();
         Map<String, Object> map = new HashMap<>();
 
@@ -94,7 +93,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public HttpVo updateReview(ReviewInfo reviewInfo) {
+    public HttpVo updateReview(ReviewVO reviewInfo) {
         HttpVo http = new HttpVo();
 
         UserGame userGame = userGameCommonRepository.findById(reviewInfo.getUser_game_id())

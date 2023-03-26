@@ -9,7 +9,7 @@ import com.ssafy.ghem.user.model.respository.common.GameCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.GameReviewCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserGameCommonRepository;
-import com.ssafy.ghem.user.model.vo.ContentInfo;
+import com.ssafy.ghem.user.model.vo.ContentVO;
 import com.ssafy.ghem.user.model.vo.HttpVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class ContentServiceImpl implements ContentService{
 
     @Override
     @Transactional
-    public HttpVo writeContent(ContentInfo contentInfo) {
+    public HttpVo writeContent(ContentVO contentInfo) {
         HttpVo http = new HttpVo();
         Map<String, Object> map = new HashMap<>();
 
@@ -77,7 +77,7 @@ public class ContentServiceImpl implements ContentService{
 
     @Override
     @Transactional
-    public HttpVo updateContent(ContentInfo contentInfo) {
+    public HttpVo updateContent(ContentVO contentInfo) {
         HttpVo http = new HttpVo();
         Map<String, Object> map = new HashMap<>();
 

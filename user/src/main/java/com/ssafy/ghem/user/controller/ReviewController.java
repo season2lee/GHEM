@@ -2,10 +2,8 @@ package com.ssafy.ghem.user.controller;
 
 import com.ssafy.ghem.user.model.service.ReviewService;
 import com.ssafy.ghem.user.model.vo.HttpVo;
-import com.ssafy.ghem.user.model.vo.ReviewInfo;
-import com.ssafy.ghem.user.model.vo.UserInfo;
+import com.ssafy.ghem.user.model.vo.ReviewVO;
 import io.swagger.annotations.ApiOperation;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,7 +24,7 @@ public class ReviewController {
                     "user_id = 유저 고유번호(카카오, 네이버 고유번호 아님)\n" +
                     "rating = 점수",
             response = String.class)
-    public ResponseEntity<?> doReview(@RequestBody ReviewInfo reviewInfo){
+    public ResponseEntity<?> doReview(@RequestBody ReviewVO reviewInfo){
         HttpVo http = reviewService.doReview(reviewInfo);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
@@ -47,7 +45,7 @@ public class ReviewController {
                 "user_id = 유저 고유번호",
             response = String.class
     )
-    public ResponseEntity<?> checkReview(ReviewInfo reviewInfo){
+    public ResponseEntity<?> checkReview(ReviewVO reviewInfo){
         HttpVo http = reviewService.checkReview(reviewInfo);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
@@ -67,7 +65,7 @@ public class ReviewController {
                     "rating = 수정하고자 하는 평가 점수",
             response = String.class
     )
-    public ResponseEntity<?> updateReview(@RequestBody ReviewInfo reviewInfo){
+    public ResponseEntity<?> updateReview(@RequestBody ReviewVO reviewInfo){
         HttpVo http = reviewService.updateReview(reviewInfo);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }

@@ -1,12 +1,12 @@
 package com.ssafy.ghem.user.model.service;
 
 import com.ssafy.ghem.user.model.vo.HttpVo;
-import com.ssafy.ghem.user.model.vo.SteamUser;
-import com.ssafy.ghem.user.model.vo.UserInfo;
+import com.ssafy.ghem.user.model.vo.SteamUserVO;
+import com.ssafy.ghem.user.model.vo.UserVO;
 
 public interface UserService {
-    HttpVo updateUserInfo(UserInfo userInfo);
-    HttpVo updateSteamId(SteamUser steamUser);
+    HttpVo updateUserInfo(UserVO userInfo);
+    HttpVo updateSteamId(SteamUserVO steamUser);
     HttpVo checkNickname(String nickname);
     HttpVo getUserDetail(Long user_id);
 }
