@@ -1,8 +1,7 @@
 package com.ssafy.ghem.user.controller;
 
 import com.ssafy.ghem.user.model.service.DibsService;
-import com.ssafy.ghem.user.model.vo.ContentInfo;
-import com.ssafy.ghem.user.model.vo.DibsInfo;
+import com.ssafy.ghem.user.model.vo.DibsVO;
 import com.ssafy.ghem.user.model.vo.HttpVo;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class DibsController {
             notes = "app_id = (게임 고유번호)\n" +
                     "user_id = 유저 고유번호(카카오, 네이버 고유번호 아님)\n",
             response = String.class)
-    public ResponseEntity<?> doDibs(@RequestBody DibsInfo dibsInfo){
+    public ResponseEntity<?> doDibs(@RequestBody DibsVO dibsInfo){
         HttpVo http = dibsService.doDibs(dibsInfo);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }

@@ -2,16 +2,14 @@ package com.ssafy.ghem.user.controller;
 
 import com.ssafy.ghem.user.model.service.UserService;
 import com.ssafy.ghem.user.model.vo.HttpVo;
-import com.ssafy.ghem.user.model.vo.SteamUser;
-import com.ssafy.ghem.user.model.vo.UserInfo;
+import com.ssafy.ghem.user.model.vo.SteamUserVO;
+import com.ssafy.ghem.user.model.vo.UserVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.xml.ws.RequestWrapper;
 
 @Slf4j
 @RestController
@@ -29,7 +27,7 @@ public class UserController {
                     "birth :  설정하고자 하는 생일" +
                     "#은 꼭 막아주세요!!!!",
             response = String.class)
-    public ResponseEntity<?> updateUserInfo(@RequestBody UserInfo userInfo){
+    public ResponseEntity<?> updateUserInfo(@RequestBody UserVO userInfo){
         HttpVo http = userService.updateUserInfo(userInfo);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
@@ -58,7 +56,7 @@ public class UserController {
             "ID에 특수기호를 삽입하지 못하도록 해주세요!!!",
             notes = "",
             response = String.class)
-    public ResponseEntity<?> updateSteamId(@RequestBody SteamUser steamUser){
+    public ResponseEntity<?> updateSteamId(@RequestBody SteamUserVO steamUser){
         HttpVo http = userService.updateSteamId(steamUser);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
