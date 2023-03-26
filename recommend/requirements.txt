@@ -3,5 +3,5 @@ pandas
 scikit-learn
 fastapi
 uvicorn
-pymysql
-psycopg2
+aiomysql
+asyncpg

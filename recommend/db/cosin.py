@@ -1,87 +1,145 @@
-import operator
-import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+from surprise import Dataset, Reader
+from scipy.spatial.distance import cosine
+from concurrent.futures import ThreadPoolExecutor
+
+def convert(data):
+    if isinstance(data, (np.int64, np.int32)):
+        return int(data)
+    elif isinstance(data, (np.float64, np.float32)):
+        return float(data)
+    elif isinstance(data, list):
+        return [convert(item) for item in data]
+    elif isinstance(data, dict):
+        return {key: convert(value) for key, value in data.items()}
+    else:
+        return data
+
+def update_svd_model(new_data, model):
+    reader = Reader(rating_scale=(1, 5))
+    new_data_surprise = Dataset.load_from_df(new_data, reader)
+    new_trainset = new_data_surprise.build_full_trainset()
+    model.fit(new_trainset)
+
+#아이템과 비슷한 아이템 추천------------------------------------------------------------------------------------------------------------------------------------
+
+def calculate_similarity_app(item_embedding, other_embedding):
+    return 1 - cosine(item_embedding, other_embedding)
+
+def get_similar_games(item_id, model, trainset, gameinfo, n_similar_items=10, n_workers=4):
+    item_factors = model.qi
+    item_inner_id = trainset.to_inner_iid(item_id)
+    item_embedding = item_factors[item_inner_id]
+
+    item_similarities = []
+
+    with ThreadPoolExecutor(max_workers=n_workers) as executor:
+        similarity_futures = []
+        
+        for inner_id, other_embedding in enumerate(item_factors):
+            if inner_id == item_inner_id:
+                continue
+            future = executor.submit(calculate_similarity_app, item_embedding, other_embedding)
+            similarity_futures.append((inner_id, future))
+        
+        for inner_id, future in similarity_futures:
+            similarity = future.result()
+            item_similarities.append((trainset.to_raw_iid(inner_id), similarity))
+
+    item_similarities.sort(key=lambda x: x[1], reverse=True)
+
+    item_similarities = item_similarities[:n_similar_items]
+
+    recommendations = []
+    for item, r in item_similarities:
+        title = gameinfo.loc[gameinfo['app_id'] == item, 'title'].values[0]
+        genre = gameinfo.loc[gameinfo['app_id'] == item, 'genre'].values[0]
+        release_date = gameinfo.loc[gameinfo['app_id'] == item, 'release_date'].values[0]
+        rating = gameinfo.loc[gameinfo['app_id'] == item, 'rating'].values[0]
+        rating_desc = gameinfo.loc[gameinfo['app_id'] == item, 'rating_desc'].values[0]
+        positive = gameinfo.loc[gameinfo['app_id'] == item, 'positive_reviews'].values[0]
+        negative = gameinfo.loc[gameinfo['app_id'] == item, 'negative_reviews'].values[0]
+        recommendations.append({
+            'app_id': item,
+            'title': title,
+            'genre': genre,
+            'release_date': release_date,
+            'rating': rating,
+            'rating_desc': rating_desc,
+            'positive_reviews': positive,
+            'negative_reviews': negative
+        })
 
 
-# 비슷한 성향의 유저 찾기 - 코사인 유사도
-def similar_steamids(steam_id, matrix, k=10):
-    # 현재 유저에 대한 데이터프레임 만들기
-    # matrix의 index = steamid -> 현재 1명 유저에 대한 평가 정보 찾기
-    user = matrix[matrix.index == steam_id]
+    return convert(recommendations)
+
+#유저와 비슷한 유저 추천------------------------------------------------------------------------------------------------------------------------------------
+def calculate_similarity_user(user_embedding, other_embedding):
+    return 1 - cosine(user_embedding, other_embedding)
+
+def get_similar_users(steam_id, model, trainset, userinfo, n_similar_users=10, n_workers=4):
+    user_factors = model.pu
+    user_inner_id = trainset.to_inner_uid(steam_id)
+    user_embedding = user_factors[user_inner_id]
+
+    user_similarities = []
+
+    with ThreadPoolExecutor(max_workers=n_workers) as executor:
+        similarity_futures = []
+        
+        for inner_id, other_embedding in enumerate(user_factors):
+            if inner_id == user_inner_id:
+                continue
+            future = executor.submit(calculate_similarity_user, user_embedding, other_embedding)
+            similarity_futures.append((inner_id, future))
+        
+        for inner_id, future in similarity_futures:
+            similarity = future.result()
+            user_similarities.append((trainset.to_raw_uid(inner_id), similarity))
+
+    user_similarities.sort(key=lambda x: x[1], reverse=True)
+    user_similarities = user_similarities[:n_similar_users]
+     # 유저 추가 정보
+    top_similar_items_with_titles = []
+    for item, similarity in user_similarities:
+        nickname = userinfo.loc[userinfo['steam_id'] == item, 'nickname'].values[0]
+        user_profile = userinfo.loc[userinfo['steam_id'] == item, 'user_profile'].values[0]
+        top_similar_items_with_titles.append({
+            'steam_id': item,
+            'nickname': nickname,
+            'user_profile': user_profile,
+        })
+        
+    return convert(top_similar_items_with_titles)
+
+#유저에게 아이템 추천 ------------------------------------------------------------------------------------------------------------------------------------
+
+def recommend_games(steam_id, model, data, gameinfo, start = 0, end = 10):
+    unique_items = data["app_id"].unique()
+    user_item_ratings = [(steam_id, item, model.predict(steam_id, item).est) for item in unique_items]
+    user_item_ratings.sort(key=lambda x: x[2], reverse=True)
+
+    recomm = user_item_ratings[start:end]
+
+    # 아이템 제목 추가
+    recommendations = []
+    for user, item, r in recomm:
+        title = gameinfo.loc[gameinfo['app_id'] == item, 'title'].values[0]
+        genre = gameinfo.loc[gameinfo['app_id'] == item, 'genre'].values[0]
+        release_date = gameinfo.loc[gameinfo['app_id'] == item, 'release_date'].values[0]
+        rating = gameinfo.loc[gameinfo['app_id'] == item, 'rating'].values[0]
+        rating_desc = gameinfo.loc[gameinfo['app_id'] == item, 'rating_desc'].values[0]
+        positive = gameinfo.loc[gameinfo['app_id'] == item, 'positive_reviews'].values[0]
+        negative = gameinfo.loc[gameinfo['app_id'] == item, 'negative_reviews'].values[0]
+        recommendations.append({
+            'app_id': item,
+            'title': title,
+            'genre': genre,
+            'release_date': release_date,
+            'rating': rating,
+            'rating_desc': rating_desc,
+            'positive_reviews': positive,
+            'negative_reviews': negative
+        })
     
-    # matrix index 값이 steamid 다른가?
-    # 일치하지 않는 값들은 other_users
-    other_users = matrix[matrix.index != steam_id]
-    
-    # 대상 user, 다른 유저와의 cosine 유사도 계산 
-    # list 변환
-    similarities = cosine_similarity(user,other_users)[0].tolist()
-    
-    # 다른 사용자의 인덱스 목록 생성
-    other_users_list = other_users.index.tolist()
-    
-    # 인덱스/유사도로 이뤄진 딕셔너리 생성
-    # dict(zip()) -> {'other_users_list1': similarities, 'other_users_list2': similarities}
-    user_similarity = dict(zip(other_users_list, similarities))
-    
-    # 딕셔너리 정렬
-    # key=operator.itemgetter(1) -> 오름차순 정렬 -> reverse -> 내림차순
-    user_similarity_sorted = sorted(user_similarity.items(), key=operator.itemgetter(1))
-    user_similarity_sorted.reverse()
-    
-    # 가장 높은 유사도 k개 정렬하기
-    top_users_similarities = user_similarity_sorted[:k]
-    users = [i[0] for i in top_users_similarities]
-    
-    return users
-
-# 콘텐츠 추천하기 - 코사인 유사도
-def recommend_item(user_index, similar_user_indices, matrix, gameinfo,items=10):
-    # 유저와 비슷한 유저 가져오기
-    similar_users = matrix[matrix.index.isin(similar_user_indices)]
-    # 비슷한 유저 평균 계산 # row 계산
-    similar_users = similar_users.mean(axis=0)
-    # dataframe 변환 : 정렬/필터링 용이
-    similar_users_df = pd.DataFrame(similar_users, columns=['similarity'])
-
-    # 현재 사용자의 벡터 가져오기 : matrix = rating_matrix(pivot table)
-    user_df = matrix[matrix.index == user_index]
-
-    # 현재 사용자의 평가 데이터 정렬
-    user_df_transposed = user_df.transpose()
-
-    # 컬럼명 변경 48432 -> rating
-    user_df_transposed.columns = ['rating']
-
-    # 미시청 콘텐츠는 rating 0로 바꾸어 준다. remove any rows without a 0 value. Anime not watched yet
-    user_df_transposed = user_df_transposed[user_df_transposed['rating']==0]
-
-    # 하지 않은 콘텐츠 목록리스트 만들기
-    games_unplay = user_df_transposed.index.tolist()
-
-    # 안본 콘텐츠 필터링
-    similar_users_df_filtered = similar_users_df[similar_users_df.index.isin(games_unplay)]
-
-    # 평균값을 기준으로 내림차순 정렬
-    similar_users_df_ordered = similar_users_df_filtered.sort_values(by=['similarity'], ascending=False)
-
-    # 상위 10개 값 가져오기
-    # items = 10
-    top_n_game = similar_users_df_ordered.head(items)
-    top_n_game_indices = top_n_game.index.tolist()
-
-    # game dataframe에서 top10값 찾기
-    game_information = gameinfo[gameinfo['app_id'].isin(top_n_game_indices)]
-    
-    return game_information #items
-
-# 특정게임과 상관계수가 높은 게임 목록
-def similar_game_recomm(appids, app_id, corr):
-    appids_list = list(appids)
-    coffey_hands = appids_list.index(app_id)
-
-    corr_coffey_hands = corr[coffey_hands]
-    return list(appids[(corr_coffey_hands >= 0.9)])[:10]
-
-
-
+    return convert(recommendations)
