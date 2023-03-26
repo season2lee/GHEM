@@ -14,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -30,8 +32,8 @@ public class DibsServiceImpl implements DibsService{
     public HttpVo doDibs(DibsInfo dibsInfo) {
         HttpVo http = new HttpVo();
 
-        User user = getUser(dibsInfo);
-        Game game = getGame(dibsInfo);
+        User user = getUser(dibsInfo.getUserId());
+        Game game = getGame(dibsInfo.getAppId());
 
         Dib dib = Dib.builder()
                 .app_id(game.getAppId())
@@ -49,6 +51,9 @@ public class DibsServiceImpl implements DibsService{
         HttpVo http = new HttpVo();
         Map<String, Object> map = new HashMap<>();
 
+        User user = getUser(user_id);
+        Game game = getGame(app_id);
+
         Dib dib = dibsIndividualRepository.getByAppIdAndUserId(app_id, user_id);
         map.put("Dib", dib);
 
@@ -57,17 +62,50 @@ public class DibsServiceImpl implements DibsService{
         return http;
     }
 
+    @Override
+    public HttpVo listDibGame(Long user_id) {
+        HttpVo http = new HttpVo();
+        Map<String, Object> map = new HashMap<>();
+
+        User user = getUser(user_id);
+
+        List<Dib> dibs = dibsIndividualRepository.getListByAppId(user_id);
+        List<DibsInfo> dibsInfos = new ArrayList();
+        for(Dib dib : dibs){
+            dibsInfos.add(new DibsInfo(dib.getDibs_id(),
+                    dib.getApp_id(),
+                    dib.getUser_id(),
+                    getGame(dib.getApp_id())));
+        }
+
+        map.put("Dibs_List", dibsInfos);
+        http.setData(map);
+        http.setFlag(true);
+        return http;
+    }
+
+    @Override
+    public HttpVo deleteDibs(Long dibs_id) {
+        HttpVo http = new HttpVo();
+        Map<String, Object> map = new HashMap<>();
+
+        dibsIndividualRepository.deleteById(dibs_id);
+
+        http.setFlag(true);
+        return http;
+    }
+
     @Transactional
-    public User getUser(DibsInfo dibsInfo){
-        User user = userCommonRepository.findById(dibsInfo.getUserId())
+    public User getUser(Long user_id){
+        User user = userCommonRepository.findById(user_id)
                 .orElseThrow(() -> new DoesNotExistData("해당하는 유저가 없습니다."));
 
         return user;
     }
 
     @Transactional
-    public Game getGame(DibsInfo dibsInfo){
-        Game game = gameCommonRepository.findById(dibsInfo.getAppId())
+    public Game getGame(Long app_id){
+        Game game = gameCommonRepository.findById(app_id)
                 .orElseThrow(() -> new DoesNotExistData("해당하는 유저가 없습니다."));
 
         return game;
