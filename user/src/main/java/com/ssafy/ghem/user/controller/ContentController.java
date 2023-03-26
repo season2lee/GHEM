@@ -1,7 +1,7 @@
 package com.ssafy.ghem.user.controller;
 
 import com.ssafy.ghem.user.model.service.ContentService;
-import com.ssafy.ghem.user.model.vo.ContentInfo;
+import com.ssafy.ghem.user.model.vo.ContentVO;
 import com.ssafy.ghem.user.model.vo.HttpVo;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class ContentController {
                     "content = 리뷰 글\n" +
                     "date = 현재 날짜",
             response = String.class)
-    public ResponseEntity<?> writeContent(@RequestBody ContentInfo contentInfo){
+    public ResponseEntity<?> writeContent(@RequestBody ContentVO contentInfo){
         HttpVo http = contentService.writeContent(contentInfo);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
@@ -46,7 +46,7 @@ public class ContentController {
                     "user_id = 유저 고유번호" +
                     "content = 수정하려는 글",
             response = String.class)
-    public ResponseEntity<?> updateContent(@RequestBody ContentInfo contentInfo){
+    public ResponseEntity<?> updateContent(@RequestBody ContentVO contentInfo){
         HttpVo http = contentService.updateContent(contentInfo);//contentService.listContent(app_id);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }

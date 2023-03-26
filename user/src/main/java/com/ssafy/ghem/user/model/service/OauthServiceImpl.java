@@ -6,7 +6,7 @@ import com.ssafy.ghem.user.controller.exception.NoModify;
 import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.vo.HttpVo;
-import com.ssafy.ghem.user.model.vo.UserInfo;
+import com.ssafy.ghem.user.model.vo.UserVO;
 import com.ssafy.ghem.user.tool.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class OauthServiceImpl implements OauthService {
         String token = getAccessToken(code);
         log.info("token: " + token);
 
-        UserInfo userInfo = getKakaoUserInfo(token);
+        UserVO userInfo = getKakaoUserInfo(token);
         log.info("UserInfo: " + userInfo);
 
 
@@ -111,7 +111,7 @@ public class OauthServiceImpl implements OauthService {
         return jsonNode.get("access_token").asText();
     }
 
-    public UserInfo getKakaoUserInfo(String accessToken) {
+    public UserVO getKakaoUserInfo(String accessToken) {
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
@@ -144,7 +144,7 @@ public class OauthServiceImpl implements OauthService {
         String id = jsonNode.get("id").toString();
         String profile = jsonNode.get("kakao_account").get("profile").get("profile_image_url").toString();
 
-        return UserInfo.builder()
+        return UserVO.builder()
                 .id(id)
                 .userProfile(profile)
                 .build();

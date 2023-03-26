@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.rmi.AlreadyBoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import java.util.Map;
 public class ContollerExceptionHandler {
 
     @ExceptionHandler(NoModify.class)
-    public ResponseEntity<?> NoModify(Exception e){
+    public ResponseEntity<?> noModify(Exception e){
         HttpVo http = new HttpVo();
         Map<String, String> map = new HashMap<>();
         log.error("error ", e.getClass().getName());
@@ -30,7 +31,7 @@ public class ContollerExceptionHandler {
     }
 
     @ExceptionHandler(DoesNotExistData.class)
-    public ResponseEntity<?> DoesNotExistData(Exception e){
+    public ResponseEntity<?> doesNotExistData(Exception e){
         HttpVo http = new HttpVo();
         Map<String, String> map = new HashMap<>();
         log.error("error ", e.getClass().getName());
@@ -42,4 +43,16 @@ public class ContollerExceptionHandler {
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
+    @ExceptionHandler(AlreadyBoundException.class)
+    public ResponseEntity<?> alreadyBoundException(Exception e){
+        HttpVo http = new HttpVo();
+        Map<String, String> map = new HashMap<>();
+        log.error("error ", e.getClass().getName());
+
+        map.put("errName", e.getClass().getName());
+        map.put("errMessage", e.toString());
+
+        http.setData(map);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
 }

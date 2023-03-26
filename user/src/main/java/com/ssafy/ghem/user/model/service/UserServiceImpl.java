@@ -4,8 +4,8 @@ import com.ssafy.ghem.user.controller.exception.NoModify;
 import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.vo.HttpVo;
-import com.ssafy.ghem.user.model.vo.SteamUser;
-import com.ssafy.ghem.user.model.vo.UserInfo;
+import com.ssafy.ghem.user.model.vo.SteamUserVO;
+import com.ssafy.ghem.user.model.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public HttpVo updateUserInfo(UserInfo userInfo) {
+    public HttpVo updateUserInfo(UserVO userInfo) {
         HttpVo http = new HttpVo();
         Map<String, Object> map = new HashMap<>();
 
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public HttpVo updateSteamId(SteamUser steamUser) {
+    public HttpVo updateSteamId(SteamUserVO steamUser) {
         HttpVo http = new HttpVo();
 
         http.setFlag(true);

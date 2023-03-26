@@ -3,7 +3,7 @@ package com.ssafy.ghem.user.model.vo;
 import lombok.Data;
 
 @Data
-public class ContentInfo {
+public class ContentVO {
     Long review_id;
     Long user_id;
     Long app_id;
