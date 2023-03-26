@@ -40,6 +40,22 @@ public class DibsController {
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
-    
+    @GetMapping("/my/{user_id}")
+    @ApiOperation(value = "유저가 찜한 모든 게임 목록을 보여주는 API",
+    notes = "user_id = 유저 고유번호",
+    response = String.class)
+    public ResponseEntity<?> listDibGames(@PathVariable Long user_id){
+        HttpVo http = dibsService.listDibGame(user_id);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
 
+    @DeleteMapping("/delete/{dibs_id}")
+    @ApiOperation(value = "찜을 해제하는 API",
+            notes = "app_id = 게임 고유번호\n" +
+                    "user_id = 유저 고유번호",
+            response = String.class)
+    public ResponseEntity<?> deleteDibs(@PathVariable Long dibs_id ){
+        HttpVo http = dibsService.deleteDibs(dibs_id);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
 }
