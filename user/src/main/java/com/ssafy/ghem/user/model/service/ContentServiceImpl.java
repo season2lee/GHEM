@@ -11,8 +11,11 @@ import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserGameCommonRepository;
 import com.ssafy.ghem.user.model.vo.ContentVO;
 import com.ssafy.ghem.user.model.vo.HttpVo;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -60,14 +63,14 @@ public class ContentServiceImpl implements ContentService{
 
     @Override
     @Transactional
-    public HttpVo listContent(Long app_id) {
+    public HttpVo listContent(Long app_id, Pageable pageable) {
         HttpVo http = new HttpVo();
         Map<String, Object> map = new HashMap<>();
 
         Game game = gameCommonRepository.findById(app_id)
                 .orElseThrow(() -> new DoesNotExistData("해당하는 요청의 게임정보가 없습니다."));
 
-        List<GameReview> gameReviewList = gameReviewCommonRepository.getGameReviewByGame(game);
+        Page<GameReview> gameReviewList = gameReviewCommonRepository.getGameReviewByGame(game, pageable);
         map.put("ContentList", gameReviewList);
 
         http.setFlag(true);
