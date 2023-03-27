@@ -105,8 +105,8 @@ const hoverModal = css`
   position: fixed;
   background-color: #eae7ef;
   width: 30%;
-  height: 40%;
-  padding: 1rem;
+  height: auto;
+  padding: 1rem 0rem;
   color: black;
   border-radius: 10px;
 `;
