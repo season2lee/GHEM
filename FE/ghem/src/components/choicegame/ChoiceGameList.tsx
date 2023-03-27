@@ -8,26 +8,12 @@ type GameList = {
 
 type ChoiceGameListProps = {
   gameList?: GameList[];
-
+  userId: number;
+  isLoginStatus: boolean;
 };
 
-function ChoiceGameList({ gameList }: ChoiceGameListProps) {
-  const [good, setGood] = useState<number[]>([]);
-  const [soso, setSoso] = useState<number[]>([]);
-  const [bad, setBad] = useState<number[]>([]);
-
-  useEffect(() => {
-    console.log("good",good);
-    console.log(good.length)
-  }, [good]);
-
-  useEffect(() => {
-    console.log("soso",soso);
-  }, [soso]);
-
-  useEffect(() => {
-    console.log("bad",bad);
-  }, [bad]);
+function ChoiceGameList({ gameList,userId,isLoginStatus }: ChoiceGameListProps) {
+  
 
   return (
     <div css={choiceList}>
@@ -36,12 +22,8 @@ function ChoiceGameList({ gameList }: ChoiceGameListProps) {
           <ChoiceGameListItem
             appid={item.appid}
             key={item.appid}
-            good={good}
-            setGood={setGood}
-            soso={soso}
-            setSoso={setSoso}
-            bad={bad}
-            setBad={setBad}
+            userId={userId}
+            isLoginStatus={isLoginStatus}
           />
         );
       })}

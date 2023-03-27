@@ -8,7 +8,7 @@ function LastContainer() {
     const navigate = useNavigate();
 
     const CategoryHandler = () => {
-      navigate("/cateogory");
+      navigate("/category");
     };
   
     return (

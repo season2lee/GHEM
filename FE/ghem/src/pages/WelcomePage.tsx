@@ -9,7 +9,7 @@ function WelcomePage() {
   return (
     <div>
       <Routes>
-        <Route path="/cateogory" element={<CategoryPage />} />
+        <Route path="/category" element={<CategoryPage />} />
         <Route path="/choicegame" element={<ChoiceGamePage />} />
         <Route path="/" element={<WelcomeContainer />} />
       </Routes>

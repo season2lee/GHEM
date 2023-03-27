@@ -13,7 +13,6 @@ type StarRatingProps = {
 }
 
 function StarRating({starSize, currentRating, setCurrentRating, isPromptAvailable = true}: StarRatingProps) {
-  // const [currentRating, setCurrentRating] = useState(0);
   const [prompt, setPrompt] = useState("");
   const clickStarHandler = (rating: number) => {
     setCurrentRating((oldState) => {
@@ -24,7 +23,7 @@ function StarRating({starSize, currentRating, setCurrentRating, isPromptAvailabl
       return rating;
     });
   }
-
+  
   // 현재 평가 점수에 맞춰 프롬프트를 리턴
   const promptMapping = (rating: number) => {
     switch (rating) {
