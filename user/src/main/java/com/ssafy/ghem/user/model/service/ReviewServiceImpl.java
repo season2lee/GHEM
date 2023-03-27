@@ -131,7 +131,7 @@ public class ReviewServiceImpl implements ReviewService {
             GameReview gameReview = gameReviewCommonRepository.findByUserAndGame(user, userGame.getGame());
 
             userGameContentVO.setUserGame(userGame);
-            if(gameReview.getContent() != null) userGameContentVO.setContent(gameReview.getContent());
+            if(gameReview != null && gameReview.getContent() != null) userGameContentVO.setContent(gameReview.getContent());
 
             userGameContentVOS.add(userGameContentVO);
         }
