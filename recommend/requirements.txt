@@ -6,3 +6,4 @@ uvicorn
 aiomysql
 asyncpg
 django
+surprise
