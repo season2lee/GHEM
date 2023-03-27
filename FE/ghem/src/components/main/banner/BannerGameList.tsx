@@ -1,8 +1,39 @@
 import { css, keyframes } from "@emotion/react";
-import React from "react";
+import React, { useRef, useState } from "react";
 import BannerGameItem from "./BannerGameItem";
 
 function BannerGameList() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDrag, setIsDrag] = useState<boolean>(false);
+  const [canClick, setCanClick] = useState<boolean>(true);
+  const [startX, setStartX] = useState<number>(0);
+
+  const scrollElement = scrollRef.current as HTMLDivElement;
+
+  const onDragStart = (e: React.MouseEvent<HTMLElement>) => {
+    setIsDrag(true);
+    setStartX(e.pageX);
+  };
+
+  const onDragLeave = () => {
+    setIsDrag(false);
+    setTimeout(() => setCanClick(true), 50); // 약간의 시간차가 있어야 클릭과 드래그를 구분 가능
+  };
+
+  const onDragEnd = () => {
+    setIsDrag(false);
+    setTimeout(() => setCanClick(true), 50); // 약간의 시간차가 있어야 클릭과 드래그를 구분 가능
+  };
+
+  const onDragMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (isDrag) {
+      setCanClick(false); // 드래그에 있어야 일반 클릭과 드래그를 true false 나누어 처리 가능
+      e.preventDefault();
+      scrollElement.scrollLeft += startX - e.pageX;
+      setStartX(e.pageX);
+    }
+  };
+
   return (
     <div>
       <div css={recommendForU}>
@@ -11,14 +42,37 @@ function BannerGameList() {
         </span>
         <span>O</span>
       </div>
-      <div css={recommendList}>
-        <BannerGameItem appId={367520} title={"hollow"} />
-        <BannerGameItem appId={10} title={"counterscrike"} />
-        <BannerGameItem appId={322330} title={"dontstarv"} />
+      <div
+        css={recommendList}
+        ref={scrollRef}
+        onMouseDown={onDragStart}
+        onMouseMove={onDragMove}
+        onMouseUp={onDragEnd}
+        onMouseLeave={onDragLeave}
+      >
+        <BannerGameItem appId={367520} title={"hollow"} canClick={canClick} />
+        <BannerGameItem
+          appId={10}
+          title={"counterscrike"}
+          canClick={canClick}
+        />
+        <BannerGameItem
+          appId={322330}
+          title={"dontstarv"}
+          canClick={canClick}
+        />
       </div>
+      <div css={bannerDetail}>체크용</div>
     </div>
   );
 }
+
+const bannerDetail = css`
+  margin: 0rem 6rem 2rem;
+  padding: 1rem 0rem 1rem 1rem;
+  background-color: #352c42;
+  border-radius: 0px 0px 30px 30px;
+`;
 
 const recommendForU = css`
   > span {
@@ -35,6 +89,9 @@ const recommendForU = css`
 const recommendList = css`
   display: flex;
   overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const floating = keyframes`

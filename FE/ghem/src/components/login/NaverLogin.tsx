@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { getRequestNaverLogin } from "@/api/oauth";
+import Loading from "@components/common/Loading";
 
 function NaverLogin() {
   const location = useLocation();
@@ -17,7 +18,7 @@ function NaverLogin() {
     handleNaverLogin(authorizationCode);
   }, []);
 
-  return <div>NaverLogin</div>;
+  return <Loading />;
 }
 
 export default NaverLogin;

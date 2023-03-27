@@ -2,11 +2,15 @@ import React from "react";
 import { css } from "@emotion/react";
 import { mobile } from "@/util/Mixin";
 
-function ProfileIntroduce() {
-  return <textarea css={introduce} readOnly value={"자기소개"}></textarea>;
+type ProfileIntroduceProps = {
+  introduce: string;
+};
+
+function ProfileIntroduce({ introduce }: ProfileIntroduceProps) {
+  return <textarea css={introduceTextarea} readOnly value={introduce}></textarea>;
 }
 
-const introduce = css`
+const introduceTextarea = css`
   width: 90%;
   height: 70px;
   resize: none;

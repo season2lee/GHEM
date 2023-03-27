@@ -1,12 +1,22 @@
-import React from "react";
+import { useEffect } from "react";
 import { css } from "@emotion/react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Profile from "@components/profile/Profile";
 import GameList from "@components/profile/gamelist/GameList";
 import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
 import { mobile } from "@/util/Mixin";
 
 function ProfilePage() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const accessToken: string | null = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      navigate("/login");
+    }
+  }, []);
+
   return (
     <div css={wrapper}>
       <div css={profileWrapper}>

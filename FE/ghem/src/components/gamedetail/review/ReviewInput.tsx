@@ -1,14 +1,19 @@
 import { css } from '@emotion/react'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import chad from '@/assets/image/chad.jpeg';
 
-function ReviewInput() {
+type ReviewInputProps = {
+  isRated: boolean
+}
+
+function ReviewInput({isRated}: ReviewInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null)
   const onFocusHandler = () => {
     setIsFocused(true);
   }
+
   const onClickCancel = () => {
     setIsFocused(false);
     setIsActive(false);
@@ -16,6 +21,7 @@ function ReviewInput() {
       inputRef.current.value = "";
     }
   }
+
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") {
       setIsActive(false);
@@ -23,12 +29,31 @@ function ReviewInput() {
       setIsActive(true);
     }
   }
+  const handleInputClick = () => {
+    if (inputRef?.current) {
+      if (inputRef.current.disabled === true) {
+        alert("평가를 먼저 진행해주세요");
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (inputRef?.current) {
+      if (isRated) {
+        inputRef.current.disabled = false;
+        inputRef.current.placeholder = "리뷰를 입력해주세요...";
+      } else {
+        inputRef.current.disabled = true;
+        inputRef.current.placeholder = "평가를 먼저 해주세요";
+      }
+    }
+  }, [isRated])
 
   return (
     <div>
       <div css={inputContainer}>
         <img src={chad} css={profileImageStyle} />
-        <input onChange={onChangeHandler} css={reviewInputStyle} type="text" ref={inputRef} onFocus={onFocusHandler} placeholder="입력해주세요..." />
+        <input onChange={onChangeHandler} css={reviewInputStyle} type="text" ref={inputRef} onFocus={onFocusHandler} onClick={handleInputClick} placeholder="입력해주세요..." />
       </div>
       {isFocused &&
       <div css={buttonsContainer}>

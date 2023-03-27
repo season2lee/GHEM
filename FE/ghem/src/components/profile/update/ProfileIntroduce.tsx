@@ -10,13 +10,16 @@ function ProfileIntroduce({ introduce, setIntroduce }: ProfileIntroduceProps) {
   const [length, setLength] = useState<number>(0);
 
   const handleChangeIntroduce = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    if (e.target.value.length >= 150) {
+      e.target.value = e.target.value.substr(0, 150);
+    }
     setIntroduce(e.target.value);
     setLength(e.target.value.length);
   };
 
   useEffect(() => {
     setLength(introduce.length);
-  }, []);
+  }, [introduce]);
 
   return (
     <div css={wrapper}>
