@@ -9,39 +9,49 @@ import { gameType } from "gameList";
 import GameRating from "./GameRating";
 import { useSetRecoilState } from "recoil";
 import { contentInfoState } from "@/store/mainState";
+import { deleteInterestedGame } from "@/api/gamelist";
 
 type GameCardProps = {
-  userGameId: number;
-  path?: string;
   game: gameType;
-  rating: number;
-  review?: string;
   isDragMove: boolean;
+  userGameId?: number;
+  dibsId?: number;
+  rating?: number;
+  review?: string;
+  path?: string;
 };
 
-function GameCard({ userGameId, path, game, rating, review, isDragMove }: GameCardProps) {
+function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove }: GameCardProps) {
   const navigate = useNavigate();
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const setReviewInfo = useSetRecoilState(contentInfoState);
 
   const handleOpenMenu = (): void => {
     // recoil에 현재 리뷰를 수정하려는 게임의 정보 저장
-    setReviewInfo({
-      app_id: game.appId,
-      user_game_id: userGameId,
-      title: game.title,
-      rating: rating,
-      review: review,
-    });
+    if (userGameId && rating) {
+      setReviewInfo({
+        app_id: game.appId,
+        user_game_id: userGameId,
+        title: game.title,
+        rating: rating,
+        review: review,
+      });
 
-    setIsOpenMenu(!isOpenMenu);
+      setIsOpenMenu(!isOpenMenu);
+    }
   };
 
-  const handleRemoveLike = (): void => {
-    // 관심 목록에서 해제
+  const handleRemoveLike = async (): Promise<void> => {
+    if (dibsId) {
+      const response = await deleteInterestedGame(dibsId);
+
+      if (response) {
+        location.reload();
+      }
+    }
   };
 
-  const moveToGameDetail = (id: number): void => {
+  const moveToGameDetail = (): void => {
     if (!isDragMove) {
       navigate(`/detail/${game.appId}`);
     }
@@ -62,10 +72,10 @@ function GameCard({ userGameId, path, game, rating, review, isDragMove }: GameCa
           </div>
         )}
       </div>
-      <div css={gameContentWrapper} onClick={() => moveToGameDetail(1)}>
+      <div css={gameContentWrapper} onClick={moveToGameDetail}>
         <div css={gameContentHeader}>
           <b>{game.title}</b>
-          {path !== "interest" && <GameRating rate={rating} />}
+          {rating && <GameRating rate={rating} />}
         </div>
         {review && <span>{review}</span>}
       </div>

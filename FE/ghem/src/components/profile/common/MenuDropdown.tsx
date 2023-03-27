@@ -8,6 +8,7 @@ import { useRecoilValue } from "recoil";
 import { contentInfoState } from "@/store/mainState";
 
 function MenuDropdown() {
+  const userId: number | null = Number(localStorage.getItem("id"));
   const contentInfo = useRecoilValue(contentInfoState);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
@@ -17,7 +18,7 @@ function MenuDropdown() {
   };
 
   const handleDeleteGame = async (): Promise<void> => {
-    const response = await deleteEvaluatedGame(contentInfo.user_game_id);
+    const response = await deleteEvaluatedGame(userId, contentInfo.app_id);
 
     if (response) {
       location.reload();

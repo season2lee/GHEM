@@ -28,8 +28,15 @@ declare module "gameList" {
     game: gameType;
   };
 
-  export type gameListType = {
+  export type evaluatedGameListType = {
     userGame: userGameType;
     content?: string;
+  };
+
+  export type interestedGameListType = {
+    dibsId: number;
+    appId: number;
+    userId: number;
+    game: gameType;
   };
 }
