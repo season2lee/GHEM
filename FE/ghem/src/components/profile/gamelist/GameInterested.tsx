@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import GameCard from "./GameCard";
 import { mobile } from "@/util/Mixin";
 import { getInterestedGameList } from "@/api/gamelist";
-import { gameType, gameListType } from "gameList";
+import { gameListType } from "gameList";
 import GameNoneList from "./GameNoneList";
 
 function GameInterested() {
@@ -12,7 +12,7 @@ function GameInterested() {
   const scrollElement = scrollRef.current;
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
-  const [gameList, setGameList] = useState<gameType[]>([]);
+  const [gameList, setGameList] = useState<gameListType[]>([]);
   const [isDragMove, setIsDragMove] = useState<boolean>(false);
 
   const handleDragStart = (e: React.MouseEvent) => {
@@ -40,7 +40,7 @@ function GameInterested() {
     const response = await getInterestedGameList(userId);
 
     if (response) {
-      response.Dibs_List.map((el: gameListType) => setGameList([...gameList, el.game]));
+      response.Dibs_List.map((el: gameListType) => setGameList([...gameList, el]));
     }
   };
 
@@ -63,8 +63,14 @@ function GameInterested() {
           onMouseMove={handleDragMove}
           onMouseUp={handleDragEnd}
         >
-          {gameList.map((game, idx) => (
-            <GameCard key={game.appId} game={game} path="interest" isDragMove={isDragMove} />
+          {gameList.map((list, idx) => (
+            <GameCard
+              key={list.userGame.userGameId}
+              game={list.userGame.game}
+              rating={list.userGame.rating}
+              path="interest"
+              isDragMove={isDragMove}
+            />
           ))}
         </div>
       ) : (

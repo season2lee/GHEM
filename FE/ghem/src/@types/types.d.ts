@@ -21,10 +21,15 @@ declare module "gameList" {
     negative_reviews: number;
   };
 
-  export type gameListType = {
+  export type userGameType = {
     userGameId: number;
     rating: number;
     user: userType;
     game: gameType;
+  };
+
+  export type gameListType = {
+    userGame: userGameType;
+    content?: string;
   };
 }

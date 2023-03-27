@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import testGameImage from "../../../assets/image/testGameImage.jpg";
 import meatballIcon from "../../../assets/image/meatballIcon.png";
@@ -11,12 +11,15 @@ import { gameType } from "gameList";
 type GameCardProps = {
   path?: string;
   game: gameType;
+  rating: number;
+  review?: string;
   isDragMove: boolean;
 };
 
-function GameCard({ path, game, isDragMove }: GameCardProps) {
+function GameCard({ path, game, rating, review, isDragMove }: GameCardProps) {
   const navigate = useNavigate();
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
+  const [gameImage, setGameImage] = useState<string>("");
 
   const handleOpenMenu = (): void => {
     setIsOpenMenu(!isOpenMenu);
@@ -32,10 +35,17 @@ function GameCard({ path, game, isDragMove }: GameCardProps) {
     }
   };
 
+  useEffect(() => {
+    if (game) {
+      const image = `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appId}/header.jpg`;
+      setGameImage(image);
+    }
+  }, [game]);
+
   return (
     <div css={gameCardWrapper}>
       <div css={gameImageWrapper}>
-        <img src={testGameImage} alt="게임 이미지" />
+        <img src={gameImage} alt="게임 이미지" />
         {path === "interest" ? (
           <div css={likeButtonWrapper}>
             <FaHeart size="25" onClick={handleRemoveLike} />
@@ -50,9 +60,9 @@ function GameCard({ path, game, isDragMove }: GameCardProps) {
       <div css={gameContentWrapper} onClick={() => moveToGameDetail(1)}>
         <div css={gameContentHeader}>
           <b>{game.title}</b>
-          {path !== "interest" && <span>{game.rating}</span>}
+          {path !== "interest" && <span>{rating}</span>}
         </div>
-        {path !== "interest" && <span>{game.rating_desc}</span>}
+        {review && <span>{review}</span>}
       </div>
     </div>
   );
@@ -61,6 +71,8 @@ function GameCard({ path, game, isDragMove }: GameCardProps) {
 const gameCardWrapper = css`
   min-width: 310px;
   max-width: 310px;
+  min-height: 230px;
+  max-height: 230px;
   background: #292233;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -71,14 +83,18 @@ const gameCardWrapper = css`
   ${mobile} {
     min-width: 250px;
     max-width: 250px;
+    min-height: 200px;
+    max-height: 200px;
   }
 `;
 
 const gameImageWrapper = css`
   position: relative;
+  height: 65%;
 
   > img {
     width: 100%;
+    height: 100%;
     border-radius: 5px 5px 0 0;
   }
 `;
