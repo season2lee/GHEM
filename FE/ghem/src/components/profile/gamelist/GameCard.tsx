@@ -6,18 +6,11 @@ import { FaHeart } from "react-icons/fa";
 import MenuDropdown from "../common/MenuDropdown";
 import { useNavigate } from "react-router-dom";
 import { mobile } from "@/util/Mixin";
-
-type gameListItem = {
-  id: number;
-  img: string;
-  title: string;
-  grade: string;
-  review: string;
-};
+import { gameType } from "gameList";
 
 type GameCardProps = {
   path?: string;
-  game: gameListItem;
+  game: gameType;
   isDragMove: boolean;
 };
 
@@ -35,14 +28,14 @@ function GameCard({ path, game, isDragMove }: GameCardProps) {
 
   const moveToGameDetail = (id: number): void => {
     if (!isDragMove) {
-      navigate(`/detail/${id}`);
+      navigate(`/detail/${game.appId}`);
     }
   };
 
   return (
     <div css={gameCardWrapper}>
       <div css={gameImageWrapper}>
-        <img src={game.img} alt="게임 이미지" />
+        <img src={testGameImage} alt="게임 이미지" />
         {path === "interest" ? (
           <div css={likeButtonWrapper}>
             <FaHeart size="25" onClick={handleRemoveLike} />
@@ -57,9 +50,9 @@ function GameCard({ path, game, isDragMove }: GameCardProps) {
       <div css={gameContentWrapper} onClick={() => moveToGameDetail(1)}>
         <div css={gameContentHeader}>
           <b>{game.title}</b>
-          {path !== "interest" && <span>{game.grade}</span>}
+          {path !== "interest" && <span>{game.rating}</span>}
         </div>
-        {path !== "interest" && <span>{game.review}</span>}
+        {path !== "interest" && <span>{game.rating_desc}</span>}
       </div>
     </div>
   );
@@ -67,6 +60,7 @@ function GameCard({ path, game, isDragMove }: GameCardProps) {
 
 const gameCardWrapper = css`
   min-width: 310px;
+  max-width: 310px;
   background: #292233;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -76,6 +70,7 @@ const gameCardWrapper = css`
 
   ${mobile} {
     min-width: 250px;
+    max-width: 250px;
   }
 `;
 

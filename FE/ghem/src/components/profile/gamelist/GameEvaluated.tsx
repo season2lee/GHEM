@@ -1,61 +1,19 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { css } from "@emotion/react";
 import filterIcon from "../../../assets/image/filterIcon.png";
 import FilterDropdown from "../common/FilterDropdown";
 import { mobile } from "@/util/Mixin";
 import GameCard from "./GameCard";
-import testGameImage from "../../../assets/image/testGameImage.jpg";
-
-type gameListItem = {
-  id: number;
-  img: string;
-  title: string;
-  grade: string;
-  review: string;
-};
+import { getEvaluatedGameList } from "@/api/gamelist";
+import { gameType, gameListType } from "gameList";
 
 function GameEvaluated() {
+  const userId: number | null = Number(localStorage.getItem("id"));
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollElement = scrollRef.current;
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
-  const [gameList, setGameList] = useState<gameListItem[]>([
-    {
-      id: 1,
-      img: testGameImage,
-      title: "카트라이더1",
-      grade: "5점",
-      review: "이 게임 진짜 재밌어요",
-    },
-    {
-      id: 2,
-      img: testGameImage,
-      title: "카트라이더2",
-      grade: "5점",
-      review: "이 게임 진짜 재밌어요",
-    },
-    {
-      id: 3,
-      img: testGameImage,
-      title: "카트라이더3",
-      grade: "5점",
-      review: "이 게임 진짜 재밌어요",
-    },
-    {
-      id: 4,
-      img: testGameImage,
-      title: "카트라이더4",
-      grade: "5점",
-      review: "이 게임 진짜 재밌어요",
-    },
-    {
-      id: 5,
-      img: testGameImage,
-      title: "카트라이더5",
-      grade: "5점",
-      review: "이 게임 진짜 재밌어요",
-    },
-  ]);
+  const [gameList, setGameList] = useState<gameType[]>([]);
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
   const [isDragMove, setIsDragMove] = useState<boolean>(false);
 
@@ -84,11 +42,25 @@ function GameEvaluated() {
     }
   };
 
+  const getEvaluatedGameListFunc = async (userId: number) => {
+    const response = await getEvaluatedGameList(userId);
+
+    if (response) {
+      response.Estimate_List.map((el: gameListType) => setGameList([...gameList, el.game]));
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      getEvaluatedGameListFunc(userId);
+    }
+  }, [userId]);
+
   return (
     <div css={gameEvaluatedWrapper}>
       <div css={headerWrapper}>
         <h4>
-          평가했어요 <span>(10)</span>
+          평가했어요 <span>({gameList.length})</span>
         </h4>
         <div css={filterWrapper} onClick={handleOpenFilter}>
           <span>필터</span>
@@ -96,17 +68,21 @@ function GameEvaluated() {
           {isOpenFilter && <FilterDropdown />}
         </div>
       </div>
-      <div
-        css={gameCardWrapper}
-        ref={scrollRef}
-        onMouseDown={handleDragStart}
-        onMouseMove={handleDragMove}
-        onMouseUp={handleDragEnd}
-      >
-        {gameList.map((game, idx) => (
-          <GameCard key={idx} game={game} isDragMove={isDragMove} />
-        ))}
-      </div>
+      {gameList.length ? (
+        <div
+          css={gameCardWrapper}
+          ref={scrollRef}
+          onMouseDown={handleDragStart}
+          onMouseMove={handleDragMove}
+          onMouseUp={handleDragEnd}
+        >
+          {gameList.map((game, idx) => (
+            <GameCard key={game.appId} game={game} isDragMove={isDragMove} />
+          ))}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

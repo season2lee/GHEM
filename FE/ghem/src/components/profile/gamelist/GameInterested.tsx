@@ -1,59 +1,17 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { css } from "@emotion/react";
 import GameCard from "./GameCard";
 import { mobile } from "@/util/Mixin";
-import testGameImage from "../../../assets/image/testGameImage.jpg";
-
-type gameListItem = {
-  id: number;
-  img: string;
-  title: string;
-  grade: string;
-  review: string;
-};
+import { getInterestedGameList } from "@/api/gamelist";
+import { gameType, gameListType } from "gameList";
 
 function GameInterested() {
+  const userId: number | null = Number(localStorage.getItem("id"));
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollElement = scrollRef.current;
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
-  const [gameList, setGameList] = useState<gameListItem[]>([
-    {
-      id: 1,
-      img: testGameImage,
-      title: "카트라이더1",
-      grade: "5점",
-      review: "이 게임 진짜 재밌어요",
-    },
-    {
-      id: 2,
-      img: testGameImage,
-      title: "카트라이더2",
-      grade: "5점",
-      review: "이 게임 진짜 재밌어요",
-    },
-    {
-      id: 3,
-      img: testGameImage,
-      title: "카트라이더3",
-      grade: "5점",
-      review: "이 게임 진짜 재밌어요",
-    },
-    {
-      id: 4,
-      img: testGameImage,
-      title: "카트라이더4",
-      grade: "5점",
-      review: "이 게임 진짜 재밌어요",
-    },
-    {
-      id: 5,
-      img: testGameImage,
-      title: "카트라이더5",
-      grade: "5점",
-      review: "이 게임 진짜 재밌어요",
-    },
-  ]);
+  const [gameList, setGameList] = useState<gameType[]>([]);
   const [isDragMove, setIsDragMove] = useState<boolean>(false);
 
   const handleDragStart = (e: React.MouseEvent) => {
@@ -77,22 +35,40 @@ function GameInterested() {
     }
   };
 
+  const getInterestedGameListFunc = async (userId: number) => {
+    const response = await getInterestedGameList(userId);
+
+    if (response) {
+      response.Dibs_List.map((el: gameListType) => setGameList([...gameList, el.game]));
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      getInterestedGameListFunc(userId);
+    }
+  }, [userId]);
+
   return (
     <div css={gameInterestedWrapper}>
       <h4>
-        찜했어요 <span>(20)</span>
+        찜했어요 <span>({gameList.length})</span>
       </h4>
-      <div
-        css={gameCardWrapper}
-        ref={scrollRef}
-        onMouseDown={handleDragStart}
-        onMouseMove={handleDragMove}
-        onMouseUp={handleDragEnd}
-      >
-        {gameList.map((game, idx) => (
-          <GameCard key={idx} game={game} path="interest" isDragMove={isDragMove} />
-        ))}
-      </div>
+      {gameList.length ? (
+        <div
+          css={gameCardWrapper}
+          ref={scrollRef}
+          onMouseDown={handleDragStart}
+          onMouseMove={handleDragMove}
+          onMouseUp={handleDragEnd}
+        >
+          {gameList.map((game, idx) => (
+            <GameCard key={game.appId} game={game} path="interest" isDragMove={isDragMove} />
+          ))}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
