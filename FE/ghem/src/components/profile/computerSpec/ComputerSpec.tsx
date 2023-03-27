@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { css } from "@emotion/react";
 import { BiReset } from "react-icons/bi";
 import ComputerSpecCPU from "./ComputerSpecCPU";
@@ -6,11 +6,25 @@ import ComputerSpecGPU from "./ComputerSpecGPU";
 import ComputerSpecRAM from "./ComputerSpecRAM";
 import ComputerSpecOS from "./ComputerSpecOS";
 import { mobile } from "@/util/Mixin";
+import { getMyComputerSpec } from "@/api/computerSpec";
 
 function ComputerSpec() {
+  const userId: number | null = Number(localStorage.getItem("id"));
+
   const handleResetComputerSpec = (): void => {
     alert("정말 초기화하시겠습니까?");
   };
+
+  const getMyComputerSpecFunc = async (): Promise<void> => {
+    const response = await getMyComputerSpec(userId);
+
+    if (response) {
+    }
+  };
+
+  useEffect(() => {
+    getMyComputerSpecFunc();
+  }, []);
 
   return (
     <div css={computerSpecWrapper}>

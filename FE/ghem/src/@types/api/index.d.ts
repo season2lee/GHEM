@@ -25,4 +25,16 @@ declare module "apiTypes" {
     user_id: number;
     content: string;
   };
+
+  export type specInfoType = {
+    cpu_com: string;
+    cpu_gen: number;
+    cpu_series: string;
+    gpu_com: string;
+    gpu_name: string;
+    os: string;
+    ram: number;
+    user_id?: number | null;
+    spec_id?: number | null;
+  };
 }
