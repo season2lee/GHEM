@@ -47,7 +47,7 @@ function GameEvaluated() {
     const response = await getEvaluatedGameList(userId);
 
     if (response) {
-      response.Estimate_List.map((el: gameListType) => setGameList([...gameList, el]));
+      setGameList(response.Estimate_List);
     }
   };
 
