@@ -5,3 +5,4 @@ fastapi
 uvicorn
 aiomysql
 asyncpg
+django
