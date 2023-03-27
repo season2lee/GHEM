@@ -1,9 +1,11 @@
 import { css } from '@emotion/react'
 import React, { useRef, useState, useEffect } from 'react'
 import chad from '@/assets/image/chad.jpeg';
+import axios from 'axios';
 
 type ReviewInputProps = {
-  isRated: boolean
+  isRated: boolean,
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
 }
 
 function ReviewInput({isRated}: ReviewInputProps) {
@@ -18,6 +20,15 @@ function ReviewInput({isRated}: ReviewInputProps) {
     setIsFocused(false);
     setIsActive(false);
     if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  }
+
+  const onClickConfirm = () => {
+    if (inputRef.current) {
+      console.log(inputRef.current.value);
+      // API 요청하기...
+      axios.post()
       inputRef.current.value = "";
     }
   }
@@ -58,7 +69,7 @@ function ReviewInput({isRated}: ReviewInputProps) {
       {isFocused &&
       <div css={buttonsContainer}>
         <button onClick={onClickCancel} css={cancelButton}>취소</button>
-        <button css={isActive ? addReplyButton : disabledButton}>확인</button>
+        <button onClick={onClickConfirm} css={isActive ? addReplyButton : disabledButton}>확인</button>
       </div>
       }
     </div>

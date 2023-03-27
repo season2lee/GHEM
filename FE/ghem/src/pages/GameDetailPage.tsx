@@ -41,10 +41,51 @@ function GameDetailPage() {
       console.log("gameData 불러오기 실패");
     }
   }
+
+  const loadRatingData = async () => {
+    try {
+      const response = await axios.get(env.VITE_API_BASE_URL + "/review/check", {
+        params: {
+          app_id: appID,
+          user_id: 9
+        }
+      });
+      const data = response.data;
+      console.log(data);
+    } catch {
+      console.log("ratingData 불러오기 실패");
+    }
+  }
+
+  const postRatingData = async (rating: number) => {
+    try {
+      console.log("별점 등록 요청...");
+      
+      const response = await axios.post(env.VITE_API_BASE_URL + "/review", {
+        app_id: appID,
+        user_id: 9,
+        rating: rating
+      })
+      const result = response.data;
+      console.log(result);
+    } catch {
+      console.log("별점 등록 실패...");
+    }
+  }
   
   useEffect(() => {
-    loadGameData();  // 렌더링을 두 번 연달아 일어나게 한다
+    loadGameData();  // 렌더링을 두 번 연달아 일어나게 한다.
+    loadRatingData();
   }, [])
+
+  useEffect(() => {
+    if (currentRating === 0) {
+      // 삭제 요청하기
+      return;
+    } else {
+      postRatingData(currentRating);
+    }
+  }, [currentRating])
   
   return (
     <div>
@@ -79,13 +120,11 @@ const container = css`
 `
 
 const leftContainer = css`
-  /* background-color: green; */
   width: 67%;
   padding: 0px 1rem 0px 0px;
 `
 
 const rightContainer = css`
-  /* background-color: blue; */
   width: 33%;
   padding: 0px 0px 0px 1rem;
 `
