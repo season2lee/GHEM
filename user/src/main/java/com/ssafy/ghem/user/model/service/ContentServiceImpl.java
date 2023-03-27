@@ -90,6 +90,7 @@ public class ContentServiceImpl implements ContentService{
                 .orElseThrow(() -> new DoesNotExistData("해당하는 게임 정보가 없습니다."));
 
         GameReview gameReview = gameReviewCommonRepository.findByUserAndGame(user, game);
+        if(gameReview == null) throw new DoesNotExistData("해당하는 게임의 리뷰가 존재하지 않습니다.");
 
         gameReview.setContent(contentInfo.getContent());
 

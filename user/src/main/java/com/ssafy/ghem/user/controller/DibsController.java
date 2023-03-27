@@ -50,8 +50,7 @@ public class DibsController {
 
     @DeleteMapping("/delete/{dibs_id}")
     @ApiOperation(value = "찜을 해제하는 API",
-            notes = "app_id = 게임 고유번호\n" +
-                    "user_id = 유저 고유번호",
+            notes = "dibs_id = 찜 고유번호\n",
             response = String.class)
     public ResponseEntity<?> deleteDibs(@PathVariable Long dibs_id ){
         HttpVo http = dibsService.deleteDibs(dibs_id);
