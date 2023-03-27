@@ -64,7 +64,7 @@ function GameInterested() {
           onMouseUp={handleDragEnd}
         >
           {gameList.map((list, idx) => (
-            <GameCard key={list.dibsId} game={list.game} path="interest" isDragMove={isDragMove} />
+            <GameCard key={list.dibsId} dibsId={list.dibsId} game={list.game} path="interest" isDragMove={isDragMove} />
           ))}
         </div>
       ) : (
