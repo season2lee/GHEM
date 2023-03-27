@@ -65,7 +65,6 @@ public class ReviewServiceImpl implements ReviewService {
         Map<String, Object> map = new HashMap<>();
 
         User user = getUser(reviewInfo.getUser_id());
-
         Game game = getGame(reviewInfo.getApp_id());
 
         UserGame userGame = userGameCommonRepository
@@ -151,7 +150,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public User getUser(Long user_id){
         User user = userCommonRepository.findById(user_id)
-                .orElseThrow(() -> new DoesNotExistData("해당하는 유저가 없습니다."));
+                .orElseThrow(() -> new DoesNotExistData("해당하는 유저가 없습니다. user_id = "+user_id));
 
         return user;
     }
@@ -159,7 +158,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public Game getGame(Long app_id){
         Game game = gameCommonRepository.findById(app_id)
-                .orElseThrow(() -> new DoesNotExistData("해당하는 유저가 없습니다."));
+                .orElseThrow(() -> new DoesNotExistData("해당하는 게임이 없습니다. app_id = "+app_id));
 
         return game;
     }
