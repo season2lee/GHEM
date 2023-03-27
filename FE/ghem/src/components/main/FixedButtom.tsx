@@ -8,7 +8,6 @@ function FixedButtom() {
   };
   return (
     <div css={fixedBtn}>
-      FixedButtom
       <div onClick={scrollToTop}>위로 가기</div>
       <div
         onClick={() => {
@@ -33,6 +32,15 @@ const fixedBtn = css`
   bottom: 0%;
   right: 0%;
   z-index: 10;
+  > div {
+    color: black;
+    font-size: 14px;
+    margin: 1rem;
+    width: 3rem;
+    height: 3rem;
+    background-color: #eae7ef;
+    border-radius: 10%;
+  }
 `;
 
 export default FixedButtom;
