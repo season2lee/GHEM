@@ -8,10 +8,13 @@ import { mobile } from "@/util/Mixin";
 import baseProfile from "../../../assets/image/baseProfile.png";
 import { getUserProfile } from "@/api/user";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { userInfoStateType, userInfoState } from "@/store/mainState";
 
 function ProfileInfo() {
   const navigate = useNavigate();
   const userId: number | null = Number(localStorage.getItem("id"));
+  const setUserInfo = useSetRecoilState(userInfoState);
   const [nickname, setNickname] = useState<string>("");
   const [steamId, setSteamId] = useState<string>("미등록");
   const [introduce, setIntroduce] = useState<string>("");
@@ -21,7 +24,6 @@ function ProfileInfo() {
   const getUserProfileFunc = async (id: number) => {
     const response = await getUserProfile(id);
 
-    // recoil에 유저의 정보 담기
     if (response) {
       const { user } = response;
 
@@ -29,6 +31,20 @@ function ProfileInfo() {
       if (user.steamId) setSteamId(user.steamId);
       if (user.introduce) setIntroduce(user.introduce);
       setProfileImage(user.userProfile.substr(1, user.userProfile.length - 2));
+
+      // recoil에 유저의 정보 담기
+      setUserInfo((prev) => {
+        return {
+          ...prev,
+          user_id: user.user_id,
+          nickname: user.nickname,
+          steamId: user.steamId,
+          introduce: user.introduce,
+          userProfile: user.userProfile,
+          birth: user.birth,
+          gender: user.gender,
+        };
+      });
     }
   };
 

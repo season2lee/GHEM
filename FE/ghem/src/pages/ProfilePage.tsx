@@ -5,9 +5,12 @@ import Profile from "@components/profile/Profile";
 import GameList from "@components/profile/gamelist/GameList";
 import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
 import { mobile } from "@/util/Mixin";
+import { useRecoilValue } from "recoil";
+import { userInfoStateType, userInfoState } from "@/store/mainState";
 
 function ProfilePage() {
   const navigate = useNavigate();
+  const userInfo = useRecoilValue(userInfoState);
 
   useEffect(() => {
     const accessToken: string | null = localStorage.getItem("accessToken");
@@ -20,7 +23,7 @@ function ProfilePage() {
   return (
     <div css={wrapper}>
       <div css={profileWrapper}>
-        <h2>닉네임 님의 프로필</h2>
+        <h2>{userInfo.nickname} 님의 프로필</h2>
         <div>
           <Profile />
           <Routes>

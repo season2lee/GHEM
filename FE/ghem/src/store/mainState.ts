@@ -12,15 +12,19 @@ export type userInfoStateType = {
   steamId: string | null;
   introduce: string | null;
   userProfile: string | null;
+  birth: string | null;
+  gender: number | null;
 };
 
 export const userInfoState = atom<userInfoStateType>({
   key: "userInfoState",
   default: {
     user_id: 0,
-    nickname: "",
-    steamId: "",
-    introduce: "",
-    userProfile: "",
+    nickname: null,
+    steamId: null,
+    introduce: null,
+    userProfile: null,
+    birth: null,
+    gender: null,
   },
 });
