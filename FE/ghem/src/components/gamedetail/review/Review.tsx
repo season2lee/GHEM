@@ -3,9 +3,11 @@
   2. 도움됨 버튼 기능 구현할 것
 */
 
-import React from 'react'
+import React, { useState } from 'react'
 import chad from '@/assets/image/chad.jpeg';
 import thumbupLine from '@/assets/image/thumbup-line.svg';
+import thumbUp from '@/assets/image/thumbup.svg';
+
 
 import { css } from '@emotion/react';
 
@@ -15,13 +17,14 @@ type ReviewProps = {
     profileImageURL?: string,
     name: string,
     date: string,
-    isRecomm: boolean,
     content: string,
     helpfulCount: number,
   }
 }
 
 function Review({review}: ReviewProps) {
+  const [isHelpful, setIsHelpful] = useState(false);
+
   return (
     <div css={container}>
       {/* 프로필 이미지 */}
@@ -48,7 +51,7 @@ function Review({review}: ReviewProps) {
         <div css={helpfulContainer}>
           <p css={helpfulTextStyle}>이 리뷰가 도움되었나요??</p>
           <button css={helpfulButton}>
-            <img src={thumbupLine} style={{height: "15px"}} />
+            <img src={isHelpful ? thumbUp : thumbupLine} style={{height: "15px"}} />
           </button>
           <p css={helpfulTextStyle}>{review.helpfulCount}</p>
         </div>
