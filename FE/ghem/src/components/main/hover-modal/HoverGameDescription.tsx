@@ -44,7 +44,7 @@ function HoverGameDescription(props: HoverGameDescriptionProps) {
   return (
     <div>
       {isMovie && props.haveData !== "null" && (
-        <video src={thumbImg} css={imgSize} autoPlay />
+        <video src={thumbImg} css={imgSize} autoPlay muted />
       )}
       {!isMovie && props.haveData !== "null" && (
         <img src={thumbImg} alt="" css={imgSize} />
