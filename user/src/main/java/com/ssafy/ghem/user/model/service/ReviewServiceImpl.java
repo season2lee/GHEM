@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.rmi.AlreadyBoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,13 @@ public class ReviewServiceImpl implements ReviewService {
                 .orElseThrow(() -> new DoesNotExistData("해당하는 유저 정보가 없습니다."));
         Game game = gameCommonRepository.findById(reviewInfo.getApp_id())
                 .orElseThrow(() -> new DoesNotExistData("해당하는 게임 정보가 없습니다."));
+
+        try {
+            if (userGameCommonRepository.findByUserGame(game, user) != null)
+                throw new AlreadyBoundException("이미 해당 데이터가 존재합니다.");
+        } catch (Exception e){
+
+        }
 
         UserGame userGame = UserGame.builder()
                             .rating(reviewInfo.getRating())
@@ -126,7 +134,7 @@ public class ReviewServiceImpl implements ReviewService {
             GameReview gameReview = gameReviewCommonRepository.findByUserAndGame(user, userGame.getGame());
 
             userGameContentVO.setUserGame(userGame);
-            userGameContentVO.setContent(gameReview.getContent());
+            if(gameReview.getContent() != null) userGameContentVO.setContent(gameReview.getContent());
 
             userGameContentVOS.add(userGameContentVO);
         }
