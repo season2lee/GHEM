@@ -1,23 +1,22 @@
-import React, { Dispatch, SetStateAction } from 'react'
-import { css } from '@emotion/react';
-import { useNavigate } from 'react-router';
+import React, { Dispatch, SetStateAction } from "react";
+import { css } from "@emotion/react";
+import { useNavigate } from "react-router";
 
 function ForthContainer() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const CategoryHandler = () =>{
-    navigate("/cateogory")
-  }
+  const CategoryHandler = () => {
+    navigate("/category");
+  };
 
   return (
-    <div css={Layout} >
-        <div >ForthContainer</div>
-        <div>
-          <button onClick={CategoryHandler}>추천받기</button>
-        </div>
+    <div css={Layout}>
+      <div>ForthContainer</div>
+      <div>
+        <button onClick={CategoryHandler}>추천받기</button>
+      </div>
     </div>
-    
-  )
+  );
 }
 
 const Layout = css`
@@ -32,4 +31,4 @@ const Layout = css`
   flex-direction: column;
   justify-content: center;
 `;
-export default ForthContainer
+export default ForthContainer;
