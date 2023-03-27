@@ -9,7 +9,7 @@ declare module "atomTypes" {
     gender: number | null;
   };
 
-  export type reviewInfoType = {
+  export type contentInfoType = {
     app_id: number;
     user_game_id: number;
     title: string;

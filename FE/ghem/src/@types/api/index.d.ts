@@ -11,4 +11,10 @@ declare module "apiTypes" {
     steamId: string;
     steamPassword: string;
   };
+
+  export type contentInfoType = {
+    app_id: number;
+    user_id: number;
+    content: string;
+  };
 }

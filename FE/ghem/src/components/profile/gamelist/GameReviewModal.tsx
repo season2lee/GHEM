@@ -1,35 +1,53 @@
+import { useState } from "react";
 import { css } from "@emotion/react";
-import { reviewInfoState } from "@/store/mainState";
+import { contentInfoState } from "@/store/mainState";
 import { useRecoilValue } from "recoil";
 import GameRating from "./GameRating";
+import { putUpdateGameContent } from "@/api/gamelist";
 
 type GameReviewModalProps = {
   handleOpenModifyModal: (e: React.MouseEvent) => void;
 };
 
 function GameReviewModal({ handleOpenModifyModal }: GameReviewModalProps) {
-  const reviewInfo = useRecoilValue(reviewInfoState);
+  const userId: number | null = Number(localStorage.getItem("id"));
+  const contentInfo = useRecoilValue(contentInfoState);
+  const [content, setContent] = useState<string>("");
 
   const handleCloseModal = (e: React.MouseEvent): void => {
     handleOpenModifyModal(e);
+  };
+
+  const handleUpdateGameReview = async (): Promise<void> => {
+    const changedContentInfo = {
+      app_id: contentInfo.app_id,
+      user_id: userId,
+      content: content,
+    };
+
+    const response = await putUpdateGameContent(changedContentInfo);
+
+    if (response) {
+      location.reload();
+    }
   };
 
   return (
     <div css={wrapper} onClick={(e) => e.stopPropagation()}>
       <div css={gameReviewModalWrapper}>
         <img
-          src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${reviewInfo.app_id}/header.jpg`}
+          src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${contentInfo.app_id}/header.jpg`}
           alt="게임 이미지"
         />
         <div css={gameContentWrapper}>
           <div css={headerWrapper}>
-            <span>{reviewInfo.title}</span>
-            <GameRating rate={reviewInfo.rating} />
+            <span>{contentInfo.title}</span>
+            <GameRating rate={contentInfo.rating} />
           </div>
           <span>나의 리뷰</span>
-          <textarea defaultValue={reviewInfo.review}></textarea>
+          <textarea defaultValue={contentInfo.review} onChange={(e) => setContent(e.target.value)}></textarea>
           <div css={buttonWrapper}>
-            <button>수정</button>
+            <button onClick={handleUpdateGameReview}>수정</button>
             <button onClick={(e) => handleCloseModal(e)}>확인</button>
           </div>
         </div>
@@ -59,6 +77,8 @@ const gameReviewModalWrapper = css`
 
   > img {
     width: 100%;
+    min-height: 170px;
+    max-height: 170px;
     border-radius: 10px 10px 0 0;
   }
 `;

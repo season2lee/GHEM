@@ -1,5 +1,5 @@
 import { instance as axios } from "./instance";
-import { reviewInfoType } from "atomTypes";
+import { contentInfoType } from "apiTypes";
 
 // GET
 
@@ -27,9 +27,9 @@ export const getInterestedGameList = async (userId: number) => {
 
 // PUT
 
-export const putUpdateGameReview = async (reviewInfo: reviewInfoType) => {
+export const putUpdateGameContent = async (contentInfo: contentInfoType) => {
   try {
-    const { data } = await axios.put(`/review/modify`, reviewInfo);
+    const { data } = await axios.put(`/content/modify`, contentInfo);
 
     if (data.flag) return true;
     else return false;

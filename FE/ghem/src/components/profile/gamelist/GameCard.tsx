@@ -8,7 +8,7 @@ import { mobile } from "@/util/Mixin";
 import { gameType } from "gameList";
 import GameRating from "./GameRating";
 import { useSetRecoilState } from "recoil";
-import { reviewInfoState } from "@/store/mainState";
+import { contentInfoState } from "@/store/mainState";
 
 type GameCardProps = {
   userGameId: number;
@@ -22,7 +22,7 @@ type GameCardProps = {
 function GameCard({ userGameId, path, game, rating, review, isDragMove }: GameCardProps) {
   const navigate = useNavigate();
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-  const setReviewInfo = useSetRecoilState(reviewInfoState);
+  const setReviewInfo = useSetRecoilState(contentInfoState);
 
   const handleOpenMenu = (): void => {
     // recoil에 현재 리뷰를 수정하려는 게임의 정보 저장
