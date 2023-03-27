@@ -37,7 +37,7 @@ public class ContentController {
     @ApiOperation(value = "해당 게임의 작성된 모든 리뷰 글을 보여주는 API",
     notes = "app_id = 게임 고유번호\n" +
             "page = 보고싶은 페이지 번호\n" +
-            "max = 한번에 보고싶은 갯수",
+            "size = 한번에 보고싶은 갯수",
     response = String.class)
     public ResponseEntity<?> listContent(@PathVariable Long app_id,
                                          @PageableDefault(size = 5) Pageable pageable){
