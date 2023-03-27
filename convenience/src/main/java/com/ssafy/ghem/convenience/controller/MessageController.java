@@ -15,6 +15,8 @@ public class MessageController {
 
     @MessageMapping("/message")
     public void sendMessage(Message message) {
+
         template.convertAndSend("/sub/"+message, message);
+
     }
 }
