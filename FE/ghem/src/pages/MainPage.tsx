@@ -1,3 +1,4 @@
+import FixedButtom from "@components/main/FixedButtom";
 import HoverGameItem from "@components/main/HoverGameItem";
 import { css } from "@emotion/react";
 import React, { useState } from "react";
@@ -19,6 +20,7 @@ function MainPage() {
   const [pageXY, setPageXY] = useState<PageXY>({ x: 0, y: 0 });
   return (
     <div css={centerDiv}>
+      <FixedButtom />
       <Banner />
       <Discount
         setAppid={setAppid}
