@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
-import testGameImage from "../../../assets/image/testGameImage.jpg";
 import meatballIcon from "../../../assets/image/meatballIcon.png";
 import { FaHeart } from "react-icons/fa";
 import MenuDropdown from "../common/MenuDropdown";
 import { useNavigate } from "react-router-dom";
 import { mobile } from "@/util/Mixin";
 import { gameType } from "gameList";
+import GameRating from "./GameRating";
 
 type GameCardProps = {
   path?: string;
@@ -60,7 +60,7 @@ function GameCard({ path, game, rating, review, isDragMove }: GameCardProps) {
       <div css={gameContentWrapper} onClick={() => moveToGameDetail(1)}>
         <div css={gameContentHeader}>
           <b>{game.title}</b>
-          {path !== "interest" && <span>{rating}</span>}
+          {path !== "interest" && <GameRating rate={rating} />}
         </div>
         {review && <span>{review}</span>}
       </div>
@@ -155,8 +155,8 @@ const gameContentHeader = css`
   justify-content: space-between;
   margin-bottom: 5px;
 
-  > span {
-    font-size: 13px;
+  > svg {
+    color: #fff629;
   }
 `;
 
