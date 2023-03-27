@@ -1,13 +1,23 @@
 import React from "react";
 import { css } from "@emotion/react";
 
-function SelectBox() {
+type SelectBoxProps = {
+  optionList: string[];
+};
+
+function SelectBox({ optionList }: SelectBoxProps) {
+  const initOptions = ["제조사", "시리즈", "세대", "모델명", "종류"];
+
+  const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    if (initOptions.includes(e.target.value)) return;
+    console.log(e.target.value);
+  };
+
   return (
-    <select css={select}>
-      <option>제조사</option>
-      <option>사과</option>
-      <option>바나나</option>
-      <option>레몬</option>
+    <select css={select} onChange={handleChangeOption}>
+      {optionList.map((option, idx) => (
+        <option key={idx}>{option}</option>
+      ))}
     </select>
   );
 }
