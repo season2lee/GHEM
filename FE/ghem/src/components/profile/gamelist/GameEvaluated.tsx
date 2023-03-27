@@ -6,6 +6,7 @@ import { mobile } from "@/util/Mixin";
 import GameCard from "./GameCard";
 import { getEvaluatedGameList } from "@/api/gamelist";
 import { gameType, gameListType } from "gameList";
+import GameNoneList from "./GameNoneList";
 
 function GameEvaluated() {
   const userId: number | null = Number(localStorage.getItem("id"));
@@ -81,7 +82,7 @@ function GameEvaluated() {
           ))}
         </div>
       ) : (
-        <></>
+        <GameNoneList path="평가" />
       )}
     </div>
   );

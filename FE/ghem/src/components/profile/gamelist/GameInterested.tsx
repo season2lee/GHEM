@@ -4,6 +4,7 @@ import GameCard from "./GameCard";
 import { mobile } from "@/util/Mixin";
 import { getInterestedGameList } from "@/api/gamelist";
 import { gameType, gameListType } from "gameList";
+import GameNoneList from "./GameNoneList";
 
 function GameInterested() {
   const userId: number | null = Number(localStorage.getItem("id"));
@@ -67,7 +68,7 @@ function GameInterested() {
           ))}
         </div>
       ) : (
-        <></>
+        <GameNoneList path="찜" />
       )}
     </div>
   );
