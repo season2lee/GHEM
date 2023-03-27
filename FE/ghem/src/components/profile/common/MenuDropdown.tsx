@@ -13,7 +13,6 @@ function MenuDropdown() {
   };
 
   const handleDeleteGame = (): void => {
-    // 목록에서 삭제
     alert("목록에서 삭제");
   };
 
@@ -27,18 +26,14 @@ function MenuDropdown() {
         <AiOutlineDelete size="20" />
         <span>삭제하기</span>
       </div>
-      {isOpenModal && (
-        <GameReviewModal
-          handleOpenModifyModal={(e) => handleOpenModifyModal(e)}
-        />
-      )}
+      {isOpenModal && <GameReviewModal handleOpenModifyModal={(e) => handleOpenModifyModal(e)} />}
     </div>
   );
 }
 
 const wrapper = css`
   position: absolute;
-  top: 25px;
+  top: 28px;
   right: 0;
   width: 150px;
   height: 90px;
