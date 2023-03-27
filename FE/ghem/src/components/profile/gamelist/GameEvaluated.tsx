@@ -80,6 +80,7 @@ function GameEvaluated() {
           {gameList.map((list, idx) => (
             <GameCard
               key={list.userGame.userGameId}
+              userGameId={list.userGame.userGameId}
               game={list.userGame.game}
               rating={list.userGame.rating}
               review={list.content}

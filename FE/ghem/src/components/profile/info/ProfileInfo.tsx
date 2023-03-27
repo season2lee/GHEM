@@ -9,7 +9,7 @@ import baseProfile from "../../../assets/image/baseProfile.png";
 import { getUserProfile } from "@/api/user";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { userInfoStateType, userInfoState } from "@/store/mainState";
+import { userInfoState } from "@/store/mainState";
 
 function ProfileInfo() {
   const navigate = useNavigate();

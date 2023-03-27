@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import meatballIcon from "../../../assets/image/meatballIcon.png";
 import { FaHeart } from "react-icons/fa";
@@ -7,8 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { mobile } from "@/util/Mixin";
 import { gameType } from "gameList";
 import GameRating from "./GameRating";
+import { useSetRecoilState } from "recoil";
+import { reviewInfoState } from "@/store/mainState";
 
 type GameCardProps = {
+  userGameId: number;
   path?: string;
   game: gameType;
   rating: number;
@@ -16,12 +19,21 @@ type GameCardProps = {
   isDragMove: boolean;
 };
 
-function GameCard({ path, game, rating, review, isDragMove }: GameCardProps) {
+function GameCard({ userGameId, path, game, rating, review, isDragMove }: GameCardProps) {
   const navigate = useNavigate();
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-  const [gameImage, setGameImage] = useState<string>("");
+  const setReviewInfo = useSetRecoilState(reviewInfoState);
 
   const handleOpenMenu = (): void => {
+    // recoil에 현재 리뷰를 수정하려는 게임의 정보 저장
+    setReviewInfo({
+      app_id: game.appId,
+      user_game_id: userGameId,
+      title: game.title,
+      rating: rating,
+      review: review,
+    });
+
     setIsOpenMenu(!isOpenMenu);
   };
 
@@ -35,17 +47,10 @@ function GameCard({ path, game, rating, review, isDragMove }: GameCardProps) {
     }
   };
 
-  useEffect(() => {
-    if (game) {
-      const image = `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appId}/header.jpg`;
-      setGameImage(image);
-    }
-  }, [game]);
-
   return (
     <div css={gameCardWrapper}>
       <div css={gameImageWrapper}>
-        <img src={gameImage} alt="게임 이미지" />
+        <img src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appId}/header.jpg`} alt="게임 이미지" />
         {path === "interest" ? (
           <div css={likeButtonWrapper}>
             <FaHeart size="25" onClick={handleRemoveLike} />

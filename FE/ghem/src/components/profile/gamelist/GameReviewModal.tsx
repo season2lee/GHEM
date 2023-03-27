@@ -1,12 +1,15 @@
-import React from "react";
 import { css } from "@emotion/react";
-import testGameImage from "../../../assets/image/testGameImage.jpg";
+import { reviewInfoState } from "@/store/mainState";
+import { useRecoilValue } from "recoil";
+import GameRating from "./GameRating";
 
 type GameReviewModalProps = {
   handleOpenModifyModal: (e: React.MouseEvent) => void;
 };
 
 function GameReviewModal({ handleOpenModifyModal }: GameReviewModalProps) {
+  const reviewInfo = useRecoilValue(reviewInfoState);
+
   const handleCloseModal = (e: React.MouseEvent): void => {
     handleOpenModifyModal(e);
   };
@@ -14,14 +17,17 @@ function GameReviewModal({ handleOpenModifyModal }: GameReviewModalProps) {
   return (
     <div css={wrapper} onClick={(e) => e.stopPropagation()}>
       <div css={gameReviewModalWrapper}>
-        <img src={testGameImage} alt="게임 이미지" />
+        <img
+          src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${reviewInfo.app_id}/header.jpg`}
+          alt="게임 이미지"
+        />
         <div css={gameContentWrapper}>
           <div css={headerWrapper}>
-            <span>카트라이더</span>
-            <small>평점</small>
+            <span>{reviewInfo.title}</span>
+            <GameRating rate={reviewInfo.rating} />
           </div>
           <span>나의 리뷰</span>
-          <textarea></textarea>
+          <textarea defaultValue={reviewInfo.review}></textarea>
           <div css={buttonWrapper}>
             <button>수정</button>
             <button onClick={(e) => handleCloseModal(e)}>확인</button>
@@ -92,6 +98,10 @@ const headerWrapper = css`
     font-size: 20px;
     font-weight: bold;
   }
+
+  > svg {
+    color: #fff629;
+  }
 `;
 
 const buttonWrapper = css`
@@ -104,8 +114,6 @@ const buttonWrapper = css`
   > button {
     cursor: pointer;
     padding: 10px 40px;
-    /* width: 100px;
-    height: 35px; */
     color: white;
     font-size: 15px;
     border: none;

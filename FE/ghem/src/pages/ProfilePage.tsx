@@ -6,7 +6,7 @@ import GameList from "@components/profile/gamelist/GameList";
 import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
 import { mobile } from "@/util/Mixin";
 import { useRecoilValue } from "recoil";
-import { userInfoStateType, userInfoState } from "@/store/mainState";
+import { userInfoState } from "@/store/mainState";
 
 function ProfilePage() {
   const navigate = useNavigate();
