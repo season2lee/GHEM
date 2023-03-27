@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 import { AiOutlineClose } from "react-icons/ai";
-import { putUserSteamAccount, steamAccountType } from "@/api/user";
+import { putUserSteamAccount } from "@/api/user";
+import { steamAccountType } from "apiTypes";
 
 type ProfileSteamIdModalProps = {
   handleOpenSteamIdModal: () => void;
