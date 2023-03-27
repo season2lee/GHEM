@@ -1,5 +1,6 @@
 package com.ssafy.ghem.user.model.service;
 
+import com.ssafy.ghem.user.controller.exception.AlreadyExistData;
 import com.ssafy.ghem.user.controller.exception.DoesNotExistData;
 import com.ssafy.ghem.user.model.entity.Game;
 import com.ssafy.ghem.user.model.entity.GameReview;
@@ -43,12 +44,8 @@ public class ReviewServiceImpl implements ReviewService {
         Game game = gameCommonRepository.findById(reviewInfo.getApp_id())
                 .orElseThrow(() -> new DoesNotExistData("해당하는 게임 정보가 없습니다."));
 
-        try {
-            if (userGameCommonRepository.findByUserGame(game, user) != null)
-                throw new AlreadyBoundException("이미 해당 데이터가 존재합니다.");
-        } catch (Exception e){
-
-        }
+        if (userGameCommonRepository.findByUserGame(game, user) != null)
+            throw new AlreadyExistData("이미 해당 데이터가 존재합니다.");
 
         UserGame userGame = UserGame.builder()
                             .rating(reviewInfo.getRating())
