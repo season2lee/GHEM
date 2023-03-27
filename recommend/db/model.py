@@ -19,3 +19,7 @@ class UserGameRating(BaseModel):
     steam_id : int
     app_id : int
     rating : int
+
+class Genre(BaseModel):
+    genre_id : int
+    genre : str

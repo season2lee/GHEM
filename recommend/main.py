@@ -6,8 +6,8 @@ from fastapi import FastAPI
 from typing import List
 from contextlib import asynccontextmanager
 from db.database import get_postgres_connection, get_mysql_connection
-from db.cosin import update_svd_model, get_similar_games, get_similar_users, recommend_games
-from db.model import GameRecommendation, UserRecommendation, UserGameRating
+from db.cosin import update_svd_model, get_similar_games, get_similar_users, recommend_games, sort_by_genre
+from db.model import GameRecommendation, Genre, UserRecommendation, UserGameRating
 
 # svd, ratings, gameinfo, trainset
 userinfo = pd.DataFrame()
@@ -38,7 +38,7 @@ async def get_data_from_databases():
 
         await mysql_cur.execute("SELECT * FROM game;")
         rows = await mysql_cur.fetchall()
-        col_name = ['app_id', 'genre', 'negative_reviews', 'positive_reviews', 'rating', 'rating_desc', 'release_date', 'title']
+        col_name = ['app_id', 'genre', 'negative_reviews', 'positive_reviews', 'rating', 'rating_desc', 'title', 'release_date']
         gameinfo = pd.DataFrame(rows, columns=col_name)
 
 
@@ -111,7 +111,7 @@ def recommuser(steam_id : int = 0):
 
 # 유저에게 게임 추천 
 @app.get("/user/games", response_model=List[GameRecommendation])
-def recommusergames(steam_id : int = 0):
+def recommusergames(steam_id : int = 0, start : int = 0, end : int = 10):
     if steam_id == 0:
         return [], 200
 
@@ -121,9 +121,31 @@ def recommusergames(steam_id : int = 0):
 
 # 게임과 비슷한 게임 추천
 @app.get("/games", response_model=List[GameRecommendation])
-def recommgames(app_id : int = 0):
+def recommgames(app_id : int = 0, start : int = 0, end : int = 10):
     if app_id == 0:
         return '', 200
     
     recommend_games = get_similar_games(app_id, svd, trainset, gameinfo)
     return recommend_games
+
+# 게임 장르별 추천 추천
+@app.get("/games/genre", response_model=List[GameRecommendation])
+def recommgames(genre : str = '', top : int = 10):
+    if str == '':
+        return '', 200
+    
+    recommend_games = sort_by_genre(gameinfo, genre, top)
+    return recommend_games
+
+# 게임 장르 리스트
+@app.get("/genres", response_model=List[Genre])
+async def genres():
+    try:
+        async with get_mysql_connection() as conn:
+            async with conn.cursor() as cursor:
+                await cursor.execute("SELECT * FROM genres;")
+                rows = await cursor.fetchall()
+                genres = [Genre(genre_id=row[0], genre=row[1]) for row in rows]
+                return genres
+    except Exception as e:
+        return JsonResponse(status_code=400, content={"message": str(e)})
