@@ -5,7 +5,7 @@ import FilterDropdown from "../common/FilterDropdown";
 import { mobile } from "@/util/Mixin";
 import GameCard from "./GameCard";
 import { getEvaluatedGameList } from "@/api/gamelist";
-import { gameListType } from "gameList";
+import { evaluatedGameListType } from "gameList";
 import GameNoneList from "./GameNoneList";
 
 function GameEvaluated() {
@@ -14,7 +14,7 @@ function GameEvaluated() {
   const scrollElement = scrollRef.current;
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
-  const [gameList, setGameList] = useState<gameListType[]>([]);
+  const [gameList, setGameList] = useState<evaluatedGameListType[]>([]);
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
   const [isDragMove, setIsDragMove] = useState<boolean>(false);
 

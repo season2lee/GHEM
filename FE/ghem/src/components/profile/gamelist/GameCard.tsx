@@ -11,12 +11,12 @@ import { useSetRecoilState } from "recoil";
 import { contentInfoState } from "@/store/mainState";
 
 type GameCardProps = {
-  userGameId: number;
-  path?: string;
   game: gameType;
-  rating: number;
-  review?: string;
   isDragMove: boolean;
+  userGameId?: number;
+  rating?: number;
+  review?: string;
+  path?: string;
 };
 
 function GameCard({ userGameId, path, game, rating, review, isDragMove }: GameCardProps) {
@@ -26,15 +26,17 @@ function GameCard({ userGameId, path, game, rating, review, isDragMove }: GameCa
 
   const handleOpenMenu = (): void => {
     // recoil에 현재 리뷰를 수정하려는 게임의 정보 저장
-    setReviewInfo({
-      app_id: game.appId,
-      user_game_id: userGameId,
-      title: game.title,
-      rating: rating,
-      review: review,
-    });
+    if (userGameId && rating) {
+      setReviewInfo({
+        app_id: game.appId,
+        user_game_id: userGameId,
+        title: game.title,
+        rating: rating,
+        review: review,
+      });
 
-    setIsOpenMenu(!isOpenMenu);
+      setIsOpenMenu(!isOpenMenu);
+    }
   };
 
   const handleRemoveLike = (): void => {
@@ -65,7 +67,7 @@ function GameCard({ userGameId, path, game, rating, review, isDragMove }: GameCa
       <div css={gameContentWrapper} onClick={() => moveToGameDetail(1)}>
         <div css={gameContentHeader}>
           <b>{game.title}</b>
-          {path !== "interest" && <GameRating rate={rating} />}
+          {rating && <GameRating rate={rating} />}
         </div>
         {review && <span>{review}</span>}
       </div>
