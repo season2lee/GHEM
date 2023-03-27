@@ -13,37 +13,62 @@ type HoverGameItemProps = {
   pageXY: PageXY;
 };
 
-type GameTitle = {
-  whatType: string;
-  name: string;
-  recommendations: number;
-  isLike: boolean;
+export type GamePrice = {
+  initial: number;
+  final: number;
+  discount_percent: number;
+  final_formatted: string;
 };
 
-type Genres = {
+export type Genres = {
   id: number;
   description: string;
 };
 
-type GameDetail = {
+export type GameDetailFromSteam = {
+  name: string;
+  type: string;
+  is_free: boolean;
+  short_description: string;
+  price_overview: GamePrice;
+  screenshots: {
+    id: number;
+    path_thumbnail: string;
+  }[];
+  movies?: {
+    id: number;
+    webm: { 480: string };
+    mp4: { 480: string };
+  }[];
+  recommendations: {
+    total: number;
+  };
   genres: Genres[];
 };
 
 function HoverGameItem(props: HoverGameItemProps) {
-  const [gameTitle, setGameTitle] = useState<[]>([]);
-  const [gameDetail, setGamedetail] = useState<[]>([]);
+  const [gameDetail, setGamedetail] = useState<GameDetailFromSteam | null>(
+    null
+  );
+  const [haveData, setHaveData] = useState<"have" | "null" | "loading">(
+    "loading"
+  );
   useEffect(() => {
     getGameDetail();
     return () => {};
-  }, []);
+  }, [props.appid]);
 
   const getGameDetail = async () => {
     try {
       const response = await axios.get(
         `https://store.steampowered.com/api/appdetails?appids=${props.appid}&l=korean`
       );
-      console.log(response.data[props.appid ?? "null"].data);
-      setGamedetail(response.data[props.appid ?? "null"].data);
+      if (response.data[props.appid ?? "null"].success) {
+        setGamedetail(response.data[props.appid ?? "null"].data);
+        setHaveData("have");
+      } else {
+        setHaveData("null");
+      }
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -64,20 +89,24 @@ function HoverGameItem(props: HoverGameItemProps) {
         props.setColId(props.colId);
       }}
     >
-      HoverGameItem
-      {props.appid}
-      <HoverGameTitle />
-      <HoverGameDescription />
+      <HoverGameTitle
+        gameTitle={gameDetail?.name}
+        gameRecommend={gameDetail?.recommendations}
+        gameType={gameDetail?.type}
+        appid={props.appid}
+        haveData={haveData}
+      />
+      <HoverGameDescription gameDetail={gameDetail} haveData={haveData} />
     </div>
   );
 }
 
 const hoverModal = css`
   position: fixed;
-  background-color: azure;
+  background-color: #eae7ef;
   width: 30%;
   height: 40%;
-  padding: 5rem;
+  padding: 1rem;
   color: black;
   border-radius: 10px;
 `;
