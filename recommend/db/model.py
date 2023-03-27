@@ -23,3 +23,6 @@ class UserGameRating(BaseModel):
 class Genre(BaseModel):
     genre_id : int
     genre : str
+
+class Game(BaseModel):
+    app_id : int

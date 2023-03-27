@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 import pandas as pd
+import requests
 from surprise import Dataset, Reader, SVD
 from surprise.model_selection import train_test_split
 from fastapi import FastAPI
@@ -7,7 +8,7 @@ from typing import List
 from contextlib import asynccontextmanager
 from db.database import get_postgres_connection, get_mysql_connection
 from db.cosin import update_svd_model, get_similar_games, get_similar_users, recommend_games, sort_by_genre
-from db.model import GameRecommendation, Genre, UserRecommendation, UserGameRating
+from db.model import Game, GameRecommendation, Genre, UserRecommendation, UserGameRating
 
 # svd, ratings, gameinfo, trainset
 userinfo = pd.DataFrame()
@@ -73,6 +74,76 @@ app = FastAPI(lifespan=lifespan)
 async def root():
     return {"message" : "Hello World"}
 
+
+# POST 요청 처리 및 데이터 삽입
+@app.post("/game")
+async def create_game(game : Game):
+    if game.app_id == 0:
+        return '', 200
+    try:
+        async with get_mysql_connection() as conn:
+            async with conn.cursor() as cursor:
+                await cursor.execute("SELECT app_id FROM game WHERE app_id = %s;", (game.app_id,))
+                row = await cursor.fetchone()
+                
+                
+
+                if(row == None):
+                    res = requests.get(f'https://store.steampowered.com/api/appdetails?appids={game.app_id}')
+
+                    game_data = res.json()
+                    
+                    try:
+                        game_data = game_data[f'{game.app_id}']
+                    except:
+                        return JsonResponse(status_code=500, content={"message": str(e)})
+
+                    try:
+                        game_data = game_data['data']
+                    except:
+                        return JsonResponse(status_code=500, content={"message": str(e)})
+
+                    try:
+                        game_title = game_data['name']
+                        
+                        game_genres = game_data['genres']
+                        game_genre = str()
+
+                        for i in range(len(game_genres)):
+                            if i == 0:
+                                game_genre += game_genres[i]['description']
+                            else:
+                                game_genre += "/" + game_genres[i]['description']
+                    except:
+                        return JsonResponse(status_code=500, content={"message": str(e)})
+                    
+                    game_release = game_data['release_date']
+                    game_release = game_release['date']
+                    
+
+                    try:
+                        res = requests.get(f'https://store.steampowered.com/appreviews/{game.app_id}?json=1')
+
+                        review_data = res.json()
+
+                        review_data = review_data['query_summary']
+                        
+                        review_score = review_data['review_score']
+                        review_score_desc = review_data['review_score_desc']
+                        positive_reviews = review_data['total_positive']
+                        negative_reviews = review_data['total_negative']
+
+                        
+                        await cursor.execute("""
+                            INSERT INTO game (app_id, genre, negative_reviews, positive_reviews, rating, rating_desc, title, release_date)
+                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                            """, (game.app_id, game_genre, negative_reviews, positive_reviews, review_score, review_score_desc, game_title, game_release))
+                        await conn.commit()
+                    except:
+                        return JsonResponse(status_code=500, content={"message": str(e)})
+        return '', 200       
+    except Exception as e:
+        return JsonResponse(status_code=400, content={"message": str(e)})
 
 # POST 요청 처리 및 데이터 삽입
 @app.post("/rating")
