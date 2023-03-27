@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getRequestKakaoLogin } from "@/api/oauth";
 // import { useSetRecoilState } from "recoil";
-// import { userInfoState, userInfoStateType } from "@/store/mainState";
+// import { userInfoState } from "@/store/mainState";
 import Loading from "@components/common/Loading";
 
 type responseType = {

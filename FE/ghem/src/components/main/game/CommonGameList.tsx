@@ -38,7 +38,7 @@ function CommonGameList(props: CommonGameListProps) {
   const scrollElement = scrollRef.current as HTMLDivElement;
 
   useEffect(() => {
-    const timeout = setTimeout(() => setForTime(forTime + 1), 20);
+    const timeout = setTimeout(() => setForTime(forTime + 1), 30);
 
     if (
       props.scrollType === -1 &&
@@ -147,6 +147,8 @@ const rowScroll = css`
   overflow: scroll;
   /* background-color: #584a6e; */
   padding: 1rem 0rem;
+  /* scroll-behavior: smooth;
+  transition: 0.3s; */
   /* margin: 1rem 0rem; */
   /* 가로 스크롤 + 숨기기 */
   /* overflow: hidden; */
