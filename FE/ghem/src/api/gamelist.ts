@@ -53,9 +53,20 @@ export const putUpdateGameContent = async (contentInfo: modifiedContentInfoType)
 
 // DELETE
 
-export const deleteEvaluatedGame = async (id: number) => {
+export const deleteEvaluatedGame = async (userId: number, appId: number) => {
   try {
-    const { data } = await axios.delete(`/review/delete/${id}`);
+    const { data } = await axios.delete(`/review/delete/${userId}/${appId}`);
+
+    if (data.flag) return true;
+    else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteInterestedGame = async (dibsId: number) => {
+  try {
+    const { data } = await axios.delete(`/dibs/delete/${dibsId}`);
 
     if (data.flag) return true;
     else return false;

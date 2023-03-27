@@ -5,8 +5,9 @@ import FilterDropdown from "../common/FilterDropdown";
 import { mobile } from "@/util/Mixin";
 import GameCard from "./GameCard";
 import { getEvaluatedGameList } from "@/api/gamelist";
-import { gameListType } from "gameList";
+import { evaluatedGameListType } from "gameList";
 import GameNoneList from "./GameNoneList";
+import { BiReset } from "react-icons/bi";
 
 function GameEvaluated() {
   const userId: number | null = Number(localStorage.getItem("id"));
@@ -14,9 +15,10 @@ function GameEvaluated() {
   const scrollElement = scrollRef.current;
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
-  const [gameList, setGameList] = useState<gameListType[]>([]);
+  const [gameList, setGameList] = useState<evaluatedGameListType[]>([]);
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
   const [isDragMove, setIsDragMove] = useState<boolean>(false);
+  const [filterType, setFilterType] = useState<number>(0); // 0: 필터X, 1: 리뷰O, 2: 리뷰X
 
   const handleOpenFilter = (): void => {
     setIsOpenFilter(!isOpenFilter);
@@ -47,7 +49,20 @@ function GameEvaluated() {
     const response = await getEvaluatedGameList(userId);
 
     if (response) {
-      setGameList(response.Estimate_List);
+      // 모든 목록
+      if (filterType === 0) {
+        setGameList(response.Estimate_List);
+      }
+      // 리뷰가 있는 목록
+      else if (filterType === 1) {
+        const filteredList = response.Estimate_List.filter((list: evaluatedGameListType) => list.content !== null);
+        setGameList(filteredList);
+      }
+      // 리뷰가 없는 목록
+      else if (filterType === 2) {
+        const filteredList = response.Estimate_List.filter((list: evaluatedGameListType) => list.content === null);
+        setGameList(filteredList);
+      }
     }
   };
 
@@ -55,7 +70,7 @@ function GameEvaluated() {
     if (userId) {
       getEvaluatedGameListFunc(userId);
     }
-  }, [userId]);
+  }, [userId, filterType]);
 
   return (
     <div css={gameEvaluatedWrapper}>
@@ -63,11 +78,20 @@ function GameEvaluated() {
         <h4>
           평가했어요 <span>({gameList.length})</span>
         </h4>
-        <div css={filterWrapper} onClick={handleOpenFilter}>
-          <span>필터</span>
-          <img src={filterIcon} alt="필터 아이콘" />
-          {isOpenFilter && <FilterDropdown />}
-        </div>
+        {filterType === 0 && (
+          <div css={filterWrapper} onClick={handleOpenFilter}>
+            <span>필터</span>
+            <img src={filterIcon} alt="필터 아이콘" />
+            {isOpenFilter && <FilterDropdown setFilterType={setFilterType} />}
+          </div>
+        )}
+        {filterType !== 0 && (
+          <div css={filterWrapper}>
+            {filterType === 1 && <span css={filterTypeSpan}>리뷰 있음 ✅</span>}
+            {filterType === 2 && <span css={filterTypeSpan}>리뷰 없음 ❎</span>}
+            <BiReset size="25" onClick={() => setFilterType(0)} />
+          </div>
+        )}
       </div>
       {gameList.length ? (
         <div
@@ -149,6 +173,11 @@ const filterWrapper = css`
     margin-left: 5px;
   }
 
+  > svg {
+    color: #f90808;
+    cursor: pointer;
+  }
+
   ${mobile} {
     > span {
       font-size: 16px;
@@ -158,6 +187,16 @@ const filterWrapper = css`
       width: 20px;
       height: 20px;
     }
+  }
+`;
+
+const filterTypeSpan = css`
+  margin-right: 10px;
+  color: #c9c9c9;
+  font-size: 16px;
+
+  ${mobile} {
+    font-size: 14px;
   }
 `;
 
