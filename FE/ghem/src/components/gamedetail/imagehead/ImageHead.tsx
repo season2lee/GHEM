@@ -30,7 +30,7 @@ function ImageHead({gameData, currentRating, setCurrentRating}: ImageHeadProps) 
         <div css={infoContainer}>
           <h1 style={{fontSize: "5rem"}}>{gameData.name}</h1>
           <p css={descContinater}>{gameData.shortDescription}</p>
-          <StarRating currentRating={currentRating} setCurrentRating={setCurrentRating} starSize={3}  />
+          <StarRating starSize={3} currentRating={currentRating} setCurrentRating={setCurrentRating} />
         </div>
       </ImageContainer>
     )

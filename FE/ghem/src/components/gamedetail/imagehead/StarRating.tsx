@@ -13,7 +13,6 @@ type StarRatingProps = {
 }
 
 function StarRating({starSize, currentRating, setCurrentRating, isPromptAvailable = true}: StarRatingProps) {
-  // const [currentRating, setCurrentRating] = useState(0);
   const [prompt, setPrompt] = useState("");
   const clickStarHandler = (rating: number) => {
     setCurrentRating((oldState) => {
@@ -85,7 +84,6 @@ const StyledContainer = styled.span<{starSize: number, rating: number}>`
     color: rgb(94, 78, 117);
     cursor: pointer;
     &:hover ~ button {
-      background-color: transparent;
       color: rgb(94, 78, 117);
     }
   }

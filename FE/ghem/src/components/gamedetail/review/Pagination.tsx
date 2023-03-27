@@ -3,12 +3,17 @@ import React, { useEffect, useState } from 'react'
 
 const MAX_PAGE_COUNT = 5;  // 최대로 보여질 페이지의 갯수
 
-function Pagination() {
+type PaginationProps = {
+  currentPage: number,
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
+}
+
+function Pagination({currentPage, setCurrentPage}: PaginationProps) {
   const [pageNums, setPageNums] = useState<number[]>([]);  // 페이지 번호 목록
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [isDisableMoveToPrev, setIsDisableMoveToPrev] = useState(true);
   const [isDisableMoveToNext, setIsDisableMoveToNext] = useState(false);
   const [lastPageNum, setLastPageNum] = useState(13);  // 마지막 페이지 번호
+  const [test, setTest] = useState("");
 
   // 페이지 번호 목록 정하는 함수
   // 단순히 시작하는 페이지, 끝나는 페이지만을 받아서 페이지 번호 목록 배열을 리턴할 뿐이다(선언적으로 사고함)
@@ -35,7 +40,7 @@ function Pagination() {
     }
   }, [])
 
-  // 현재 페이지 번호가 처음 or 마지막인지에 따라 
+  // 현재 페이지 번호가 처음 or 마지막인지에 따라 이전, 다음 버튼 활성화 여부 결정
   useEffect(() => {
     setIsDisableMoveToPrev(() => {
       if (currentPage === 1) {
@@ -61,7 +66,7 @@ function Pagination() {
         return oldState;
       } else {
         if (lastPageNum < MAX_PAGE_COUNT) {  // 마지막 페이지 번호가 최대로 보여질 페이지의 갯수보다 작은 경우
-          setPagesNumber(1, lastPageNum);  // 1~마지막 페이지로 렌더링 한다
+          setPagesNumber(1, lastPageNum);  // 1 ~ 마지막 페이지로 렌더링 한다
         } else {
           setPagesNumber(1, MAX_PAGE_COUNT);
         }
@@ -70,18 +75,7 @@ function Pagination() {
     })
   }
 
-  const moveLastPage = () => {
-    setCurrentPage((oldState) => {
-      if (oldState === lastPageNum) {
-        console.log("이미 마지막 페이지임");
-        return oldState;
-      } else {
-        setPagesNumber(lastPageNum - (lastPageNum - 1) % MAX_PAGE_COUNT, lastPageNum);
-        return lastPageNum;
-      }
-    })
-  }
-
+  // 이전 페이지로 이동하는 함수
   const movePrevPage = () => {
     setCurrentPage((oldState) => {
       if (oldState <= 1) {
@@ -97,7 +91,14 @@ function Pagination() {
     })
   }
 
+  // 다음 페이지로 이동하는 함수
   const moveNextPage = () => {
+    // setCurrentPage((oldState) => {
+    //   if (oldState === 5) {
+    //     setTest("q");
+    //   }
+    //   return oldState + 1;
+    // })
     setCurrentPage((oldState) => {
       if (oldState >= lastPageNum) {
         console.log("이미 마지막 페이지임");
@@ -112,6 +113,19 @@ function Pagination() {
           }
         }
         return newState;
+      }
+    })
+  }
+
+  // 마지막 페이지로 이동하는 함수
+  const moveLastPage = () => {
+    setCurrentPage((oldState) => {
+      if (oldState === lastPageNum) {
+        console.log("이미 마지막 페이지임");
+        return oldState;
+      } else {
+        setPagesNumber(lastPageNum - (lastPageNum - 1) % MAX_PAGE_COUNT, lastPageNum);
+        return lastPageNum;
       }
     })
   }
