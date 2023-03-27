@@ -1,7 +1,6 @@
 /* 보완할 점들
   1. 존재하지 않는 APP_ID 입력시에 게임 정보가 없음을 표현하는 페이지로 렌더링 해야함
   2. 스켈레톤 UI 적용 필요
-  3. loadGameData()로 인해 렌더링이 두 번 연달아 일어나는 현상 고치기
 */
 
 import React, { useEffect, useState } from 'react'
@@ -25,9 +24,11 @@ function GameDetailPage() {
   const appID = useParams().appid;  // URL의 path variable로 부터 APP_ID 추출
   const env = import.meta.env;
 
+  /*-------------------------- API 요청 함수들... --------------------------*/
   // 게임 상세 정보 가져오기
-  const loadGameData = async () => {
+  const getGameData = async () => {
     try {
+      console.log("gameData 요청");
       const response = await axios.get(env.VITE_GAME_DETAIL + appID);
       const data = response.data[String(appID)].data;
       setGameData(() => {
@@ -42,8 +43,10 @@ function GameDetailPage() {
     }
   }
 
-  const loadRatingData = async () => {
+  // 유저가 매긴 평점 가져오기
+  const getRatingData = async () => {
     try {
+      console.log("ratingData 요청");
       const response = await axios.get(env.VITE_API_BASE_URL + "/review/check", {
         params: {
           app_id: appID,
@@ -57,10 +60,15 @@ function GameDetailPage() {
     }
   }
 
+  // 유저가 매긴 평점 삭제하기
+  const deleteRatingData = async () => {
+    console.log("평점 삭제 요청");
+  }
+
+  // 유저가 매긴 평점 등록하기
   const postRatingData = async (rating: number) => {
     try {
-      console.log("별점 등록 요청...");
-      
+      console.log("평점 등록 요청");
       const response = await axios.post(env.VITE_API_BASE_URL + "/review", {
         app_id: appID,
         user_id: 9,
@@ -69,28 +77,44 @@ function GameDetailPage() {
       const result = response.data;
       console.log(result);
     } catch {
-      console.log("별점 등록 실패...");
+      console.log("평점 등록 실패...");
     }
   }
-  
-  useEffect(() => {
-    loadGameData();  // 렌더링을 두 번 연달아 일어나게 한다.
-    loadRatingData();
-  }, [])
+
+  // 유저가 매긴 평점 변경하기
+  const putRatingData = async (rating: number) => {
+    console.log("평점 변경 요청");
+  }
+
+  // 별점 클릭한 이벤트에 대한 핸들러
+  const ratingHandler = (newRating: number) => {
+    if (newRating === 0) {  // 별점 취소한 경우
+      setCurrentRating(() => {
+        deleteRatingData();
+        return 0;
+      });
+    } else {
+      setCurrentRating((oldState) => {
+        if (oldState === 0) {  // 새로운 별점을 입력한 경우
+          postRatingData(newRating);
+        } else {  // 기존의 별점을 변경한 경우
+          putRatingData(newRating);
+        }
+        return newRating;
+      })
+    }
+  }
+  /*----------------------------------------------------*/
 
   useEffect(() => {
-    if (currentRating === 0) {
-      // 삭제 요청하기
-      return;
-    } else {
-      postRatingData(currentRating);
-    }
-  }, [currentRating])
+    getGameData();
+    getRatingData();
+  }, [])
   
   return (
     <div>
       {/* 라이브러리 이미지를 가진 헤드 컴포넌트*/}
-      {gameData && <ImageHead gameData={gameData} currentRating={currentRating} setCurrentRating={setCurrentRating} />}
+      {gameData && <ImageHead gameData={gameData} currentRating={currentRating} ratingHandler={ratingHandler} />}
 
       <div css={container}>
         <div css={leftContainer}>

@@ -1,7 +1,6 @@
 import { css } from '@emotion/react'
 import React, { useRef, useState, useEffect } from 'react'
 import chad from '@/assets/image/chad.jpeg';
-import axios from 'axios';
 
 type ReviewInputProps = {
   isRated: boolean,
@@ -28,7 +27,6 @@ function ReviewInput({isRated}: ReviewInputProps) {
     if (inputRef.current) {
       console.log(inputRef.current.value);
       // API 요청하기...
-      axios.post()
       inputRef.current.value = "";
     }
   }

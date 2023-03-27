@@ -8,6 +8,7 @@ import React, { useEffect } from 'react'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import StarRating from './StarRating'
+import axios from 'axios'
 
 type ImageHeadProps = {
   gameData: {
@@ -16,10 +17,10 @@ type ImageHeadProps = {
     shortDescription: string
   } | null,
   currentRating: number,
-  setCurrentRating: React.Dispatch<React.SetStateAction<number>>,
+  ratingHandler: (newRating: number) => void,
 }
 
-function ImageHead({gameData, currentRating, setCurrentRating}: ImageHeadProps) {
+function ImageHead({gameData, currentRating, ratingHandler}: ImageHeadProps) {
   if (gameData === null) {
     return (
       <div>스켈레톤...</div>
@@ -30,7 +31,7 @@ function ImageHead({gameData, currentRating, setCurrentRating}: ImageHeadProps) 
         <div css={infoContainer}>
           <h1 style={{fontSize: "5rem"}}>{gameData.name}</h1>
           <p css={descContinater}>{gameData.shortDescription}</p>
-          <StarRating starSize={3} currentRating={currentRating} setCurrentRating={setCurrentRating} />
+          <StarRating starSize={3} currentRating={currentRating} ratingHandler={ratingHandler} />
         </div>
       </ImageContainer>
     )

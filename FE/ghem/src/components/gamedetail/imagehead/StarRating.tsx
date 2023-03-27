@@ -3,40 +3,40 @@ import styled from '@emotion/styled';
 import React, { useState, useEffect } from 'react'
 
 const RATING_COUNT = 5;
+const PROPMPTS = ["", "정말 재미없었어요", "재미없었어요", "평범했어요", "재밌었어요", "정말 재밌었어요"];
 const ratingArr = Array.from(Array(RATING_COUNT), (_, index) => index + 1);
 
 type StarRatingProps = {
   starSize: number,
   currentRating: number,
-  setCurrentRating: React.Dispatch<React.SetStateAction<number>>,
+  ratingHandler: (newRating: number) => void,  // 평점 입력에 대한 핸들러. 직접 정의해서 넘겨주어야 한다
   isPromptAvailable?: boolean  // 프롬프트를 껐다 키는 것을 선택
 }
 
-function StarRating({starSize, currentRating, setCurrentRating, isPromptAvailable = true}: StarRatingProps) {
+function StarRating({starSize, currentRating, ratingHandler, isPromptAvailable = true}: StarRatingProps) {
   const [prompt, setPrompt] = useState("");
-  const clickStarHandler = (rating: number) => {
-    setCurrentRating((oldState) => {
-      if (oldState === rating) {
-        setPrompt("");
-        return 0;
-      }
-      return rating;
-    });
+  const handleClickStar = (newRating: number) => {
+    if (currentRating === newRating) {
+      setPrompt("");
+      ratingHandler(0);
+    } else {
+      ratingHandler(newRating);
+    }
   }
 
   // 현재 평가 점수에 맞춰 프롬프트를 리턴
   const promptMapping = (rating: number) => {
     switch (rating) {
       case 1:
-        return "정말 재미없었어요"
+        return PROPMPTS[1];
       case 2:
-        return "재미없었어요"
+        return PROPMPTS[2];
       case 3:
-        return "평범했어요"
+        return PROPMPTS[3];
       case 4:
-        return "재밌었어요"
+        return PROPMPTS[4];
       case 5:
-        return "정말 재밌었어요"
+        return PROPMPTS[5];
       default:
         return ""
     }
@@ -60,7 +60,7 @@ function StarRating({starSize, currentRating, setCurrentRating, isPromptAvailabl
       <StyledContainer starSize={starSize} rating={currentRating}>
         {ratingArr.map((rating, index) => {
           return (
-            <button onClick={() => clickStarHandler(rating)} onMouseEnter={() => hoverHandler(rating)} onMouseLeave={() => leaveHandler(rating)} key={index}>★</button>
+            <button onClick={() => handleClickStar(rating)} onMouseEnter={() => hoverHandler(rating)} onMouseLeave={() => leaveHandler(rating)} key={index}>★</button>
           )
         })}
       </StyledContainer>
