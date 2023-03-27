@@ -14,6 +14,14 @@ declare module "apiTypes" {
 
   export type contentInfoType = {
     app_id: number;
+    content: string;
+    date: string;
+    user_game_id: number;
+    user_id: number;
+  };
+
+  export type modifiedContentInfoType = {
+    app_id: number;
     user_id: number;
     content: string;
   };

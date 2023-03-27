@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import { contentInfoState } from "@/store/mainState";
 import { useRecoilValue } from "recoil";
 import GameRating from "./GameRating";
-import { putUpdateGameContent } from "@/api/gamelist";
+import { postGameContent, putUpdateGameContent } from "@/api/gamelist";
+import FormatDate from "@/util/FormatDate";
 
 type GameReviewModalProps = {
   handleOpenModifyModal: (e: React.MouseEvent) => void;
@@ -13,24 +14,53 @@ function GameReviewModal({ handleOpenModifyModal }: GameReviewModalProps) {
   const userId: number | null = Number(localStorage.getItem("id"));
   const contentInfo = useRecoilValue(contentInfoState);
   const [content, setContent] = useState<string>("");
+  const [isFirstReview, setIsFirstReview] = useState<boolean>(false);
 
   const handleCloseModal = (e: React.MouseEvent): void => {
     handleOpenModifyModal(e);
   };
 
   const handleUpdateGameReview = async (): Promise<void> => {
-    const changedContentInfo = {
-      app_id: contentInfo.app_id,
-      user_id: userId,
-      content: content,
-    };
+    // 리뷰 등록이 안돼있으면 POST요청
+    if (isFirstReview) {
+      const date = FormatDate();
+      const changedContentInfo = {
+        app_id: contentInfo.app_id,
+        user_id: userId,
+        content: content,
+        date: date,
+        user_game_id: contentInfo.user_game_id,
+      };
 
-    const response = await putUpdateGameContent(changedContentInfo);
+      const response = await postGameContent(changedContentInfo);
 
-    if (response) {
-      location.reload();
+      if (response) {
+        location.reload();
+      }
+    }
+    // 리뷰 등록이 이미 돼있으면 PUT 요청
+    else {
+      const changedContentInfo = {
+        app_id: contentInfo.app_id,
+        user_id: userId,
+        content: content,
+      };
+
+      const response = await putUpdateGameContent(changedContentInfo);
+
+      if (response) {
+        location.reload();
+      }
     }
   };
+
+  useEffect(() => {
+    if (!contentInfo.review) {
+      setIsFirstReview(true);
+    } else {
+      setIsFirstReview(false);
+    }
+  }, [contentInfo.review]);
 
   return (
     <div css={wrapper} onClick={(e) => e.stopPropagation()}>
