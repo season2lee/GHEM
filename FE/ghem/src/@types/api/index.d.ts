@@ -28,7 +28,6 @@ declare module "apiTypes" {
 
   export type specInfoType = {
     cpu_com: string;
-    cpu_gen: number;
     cpu_series: string;
     gpu_com: string;
     gpu_name: string;

@@ -3,8 +3,11 @@ import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
 import { getCpuModel } from "@/api/computerSpec";
+import { specInfoState } from "@/store/mainState";
+import { useRecoilState } from "recoil";
 
 function ComputerSpecCPU() {
+  const [specInfo, setSpecInfo] = useRecoilState(specInfoState);
   const brand: string[] = ["Intel", "AMD"];
   const [series, setSeries] = useState<string[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>(brand[0]);
@@ -30,12 +33,34 @@ function ComputerSpecCPU() {
 
   const handleSelectSeries = (selected: string) => {
     setSelectedSeries(selected);
+    // 변경되는 CPU 시리즈 recoil에 저장
+    setSpecInfo((prev) => {
+      return {
+        ...prev,
+        cpu_series: selected,
+      };
+    });
     setIsOpenOption(false);
   };
 
   useEffect(() => {
     setSelectedSeries("");
+    // 변경되는 CPU 브랜드 recoil에 저장
+    setSpecInfo((prev) => {
+      return {
+        ...prev,
+        cpu_com: selectedBrand,
+      };
+    });
   }, [selectedBrand]);
+
+  useEffect(() => {
+    // 기존에 설정된 스펙이 있다면 세팅하기
+    if (specInfo.cpu_com !== "" && specInfo.cpu_series !== "") {
+      setSelectedBrand(specInfo.cpu_com);
+      setSelectedSeries(specInfo.cpu_series);
+    }
+  }, []);
 
   return (
     <div css={ComputerSpecWrapper}>

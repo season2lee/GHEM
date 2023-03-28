@@ -3,8 +3,11 @@ import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
 import { getGpuBrand, getGpuModel } from "@/api/computerSpec";
+import { specInfoState } from "@/store/mainState";
+import { useRecoilState } from "recoil";
 
 function ComputerSpecGPU() {
+  const [specInfo, setSpecInfo] = useRecoilState(specInfoState);
   const [brand, setBrand] = useState<string[]>([]);
   const [modelName, setModelName] = useState<string[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>("");
@@ -38,10 +41,22 @@ function ComputerSpecGPU() {
 
   const handleSelectModelName = (selected: string) => {
     setSelectedModelName(selected);
+    // 변경되는 GPU 모델명 recoil에 저장
+    setSpecInfo((prev) => {
+      return {
+        ...prev,
+        gpu_name: selected,
+      };
+    });
     setIsOpenOption(false);
   };
 
   useEffect(() => {
+    // 기존에 설정된 스펙이 있다면 세팅하기
+    if (specInfo.gpu_com !== "" && specInfo.gpu_name !== "") {
+      setSelectedBrand(specInfo.gpu_com);
+      setSelectedModelName(specInfo.gpu_name);
+    }
     getGpuBrandFunc();
   }, []);
 
@@ -53,6 +68,13 @@ function ComputerSpecGPU() {
 
   useEffect(() => {
     setSelectedModelName("");
+    // 변경되는 GPU 브랜드 recoil에 저장
+    setSpecInfo((prev) => {
+      return {
+        ...prev,
+        gpu_com: selectedBrand,
+      };
+    });
   }, [selectedBrand]);
 
   return (
