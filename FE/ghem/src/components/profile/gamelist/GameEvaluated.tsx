@@ -8,9 +8,12 @@ import { getEvaluatedGameList } from "@/api/gamelist";
 import { evaluatedGameListType } from "gameList";
 import GameNoneList from "./GameNoneList";
 import { BiReset } from "react-icons/bi";
+import { useLocation } from "react-router-dom";
 
 function GameEvaluated() {
-  const userId: number | null = Number(localStorage.getItem("id"));
+  const location = useLocation();
+  const pathnameId = Number(location.pathname.split("/")[2]);
+  // const userId: number | null = Number(localStorage.getItem("id"));
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollElement = scrollRef.current;
   const [isDrag, setIsDrag] = useState<boolean>(false);
@@ -71,10 +74,8 @@ function GameEvaluated() {
   };
 
   useEffect(() => {
-    if (userId) {
-      getEvaluatedGameListFunc(userId);
-    }
-  }, [userId, filterType]);
+    getEvaluatedGameListFunc(pathnameId);
+  }, [location, filterType]);
 
   return (
     <div css={gameEvaluatedWrapper}>

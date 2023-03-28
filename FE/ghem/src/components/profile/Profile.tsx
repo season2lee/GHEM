@@ -1,14 +1,28 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import ProfileInfo from "./info/ProfileInfo";
 import ProfileMenuList from "./menu/ProfileMenuList";
 import { mobile } from "@/util/Mixin";
+import { useLocation } from "react-router-dom";
 
 function Profile() {
+  const location = useLocation();
+  const userId: number | null = Number(localStorage.getItem("id"));
+  const [isMyProfile, setIsMyProfile] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (location.pathname !== "/profile/computerspec") {
+      const pathnameId = Number(location.pathname.split("/")[2]);
+
+      if (pathnameId === userId) setIsMyProfile(true);
+      else setIsMyProfile(false);
+    }
+  }, [location]);
+
   return (
     <div css={profileWrapper}>
       <ProfileInfo />
-      <ProfileMenuList />
+      {isMyProfile && <ProfileMenuList />}
     </div>
   );
 }

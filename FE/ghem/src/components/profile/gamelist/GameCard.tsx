@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import meatballIcon from "../../../assets/image/meatballIcon.png";
 import { FaHeart } from "react-icons/fa";
 import MenuDropdown from "../common/MenuDropdown";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { mobile } from "@/util/Mixin";
 import { gameType } from "gameList";
 import GameRating from "./GameRating";
@@ -19,12 +19,17 @@ type GameCardProps = {
   rating?: number;
   review?: string;
   path?: string;
+  isEachFollow?: boolean;
 };
 
-function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove }: GameCardProps) {
+function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove, isEachFollow }: GameCardProps) {
   const navigate = useNavigate();
-  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
+  const location = useLocation();
+  const pathnameId = Number(location.pathname.split("/")[2]);
+  const userId: number | null = Number(localStorage.getItem("id"));
   const setReviewInfo = useSetRecoilState(contentInfoState);
+  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
+  const [isMyProfile, setIsMyProfile] = useState<boolean>(true);
 
   const handleOpenMenu = (): void => {
     // recoil에 현재 리뷰를 수정하려는 게임의 정보 저장
@@ -46,33 +51,46 @@ function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove }
       const response = await deleteInterestedGame(dibsId);
 
       if (response) {
-        location.reload();
+        window.location.reload();
       }
     }
   };
 
   const moveToGameDetail = (): void => {
+    if (!isEachFollow) return;
     if (!isDragMove) {
       navigate(`/detail/${game.appId}`);
     }
   };
 
+  useEffect(() => {
+    if (pathnameId === userId) {
+      setIsMyProfile(true);
+    } else {
+      setIsMyProfile(false);
+    }
+  }, [location]);
+
   return (
     <div css={gameCardWrapper}>
       <div css={gameImageWrapper}>
         <img src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appId}/header.jpg`} alt="게임 이미지" />
-        {path === "interest" ? (
-          <div css={likeButtonWrapper}>
-            <FaHeart size="25" onClick={handleRemoveLike} />
-          </div>
+        {isMyProfile ? (
+          path === "interest" ? (
+            <div css={likeButtonWrapper}>
+              <FaHeart size="25" onClick={handleRemoveLike} />
+            </div>
+          ) : (
+            <div css={gameMeatballWrapper} onClick={handleOpenMenu}>
+              <img src={meatballIcon} alt="미트볼 메뉴 아이콘" />
+              {isOpenMenu && <MenuDropdown />}
+            </div>
+          )
         ) : (
-          <div css={gameMeatballWrapper} onClick={handleOpenMenu}>
-            <img src={meatballIcon} alt="미트볼 메뉴 아이콘" />
-            {isOpenMenu && <MenuDropdown />}
-          </div>
+          <></>
         )}
       </div>
-      <div css={gameContentWrapper} onClick={moveToGameDetail}>
+      <div css={isEachFollow ? gameContentWrapper : blurGameContentWrapper} onClick={moveToGameDetail}>
         <div css={gameContentHeader}>
           <b>{game.title}</b>
           {rating && <GameRating rate={rating} />}
@@ -111,6 +129,7 @@ const gameImageWrapper = css`
     width: 100%;
     height: 100%;
     border-radius: 5px 5px 0 0;
+    pointer-events: none;
   }
 `;
 
@@ -157,6 +176,17 @@ const gameContentWrapper = css`
   flex-direction: column;
   padding: 10px 15px 15px 15px;
   cursor: pointer;
+
+  > span {
+    font-size: 15px;
+  }
+`;
+
+const blurGameContentWrapper = css`
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px 15px 15px;
+  pointer-events: none;
 
   > span {
     font-size: 15px;
