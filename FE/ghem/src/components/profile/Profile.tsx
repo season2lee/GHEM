@@ -8,13 +8,15 @@ import { useLocation } from "react-router-dom";
 function Profile() {
   const location = useLocation();
   const userId: number | null = Number(localStorage.getItem("id"));
-  const [isMyProfile, setIsMyProfile] = useState<boolean>(false);
+  const [isMyProfile, setIsMyProfile] = useState<boolean>(true);
 
   useEffect(() => {
-    const pathnameId = Number(location.pathname.split("/")[2]);
+    if (location.pathname !== "/profile/computerspec") {
+      const pathnameId = Number(location.pathname.split("/")[2]);
 
-    if (pathnameId === userId) setIsMyProfile(true);
-    else setIsMyProfile(false);
+      if (pathnameId === userId) setIsMyProfile(true);
+      else setIsMyProfile(false);
+    }
   }, [location]);
 
   return (

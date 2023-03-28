@@ -12,20 +12,39 @@ type ProfileAccountProps = {
 
 function ProfileAccount({ nickname, steamId }: ProfileAccountProps) {
   const location = useLocation();
+  const pathnameId = Number(location.pathname.split("/")[2]);
   const userId: number | null = Number(localStorage.getItem("id"));
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [isMyProfile, setIsMyProfile] = useState<boolean>(false);
+  const [isMyProfile, setIsMyProfile] = useState<boolean>(true);
+  const [followType, setFollowType] = useState<string>("팔로우");
 
   const handleOpenSteamIdModal = (): void => {
     setIsOpenModal(!isOpenModal);
   };
 
-  useEffect(() => {
-    if (userId) {
-      const pathnameId = Number(location.pathname.split("/")[2]);
+  const handleFollowUser = async (): Promise<void> => {
+    if (followType === "팔로우") {
+      // 언팔로우 요청
+    } else if (followType === "언팔로우") {
+      // 팔로우 요청
+    }
+  };
 
-      if (pathnameId === userId) setIsMyProfile(true);
-      else setIsMyProfile(false);
+  const getFollowTypeFunc = async (): Promise<void> => {
+    // userId가 pathnameId를 팔로우하는지 언팔로우하는지 api 요청으로 알아내기
+    // const response = await getFollowType(userId, pathnameId);
+    // setFollowType("팔로우");
+    // setFollowType("언팔로우");
+  };
+
+  useEffect(() => {
+    if (pathnameId === userId) {
+      setIsMyProfile(true);
+    } else {
+      if (location.pathname !== "/profile/computerspec") {
+        setIsMyProfile(false);
+        getFollowTypeFunc();
+      }
     }
   }, [location]);
 
@@ -33,7 +52,7 @@ function ProfileAccount({ nickname, steamId }: ProfileAccountProps) {
     <div css={wrapper}>
       <div css={nicknameWrapper}>
         <p css={nicknameP}>{nickname}</p>
-        {!isMyProfile && <button>팔로우</button>}
+        {!isMyProfile && <button onClick={handleFollowUser}>{followType}</button>}
       </div>
       <div css={steamIdWrapper} onClick={handleOpenSteamIdModal}>
         <img src={steamLogo} alt="스팀 로고" />
