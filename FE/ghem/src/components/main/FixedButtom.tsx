@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { FaPowerOff } from "react-icons/fa";
 
 function FixedButtom() {
   const navigator = useNavigate();
@@ -19,7 +20,10 @@ function FixedButtom() {
 
   return (
     <div css={fixedBtn}>
-      <div onClick={scrollToTop}>위로 가기</div>
+      <div onClick={scrollToTop}>
+        위로 가기
+        <FaPowerOff size={30} style={{ fill: "black" }} />
+      </div>
       <div
         onClick={() => {
           navigator("/category");

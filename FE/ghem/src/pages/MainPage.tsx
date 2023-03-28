@@ -1,3 +1,4 @@
+import BannerTwo from "@components/main/BannerTwo";
 import FixedButtom from "@components/main/FixedButtom";
 import HoverGameItem from "@components/main/HoverGameItem";
 import { css } from "@emotion/react";
@@ -22,6 +23,7 @@ function MainPage() {
     <div css={centerDiv}>
       <FixedButtom />
       <Banner />
+      <BannerTwo />
       <Discount
         setAppid={setAppid}
         setIsEnter={setIsEnter}
