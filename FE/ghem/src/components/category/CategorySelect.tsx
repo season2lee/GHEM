@@ -24,7 +24,7 @@ function CategorySelect() {
   const CategoryListApi = async () => {
     try {
       const response = await axios.get(
-        "http://192.168.100.124:8000/genres"
+        "http://j8d107.p.ssafy.io:32003/genres"
       );
       setCategoryList(response.data)
     } catch (err) {
