@@ -1,5 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
+import { mobile } from "@/util/Mixin";
 
 type SelectBoxProps = {
   optionList: string[];
@@ -34,6 +35,10 @@ const select = css`
 
   > option {
     background: #352c42;
+  }
+
+  ${mobile} {
+    width: 100px;
   }
 `;
 

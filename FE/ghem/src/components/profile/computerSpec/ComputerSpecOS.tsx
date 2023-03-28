@@ -1,11 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
+import { specInfoState } from "@/store/mainState";
+import { useRecoilState } from "recoil";
 
 function ComputerSpecOS() {
-  const [type, setType] = useState<string[]>(["Windows", "Mac OS", "Linux"]);
+  const [specInfo, setSpecInfo] = useRecoilState(specInfoState);
+  const type: string[] = ["Windows", "Mac OS", "Linux"];
   const [selectedType, setSelectedType] = useState<string>(type[0]);
+
+  useEffect(() => {
+    // 기존에 설정된 스펙이 있다면 세팅하기
+    if (specInfo.os !== "") {
+      setSelectedType(specInfo.os);
+    }
+  }, []);
+
+  useEffect(() => {
+    // 변경되는 OS recoil에 저장
+    setSpecInfo((prev) => {
+      return {
+        ...prev,
+        os: selectedType,
+      };
+    });
+  }, [selectedType]);
 
   return (
     <div css={ComputerSpecWrapper}>
