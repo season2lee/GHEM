@@ -5,7 +5,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -36,4 +38,13 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<UserGame> games = new ArrayList<>();
 
+    // Follower relationships
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Follower> followers = new HashSet<>();
+
+    // Following relationships
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Following> followings = new HashSet<>();
 }
