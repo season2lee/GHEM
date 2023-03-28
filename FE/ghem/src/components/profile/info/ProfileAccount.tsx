@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import steamLogo from "../../../assets/image/steamLogo.png";
 import { mobile } from "@/util/Mixin";
 import ProfileSteamIdModal from "./ProfileSteamIdModal";
+import { useLocation } from "react-router-dom";
 
 type ProfileAccountProps = {
   nickname: string;
@@ -10,15 +11,30 @@ type ProfileAccountProps = {
 };
 
 function ProfileAccount({ nickname, steamId }: ProfileAccountProps) {
+  const location = useLocation();
+  const userId: number | null = Number(localStorage.getItem("id"));
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isMyProfile, setIsMyProfile] = useState<boolean>(false);
 
   const handleOpenSteamIdModal = (): void => {
     setIsOpenModal(!isOpenModal);
   };
 
+  useEffect(() => {
+    if (userId) {
+      const pathnameId = Number(location.pathname.split("/")[2]);
+
+      if (pathnameId === userId) setIsMyProfile(true);
+      else setIsMyProfile(false);
+    }
+  }, [location]);
+
   return (
     <div css={wrapper}>
-      <p css={nicknameP}>{nickname}</p>
+      <div css={nicknameWrapper}>
+        <p css={nicknameP}>{nickname}</p>
+        {!isMyProfile && <button>팔로우</button>}
+      </div>
       <div css={steamIdWrapper} onClick={handleOpenSteamIdModal}>
         <img src={steamLogo} alt="스팀 로고" />
         <span>{steamId}</span>
@@ -39,12 +55,38 @@ const wrapper = css`
   }
 `;
 
-const nicknameP = css`
-  font-weight: bold;
+const nicknameWrapper = css`
   margin: 20px 0 20px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  > button {
+    margin-left: 15px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #756292;
+    border-radius: 20px;
+    color: white;
+    padding: 5px 10px;
+    font-size: 13px;
+
+    :hover {
+      transition: all 0.5s;
+      background: #695883;
+    }
+  }
 
   ${mobile} {
     margin: 0 0 10px 0;
+  }
+`;
+
+const nicknameP = css`
+  font-weight: bold;
+
+  ${mobile} {
     font-size: 18px;
   }
 `;
