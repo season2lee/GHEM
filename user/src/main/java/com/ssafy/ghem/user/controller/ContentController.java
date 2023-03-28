@@ -46,6 +46,17 @@ public class ContentController {
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
+    @GetMapping("/check/{app_id}/{user_id}")
+    @ApiOperation(value = "해당 게임의 작성된 모든 리뷰가 존재하는지 확인하는 API",
+            notes = "app_id = 게임 고유번호\n" +
+                    "user_id = 유저 고유번호\n",
+            response = String.class)
+    public ResponseEntity<?> checkContent(@PathVariable Long app_id,
+                                          @PathVariable Long user_id){
+        HttpVo http = contentService.checkContent(app_id, user_id);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
+
     @PutMapping("/modify")
     @ApiOperation(value = "해당 게임의 작성된 모든 리뷰 글을 수정하는 API",
             notes = "app_id = 게임 고유번호" +

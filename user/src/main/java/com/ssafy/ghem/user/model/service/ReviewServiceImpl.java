@@ -92,8 +92,15 @@ public class ReviewServiceImpl implements ReviewService {
         User user = getUser(user_id);
         Game game = getGame(app_id);
 
+        GameReview gameReview = gameReviewCommonRepository.findByUserAndGame(user, game);
+        log.info("gameReview : {}", gameReview.toString());
+        if(gameReview != null){
+            gameReviewCommonRepository.delete(gameReview);
+        }
+
         UserGame userGame = userGameCommonRepository.findByUserGame(game, user);
         log.info("{}", userGame);
+
         if(userGame == null) throw new DoesNotExistData("요청한 ID에 해당하는 평가 정보가 존재하지 않습니다.");
 
         userGameCommonRepository.deleteById(userGame.getUserGameId());
