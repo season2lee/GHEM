@@ -1,11 +1,22 @@
 import { css } from "@emotion/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+
 function FixedButtom() {
   const navigator = useNavigate();
+  const userId: number | null = Number(localStorage.getItem("id"));
+  const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (userId) {
+      setIsLoginStatus(true);
+    }
+  }, [userId]);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   return (
     <div css={fixedBtn}>
       <div onClick={scrollToTop}>위로 가기</div>
@@ -16,13 +27,15 @@ function FixedButtom() {
       >
         게임 더 평가하기
       </div>
-      <div
-        onClick={() => {
-          navigator("/login");
-        }}
-      >
-        로그인하기
-      </div>
+      {!isLoginStatus && (
+        <div
+          onClick={() => {
+            navigator("/login");
+          }}
+        >
+          로그인하기
+        </div>
+      )}
     </div>
   );
 }
