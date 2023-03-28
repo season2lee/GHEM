@@ -1,6 +1,6 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 type GameNoneListProps = {
   path: string;
@@ -8,6 +8,10 @@ type GameNoneListProps = {
 
 function GameNoneList({ path }: GameNoneListProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const pathnameId = Number(location.pathname.split("/")[2]);
+  const userId: number | null = Number(localStorage.getItem("id"));
+  const [isMyProfile, setIsMyProfile] = useState<boolean>(true);
 
   const moveToActionPage = () => {
     switch (path) {
@@ -21,10 +25,18 @@ function GameNoneList({ path }: GameNoneListProps) {
     }
   };
 
+  useEffect(() => {
+    if (pathnameId === userId) {
+      setIsMyProfile(true);
+    } else {
+      setIsMyProfile(false);
+    }
+  }, [location]);
+
   return (
     <div css={wrapper}>
-      <span>아직 {path}한 게임이 없습니다.</span>
-      <button onClick={moveToActionPage}>{path}하러 가기</button>
+      <span>{path}한 게임이 없습니다.</span>
+      {isMyProfile && <button onClick={moveToActionPage}>{path}하러 가기</button>}
     </div>
   );
 }
