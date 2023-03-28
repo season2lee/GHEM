@@ -1,12 +1,38 @@
 import { css } from "@emotion/react";
-import React, { useRef, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import FriendListItem from "./FriendListItem";
+
+export type CanBeFriendList = {
+  steam_id: number;
+  nickname: string;
+  user_profile: string;
+};
 
 function FriendList() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [canClick, setCanClick] = useState<boolean>(true);
   const [startX, setStartX] = useState<number>(0);
+  const [friendList, setFriendList] = useState<CanBeFriendList[]>();
+  const userId: number | null = Number(localStorage.getItem("id"));
+
+  const GetFriendApi = async () => {
+    try {
+      const response = await axios.get(`http://j8d107.p.ssafy.io:32003/user`, {
+        params: { steam_id: userId },
+      });
+      // console.log(response.data);
+      setFriendList(response.data);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
+  useEffect(() => {
+    GetFriendApi();
+    return () => {};
+  }, []);
 
   const scrollElement = scrollRef.current as HTMLDivElement;
 
@@ -43,12 +69,15 @@ function FriendList() {
       onMouseUp={onDragEnd}
       onMouseLeave={onDragLeave}
     >
-      <FriendListItem canClick={canClick} id="1" />
-      <FriendListItem canClick={canClick} id="2" />
-      <FriendListItem canClick={canClick} id="3" />
-      <FriendListItem canClick={canClick} id="4" />
-      <FriendListItem canClick={canClick} id="5" />
-      <FriendListItem canClick={canClick} id="6" />
+      {friendList?.map((friend) => {
+        return (
+          <FriendListItem
+            canClick={canClick}
+            key={friend.steam_id}
+            friend={friend}
+          />
+        );
+      })}
     </div>
   );
 }
