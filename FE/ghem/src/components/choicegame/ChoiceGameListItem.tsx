@@ -6,13 +6,20 @@ import { evaluatedGameStateType, evaluatedGameState } from "@/store/mainState";
 import { useRecoilState } from "recoil";
 
 type ChoiceGameListItemProps = {
-  appid: number;
+  app_id: number;
   userId: number;
   isLoginStatus: boolean;
+  genre: string;
+  nagative_reviews: number;
+  positive_reviews: number;
+  rating: number;
+  rating_desc: string;
+  release_date: string;
+  title: string;
 };
 
 function ChoiceGameListItem({
-  appid,
+  app_id,
   userId,
   isLoginStatus,
   
@@ -29,14 +36,14 @@ function ChoiceGameListItem({
         setEvaluatedGame([
           ...evaluatedGame,
           {
-            app_id: appid,
+            app_id: app_id,
             rating: currentRating,
           },
         ]);  
       } else {
         setEvaluatedGame([
           {
-            app_id: appid,
+            app_id: app_id,
             rating: 5,
           },
         ]);
@@ -55,8 +62,8 @@ function ChoiceGameListItem({
         <Card onClick={onClickCard} checked={checked}>
           <img
             css={selectTmg}
-            src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/hero_capsule.jpg`}
-            alt={`${appid}`}
+            src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/hero_capsule.jpg`}
+            alt={`${app_id}`}
           />
           <StarRating
             starSize={2}
@@ -68,8 +75,8 @@ function ChoiceGameListItem({
         <Card onClick={onClickCard} checked={checked}>
           <img
             css={selectTmg}
-            src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/hero_capsule.jpg`}
-            alt={`${appid}`}
+            src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/hero_capsule.jpg`}
+            alt={`${app_id}`}
           />
         </Card>
       )}

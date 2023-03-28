@@ -1,13 +1,38 @@
-import React, {useState}from 'react';
+import React, {useEffect, useState}from 'react';
 import { CategoryData } from './CategoryTestData';
 import { css } from '@emotion/react';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import { mobile } from "@/util/Mixin";
+import styled from '@emotion/styled';
 
-
+type categoryListType = {
+  genre_id:number;
+  genre:string;
+} 
 
 function CategorySelect() {
   const navigate = useNavigate()
   const [selectedList, setSelectedList] = useState<string[]>([])
+  const [categoryList, setCategoryList] = useState<categoryListType[]>([])
+
+  useEffect(()=>{
+    CategoryListApi();
+    return () => {};
+  },[]);
+
+  const CategoryListApi = async () => {
+    try {
+      const response = await axios.get(
+        "http://j8d107.p.ssafy.io:32003/genres"
+      );
+      setCategoryList(response.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  console.log(selectedList)
   
 
   const onSelectedItem = ( checked:boolean, item:string) => {
@@ -25,13 +50,14 @@ function CategorySelect() {
   }
 
   const onMoveToChoice = () => {
-    navigate("/choicegame")
+    navigate("/choicegame", {state:selectedList})
   }
 
   return (
     <div>
       <div>
         {selectedList.length}
+        <button onClick={onMoveToChoice}>이동하기</button>
       </div>
       <div>
         {selectedList.length >= 3 ? <button onClick={onMoveToChoice}>이동하기</button>:null}
@@ -49,33 +75,41 @@ function CategorySelect() {
         )
       })}
       </div>
-      <div css={item}>
-        {CategoryData.map(item => {
+      <Item checked={false}>
+        {categoryList.map(item => {
           return(
-            <label key={item.id}>
+            <label key={item.genre_id}>
               <input
               type="checkbox"
-              value={item.gerne}
+              value={item.genre}
               onChange={e =>{onSelectedItem(e.target.checked, e.target.value);}}
-              checked={selectedList.includes(item.gerne)? true:false }
+              checked={selectedList.includes(item.genre)? true:false }
               />
-              <div>{item.gerne}</div>
+              <div>{item.genre}</div>
             </label>
           )
         })}
-      </div>
+      </Item>
     </div>
   )
 }
 
 export default CategorySelect
 
-const item = css`
+const Item = styled.div<{ checked: boolean }>`
  display: flex;
  justify-content: space-between;
  flex-wrap: wrap;
-
- div{
+ text-align: center;
+ label{
   width: 30%;
- }
+  height: 30%;
+  ${mobile} {
+    width: 50%;
+  }
+}
+  input {
+    display: none;
+   };
+   
 `
