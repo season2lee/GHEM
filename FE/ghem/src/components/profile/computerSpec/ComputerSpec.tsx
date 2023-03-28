@@ -64,6 +64,10 @@ const computerSpecBox = css`
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+
+  ${mobile} {
+    width: 100%;
+  }
 `;
 
 const computerSpecHeader = css`
