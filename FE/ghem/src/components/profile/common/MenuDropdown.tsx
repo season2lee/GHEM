@@ -12,16 +12,20 @@ function MenuDropdown() {
   const contentInfo = useRecoilValue(contentInfoState);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
+  // 리뷰 수정 모달 오픈
   const handleOpenModifyModal = (e: React.MouseEvent): void => {
     e.stopPropagation();
     setIsOpenModal(!isOpenModal);
   };
 
+  // 평가 항목에서 게임 삭제
   const handleDeleteGame = async (): Promise<void> => {
-    const response = await deleteEvaluatedGame(userId, contentInfo.app_id);
+    if (confirm("평가 항목에서 삭제하시겠습니까?")) {
+      const response = await deleteEvaluatedGame(userId, contentInfo.app_id);
 
-    if (response) {
-      location.reload();
+      if (response) {
+        location.reload();
+      }
     }
   };
 
@@ -29,7 +33,7 @@ function MenuDropdown() {
     <div css={wrapper}>
       <div css={menuWrapper} onClick={handleOpenModifyModal}>
         <TbPencilMinus size="20" />
-        <span>수정하기</span>
+        <span>리뷰 수정</span>
       </div>
       <div css={menuWrapper} onClick={handleDeleteGame}>
         <AiOutlineDelete size="20" />
