@@ -76,6 +76,10 @@ const container = css`
   margin-top: 10px;
 `
 
+const containerWithPropmpt = css`
+  
+`
+
 const StyledContainer = styled.span<{starSize: number, rating: number}>`
   button {
     font-size: ${props => `${props.starSize}` + "rem"};
@@ -104,6 +108,8 @@ const StyledContainer = styled.span<{starSize: number, rating: number}>`
 const promptStyle = css`
   font-size: 2rem;
   font-weight: bold;
+  height: 2rem;
+  margin-top: 10px;
 `
 
 export default StarRating
