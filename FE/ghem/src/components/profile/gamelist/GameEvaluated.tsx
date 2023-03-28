@@ -55,12 +55,16 @@ function GameEvaluated() {
       }
       // 리뷰가 있는 목록
       else if (filterType === 1) {
-        const filteredList = response.Estimate_List.filter((list: evaluatedGameListType) => list.content !== null);
+        const filteredList = response.Estimate_List.filter(
+          (list: evaluatedGameListType) => list.content !== null && list.content !== ""
+        );
         setGameList(filteredList);
       }
       // 리뷰가 없는 목록
       else if (filterType === 2) {
-        const filteredList = response.Estimate_List.filter((list: evaluatedGameListType) => list.content === null);
+        const filteredList = response.Estimate_List.filter(
+          (list: evaluatedGameListType) => list.content === null || list.content === ""
+        );
         setGameList(filteredList);
       }
     }

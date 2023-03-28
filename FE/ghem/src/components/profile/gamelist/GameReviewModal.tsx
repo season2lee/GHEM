@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { contentInfoState } from "@/store/mainState";
 import { useRecoilValue } from "recoil";
 import GameRating from "./GameRating";
-import { postGameContent, putUpdateGameContent } from "@/api/gamelist";
+import { postGameContent, putUpdateGameContent, getCheckReviewStatus } from "@/api/gamelist";
 import FormatDate from "@/util/FormatDate";
 
 type GameReviewModalProps = {
@@ -54,13 +54,24 @@ function GameReviewModal({ handleOpenModifyModal }: GameReviewModalProps) {
     }
   };
 
-  useEffect(() => {
-    if (!contentInfo.review) {
-      setIsFirstReview(true);
-    } else {
-      setIsFirstReview(false);
+  const getCheckReviewStatusFunc = async (): Promise<void> => {
+    const response = await getCheckReviewStatus(contentInfo.app_id, userId);
+
+    if (response) {
+      // 이미 리뷰가 있다면
+      if (response.isExist) {
+        setIsFirstReview(false);
+      }
+      // 리뷰 작성이 처음이라면
+      else {
+        setIsFirstReview(true);
+      }
     }
-  }, [contentInfo.review]);
+  };
+
+  useEffect(() => {
+    getCheckReviewStatusFunc();
+  }, []);
 
   return (
     <div css={wrapper} onClick={(e) => e.stopPropagation()}>
@@ -78,7 +89,7 @@ function GameReviewModal({ handleOpenModifyModal }: GameReviewModalProps) {
           <textarea defaultValue={contentInfo.review} onChange={(e) => setContent(e.target.value)}></textarea>
           <div css={buttonWrapper}>
             <button onClick={handleUpdateGameReview}>수정</button>
-            <button onClick={(e) => handleCloseModal(e)}>확인</button>
+            <button onClick={(e) => handleCloseModal(e)}>닫기</button>
           </div>
         </div>
       </div>
