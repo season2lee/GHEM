@@ -11,7 +11,6 @@ import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserGameCommonRepository;
 import com.ssafy.ghem.user.model.vo.ContentVO;
 import com.ssafy.ghem.user.model.vo.HttpVo;
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -90,11 +88,51 @@ public class ContentServiceImpl implements ContentService{
                 .orElseThrow(() -> new DoesNotExistData("해당하는 게임 정보가 없습니다."));
 
         GameReview gameReview = gameReviewCommonRepository.findByUserAndGame(user, game);
+        if(gameReview == null) throw new DoesNotExistData("해당하는 게임의 리뷰가 존재하지 않습니다.");
 
         gameReview.setContent(contentInfo.getContent());
 
         http.setFlag(true);
         http.setData(map);
         return http;
+    }
+
+    @Override
+    @Transactional
+    public HttpVo checkContent(Long app_id, Long user_id) {
+        HttpVo http = new HttpVo();
+        Map<String, Object> map = new HashMap<>();
+
+        User user = getUser(user_id);
+        Game game = getGame(app_id);
+
+        GameReview gameReview = gameReviewCommonRepository.findByUserAndGame(user, game);
+        if(gameReview != null){
+            map.put("isExist", true);
+            map.put("korea", "리뷰 있음");
+        } else{
+            map.put("isExist", false);
+            map.put("korea", "작성된 리뷰 없음");
+        }
+
+        http.setData(map);
+        http.setFlag(true);
+        return http;
+    }
+
+    @Transactional
+    public User getUser(Long user_id){
+        User user = userCommonRepository.findById(user_id)
+                .orElseThrow(() -> new DoesNotExistData("해당하는 유저가 없습니다. user_id = "+user_id));
+
+        return user;
+    }
+
+    @Transactional
+    public Game getGame(Long app_id){
+        Game game = gameCommonRepository.findById(app_id)
+                .orElseThrow(() -> new DoesNotExistData("해당하는 게임이 없습니다. app_id = "+app_id));
+
+        return game;
     }
 }

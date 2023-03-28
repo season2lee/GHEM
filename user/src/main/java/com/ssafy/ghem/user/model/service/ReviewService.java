@@ -8,7 +8,7 @@ import java.rmi.AlreadyBoundException;
 public interface ReviewService {
     HttpVo doReview(ReviewVO reviewInfo);
     HttpVo checkReview(ReviewVO reviewInfo);
-    HttpVo deleteReview(Long user_game_id);
+    HttpVo deleteReview(Long user_id, Long app_id);
     HttpVo updateReview(ReviewVO reviewInfo);
     HttpVo listReview(Long user_id);
 }

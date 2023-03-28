@@ -5,6 +5,5 @@ fastapi
 uvicorn
 aiomysql
 asyncpg
-django
 surprise
 requests

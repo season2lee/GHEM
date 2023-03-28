@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 import pandas as pd
 import requests
 from surprise import Dataset, Reader, SVD
@@ -76,6 +75,30 @@ async def root():
 
 
 # POST 요청 처리 및 데이터 삽입
+@app.post("/rating")
+async def create_rating(userGameRating : UserGameRating):
+    try:
+        async with get_postgres_connection() as conn:
+            result = await conn.fetch(
+                "INSERT INTO ghem.rating (app_id, steam_id, rating) VALUES ($1, $2, $3);",
+                userGameRating.app_id,
+                userGameRating.steam_id,
+                userGameRating.rating,
+            )
+        new_data = pd.DataFrame(
+            [[userGameRating.steam_id, userGameRating.app_id, userGameRating.rating]],
+            columns=["steam_id", "app_id", "rating"],
+        )
+
+        # SVD 모델 업데이트
+        update_svd_model(new_data, svd)
+
+        return "Rating created successfully", 200
+
+    except Exception as e:
+        return  str(e), 500
+
+# POST 요청 처리 및 데이터 삽입
 @app.post("/game")
 async def create_game(game : Game):
     if game.app_id == 0:
@@ -95,13 +118,13 @@ async def create_game(game : Game):
                     
                     try:
                         game_data = game_data[f'{game.app_id}']
-                    except:
-                        return JsonResponse(status_code=500, content={"message": str(e)})
+                    except Exception as e:
+                        return str(e), 500
 
                     try:
                         game_data = game_data['data']
-                    except:
-                        return JsonResponse(status_code=500, content={"message": str(e)})
+                    except Exception as e:
+                        return str(e), 500
 
                     try:
                         game_title = game_data['name']
@@ -114,8 +137,8 @@ async def create_game(game : Game):
                                 game_genre += game_genres[i]['description']
                             else:
                                 game_genre += "/" + game_genres[i]['description']
-                    except:
-                        return JsonResponse(status_code=500, content={"message": str(e)})
+                    except Exception as e:
+                        return  str(e), 500
                     
                     game_release = game_data['release_date']
                     game_release = game_release['date']
@@ -139,35 +162,13 @@ async def create_game(game : Game):
                             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                             """, (game.app_id, game_genre, negative_reviews, positive_reviews, review_score, review_score_desc, game_title, game_release))
                         await conn.commit()
-                    except:
-                        return JsonResponse(status_code=500, content={"message": str(e)})
+                    except Exception as e:
+                        return str(e), 500
         return '', 200       
     except Exception as e:
-        return JsonResponse(status_code=400, content={"message": str(e)})
+        return  str(e), 500
 
-# POST 요청 처리 및 데이터 삽입
-@app.post("/rating")
-async def create_rating(userGameRating : UserGameRating):
-    try:
-        async with get_postgres_connection() as conn:
-            result = await conn.fetch(
-                "INSERT INTO ghem.rating (app_id, steam_id, rating) VALUES ($1, $2, $3);",
-                userGameRating.app_id,
-                userGameRating.steam_id,
-                userGameRating.rating,
-            )
-        new_data = pd.DataFrame(
-            [[userGameRating.steam_id, userGameRating.app_id, userGameRating.rating]],
-            columns=["steam_id", "app_id", "rating"],
-        )
 
-        # SVD 모델 업데이트
-        update_svd_model(new_data, svd)
-
-        return JsonResponse(status_code=200, content={"message": "Rating created successfully"})
-
-    except Exception as e:
-        return JsonResponse(status_code=400, content={"message": str(e)})
 
 
 # 유저와 비슷한 유저 추천
@@ -182,7 +183,7 @@ def recommuser(steam_id : int = 0):
 
 # 유저에게 게임 추천 
 @app.get("/user/games", response_model=List[GameRecommendation])
-def recommusergames(steam_id : int = 0, start : int = 0, end : int = 10):
+def recommusergames(steam_id : int = 0):
     if steam_id == 0:
         return [], 200
 
@@ -192,7 +193,7 @@ def recommusergames(steam_id : int = 0, start : int = 0, end : int = 10):
 
 # 게임과 비슷한 게임 추천
 @app.get("/games", response_model=List[GameRecommendation])
-def recommgames(app_id : int = 0, start : int = 0, end : int = 10):
+def recommgames(app_id : int = 0):
     if app_id == 0:
         return '', 200
     
@@ -202,7 +203,7 @@ def recommgames(app_id : int = 0, start : int = 0, end : int = 10):
 # 게임 장르별 추천 추천
 @app.get("/games/genre", response_model=List[GameRecommendation])
 def recommgames(genre : str = '', top : int = 10):
-    if str == '':
+    if genre == '':
         return '', 200
     
     recommend_games = sort_by_genre(gameinfo, genre, top)
@@ -219,4 +220,4 @@ async def genres():
                 genres = [Genre(genre_id=row[0], genre=row[1]) for row in rows]
                 return genres
     except Exception as e:
-        return JsonResponse(status_code=400, content={"message": str(e)})
+        return str(e), 500
