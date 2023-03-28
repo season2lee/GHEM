@@ -58,4 +58,59 @@ public class MySpecController {
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
+    @GetMapping("/cpu/brand")
+    @ApiOperation(value = "cpu brand 데이터 호출 API",
+    response = String.class)
+    ResponseEntity<?> getCpuBrand(){
+        HttpVo http = mySpecsService.getCpuBrand();
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
+
+    @GetMapping("/cpu/{brand}/{input}")
+    @ApiOperation(value = "cpu 모델데이터 호출 API",
+            notes = "brand = cpu 브랜드 명\n" +
+                    "input = 검색하고자 하는 모델명",
+            response = String.class)
+    ResponseEntity<?> getCpuModel(@PathVariable String brand, @PathVariable String input){
+        HttpVo http = mySpecsService.getCpuModel(brand, input);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
+
+    @GetMapping("/gpu/brand")
+    @ApiOperation(value = "gpu brand 데이터 호출 API",
+            response = String.class)
+    ResponseEntity<?> getGpuBrand(){
+        HttpVo http = mySpecsService.getGpuBrand();
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
+
+    @GetMapping("/gpu/{brand}/{input}")
+    @ApiOperation(value = "cpu 모델데이터 호출 API",
+            notes = "brand = gpu 브랜드 명\n"+
+            "input = 검색하고자 하는 모델명",
+            response = String.class)
+    ResponseEntity<?> getGpuModel(@PathVariable String brand, @PathVariable String input){
+        HttpVo http = mySpecsService.getGpuModel(brand, input);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
+
+    @GetMapping("/cpu/compare/{my_model}/{game_model}")
+    @ApiOperation(value = "cpu 적합여부 확인 API",
+            notes = "my_model = 내가 적은 cpu 모델 이름\n" +
+                    "game_model = 내가 적은 cpu 모델 이름",
+            response = String.class)
+    ResponseEntity<?> getCompareCpu(@PathVariable String my_model, @PathVariable String game_model){
+        HttpVo http = mySpecsService.getCompareCpu(my_model, game_model);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
+    @GetMapping("/gpu/compare/{my_model}/{game_model}")
+    @ApiOperation(value = "gpu 적합여부 확인 API",
+            notes = "my_model = 내가 적은 gpu 모델 이름\n" +
+                    "game_model = 내가 적은 gpu 모델 이름",
+            response = String.class)
+    ResponseEntity<?> getCompareGpu(@PathVariable String my_model, @PathVariable String game_model){
+        HttpVo http = mySpecsService.getCompareGpu(my_model, game_model);
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
+
 }
