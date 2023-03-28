@@ -50,18 +50,22 @@ public class ReviewController {
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
-    @DeleteMapping("delete/{user_game_id}")
+    @DeleteMapping("/delete/{user_id}/{app_id}")
     @ApiOperation(value = "게임에 대한 평가를 삭제하는 API",
+            notes = "user_id = 유저 고유번호\n" +
+                    "app_id = 게임 고유번호\n",
             response = String.class
     )
-    public ResponseEntity<?> deleteReview(@PathVariable Long user_game_id){
-        HttpVo http = reviewService.deleteReview(user_game_id);
+    public ResponseEntity<?> deleteReview(@PathVariable Long user_id,
+                                          @PathVariable Long app_id){
+        HttpVo http = reviewService.deleteReview(user_id, app_id);
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
 
     @PutMapping("/modify")
     @ApiOperation(value = "게임에 대한 평가를 수정하는 API",
-            notes = "user_game_id = 평가 고유번호\n" +
+            notes = "user_id = 유저 고유번호\n" +
+                    "app_id = 게임 고유번호\n" +
                     "rating = 수정하고자 하는 평가 점수",
             response = String.class
     )

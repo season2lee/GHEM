@@ -1,5 +1,6 @@
 package com.ssafy.ghem.user.model.service;
 
+import com.ssafy.ghem.user.controller.exception.AlreadyExistData;
 import com.ssafy.ghem.user.controller.exception.DoesNotExistData;
 import com.ssafy.ghem.user.model.entity.Game;
 import com.ssafy.ghem.user.model.entity.GameReview;
@@ -38,17 +39,11 @@ public class ReviewServiceImpl implements ReviewService {
     public HttpVo doReview(ReviewVO reviewInfo) {
         HttpVo http = new HttpVo();
 
-        User user = userCommonRepository.findById(reviewInfo.getUser_id())
-                .orElseThrow(() -> new DoesNotExistData("해당하는 유저 정보가 없습니다."));
-        Game game = gameCommonRepository.findById(reviewInfo.getApp_id())
-                .orElseThrow(() -> new DoesNotExistData("해당하는 게임 정보가 없습니다."));
+        User user = getUser(reviewInfo.getUser_id());
+        Game game = getGame(reviewInfo.getApp_id());
 
-        try {
-            if (userGameCommonRepository.findByUserGame(game, user) != null)
-                throw new AlreadyBoundException("이미 해당 데이터가 존재합니다.");
-        } catch (Exception e){
-
-        }
+        if (userGameCommonRepository.findByUserGame(game, user) != null)
+            throw new AlreadyExistData("이미 해당 데이터가 존재합니다.");
 
         UserGame userGame = UserGame.builder()
                             .rating(reviewInfo.getRating())
@@ -69,17 +64,16 @@ public class ReviewServiceImpl implements ReviewService {
         HttpVo http = new HttpVo();
         Map<String, Object> map = new HashMap<>();
 
-        User user = userCommonRepository.findById(reviewInfo.getUser_id())
-                .orElseThrow(()->new DoesNotExistData("해당하는 유저 정보가 없습니다."));
-
-        Game game = gameCommonRepository.findById(reviewInfo.getApp_id())
-                .orElseThrow(()->new DoesNotExistData("해당하는 게임 정보가 존재하지 않습니다."));
+        User user = getUser(reviewInfo.getUser_id());
+        Game game = getGame(reviewInfo.getApp_id());
 
         UserGame userGame = userGameCommonRepository
                 .findByUserGame(game, user);
 
         if(userGame == null){
             map.put("isExist", false);
+            userGame.setRating(0);
+            map.put("ReviewData", userGame);
         } else{
             map.put("isExist", true);
             map.put("ReviewData", userGame);
@@ -92,13 +86,24 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public HttpVo deleteReview(Long user_game_id) {
+    public HttpVo deleteReview(Long user_id, Long app_id) {
         HttpVo http = new HttpVo();
 
-        UserGame userGame = userGameCommonRepository.findById(user_game_id)
-                        .orElseThrow(() -> new DoesNotExistData("요청한 ID에 해당하는 평가 정보가 존재하지 않습니다."));
+        User user = getUser(user_id);
+        Game game = getGame(app_id);
 
-        userGameCommonRepository.deleteById(user_game_id);
+        GameReview gameReview = gameReviewCommonRepository.findByUserAndGame(user, game);
+        log.info("gameReview : {}", gameReview.toString());
+        if(gameReview != null){
+            gameReviewCommonRepository.delete(gameReview);
+        }
+
+        UserGame userGame = userGameCommonRepository.findByUserGame(game, user);
+        log.info("{}", userGame);
+
+        if(userGame == null) throw new DoesNotExistData("요청한 ID에 해당하는 평가 정보가 존재하지 않습니다.");
+
+        userGameCommonRepository.deleteById(userGame.getUserGameId());
 
         http.setFlag(true);
         return http;
@@ -109,8 +114,11 @@ public class ReviewServiceImpl implements ReviewService {
     public HttpVo updateReview(ReviewVO reviewInfo) {
         HttpVo http = new HttpVo();
 
-        UserGame userGame = userGameCommonRepository.findById(reviewInfo.getUser_game_id())
-                .orElseThrow(() -> new DoesNotExistData("요청한 ID에 해당하는 평가 정보가 존재하지 않습니다."));
+        User user = getUser(reviewInfo.getUser_id());
+        Game game = getGame(reviewInfo.getApp_id());
+
+        UserGame userGame = userGameCommonRepository.findByUserGame(game, user);
+        if(userGame == null) new DoesNotExistData("요청한 ID에 해당하는 평가 정보가 존재하지 않습니다.");
 
         userGame.setRating(reviewInfo.getRating());
 
@@ -124,8 +132,7 @@ public class ReviewServiceImpl implements ReviewService {
         HttpVo http = new HttpVo();
         Map<String, Object> map = new HashMap<>();
 
-        User user = userCommonRepository.findById(user_id)
-                .orElseThrow(() -> new DoesNotExistData("해당하는 유저 정보가 없습니다."));
+        User user = getUser(user_id);
 
         List<UserGame> userGameList = userGameCommonRepository.findByUser(user);
         List<UserGameContentVO> userGameContentVOS = new ArrayList<>();
@@ -134,7 +141,7 @@ public class ReviewServiceImpl implements ReviewService {
             GameReview gameReview = gameReviewCommonRepository.findByUserAndGame(user, userGame.getGame());
 
             userGameContentVO.setUserGame(userGame);
-            if(gameReview.getContent() != null) userGameContentVO.setContent(gameReview.getContent());
+            if(gameReview != null && gameReview.getContent() != null) userGameContentVO.setContent(gameReview.getContent());
 
             userGameContentVOS.add(userGameContentVO);
         }
@@ -145,5 +152,21 @@ public class ReviewServiceImpl implements ReviewService {
         http.setFlag(true);
         http.setData(map);
         return http;
+    }
+
+    @Transactional
+    public User getUser(Long user_id){
+        User user = userCommonRepository.findById(user_id)
+                .orElseThrow(() -> new DoesNotExistData("해당하는 유저가 없습니다. user_id = "+user_id));
+
+        return user;
+    }
+
+    @Transactional
+    public Game getGame(Long app_id){
+        Game game = gameCommonRepository.findById(app_id)
+                .orElseThrow(() -> new DoesNotExistData("해당하는 게임이 없습니다. app_id = "+app_id));
+
+        return game;
     }
 }

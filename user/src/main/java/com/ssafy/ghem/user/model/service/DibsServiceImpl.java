@@ -31,6 +31,7 @@ public class DibsServiceImpl implements DibsService{
     @Override
     public HttpVo doDibs(DibsVO dibsInfo) {
         HttpVo http = new HttpVo();
+        Map<String, Object> map = new HashMap<>();
 
         User user = getUser(dibsInfo.getUserId());
         Game game = getGame(dibsInfo.getAppId());
@@ -41,8 +42,10 @@ public class DibsServiceImpl implements DibsService{
                 .build();
 
         dibsIndividualRepository.save(dib);
+        map.put("result", dib);
 
         http.setFlag(true);
+        http.setData(map);
         return http;
     }
 
