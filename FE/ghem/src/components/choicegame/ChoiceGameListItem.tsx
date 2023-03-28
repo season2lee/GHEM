@@ -1,150 +1,115 @@
-import React, { useState, SetStateAction } from "react";
+import React, { useState, useEffect, useCallback,useLayoutEffect } from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import StarRating from "@components/common/StarRating";
+import { evaluatedGameStateType, evaluatedGameState } from "@/store/mainState";
+import { useRecoilState } from "recoil";
 
 type ChoiceGameListItemProps = {
-  appid: number;
-  setGood: React.Dispatch<SetStateAction<number[]>>;
-  setSoso: React.Dispatch<SetStateAction<number[]>>;
-  setBad: React.Dispatch<SetStateAction<number[]>>;
-  good: number[];
-  soso: number[];
-  bad: number[];
+  app_id: number;
+  userId: number;
+  isLoginStatus: boolean;
+  genre: string;
+  nagative_reviews: number;
+  positive_reviews: number;
+  rating: number;
+  rating_desc: string;
+  release_date: string;
+  title: string;
 };
 
 function ChoiceGameListItem({
-  appid,
-  setGood,
-  setSoso,
-  setBad,
-  good,
-  soso,
-  bad,
+  app_id,
+  userId,
+  isLoginStatus,
+  
 }: ChoiceGameListItemProps) {
+
   const [checked, setChecked] = useState<boolean>(false);
+  const [evaluatedGame, setEvaluatedGame] =useRecoilState<evaluatedGameStateType[]>(evaluatedGameState);
+  const [currentRating, setCurrentRating] = useState<number>(0);
 
-  const ClickGoodhandler = () => {
-    if (soso.includes(appid)) {
-      setSoso(soso.filter((el) => el !== appid));
-      setGood([...good, appid]);
-    } else if (bad.includes(appid)) {
-      setBad(soso.filter((el) => el !== appid));
-      setGood([...good, appid]);
-    } else {
-      setGood([...good, appid]);
-      setChecked(true);
-    }
+  useEffect(()=>{
+    // setCurrentRating(currentRating)
+    // if (currentRating !== 0){
+    //   if (userId) {
+    //     setEvaluatedGame([
+    //       ...evaluatedGame,
+    //       {
+    //         app_id: app_id,
+    //         rating: currentRating,
+    //       },
+    //     ]);  
+    //   } else {
+    //     setEvaluatedGame([
+    //       {
+    //         app_id: app_id,
+    //         rating: 5,
+    //       },
+    //     ]);
+    //   }
+    // }
+   console.log(evaluatedGame)
+  },[checked])
+
+  const onClickCard = () => {
+    setChecked(true);
+    
   };
 
-  const ClickSosohandler = () => {
-    if (good.includes(appid)) {
-      setGood(good.filter((el) => el !== appid));
-      setSoso([...soso, appid]);
-    } else if (bad.includes(appid)) {
-      setBad(bad.filter((el) => el !== appid));
-      setSoso([...soso, appid]);
-    } else {
-      setChecked(true);
-      setSoso([...soso, appid]);
+  const ratingHandler = (newRating: number) => {
+    if (newRating !== 0){
+      if (userId) {
+        // 로그인 시 
+        setCurrentRating(newRating)
+        setEvaluatedGame([
+          ...evaluatedGame,
+          {
+            app_id: app_id,
+            rating: newRating,
+          },
+        ]);  
+      } else {
+        // 비 로그인 시 
+        setEvaluatedGame([
+          {
+            app_id: app_id,
+            rating: 5,
+          },
+        ]);
+      }
     }
-  };
-
-  const ClickBadhandler = () => {
-    if (good.includes(appid)) {
-      setGood(good.filter((el) => el !== appid));
-      setBad([...soso, appid]);
-    } else if (soso.includes(appid)) {
-      setSoso(soso.filter((el) => el !== appid));
-      setBad([...soso, appid]);
-    } else {
-      setChecked(true);
-      setBad([...soso, appid]);
-    }
-  };
-
-  const RemoveHandler = () => {
-    if (good.includes(appid)) {
-      setGood(good.filter((el) => el !== appid));
-    } else if (soso.includes(appid)) {
-      setSoso(soso.filter((el) => el !== appid));
-    } else if (bad.includes(appid)) {
-      setBad(bad.filter((el) => el !== appid));
-    }
-    setChecked(false);
-  };
-
-  const CheckList = () => {
-    if (good.includes(appid)) {
-      return (
-        <>
-          <button onClick={ClickSosohandler}>😐</button>
-          <button onClick={ClickBadhandler}>😥</button>
-        </>
-      );
-    } else if (soso.includes(appid)) {
-      return (
-        <>
-          <button onClick={RemoveHandler}>평가 취소하기</button>
-          <button onClick={ClickGoodhandler}>😄</button>
-          <button onClick={ClickBadhandler}>😥</button>
-        </>
-      );
-    } else if (bad.includes(appid)) {
-      <>
-        <button onClick={RemoveHandler}>평가 취소하기</button>
-        <button onClick={ClickGoodhandler}>😄</button>
-        <button onClick={ClickSosohandler}>😐</button>
-      </>;
-    }
-  };
-
+  }
   return (
     <div>
-      <Card checked={checked}>
-        <img
-          css={selectTmg}
-          src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/hero_capsule.jpg`}
-          alt={`${appid}`}
-        />
-        {checked ? (
-          <ButtonList>
-            {good.includes(appid) === true ? (
-              <>
-                <button onClick={RemoveHandler}>평가 취소하기</button>
-                <button onClick={ClickSosohandler}>😐</button>
-                <button onClick={ClickBadhandler}>😥</button>
-              </>
-            ) : soso.includes(appid) === true ? (
-              <>
-                <button onClick={RemoveHandler}>평가 취소하기</button>
-                <button onClick={ClickGoodhandler}>😄</button>
-                <button onClick={ClickBadhandler}>😥</button>
-              </>
-            ) : bad.includes(appid) === true ? (
-              <>
-                <button onClick={RemoveHandler}>평가 취소하기</button>
-                <button onClick={ClickGoodhandler}>😄</button>
-                <button onClick={ClickSosohandler}>😐</button>
-              </>
-            ) : (
-              ""
-            )}
-          </ButtonList>
-        ) : (
-          <ButtonList>
-            <button onClick={ClickGoodhandler}>😄</button>
-            <button onClick={ClickSosohandler}>😐</button>
-            <button onClick={ClickBadhandler}>😥</button>
-          </ButtonList>
-        )}
-      </Card>
+      {isLoginStatus ? (
+        <Card key={app_id} onClick={onClickCard} checked={checked}>
+          <img
+            css={selectTmg}
+            src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/hero_capsule.jpg`}
+            alt={`${app_id}`}
+          />
+          <StarRating
+            starSize={2}
+            currentRating={currentRating}
+            ratingHandler={ratingHandler}
+          />
+        </Card>
+      ) : (
+        <Card key={app_id} onClick={onClickCard} checked={checked}>
+          <img
+            css={selectTmg}
+            src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/hero_capsule.jpg`}
+            alt={`${app_id}`}
+          />
+        </Card>
+      )}
     </div>
   );
 }
 const Card = styled.div<{ checked: boolean }>`
   opacity: ${(props) => (props.checked ? 0.3 : 1)};
 `;
-const ButtonList = styled.div``;
 
 const selectTmg = css`
   -webkit-user-select: none;

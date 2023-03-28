@@ -23,7 +23,7 @@ function StarRating({starSize, currentRating, ratingHandler, isPromptAvailable =
       ratingHandler(newRating);
     }
   }
-
+  
   // 현재 평가 점수에 맞춰 프롬프트를 리턴
   const promptMapping = (rating: number) => {
     switch (rating) {
