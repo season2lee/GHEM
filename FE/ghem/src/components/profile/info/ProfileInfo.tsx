@@ -7,11 +7,12 @@ import ProfileIntroduce from "./ProfileIntroduce";
 import { mobile } from "@/util/Mixin";
 import baseProfile from "../../../assets/image/baseProfile.png";
 import { getUserProfile } from "@/api/user";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { userInfoState } from "@/store/mainState";
 
 function ProfileInfo() {
+  const location = useLocation();
   const navigate = useNavigate();
   const userId: number | null = Number(localStorage.getItem("id"));
   const setUserInfo = useSetRecoilState(userInfoState);
@@ -49,14 +50,17 @@ function ProfileInfo() {
   };
 
   useEffect(() => {
+    // 로그인 유저라면
     if (userId) {
-      getUserProfileFunc(userId);
+      // 다른 유저의 프로필 조회를 위해 URL에서 id 가져오기
+      const pathnameId = Number(location.pathname.split("/")[2]);
+      getUserProfileFunc(pathnameId);
     }
     // 비로그인 유저는 로그인 페이지로 이동
     else {
       navigate("/login");
     }
-  }, []);
+  }, [location]);
 
   return (
     <div css={profileInfoWrapper}>

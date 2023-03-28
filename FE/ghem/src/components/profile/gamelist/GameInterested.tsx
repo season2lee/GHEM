@@ -5,27 +5,34 @@ import { mobile } from "@/util/Mixin";
 import { getInterestedGameList } from "@/api/gamelist";
 import { interestedGameListType } from "gameList";
 import GameNoneList from "./GameNoneList";
+import { useLocation } from "react-router-dom";
 
 function GameInterested() {
-  const userId: number | null = Number(localStorage.getItem("id"));
+  const location = useLocation();
+  const pathnameId = Number(location.pathname.split("/")[2]);
+  // const userId: number | null = Number(localStorage.getItem("id"));
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollElement = scrollRef.current;
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
   const [gameList, setGameList] = useState<interestedGameListType[]>([]);
   const [isDragMove, setIsDragMove] = useState<boolean>(false);
+  const [isEachFollow, setIsEachFollow] = useState<boolean>(false); // 맞팔인지 확인
 
   const handleDragStart = (e: React.MouseEvent) => {
+    if (!isEachFollow) return;
     setIsDrag(true);
     setStartX(e.pageX);
     setIsDragMove(false);
   };
 
   const handleDragEnd = () => {
+    if (!isEachFollow) return;
     setIsDrag(false);
   };
 
   const handleDragMove = (e: React.MouseEvent) => {
+    if (!isEachFollow) return;
     if (isDrag) {
       e.preventDefault();
       if (scrollElement) {
@@ -45,10 +52,8 @@ function GameInterested() {
   };
 
   useEffect(() => {
-    if (userId) {
-      getInterestedGameListFunc(userId);
-    }
-  }, [userId]);
+    getInterestedGameListFunc(pathnameId);
+  }, [location]);
 
   return (
     <div css={gameInterestedWrapper}>
@@ -57,14 +62,21 @@ function GameInterested() {
       </h4>
       {gameList.length ? (
         <div
-          css={gameCardWrapper}
+          css={isEachFollow ? gameCardWrapper : blurGameCardWrapper}
           ref={scrollRef}
           onMouseDown={handleDragStart}
           onMouseMove={handleDragMove}
           onMouseUp={handleDragEnd}
         >
           {gameList.map((list, idx) => (
-            <GameCard key={list.dibsId} dibsId={list.dibsId} game={list.game} path="interest" isDragMove={isDragMove} />
+            <GameCard
+              key={list.dibsId}
+              dibsId={list.dibsId}
+              game={list.game}
+              path="interest"
+              isDragMove={isDragMove}
+              isEachFollow={isEachFollow}
+            />
           ))}
         </div>
       ) : (
@@ -80,6 +92,7 @@ const gameInterestedWrapper = css`
   background: #352c42;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
+  position: relative;
 
   > h4 {
     margin-bottom: 25px;
@@ -107,6 +120,19 @@ const gameCardWrapper = css`
   display: flex;
   flex-direction: row;
   overflow-x: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const blurGameCardWrapper = css`
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  filter: blur(7px);
+  pointer-events: none;
+  user-select: none;
 
   ::-webkit-scrollbar {
     display: none;
