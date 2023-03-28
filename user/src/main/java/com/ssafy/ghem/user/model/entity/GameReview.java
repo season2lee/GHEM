@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="gamereview")
+@ToString(of ={"review_id", "content", "date"})
 public class GameReview {
     @Id @GeneratedValue
     @Column(name = "review_id")

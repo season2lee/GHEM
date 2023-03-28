@@ -8,4 +8,5 @@ public interface ContentService {
     HttpVo writeContent(ContentVO contentInfo);
     HttpVo listContent(Long app_id, Pageable pageable);
     HttpVo updateContent(ContentVO contentInfo);
+    HttpVo checkContent(Long app_id, Long user_id);
 }
