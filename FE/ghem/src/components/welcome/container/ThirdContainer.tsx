@@ -20,7 +20,7 @@ function ThirdContainer() {
         </h3>
       </div>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-      <img css={image}src={gameRecommend}></img>
+      <img src={gameRecommend}></img>
       </div>
     </div>
   );
@@ -42,6 +42,11 @@ const section = css`
   height: 100vh;
   width: 50%;
   text-align: center;
+
+  img { 
+    max-width: 100%;
+    max-height: 100%;
+  }
   &.animation {
     animation-name: opacity;
     animation-duration: 5000ms;
@@ -56,9 +61,6 @@ const section = css`
     }
   }
 `;
-const image = css`
-width:100%;
-height:80%;
-`
+
 
 export default ThirdContainer;

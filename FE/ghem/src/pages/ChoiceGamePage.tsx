@@ -32,10 +32,10 @@ function ChoiceGamePage() {
   const [gameRecommend, setGameRecommend] =
     useRecoilState<gameRecommendStateType[]>(gameRecommendState);
   const currentEvaluate = useRecoilValue(evaluatedGameState); // 평가 된 게임
-  // const { state } = useLocation();
+  const { state } = useLocation();
 
   useEffect(() => {
-    categoryList();
+    categoryList(state);
     return () => {};
   }, []);
 
@@ -61,8 +61,7 @@ function ChoiceGamePage() {
     }
   };
 
-  const categoryList = async () => {
-    const state = ["Action", "Adventure", "RPG"];
+  const categoryList = async (state:[]) => {
     for (let i = 0; i < state.length; i++) {
       try {
         await TopRankListApi(state[i]);
@@ -76,7 +75,7 @@ function ChoiceGamePage() {
   const TopRankListApi = async (genre: string) => {
     try {
       const response = await axios.get(
-        `http://j8d107.p.ssafy.io:32003/games/genre?genre=${genre}&top=10`
+        `http://j8d107.p.ssafy.io:32003/genre?genre=${genre}&top=10`
       );
       let item = response.data;
       for (let i = 0; i < item.length; i++) {

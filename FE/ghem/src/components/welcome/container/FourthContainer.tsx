@@ -1,8 +1,8 @@
-import React, { useRef} from 'react'
-import { css } from '@emotion/react';
-import { useNavigate } from 'react-router';
-import useIntersectionObsever from '@/util/hooks/useIntersectionObserver';
-import gameChat from '@/assets/image/gameChat.png';
+import React, { useRef } from "react";
+import { css } from "@emotion/react";
+import { useNavigate } from "react-router";
+import useIntersectionObsever from "@/util/hooks/useIntersectionObserver";
+import gameChat from "@/assets/image/gameChat.png";
 
 function ForthContainer() {
   const ref = useRef<HTMLDivElement>(null);
@@ -11,10 +11,10 @@ function ForthContainer() {
   return (
     <div css={layout}>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-      <img css={image} src={gameChat}></img>
+        <img src={gameChat}></img>
       </div>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-      <h3>
+        <h3>
           무슨 게임 할 지 항상 고민 하셨나요?
           <br />
           steam에서 추천해주는 게임이 지루하셨나요?
@@ -43,6 +43,11 @@ const section = css`
   height: 100vh;
   width: 50%;
   text-align: center;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
   &.animation {
     animation-name: opacity;
     animation-duration: 5000ms;
@@ -57,9 +62,5 @@ const section = css`
     }
   }
 `;
-const image = css`
-width:100%;
-height:80%;
-`
 
-export default ForthContainer
+export default ForthContainer;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback,useLayoutEffect } from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import StarRating from "@components/gamedetail/imagehead/StarRating";
+import StarRating from "@components/common/StarRating";
 import { evaluatedGameStateType, evaluatedGameState } from "@/store/mainState";
 import { useRecoilState } from "recoil";
 
@@ -30,17 +30,47 @@ function ChoiceGameListItem({
   const [currentRating, setCurrentRating] = useState<number>(0);
 
   useEffect(()=>{
-    setCurrentRating(currentRating)
-    if (currentRating !== 0){
+    // setCurrentRating(currentRating)
+    // if (currentRating !== 0){
+    //   if (userId) {
+    //     setEvaluatedGame([
+    //       ...evaluatedGame,
+    //       {
+    //         app_id: app_id,
+    //         rating: currentRating,
+    //       },
+    //     ]);  
+    //   } else {
+    //     setEvaluatedGame([
+    //       {
+    //         app_id: app_id,
+    //         rating: 5,
+    //       },
+    //     ]);
+    //   }
+    // }
+   console.log(evaluatedGame)
+  },[checked])
+
+  const onClickCard = () => {
+    setChecked(true);
+    
+  };
+
+  const ratingHandler = (newRating: number) => {
+    if (newRating !== 0){
       if (userId) {
+        // 로그인 시 
+        setCurrentRating(newRating)
         setEvaluatedGame([
           ...evaluatedGame,
           {
             app_id: app_id,
-            rating: currentRating,
+            rating: newRating,
           },
         ]);  
       } else {
+        // 비 로그인 시 
         setEvaluatedGame([
           {
             app_id: app_id,
@@ -49,17 +79,11 @@ function ChoiceGameListItem({
         ]);
       }
     }
-   
-  },[checked])
-  const onClickCard = () => {
-    setChecked(true);
-    
-  };
-
+  }
   return (
     <div>
       {isLoginStatus ? (
-        <Card onClick={onClickCard} checked={checked}>
+        <Card key={app_id} onClick={onClickCard} checked={checked}>
           <img
             css={selectTmg}
             src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/hero_capsule.jpg`}
@@ -68,11 +92,11 @@ function ChoiceGameListItem({
           <StarRating
             starSize={2}
             currentRating={currentRating}
-            setCurrentRating={setCurrentRating}
+            ratingHandler={ratingHandler}
           />
         </Card>
       ) : (
-        <Card onClick={onClickCard} checked={checked}>
+        <Card key={app_id} onClick={onClickCard} checked={checked}>
           <img
             css={selectTmg}
             src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/hero_capsule.jpg`}

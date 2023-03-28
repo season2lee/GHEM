@@ -49,9 +49,7 @@ const backImgDiv = css`
 `;
 
 const blurDiv = css`
-  -webkit-backdrop-filter: blur(5px);
   /* backdrop-filter: blur(1rem); */
-  backdrop-filter: blur(5px);
   background-color: #8e83bb74;
   padding: 1rem;
 `;

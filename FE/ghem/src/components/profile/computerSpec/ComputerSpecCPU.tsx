@@ -1,16 +1,18 @@
-import React from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
 
 function ComputerSpecCPU() {
+  const [manufacturer, setManufacturer] = useState<string[]>(["제조사", "Intel", "AMD"]);
+  const [series, setSeries] = useState<string[]>(["모델명"]);
+
   return (
     <div css={ComputerSpecWrapper}>
       <h5>CPU</h5>
       <div css={selectBoxWrapper}>
-        <SelectBox />
-        <SelectBox />
-        <SelectBox />
+        <SelectBox optionList={manufacturer} />
+        <SelectBox optionList={series} />
       </div>
     </div>
   );

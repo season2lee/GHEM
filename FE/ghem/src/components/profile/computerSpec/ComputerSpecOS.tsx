@@ -1,14 +1,16 @@
-import React from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
 
 function ComputerSpecOS() {
+  const [type, setType] = useState<string[]>(["종류", "Windows", "Mac OS", "Linux"]);
+
   return (
     <div css={ComputerSpecWrapper}>
       <h5>OS</h5>
       <div css={selectBoxWrapper}>
-        <SelectBox />
+        <SelectBox optionList={type} />
       </div>
     </div>
   );

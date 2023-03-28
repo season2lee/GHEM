@@ -7,7 +7,8 @@ import ProfileGender from "../components/profile/update/ProfileGender";
 import ProfileIntroduce from "../components/profile/update/ProfileIntroduce";
 import { useNavigate } from "react-router-dom";
 import { mobile } from "@/util/Mixin";
-import { getUserProfile, putUserProfile, userInfoType } from "@/api/user";
+import { getUserProfile, putUserProfile } from "@/api/user";
+import { userInfoType } from "apiTypes";
 import baseProfile from "../assets/image/baseProfile.png";
 
 function ProfileUpdatePage() {

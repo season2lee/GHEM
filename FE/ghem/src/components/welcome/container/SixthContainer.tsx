@@ -30,6 +30,12 @@ z-index: 100;
   height: 100vh;
   width: 100%;
   text-align: center;
+
+  img { 
+    max-width: 100%;
+    max-height: 100%;
+  }
+
   &.animation {
     animation-name: opacity;
     animation-duration: 5000ms;

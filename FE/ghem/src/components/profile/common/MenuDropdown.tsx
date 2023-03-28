@@ -3,42 +3,50 @@ import { css } from "@emotion/react";
 import { TbPencilMinus } from "react-icons/tb";
 import { AiOutlineDelete } from "react-icons/ai";
 import GameReviewModal from "../gamelist/GameReviewModal";
+import { deleteEvaluatedGame } from "@/api/gamelist";
+import { useRecoilValue } from "recoil";
+import { contentInfoState } from "@/store/mainState";
 
 function MenuDropdown() {
+  const userId: number | null = Number(localStorage.getItem("id"));
+  const contentInfo = useRecoilValue(contentInfoState);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
+  // 리뷰 수정 모달 오픈
   const handleOpenModifyModal = (e: React.MouseEvent): void => {
     e.stopPropagation();
     setIsOpenModal(!isOpenModal);
   };
 
-  const handleDeleteGame = (): void => {
-    // 목록에서 삭제
-    alert("목록에서 삭제");
+  // 평가 항목에서 게임 삭제
+  const handleDeleteGame = async (): Promise<void> => {
+    if (confirm("평가 항목에서 삭제하시겠습니까?")) {
+      const response = await deleteEvaluatedGame(userId, contentInfo.app_id);
+
+      if (response) {
+        location.reload();
+      }
+    }
   };
 
   return (
     <div css={wrapper}>
       <div css={menuWrapper} onClick={handleOpenModifyModal}>
         <TbPencilMinus size="20" />
-        <span>수정하기</span>
+        <span>리뷰 수정</span>
       </div>
       <div css={menuWrapper} onClick={handleDeleteGame}>
         <AiOutlineDelete size="20" />
         <span>삭제하기</span>
       </div>
-      {isOpenModal && (
-        <GameReviewModal
-          handleOpenModifyModal={(e) => handleOpenModifyModal(e)}
-        />
-      )}
+      {isOpenModal && <GameReviewModal handleOpenModifyModal={(e) => handleOpenModifyModal(e)} />}
     </div>
   );
 }
 
 const wrapper = css`
   position: absolute;
-  top: 25px;
+  top: 28px;
   right: 0;
   width: 150px;
   height: 90px;

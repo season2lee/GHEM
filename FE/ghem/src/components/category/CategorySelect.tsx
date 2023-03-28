@@ -24,7 +24,7 @@ function CategorySelect() {
   const CategoryListApi = async () => {
     try {
       const response = await axios.get(
-        "http://j8d107.p.ssafy.io:32003/genres"
+        "http://192.168.100.124:8000/genres"
       );
       setCategoryList(response.data)
     } catch (err) {
@@ -57,7 +57,6 @@ function CategorySelect() {
     <div>
       <div>
         {selectedList.length}
-        <button onClick={onMoveToChoice}>이동하기</button>
       </div>
       <div>
         {selectedList.length >= 3 ? <button onClick={onMoveToChoice}>이동하기</button>:null}

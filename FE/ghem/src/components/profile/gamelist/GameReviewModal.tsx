@@ -1,30 +1,95 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
-import testGameImage from "../../../assets/image/testGameImage.jpg";
+import { contentInfoState } from "@/store/mainState";
+import { useRecoilValue } from "recoil";
+import GameRating from "./GameRating";
+import { postGameContent, putUpdateGameContent, getCheckReviewStatus } from "@/api/gamelist";
+import FormatDate from "@/util/FormatDate";
 
 type GameReviewModalProps = {
   handleOpenModifyModal: (e: React.MouseEvent) => void;
 };
 
 function GameReviewModal({ handleOpenModifyModal }: GameReviewModalProps) {
+  const userId: number | null = Number(localStorage.getItem("id"));
+  const contentInfo = useRecoilValue(contentInfoState);
+  const [content, setContent] = useState<string>("");
+  const [isFirstReview, setIsFirstReview] = useState<boolean>(false);
+
   const handleCloseModal = (e: React.MouseEvent): void => {
     handleOpenModifyModal(e);
   };
 
+  const handleUpdateGameReview = async (): Promise<void> => {
+    // 리뷰 등록이 안돼있으면 POST요청
+    if (isFirstReview) {
+      const date = FormatDate();
+      const changedContentInfo = {
+        app_id: contentInfo.app_id,
+        user_id: userId,
+        content: content,
+        date: date,
+        user_game_id: contentInfo.user_game_id,
+      };
+
+      const response = await postGameContent(changedContentInfo);
+
+      if (response) {
+        location.reload();
+      }
+    }
+    // 리뷰 등록이 이미 돼있으면 PUT 요청
+    else {
+      const changedContentInfo = {
+        app_id: contentInfo.app_id,
+        user_id: userId,
+        content: content,
+      };
+
+      const response = await putUpdateGameContent(changedContentInfo);
+
+      if (response) {
+        location.reload();
+      }
+    }
+  };
+
+  const getCheckReviewStatusFunc = async (): Promise<void> => {
+    const response = await getCheckReviewStatus(contentInfo.app_id, userId);
+
+    if (response) {
+      // 이미 리뷰가 있다면
+      if (response.isExist) {
+        setIsFirstReview(false);
+      }
+      // 리뷰 작성이 처음이라면
+      else {
+        setIsFirstReview(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getCheckReviewStatusFunc();
+  }, []);
+
   return (
     <div css={wrapper} onClick={(e) => e.stopPropagation()}>
       <div css={gameReviewModalWrapper}>
-        <img src={testGameImage} alt="게임 이미지" />
+        <img
+          src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${contentInfo.app_id}/header.jpg`}
+          alt="게임 이미지"
+        />
         <div css={gameContentWrapper}>
           <div css={headerWrapper}>
-            <span>카트라이더</span>
-            <small>평점</small>
+            <span>{contentInfo.title}</span>
+            <GameRating rate={contentInfo.rating} />
           </div>
           <span>나의 리뷰</span>
-          <textarea></textarea>
+          <textarea defaultValue={contentInfo.review} onChange={(e) => setContent(e.target.value)}></textarea>
           <div css={buttonWrapper}>
-            <button>수정</button>
-            <button onClick={(e) => handleCloseModal(e)}>확인</button>
+            <button onClick={handleUpdateGameReview}>수정</button>
+            <button onClick={(e) => handleCloseModal(e)}>닫기</button>
           </div>
         </div>
       </div>
@@ -53,6 +118,8 @@ const gameReviewModalWrapper = css`
 
   > img {
     width: 100%;
+    min-height: 170px;
+    max-height: 170px;
     border-radius: 10px 10px 0 0;
   }
 `;
@@ -92,6 +159,10 @@ const headerWrapper = css`
     font-size: 20px;
     font-weight: bold;
   }
+
+  > svg {
+    color: #fff629;
+  }
 `;
 
 const buttonWrapper = css`
@@ -104,8 +175,6 @@ const buttonWrapper = css`
   > button {
     cursor: pointer;
     padding: 10px 40px;
-    /* width: 100px;
-    height: 35px; */
     color: white;
     font-size: 15px;
     border: none;

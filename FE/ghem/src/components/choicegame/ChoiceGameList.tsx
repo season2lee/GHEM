@@ -24,11 +24,11 @@ function ChoiceGameList({ gameList,userId,isLoginStatus }: ChoiceGameListProps) 
 
   return (
     <div css={choiceList}>
-      {gameList?.map((item) => {
+      {gameList?.map((item,index) => {
         return (
           <ChoiceGameListItem
             app_id={item.app_id}
-            key={item.app_id}
+            key={index}
             genre={item.genre}
             nagative_reviews={item.nagative_reviews}
             positive_reviews={item.positive_reviews}

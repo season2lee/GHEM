@@ -48,6 +48,11 @@ const section = css`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  img { 
+    max-width: 100%;
+    max-height: 100%;
+  }
+
   &.animation {
     animation-name: opacity;
     animation-duration: 5000ms;
