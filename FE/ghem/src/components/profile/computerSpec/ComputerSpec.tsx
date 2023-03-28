@@ -16,6 +16,7 @@ function ComputerSpec() {
   };
 
   const getMyComputerSpecFunc = async (): Promise<void> => {
+    console.log(userId);
     const response = await getMyComputerSpec(userId);
 
     if (response) {
@@ -31,7 +32,7 @@ function ComputerSpec() {
       <div css={computerSpecBox}>
         <div css={computerSpecHeader}>
           <h4>내 컴퓨터 사양</h4>
-          <BiReset size="30" onClick={handleResetComputerSpec} />
+          <BiReset size="28" onClick={handleResetComputerSpec} />
         </div>
         <ComputerSpecCPU />
         <ComputerSpecGPU />
@@ -93,6 +94,7 @@ const computerSpecHeader = css`
 const ramOsWrapper = css`
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin-bottom: 40px;
 `;
 
@@ -103,8 +105,7 @@ const buttonWrapper = css`
 
   > button {
     margin-top: 10px;
-    width: 30%;
-    padding: 15px 0;
+    padding: 13px 20px;
     background: #756292;
     border-radius: 5px;
     color: white;

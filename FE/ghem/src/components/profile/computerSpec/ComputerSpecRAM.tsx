@@ -35,7 +35,7 @@ const inputWrapper = css`
   align-items: center;
 
   > input {
-    width: 100px;
+    width: 180px;
     height: 40px;
     outline: none;
     background: none;
@@ -43,6 +43,10 @@ const inputWrapper = css`
     color: white;
     font-size: 16px;
     padding: 0 10px;
+
+    ${mobile} {
+      width: 110px;
+    }
   }
 
   > span {

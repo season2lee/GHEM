@@ -4,7 +4,7 @@ import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
 
 function ComputerSpecOS() {
-  const [type, setType] = useState<string[]>(["Windows", "Mac OS", "Linux"]);
+  const type: string[] = ["Windows", "Mac OS", "Linux"];
   const [selectedType, setSelectedType] = useState<string>(type[0]);
 
   return (
