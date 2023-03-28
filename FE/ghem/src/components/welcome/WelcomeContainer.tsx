@@ -1,34 +1,37 @@
-import React, { useRef,useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import FirstContainer from "./container/FirstContainer";
 import SecondContainer from "./container/SecondContainer";
 import ThirdContainer from "./container/ThirdContainer";
-import ForthContainer from "./container/ForthContainer";
+import FourthContainer from "./container/FourthContainer";
+import FifthContainer from "./container/FifthContainer";
+import SixthContainer from "./container/SixthContainer";
+import LastContainer from "./container/LastContainer";
 import { css } from "@emotion/react";
 
 function WelcomeContainer() {
+  //   const [position, setPosition] = useState(0);
+  //   const ScrollHandler = () => {
+  //     setPosition(window.scrollY);
+  //   };
 
-//   const [position, setPosition] = useState(0);
-//   const ScrollHandler = () => {
-//     setPosition(window.scrollY);
-//   };
+  //   useEffect(() => {
+  //     window.addEventListener("scroll", ScrollHandler);
 
-//   useEffect(() => {
-//     window.addEventListener("scroll", ScrollHandler);
-
-//     return () => {
-//       window.removeEventListener("scroll", ScrollHandler);
-//     };
-//   }, [position]);
+  //     return () => {
+  //       window.removeEventListener("scroll", ScrollHandler);
+  //     };
+  //   }, [position]);
 
   return (
     <div>
       <div css={Container}>
-        <FirstContainer  />
-        <SecondContainer 
-        // position={position}
-         />
-        <ThirdContainer  />
-        <ForthContainer />
+        <FirstContainer />
+        <SecondContainer />
+        <ThirdContainer />
+        <FourthContainer />
+        <FifthContainer />
+        <SixthContainer />
+        <LastContainer />
       </div>
     </div>
   );
@@ -51,8 +54,5 @@ const Container = css`
     background-color: transparent;
   }
 `;
-
-
-
 
 export default WelcomeContainer;

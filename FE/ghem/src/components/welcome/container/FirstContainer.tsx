@@ -36,13 +36,13 @@ function FirstContainer() {
         </h1>
         <div css={grid}>
         </div>
+        <div></div>
       </div>
     </div>
   );
 }
 
 const layout = css`
-  /* scroll-snap-align: start; */
   width: 100%;
   height: 100vh;
   font-family: sans-serif;
