@@ -3,8 +3,13 @@ import { css } from "@emotion/react";
 import { TbPencilMinus } from "react-icons/tb";
 import { AiOutlineDelete } from "react-icons/ai";
 import GameReviewModal from "../gamelist/GameReviewModal";
+import { deleteEvaluatedGame } from "@/api/gamelist";
+import { useRecoilValue } from "recoil";
+import { contentInfoState } from "@/store/mainState";
 
 function MenuDropdown() {
+  const userId: number | null = Number(localStorage.getItem("id"));
+  const contentInfo = useRecoilValue(contentInfoState);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const handleOpenModifyModal = (e: React.MouseEvent): void => {
@@ -12,8 +17,12 @@ function MenuDropdown() {
     setIsOpenModal(!isOpenModal);
   };
 
-  const handleDeleteGame = (): void => {
-    alert("목록에서 삭제");
+  const handleDeleteGame = async (): Promise<void> => {
+    const response = await deleteEvaluatedGame(userId, contentInfo.app_id);
+
+    if (response) {
+      location.reload();
+    }
   };
 
   return (
