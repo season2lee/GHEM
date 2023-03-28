@@ -25,6 +25,17 @@ export const getInterestedGameList = async (userId: number) => {
   }
 };
 
+export const getCheckReviewStatus = async (appId: number, userId: number) => {
+  try {
+    const { data } = await axios.get(`/content/check/${appId}/${userId}`);
+
+    if (data.flag) return data.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // POST
 
 export const postGameContent = async (contentInfo: contentInfoType) => {

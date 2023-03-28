@@ -4,9 +4,8 @@ import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
 
 function ComputerSpecCPU() {
-  const [manufacturer, setManufacturer] = useState<string[]>(["제조사"]);
-  const [series, setSeries] = useState<string[]>(["시리즈"]);
-  const [generation, setGeneration] = useState<string[]>(["세대"]);
+  const [manufacturer, setManufacturer] = useState<string[]>(["제조사", "Intel", "AMD"]);
+  const [series, setSeries] = useState<string[]>(["모델명"]);
 
   return (
     <div css={ComputerSpecWrapper}>
@@ -14,7 +13,6 @@ function ComputerSpecCPU() {
       <div css={selectBoxWrapper}>
         <SelectBox optionList={manufacturer} />
         <SelectBox optionList={series} />
-        <SelectBox optionList={generation} />
       </div>
     </div>
   );
