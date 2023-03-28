@@ -3,14 +3,12 @@ import { css } from "@emotion/react";
 
 type SelectBoxProps = {
   optionList: string[];
+  setOption: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function SelectBox({ optionList }: SelectBoxProps) {
-  const initOptions = ["제조사", "시리즈", "세대", "모델명", "종류"];
-
+function SelectBox({ optionList, setOption }: SelectBoxProps) {
   const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    if (initOptions.includes(e.target.value)) return;
-    console.log(e.target.value);
+    setOption(e.target.value);
   };
 
   return (

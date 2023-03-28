@@ -4,13 +4,14 @@ import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
 
 function ComputerSpecOS() {
-  const [type, setType] = useState<string[]>(["종류", "Windows", "Mac OS", "Linux"]);
+  const [type, setType] = useState<string[]>(["Windows", "Mac OS", "Linux"]);
+  const [selectedType, setSelectedType] = useState<string>(type[0]);
 
   return (
     <div css={ComputerSpecWrapper}>
       <h5>OS</h5>
       <div css={selectBoxWrapper}>
-        <SelectBox optionList={type} />
+        <SelectBox optionList={type} setOption={setSelectedType} />
       </div>
     </div>
   );
