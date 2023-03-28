@@ -1,12 +1,48 @@
 import { css, keyframes } from "@emotion/react";
-import React, { useRef, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import BannerGameItem from "./BannerGameItem";
 
+type BannerList = {
+  app_id: number;
+  genre: string;
+  negative_reviews: number;
+  positive_reviews: number;
+  rating: number;
+  rating_desc: string;
+  release_date: string;
+  title: string;
+};
+
 function BannerGameList() {
+  const userId: number | null = Number(localStorage.getItem("id"));
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [canClick, setCanClick] = useState<boolean>(true);
   const [startX, setStartX] = useState<number>(0);
+  const [startPage, setStartPage] = useState<number>(0);
+
+  const [bannerList, setBannerList] = useState<BannerList[]>();
+
+  useEffect(() => {
+    bannerListApi();
+    return () => {};
+  }, []);
+
+  const bannerListApi = async () => {
+    try {
+      const response = await axios.get(
+        `http://j8d107.p.ssafy.io:32003/user/games`,
+        {
+          params: { steam_id: userId, start: startPage, end: startPage + 10 },
+        }
+      );
+      setBannerList(response.data);
+      setStartPage(startPage + 10);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
 
   const scrollElement = scrollRef.current as HTMLDivElement;
 
@@ -50,17 +86,16 @@ function BannerGameList() {
         onMouseUp={onDragEnd}
         onMouseLeave={onDragLeave}
       >
-        <BannerGameItem appId={367520} title={"hollow"} canClick={canClick} />
-        <BannerGameItem
-          appId={10}
-          title={"counterscrike"}
-          canClick={canClick}
-        />
-        <BannerGameItem
-          appId={322330}
-          title={"dontstarv"}
-          canClick={canClick}
-        />
+        {bannerList?.map((bannerGame) => {
+          return (
+            <BannerGameItem
+              appId={bannerGame.app_id}
+              title={bannerGame.title}
+              canClick={canClick}
+              key={bannerGame.app_id}
+            />
+          );
+        })}
       </div>
       <div css={bannerDetail}>체크용</div>
     </div>
