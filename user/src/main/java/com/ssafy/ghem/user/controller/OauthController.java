@@ -36,4 +36,21 @@ public class OauthController {
 
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }
+
+    @GetMapping("/code/naver")
+    @ApiOperation(value = "카카오 OAuth 로그인.",
+            notes = "https://nid.naver.com/oauth2.0/authorize\n" +
+                    "?client_id=oly_VB_lNhvzchBlzhkx\n" +
+                    "&redirect_uri=http://j8d107.p.ssafy.io\n" +
+                    "&response_type=code" +
+                    "해당 주소로 url 연결 부탁합니다.",
+            response = String.class)
+    public ResponseEntity<?> oauthNaver(@RequestParam String code){
+
+        log.info("code: " + code);
+
+        HttpVo http = oauthService.tryOauthKakao(code);
+
+        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+    }
 }

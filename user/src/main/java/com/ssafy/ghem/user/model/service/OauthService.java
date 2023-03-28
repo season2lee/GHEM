@@ -4,4 +4,6 @@ import com.ssafy.ghem.user.model.vo.HttpVo;
 
 public interface OauthService {
     HttpVo tryOauthKakao(String code);
+
+    HttpVo tryOauthNaver(String code);
 }

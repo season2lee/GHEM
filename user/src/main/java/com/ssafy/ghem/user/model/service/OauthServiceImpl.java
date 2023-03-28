@@ -69,6 +69,43 @@ public class OauthServiceImpl implements OauthService {
         return http;
     }
 
+    @Override
+    @Transactional("commonTransactionManager")
+    public HttpVo tryOauthNaver(String code) {
+        HttpVo http = new HttpVo();
+        Map<String, Object> map = new HashMap<>();
+
+        String token = getAccessToken_Naver(code);
+        log.info("token: " + token);
+
+        UserVO userInfo = getNaverUserInfo(token);
+        log.info("UserInfo: " + userInfo);
+
+
+        User user = userCommonRepository.findUserById(userInfo.getId());
+        // 회원가입 진행
+        if(user == null) {
+            user = User.builder()
+                    .id(userInfo.getId())
+                    .userProfile(userInfo.getUserProfile())
+                    .build();
+
+            userCommonRepository.save(user);
+        }
+
+        log.info("user: "+ user);
+        // 로그인 진행
+        String accessToken = jwtProvider.createToken(user.getUser_id());
+        map.put("AccessToken", accessToken);
+        map.put("userId", user.getUser_id());
+        map.put("userNickname", user.getNickname());
+
+        http.setData(map);
+        http.setFlag(true);
+
+        return http;
+    }
+
     public String getAccessToken(String code) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -111,6 +148,47 @@ public class OauthServiceImpl implements OauthService {
         return jsonNode.get("access_token").asText();
     }
 
+    public String getAccessToken_Naver(String code) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        // HTTP Body 생성
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("grant_type", "authorization_code");
+        body.add("client_id", clientId);
+//        body.add("redirect_uri", "http://j8d107.p.ssafy.io/oauth/kakao/callback");
+        body.add("redirect_uri", "http://localhost:5173/oauth/naver/callback");
+        body.add("code", code);
+
+        // HTTP 요청 보내기
+        HttpEntity<MultiValueMap<String, String>> naverTokenRequest = new HttpEntity<>(body, headers);
+        RestTemplate rt = new RestTemplate();
+
+        ResponseEntity<String> response = null;
+
+        try {
+            response = rt.exchange(
+                    "https://nid.naver.com/oauth2.0/token",
+                    HttpMethod.POST,
+                    naverTokenRequest,
+                    String.class
+            );
+        } catch (Exception e) {
+            throw new NoModify("RestTemplate 전송 오류: " + e.getMessage());
+        }
+
+        String responseBody = response.getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(responseBody);
+        } catch (Exception e) {
+            throw new RuntimeException("JSON 파싱 오류: " + e.getMessage());
+        }
+
+        return jsonNode.get("access_token").asText();
+    }
+
     public UserVO getKakaoUserInfo(String accessToken) {
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
@@ -150,4 +228,41 @@ public class OauthServiceImpl implements OauthService {
                 .build();
     }
 
+    public UserVO getNaverUserInfo(String accessToken) {
+        // HTTP Header 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + accessToken);
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        // HTTP 요청 보내기
+        HttpEntity<MultiValueMap<String, String>> naverUserInfoRequest = new HttpEntity<>(headers);
+        RestTemplate rt = new RestTemplate();
+
+        ResponseEntity<String> response = rt.exchange(
+                "https://openapi.naver.com/v1/nid/me",
+                HttpMethod.GET,
+                naverUserInfoRequest,
+                String.class
+        );
+
+        String responseBody = response.getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(responseBody);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+
+        log.info(jsonNode.toString());
+
+        String id = jsonNode.get("response").get("id").asText();
+        String profile = jsonNode.get("response").get("profile_image").asText();
+
+        return UserVO.builder()
+                .id(id)
+                .userProfile(profile)
+                .build();
+    }
 }
