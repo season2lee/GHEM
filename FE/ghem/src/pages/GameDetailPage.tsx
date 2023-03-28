@@ -11,6 +11,8 @@ import axios from 'axios'
 import ChatBox from '@components/gamedetail/chatbox/ChatBox'
 import { css } from '@emotion/react'
 import ReviewSection from '@components/gamedetail/review/ReviewSection'
+import GameInfo from '@components/gamedetail/gameinfo/GameInfo'
+import SimilarUserSection from '@components/gamedetail/similaruser/SimilarUserSection'
 
 type GameDataType = {
   appID: string,
@@ -114,23 +116,28 @@ function GameDetailPage() {
   return (
     <div>
       {/* 라이브러리 이미지를 가진 헤드 컴포넌트*/}
-      {gameData && <ImageHead gameData={gameData} currentRating={currentRating} ratingHandler={ratingHandler} />}
+      {appID && <ImageHead appID={appID} />}
+      {/* {gameData && <ImageHead gameData={gameData} currentRating={currentRating} ratingHandler={ratingHandler} />} */}
 
+      {/* 게임정보 컴포넌트 */}
       <div css={container}>
-        <div css={leftContainer}>
-          {/* 리뷰 컴포넌트 */}
-          <Section>
-            <ReviewSection currentRating={currentRating} />
-          </Section>
-          <br />
-          {/* 즐겨찾기한 유저들 컴포넌트 */}
-          <Section>
-            <div style={{width: "100%", height: "10rem"}}>즐겨찾기한 유저들 컴포넌트</div>
-          </Section>
-        </div>
-        <div css={rightContainer}>
-          {/* 채팅창 컴포넌트 */}
-          <ChatBox />
+        <GameInfo gameData={gameData} currentRating={currentRating} ratingHandler={ratingHandler} />
+        <div css={topContainer}>
+          <div css={leftContainer}>
+            {/* 리뷰 컴포넌트 */}
+            <Section>
+              <ReviewSection currentRating={currentRating} />
+            </Section>
+            <br />
+            {/* 즐겨찾기한 유저들 컴포넌트 */}
+            <Section>
+              <SimilarUserSection />
+            </Section>
+          </div>
+          <div css={rightContainer}>
+            {/* 채팅창 컴포넌트 */}
+            <ChatBox />
+          </div>
         </div>
       </div>
     </div>
@@ -138,8 +145,12 @@ function GameDetailPage() {
 }
 
 const container = css`
-  width: 100%;
   padding: 50px;
+`
+
+const topContainer = css`
+  width: 100%;
+  margin-top: 100px;
   display: flex;
 `
 

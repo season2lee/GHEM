@@ -100,7 +100,7 @@ function StarBackground() {
 const star = css`
   position: fixed;
   top:0;
-  z-index: -1;
+  z-index: -2;
 
 `
 export default StarBackground
