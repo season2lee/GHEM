@@ -22,6 +22,10 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath birth = createString("birth");
 
+    public final SetPath<Follower, QFollower> followers = this.<Follower, QFollower>createSet("followers", Follower.class, QFollower.class, PathInits.DIRECT2);
+
+    public final SetPath<Following, QFollowing> followings = this.<Following, QFollowing>createSet("followings", Following.class, QFollowing.class, PathInits.DIRECT2);
+
     public final ListPath<UserGame, QUserGame> games = this.<UserGame, QUserGame>createList("games", UserGame.class, QUserGame.class, PathInits.DIRECT2);
 
     public final NumberPath<Integer> gender = createNumber("gender", Integer.class);
