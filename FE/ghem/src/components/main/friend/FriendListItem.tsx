@@ -1,9 +1,10 @@
 import { css } from "@emotion/react";
 import React from "react";
 import { useNavigate } from "react-router";
+import { CanBeFriendList } from "./FriendList";
 
 type FriendListItemProps = {
-  id: string;
+  friend: CanBeFriendList;
   canClick: boolean;
 };
 
@@ -15,16 +16,25 @@ function FriendListItem(props: FriendListItemProps) {
       css={friedCard}
       onClick={() => {
         if (props.canClick) {
-          navigator(`../profile/${props.id}/gamelist`);
+          if (props.friend.steam_id.toString().length !== 17) {
+            navigator(`../profile/${props.friend.steam_id}/gamelist`);
+          } else if (props.friend.steam_id.toString().length === 17) {
+            const a = props.friend.steam_id;
+            console.log(a);
+            window.open(
+              // `https://steamcommunity.com/profiles/${props.friend.steam_id}`
+              `https://steamcommunity.com/search/users/#text=${props.friend.nickname}`
+            );
+          }
         }
       }}
     >
       <img
         css={imgSize}
-        src="https://cdn.pixabay.com/photo/2017/07/31/23/50/people-2562102_960_720.jpg"
-        alt=""
+        src={`${props.friend.user_profile}`}
+        alt={`${props.friend.nickname}`}
       />
-      <p>{props.id}</p>
+      <p>{props.friend.nickname}</p>
     </div>
   );
 }

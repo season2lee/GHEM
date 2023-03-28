@@ -43,7 +43,8 @@ function HoverGameTitle(props: HoverGameTitleProps) {
         data
       );
       setIsLike(true);
-      console.log(response);
+      setNumDib(response.data.data.result.dibs_id);
+      // console.log(response);
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -55,7 +56,8 @@ function HoverGameTitle(props: HoverGameTitleProps) {
         `http://j8d107.p.ssafy.io:32000/user/dibs/delete/${numDib}`
       );
       setIsLike(false);
-      console.log(response);
+      setNumDib(null);
+      // console.log(response);
     } catch (err) {
       console.log("Error >>", err);
     }
