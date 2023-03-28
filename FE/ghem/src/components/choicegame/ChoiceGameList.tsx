@@ -3,45 +3,41 @@ import ChoiceGameListItem from "./ChoiceGameListItem";
 import { css } from "@emotion/react";
 
 type GameList = {
-  appid: number;
+  app_id: number;
+  genre: string;
+  nagative_reviews: number;
+  positive_reviews: number;
+  rating: number;
+  rating_desc: string;
+  release_date: string;
+  title: string;
 };
 
 type ChoiceGameListProps = {
   gameList?: GameList[];
-
+  userId: number;
+  isLoginStatus: boolean;
 };
 
-function ChoiceGameList({ gameList }: ChoiceGameListProps) {
-  const [good, setGood] = useState<number[]>([]);
-  const [soso, setSoso] = useState<number[]>([]);
-  const [bad, setBad] = useState<number[]>([]);
-
-  useEffect(() => {
-    console.log("good",good);
-    console.log(good.length)
-  }, [good]);
-
-  useEffect(() => {
-    console.log("soso",soso);
-  }, [soso]);
-
-  useEffect(() => {
-    console.log("bad",bad);
-  }, [bad]);
+function ChoiceGameList({ gameList,userId,isLoginStatus }: ChoiceGameListProps) {
+  
 
   return (
     <div css={choiceList}>
-      {gameList?.map((item) => {
+      {gameList?.map((item,index) => {
         return (
           <ChoiceGameListItem
-            appid={item.appid}
-            key={item.appid}
-            good={good}
-            setGood={setGood}
-            soso={soso}
-            setSoso={setSoso}
-            bad={bad}
-            setBad={setBad}
+            app_id={item.app_id}
+            key={index}
+            genre={item.genre}
+            nagative_reviews={item.nagative_reviews}
+            positive_reviews={item.positive_reviews}
+            rating={item.rating}
+            rating_desc={item.rating_desc}
+            release_date={item.release_date}
+            title={item.title}
+            userId={userId}
+            isLoginStatus={isLoginStatus}
           />
         );
       })}

@@ -1,16 +1,20 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { css } from "@emotion/react";
+import { useNavigate } from "react-router";
 import useIntersectionObsever from "@/util/hooks/useIntersectionObserver";
-import gameRecommend from "@/assets/image/gameRecommend.png";
+import gameChat from "@/assets/image/gameChat.png";
 
-function ThirdContainer() {
+function ForthContainer() {
   const ref = useRef<HTMLDivElement>(null);
   const isInViewport = useIntersectionObsever(ref);
 
   return (
     <div css={layout}>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-      <h3>
+        <img src={gameChat}></img>
+      </div>
+      <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
+        <h3>
           무슨 게임 할 지 항상 고민 하셨나요?
           <br />
           steam에서 추천해주는 게임이 지루하셨나요?
@@ -18,9 +22,6 @@ function ThirdContainer() {
           까다로운 당신의 취향에 딱 맞는 서비스를 받아보세요
           <br />
         </h3>
-      </div>
-      <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-      <img src={gameRecommend}></img>
       </div>
     </div>
   );
@@ -43,7 +44,7 @@ const section = css`
   width: 50%;
   text-align: center;
 
-  img { 
+  img {
     max-width: 100%;
     max-height: 100%;
   }
@@ -62,5 +63,4 @@ const section = css`
   }
 `;
 
-
-export default ThirdContainer;
+export default ForthContainer;

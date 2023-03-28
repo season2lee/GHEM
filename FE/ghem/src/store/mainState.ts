@@ -30,3 +30,31 @@ export const contentInfoState = atom<contentInfoType>({
     review: undefined,
   },
 });
+
+// 게임 평가 후 추천 받은 게임 리스트
+
+export type gameRecommendStateType = {
+  app_id: number;
+  title: string;
+  genre: string;
+  release_date: string;
+  rating: number;
+  rating_desc: string;
+  positive_reviews: number;
+  negative_reviews: number;
+};
+
+export const gameRecommendState = atom<gameRecommendStateType[]>({
+  key: "gameRecommend",
+  default: [],
+});
+
+export type evaluatedGameStateType = {
+  app_id: number;
+  rating: number;
+};
+
+export const evaluatedGameState = atom<evaluatedGameStateType[]>({
+  key: "evaluatedGame",
+  default: []
+});
