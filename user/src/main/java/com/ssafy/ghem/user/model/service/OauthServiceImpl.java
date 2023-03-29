@@ -265,7 +265,7 @@ public class OauthServiceImpl implements OauthService {
         log.info(jsonNode.toString());
 
         String id = jsonNode.get("response").get("id").asText();
-        String profile = jsonNode.get("response").get("profile_image").asText();
+        String profile = "\""+jsonNode.get("response").get("profile_image").asText()+"\"";
 
         return UserVO.builder()
                 .id(id)
