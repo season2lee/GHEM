@@ -32,7 +32,7 @@ function BannerGameList() {
   const bannerListApi = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.100.124:8000/user/games`,
+        `http://j8d107.p.ssafy.io:32003/user/games`,
         {
           params: { steam_id: userId, start: startPage, end: startPage + 10 },
         }
