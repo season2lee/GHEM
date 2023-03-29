@@ -62,7 +62,6 @@ function HoverGameItem(props: HoverGameItemProps) {
   useEffect(() => {
     if (haveData !== "have") {
       props.setCanClickWithHover(false);
-      console.log("???");
     } else {
       props.setCanClickWithHover(true);
     }
