@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { css } from "@emotion/react";
-import CategorySelect from "../components/category/CategorySelect"
+import CategorySelect from "../components/recommend/category/CategorySelect"
+
 
 function CategoryPage() {
+  
 
   return (
     <div>

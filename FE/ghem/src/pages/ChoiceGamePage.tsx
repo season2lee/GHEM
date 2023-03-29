@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import ChoiceGameList from "@components/choicegame/ChoiceGameList";
+import ChoiceGameList from "@components/recommend/choicegame/ChoiceGameList";
 import axios from "axios";
 import {
   gameRecommendState,
   gameRecommendStateType,
-  evaluatedGameState,
+  choiceGameState,
 } from "@/store/mainState";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 type GameItemList = {
   appid: number;
@@ -26,19 +26,13 @@ type GameList = {
 
 function ChoiceGamePage() {
   const [gameList, setGameList] = useState<GameList[]>([]);
-  // const [filterGameList, setFilterGameList] = useState<GameList[]>([]);
   const userId: number | null = Number(localStorage.getItem("id"));
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
   const [gameRecommend, setGameRecommend] =
     useRecoilState<gameRecommendStateType[]>(gameRecommendState);
-  const currentEvaluate = useRecoilValue(evaluatedGameState); // 평가 된 게임
-  // const { state } = useLocation();
-  const state = ['RPG','Action']
-
-  useEffect(() => {
-    categoryList(state);
-    return () => {};
-  }, []);
+  const currentChoiceGame = useRecoilValue(choiceGameState); // 평가 된 게임
+  const { state } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(gameList);
@@ -50,33 +44,49 @@ function ChoiceGamePage() {
     }
   }, [userId]);
 
+  useEffect(() => {
+    TopRankListApi(state);
+  }, []);
+
   //비 로그인시 추천 받을 게임 axios 요청
-  const RecommendGame = async () => {
+
+  const RecommendOneGame = async ()=> {
     try {
       const response = await axios.get(
-        "http://j8d107.p.ssafy.io:32003/games?app_id=10"
+        `http://j8d107.p.ssafy.io:32003/games?apps=${currentChoiceGame}`
       );
-      setGameRecommend(response.data);
+      navigate("/recommendloading")
+      // if (response.data === 0){
+      //   alert("해당 게임에 대한 정보가 부족하여 추천 받을 수 없습니다.")
+      // }else {
+      //   setGameRecommend(response.data);
+      //   navigate("/recommendloading")
+      // }
     } catch (err) {
       console.log(err);
     }
-  };
+  }
 
-  const categoryList = async (state:string[]) => {
-    for (let i = 0; i < state.length; i++) {
+  const RecommendGame = async () => {
+      const choiceGameList = currentChoiceGame.join("/");
+      navigate("/recommendloading")
       try {
-        await TopRankListApi(state[i]);
+        const response = await axios.get(
+          `http://j8d107.p.ssafy.io:32003/games?apps=${choiceGameList}`
+        );
+        setGameRecommend(response.data);
       } catch (err) {
         console.log(err);
       }
-    }
   };
 
+  // 로그인 시 추천 받을 게임 axios 요청
+
   // 선택된 카테고리 관련 게임 api
-  const TopRankListApi = async (genre: string) => {
+  const TopRankListApi = async (state: string) => {
     try {
       const response = await axios.get(
-        `http://192.168.100.124:8000/games/genre?genre=${genre}&top=10`
+        `http://j8d107.p.ssafy.io:32003/games/genre?genre=${state}&top=30`
       );
       let item = response.data;
       for (let i = 0; i < item.length; i++) {
@@ -95,7 +105,12 @@ function ChoiceGamePage() {
         ) : (
           <div> 재밌게 플레이 했던 게임을 선택 해주세요</div>
         )}
-        <button onClick={RecommendGame}>추천 받기</button>
+        {currentChoiceGame.length > 0 ? (<>
+          {currentChoiceGame.length == 1? (<>
+          <button onClick={RecommendOneGame}>추천 받기</button>
+          </>):(<button onClick={RecommendGame}>추천 받기</button>)}
+        </>
+        ) : null}
       </div>
 
       <div>

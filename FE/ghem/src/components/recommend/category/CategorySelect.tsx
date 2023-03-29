@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { CategoryData } from "./CategoryTestData";
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router";
 import axios from "axios";
@@ -23,14 +22,13 @@ function CategorySelect() {
 
   const CategoryListApi = async () => {
     try {
-      const response = await axios.get("http://192.168.100.124:8000/genres");
+      const response = await axios.get("http://j8d107.p.ssafy.io:32003/genres");
       setCategoryList(response.data);
     } catch (err) {
       console.log(err);
     }
   };
 
-  console.log(selectedList);
 
   const onSelectedItem = (checked: boolean, item: string) => {
     if (checked) {
@@ -45,7 +43,8 @@ function CategorySelect() {
   };
 
   const onMoveToChoice = () => {
-    navigate("/choicegame", { state: selectedList });
+    const genreList = selectedList.join("/");
+    navigate("/choicegame", { state: genreList });
   };
 
   return (
@@ -65,7 +64,6 @@ function CategorySelect() {
             );
           })}
         </div>
-        <button onClick={onMoveToChoice}>이동하기</button>
         <div>
           {selectedList.length >= 3 ? (
             <button onClick={onMoveToChoice}>이동하기</button>
@@ -97,7 +95,7 @@ export default CategorySelect;
 
 const section = css`
   display: inline-flex;
-  justify-content:start;
+  justify-content: start;
   width: 100%;
   height: 50%;
 `;

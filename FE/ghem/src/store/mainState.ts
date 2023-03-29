@@ -49,6 +49,7 @@ export const gameRecommendState = atom<gameRecommendStateType[]>({
   default: [],
 });
 
+// 로그인 시 추천을 위해 평가 된 게임 
 export type evaluatedGameStateType = {
   app_id: number;
   rating: number;
@@ -56,5 +57,12 @@ export type evaluatedGameStateType = {
 
 export const evaluatedGameState = atom<evaluatedGameStateType[]>({
   key: "evaluatedGame",
+  default: []
+});
+
+// 비로그인 시 추천을 위해 선택 된 게임 
+
+export const choiceGameState= atom<number[]>({
+  key: "choiceGame",
   default: []
 });

@@ -245,19 +245,18 @@ const chatAni = css`
   margin-bottom: 1.5rem;
   transform: scale(0);
   
-  
 }
-.card__message:nth-child(1){
+.card__message:nth-of-type(1) {
   animation: msg-animation 9s 1s ease forwards infinite;
 }
-.card__message:nth-child(2){
+.card__message:nth-of-type(2) {
   animation: msg-animation 7s 3s ease forwards infinite;
 }
 
-.card__message:nth-child(3){
+.card__message:nth-of-type(3) {
   animation: msg-animation 5s 5s ease forwards infinite;
 }
-.card__message:nth-child(4){
+.card__message:nth-of-type(4) {
   animation: msg-animation 3s 10s ease forwards infinite;
 }
 
@@ -296,14 +295,14 @@ const chatAni = css`
   margin: calc(var(--size)*2);
 }
 
-.loader__element:nth-child(1) {
+.loader__element:nth-of-type(1) {
   animation: preloader .9s ease-in-out alternate infinite;
 }
-.loader__element:nth-child(2) {
+.loader__element:nth-of-type(2) {
   animation: preloader .9s ease-in-out alternate .3s infinite;
 }
 
-.loader__element:nth-child(3) {
+.loader__element:nth-of-type(3) {
   animation: preloader .9s ease-in-out alternate .6s infinite;
 }
   
