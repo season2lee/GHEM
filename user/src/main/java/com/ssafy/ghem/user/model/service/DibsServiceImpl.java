@@ -9,7 +9,7 @@ import com.ssafy.ghem.user.model.respository.common.GameCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.individual.DibsIndividualRepository;
 import com.ssafy.ghem.user.model.vo.DibsVO;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,8 +30,8 @@ public class DibsServiceImpl implements DibsService{
     private final DibsIndividualRepository dibsIndividualRepository;
 
     @Override
-    public HttpVo doDibs(DibsVO dibsInfo) {
-        HttpVo http = new HttpVo();
+    public HttpVO doDibs(DibsVO dibsInfo) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = getUser(dibsInfo.getUserId());
@@ -56,8 +56,8 @@ public class DibsServiceImpl implements DibsService{
     }
 
     @Override
-    public HttpVo checkDibs(Long app_id, Long user_id) {
-        HttpVo http = new HttpVo();
+    public HttpVO checkDibs(Long app_id, Long user_id) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = getUser(user_id);
@@ -72,8 +72,8 @@ public class DibsServiceImpl implements DibsService{
     }
 
     @Override
-    public HttpVo listDibGame(Long user_id) {
-        HttpVo http = new HttpVo();
+    public HttpVO listDibGame(Long user_id) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = getUser(user_id);
@@ -94,8 +94,8 @@ public class DibsServiceImpl implements DibsService{
     }
 
     @Override
-    public HttpVo deleteDibs(Long dibs_id) {
-        HttpVo http = new HttpVo();
+    public HttpVO deleteDibs(Long dibs_id) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         dibsIndividualRepository.deleteById(dibs_id);

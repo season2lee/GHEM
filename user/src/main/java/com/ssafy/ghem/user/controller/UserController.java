@@ -1,7 +1,7 @@
 package com.ssafy.ghem.user.controller;
 
 import com.ssafy.ghem.user.model.service.UserService;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.SteamUserVO;
 import com.ssafy.ghem.user.model.vo.UserVO;
 import io.swagger.annotations.ApiOperation;
@@ -28,8 +28,8 @@ public class UserController {
                     "#은 꼭 막아주세요!!!!",
             response = String.class)
     public ResponseEntity<?> updateUserInfo(@RequestBody UserVO userInfo){
-        HttpVo http = userService.updateUserInfo(userInfo);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = userService.updateUserInfo(userInfo);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("{user_id}")
@@ -37,8 +37,8 @@ public class UserController {
             notes = "user_id를 넘겨주세요!",
             response = String.class)
     public ResponseEntity<?> getUserDetail(@PathVariable String user_id){
-        HttpVo http = userService.getUserDetail(Long.parseLong(user_id));
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = userService.getUserDetail(Long.parseLong(user_id));
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("nickname/{nickname}")
@@ -47,8 +47,8 @@ public class UserController {
                     "false를 리턴하면 해당 닉네임 사용불가능",
             response = String.class)
     public ResponseEntity<?> checkNickname(@PathVariable String nickname){
-        HttpVo http = userService.checkNickname(nickname);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = userService.checkNickname(nickname);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @PutMapping("/steam")
@@ -57,8 +57,8 @@ public class UserController {
             notes = "",
             response = String.class)
     public ResponseEntity<?> updateSteamId(@RequestBody SteamUserVO steamUser){
-        HttpVo http = userService.updateSteamId(steamUser);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = userService.updateSteamId(steamUser);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
 }

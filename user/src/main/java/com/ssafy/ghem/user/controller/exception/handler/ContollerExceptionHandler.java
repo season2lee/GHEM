@@ -2,7 +2,7 @@ package com.ssafy.ghem.user.controller.exception.handler;
 
 import com.ssafy.ghem.user.controller.exception.DoesNotExistData;
 import com.ssafy.ghem.user.controller.exception.NoModify;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class ContollerExceptionHandler {
 
     @ExceptionHandler(NoModify.class)
     public ResponseEntity<?> noModify(Exception e){
-        HttpVo http = new HttpVo();
+        HttpVO http = new HttpVO();
         Map<String, String> map = new HashMap<>();
         log.error("error ", e.getClass().getName());
 
@@ -27,12 +27,12 @@ public class ContollerExceptionHandler {
         map.put("errMessage", e.toString());
 
         http.setData(map);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @ExceptionHandler(DoesNotExistData.class)
     public ResponseEntity<?> doesNotExistData(Exception e){
-        HttpVo http = new HttpVo();
+        HttpVO http = new HttpVO();
         Map<String, String> map = new HashMap<>();
         log.error("error ", e.getClass().getName());
 
@@ -40,12 +40,12 @@ public class ContollerExceptionHandler {
         map.put("errMessage", e.toString());
 
         http.setData(map);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @ExceptionHandler(AlreadyBoundException.class)
     public ResponseEntity<?> alreadyBoundException(Exception e){
-        HttpVo http = new HttpVo();
+        HttpVO http = new HttpVO();
         Map<String, String> map = new HashMap<>();
         log.error("error ", e.getClass().getName());
 
@@ -53,6 +53,6 @@ public class ContollerExceptionHandler {
         map.put("errMessage", e.toString());
 
         http.setData(map);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 }

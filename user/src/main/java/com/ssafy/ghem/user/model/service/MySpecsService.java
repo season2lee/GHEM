@@ -1,18 +1,16 @@
 package com.ssafy.ghem.user.model.service;
 
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.MyPcSpecsVO;
 
-import java.rmi.AlreadyBoundException;
-
 public interface MySpecsService {
-    HttpVo makeMySpecs(MyPcSpecsVO myPcSpecsVO);
-    HttpVo updateMySpecs(MyPcSpecsVO myPcSpecsVO);
-    HttpVo getMySpecs(Long user_id);
-    HttpVo getCpuModel(String brand, String input);
-    HttpVo getCpuBrand();
-    HttpVo getGpuModel(String brand, String input);
-    HttpVo getGpuBrand();
-    HttpVo getCompareCpu(String my_model, String game_model);
-    HttpVo getCompareGpu(String my_model, String game_model);
+    HttpVO makeMySpecs(MyPcSpecsVO myPcSpecsVO);
+    HttpVO updateMySpecs(MyPcSpecsVO myPcSpecsVO);
+    HttpVO getMySpecs(Long user_id);
+    HttpVO getCpuModel(String brand, String input);
+    HttpVO getCpuBrand();
+    HttpVO getGpuModel(String brand, String input);
+    HttpVO getGpuBrand();
+    HttpVO getCompareCpu(String my_model, String game_model);
+    HttpVO getCompareGpu(String my_model, String game_model);
 }

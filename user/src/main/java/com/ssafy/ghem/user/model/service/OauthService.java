@@ -1,9 +1,9 @@
 package com.ssafy.ghem.user.model.service;
 
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 
 public interface OauthService {
-    HttpVo tryOauthKakao(String code);
+    HttpVO tryOauthKakao(String code);
 
-    HttpVo tryOauthNaver(String code);
+    HttpVO tryOauthNaver(String code);
 }

@@ -1,14 +1,12 @@
 package com.ssafy.ghem.user.model.service;
 
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.ReviewVO;
 
-import java.rmi.AlreadyBoundException;
-
 public interface ReviewService {
-    HttpVo doReview(ReviewVO reviewInfo);
-    HttpVo checkReview(ReviewVO reviewInfo);
-    HttpVo deleteReview(Long user_id, Long app_id);
-    HttpVo updateReview(ReviewVO reviewInfo);
-    HttpVo listReview(Long user_id);
+    HttpVO doReview(ReviewVO reviewInfo);
+    HttpVO checkReview(ReviewVO reviewInfo);
+    HttpVO deleteReview(Long user_id, Long app_id);
+    HttpVO updateReview(ReviewVO reviewInfo);
+    HttpVO listReview(Long user_id);
 }

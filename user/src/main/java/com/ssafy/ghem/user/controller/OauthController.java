@@ -1,7 +1,7 @@
 package com.ssafy.ghem.user.controller;
 
 import com.ssafy.ghem.user.model.service.OauthService;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +32,9 @@ public class OauthController {
 
         log.info("code: " + code);
 
-        HttpVo http = oauthService.tryOauthKakao(code);
+        HttpVO http = oauthService.tryOauthKakao(code);
 
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/code/naver")
@@ -49,8 +49,8 @@ public class OauthController {
 
         log.info("code: " + code);
 
-        HttpVo http = oauthService.tryOauthNaver(code);
+        HttpVO http = oauthService.tryOauthNaver(code);
 
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 }

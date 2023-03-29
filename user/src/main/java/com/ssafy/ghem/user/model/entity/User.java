@@ -37,14 +37,4 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<UserGame> games = new ArrayList<>();
-
-    // Follower relationships
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Follower> followers = new HashSet<>();
-
-    // Following relationships
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Following> followings = new HashSet<>();
 }

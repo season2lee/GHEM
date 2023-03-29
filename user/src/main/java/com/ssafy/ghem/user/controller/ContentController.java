@@ -2,7 +2,7 @@ package com.ssafy.ghem.user.controller;
 
 import com.ssafy.ghem.user.model.service.ContentService;
 import com.ssafy.ghem.user.model.vo.ContentVO;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +29,8 @@ public class ContentController {
                     "date = 현재 날짜",
             response = String.class)
     public ResponseEntity<?> writeContent(@RequestBody ContentVO contentInfo){
-        HttpVo http = contentService.writeContent(contentInfo);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = contentService.writeContent(contentInfo);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/{app_id}")
@@ -42,8 +42,8 @@ public class ContentController {
     public ResponseEntity<?> listContent(@PathVariable Long app_id,
                                          @PageableDefault(size = 5) Pageable pageable){
 //        log.info("{}, {}, {}", app_id, max, page);
-        HttpVo http = contentService.listContent(app_id, pageable);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = contentService.listContent(app_id, pageable);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/check/{app_id}/{user_id}")
@@ -53,8 +53,8 @@ public class ContentController {
             response = String.class)
     public ResponseEntity<?> checkContent(@PathVariable Long app_id,
                                           @PathVariable Long user_id){
-        HttpVo http = contentService.checkContent(app_id, user_id);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = contentService.checkContent(app_id, user_id);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @PutMapping("/modify")
@@ -65,7 +65,7 @@ public class ContentController {
             response = String.class)
     public ResponseEntity<?> updateContent(@RequestBody ContentVO contentInfo){
 
-        HttpVo http = contentService.updateContent(contentInfo);//contentService.listContent(app_id);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = contentService.updateContent(contentInfo);//contentService.listContent(app_id);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 }

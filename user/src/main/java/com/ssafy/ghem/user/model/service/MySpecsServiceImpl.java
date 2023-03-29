@@ -7,7 +7,7 @@ import com.ssafy.ghem.user.model.respository.common.GameCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.GpuCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.individual.MySpecsIndividualRepository;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.MyPcSpecsVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +31,8 @@ public class MySpecsServiceImpl implements MySpecsService{
     private final GpuCommonRepository gpuCommonRepository;
 
     @Override
-    public HttpVo makeMySpecs(MyPcSpecsVO myPcSpecsVO) {
-        HttpVo http = new HttpVo();
+    public HttpVO makeMySpecs(MyPcSpecsVO myPcSpecsVO) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = getUser(myPcSpecsVO.getUser_id());
@@ -62,8 +62,8 @@ public class MySpecsServiceImpl implements MySpecsService{
 
     @Override
     @Transactional
-    public HttpVo updateMySpecs(MyPcSpecsVO myPcSpecsVO) {
-        HttpVo http = new HttpVo();
+    public HttpVO updateMySpecs(MyPcSpecsVO myPcSpecsVO) {
+        HttpVO http = new HttpVO();
 
         MyPcSpecs myPcSpecs = mySpecsIndividualRepository.findById(myPcSpecsVO.getSpec_id())
                         .orElseThrow(() -> new DoesNotExistData("해당하는 유저 컴퓨터 사양 데이터가 없습니다."));
@@ -82,8 +82,8 @@ public class MySpecsServiceImpl implements MySpecsService{
     }
 
     @Override
-    public HttpVo getMySpecs(Long user_id) {
-        HttpVo http = new HttpVo();
+    public HttpVO getMySpecs(Long user_id) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         MyPcSpecs myPcSpecs = mySpecsIndividualRepository.getMyPcSpecsByUserId(user_id);
@@ -95,8 +95,8 @@ public class MySpecsServiceImpl implements MySpecsService{
     }
 
     @Override
-    public HttpVo getCpuBrand() {
-        HttpVo http = new HttpVo();
+    public HttpVO getCpuBrand() {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         List<String> list = cpuCommonRepository.getAllDistnct();
@@ -108,8 +108,8 @@ public class MySpecsServiceImpl implements MySpecsService{
     }
 
     @Override
-    public HttpVo getCpuModel(String brand, String input) {
-        HttpVo http = new HttpVo();
+    public HttpVO getCpuModel(String brand, String input) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         List<String> list = cpuCommonRepository.getCpuByBrand(brand, input);
@@ -121,8 +121,8 @@ public class MySpecsServiceImpl implements MySpecsService{
     }
 
     @Override
-    public HttpVo getGpuBrand() {
-        HttpVo http = new HttpVo();
+    public HttpVO getGpuBrand() {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         List<String> list = gpuCommonRepository.getAllDistnct();
@@ -134,8 +134,8 @@ public class MySpecsServiceImpl implements MySpecsService{
     }
 
     @Override
-    public HttpVo getGpuModel(String brand, String input) {
-        HttpVo http = new HttpVo();
+    public HttpVO getGpuModel(String brand, String input) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         List<String> list = gpuCommonRepository.getGpuByBrand(brand, input);
@@ -147,8 +147,8 @@ public class MySpecsServiceImpl implements MySpecsService{
     }
 
     @Override
-    public HttpVo getCompareCpu(String my_model, String game_model) {
-        HttpVo http = new HttpVo();
+    public HttpVO getCompareCpu(String my_model, String game_model) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         Cpu myCpu = cpuCommonRepository.getCpuByModel(my_model);
@@ -168,8 +168,8 @@ public class MySpecsServiceImpl implements MySpecsService{
     }
 
     @Override
-    public HttpVo getCompareGpu(String my_model, String game_model) {
-        HttpVo http = new HttpVo();
+    public HttpVO getCompareGpu(String my_model, String game_model) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
 //        log.info("my_model: {}, game_model: {}", my_model, game_model);

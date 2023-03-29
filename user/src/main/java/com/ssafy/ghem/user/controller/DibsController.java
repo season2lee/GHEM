@@ -2,7 +2,7 @@ package com.ssafy.ghem.user.controller;
 
 import com.ssafy.ghem.user.model.service.DibsService;
 import com.ssafy.ghem.user.model.vo.DibsVO;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +24,8 @@ public class DibsController {
                     "user_id = 유저 고유번호(카카오, 네이버 고유번호 아님)\n",
             response = String.class)
     public ResponseEntity<?> doDibs(@RequestBody DibsVO dibsInfo){
-        HttpVo http = dibsService.doDibs(dibsInfo);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = dibsService.doDibs(dibsInfo);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/{app_id}/{user_id}")
@@ -35,8 +35,8 @@ public class DibsController {
                     "data에 아무것도 날라오지 않으면 찜하지 않은 게임입니다.",
             response = String.class)
     public ResponseEntity<?> checkDibs(@PathVariable Long app_id, @PathVariable Long user_id){
-        HttpVo http = dibsService.checkDibs(app_id, user_id);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = dibsService.checkDibs(app_id, user_id);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/my/{user_id}")
@@ -44,8 +44,8 @@ public class DibsController {
     notes = "user_id = 유저 고유번호",
     response = String.class)
     public ResponseEntity<?> listDibGames(@PathVariable Long user_id){
-        HttpVo http = dibsService.listDibGame(user_id);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = dibsService.listDibGame(user_id);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{dibs_id}")
@@ -53,7 +53,7 @@ public class DibsController {
             notes = "dibs_id = 찜 고유번호\n",
             response = String.class)
     public ResponseEntity<?> deleteDibs(@PathVariable Long dibs_id ){
-        HttpVo http = dibsService.deleteDibs(dibs_id);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = dibsService.deleteDibs(dibs_id);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 }

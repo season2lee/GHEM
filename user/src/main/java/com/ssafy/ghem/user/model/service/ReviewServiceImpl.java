@@ -10,7 +10,7 @@ import com.ssafy.ghem.user.model.respository.common.GameCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.GameReviewCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserGameCommonRepository;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.ReviewVO;
 import com.ssafy.ghem.user.model.vo.UserGameContentVO;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +35,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public HttpVo doReview(ReviewVO reviewInfo) {
-        HttpVo http = new HttpVo();
+    public HttpVO doReview(ReviewVO reviewInfo) {
+        HttpVO http = new HttpVO();
 
         User user = getUser(reviewInfo.getUser_id());
         Game game = getGame(reviewInfo.getApp_id());
@@ -59,8 +59,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public HttpVo checkReview(ReviewVO reviewInfo) {
-        HttpVo http = new HttpVo();
+    public HttpVO checkReview(ReviewVO reviewInfo) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = getUser(reviewInfo.getUser_id());
@@ -85,8 +85,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public HttpVo deleteReview(Long user_id, Long app_id) {
-        HttpVo http = new HttpVo();
+    public HttpVO deleteReview(Long user_id, Long app_id) {
+        HttpVO http = new HttpVO();
 
         User user = getUser(user_id);
         Game game = getGame(app_id);
@@ -110,8 +110,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public HttpVo updateReview(ReviewVO reviewInfo) {
-        HttpVo http = new HttpVo();
+    public HttpVO updateReview(ReviewVO reviewInfo) {
+        HttpVO http = new HttpVO();
 
         User user = getUser(reviewInfo.getUser_id());
         Game game = getGame(reviewInfo.getApp_id());
@@ -127,8 +127,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public HttpVo listReview(Long user_id) {
-        HttpVo http = new HttpVo();
+    public HttpVO listReview(Long user_id) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = getUser(user_id);

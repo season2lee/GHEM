@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.ghem.user.controller.exception.NoModify;
 import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.UserVO;
 import com.ssafy.ghem.user.tool.JwtProvider;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +40,8 @@ public class OauthServiceImpl implements OauthService {
 
     @Override
     @Transactional("commonTransactionManager")
-    public HttpVo tryOauthKakao(String code) {
-        HttpVo http = new HttpVo();
+    public HttpVO tryOauthKakao(String code) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         String token = getAccessToken(code);
@@ -77,8 +77,8 @@ public class OauthServiceImpl implements OauthService {
 
     @Override
     @Transactional("commonTransactionManager")
-    public HttpVo tryOauthNaver(String code) {
-        HttpVo http = new HttpVo();
+    public HttpVO tryOauthNaver(String code) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         String token = getAccessToken_Naver(code);

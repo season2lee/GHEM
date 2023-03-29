@@ -1,7 +1,7 @@
 package com.ssafy.ghem.user.controller;
 
 import com.ssafy.ghem.user.model.service.ReviewService;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.ReviewVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,8 @@ public class ReviewController {
                     "rating = 점수",
             response = String.class)
     public ResponseEntity<?> doReview(@RequestBody ReviewVO reviewInfo){
-        HttpVo http = reviewService.doReview(reviewInfo);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = reviewService.doReview(reviewInfo);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/my/{user_id}")
@@ -35,8 +35,8 @@ public class ReviewController {
             response = String.class
     )
     public ResponseEntity<?> listReview(@PathVariable Long user_id){
-        HttpVo http = reviewService.listReview(user_id);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = reviewService.listReview(user_id);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/check")
@@ -46,8 +46,8 @@ public class ReviewController {
             response = String.class
     )
     public ResponseEntity<?> checkReview(ReviewVO reviewInfo){
-        HttpVo http = reviewService.checkReview(reviewInfo);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = reviewService.checkReview(reviewInfo);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{user_id}/{app_id}")
@@ -58,8 +58,8 @@ public class ReviewController {
     )
     public ResponseEntity<?> deleteReview(@PathVariable Long user_id,
                                           @PathVariable Long app_id){
-        HttpVo http = reviewService.deleteReview(user_id, app_id);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = reviewService.deleteReview(user_id, app_id);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @PutMapping("/modify")
@@ -70,7 +70,7 @@ public class ReviewController {
             response = String.class
     )
     public ResponseEntity<?> updateReview(@RequestBody ReviewVO reviewInfo){
-        HttpVo http = reviewService.updateReview(reviewInfo);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = reviewService.updateReview(reviewInfo);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 }

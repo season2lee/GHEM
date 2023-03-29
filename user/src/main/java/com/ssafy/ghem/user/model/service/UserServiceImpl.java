@@ -3,7 +3,7 @@ package com.ssafy.ghem.user.model.service;
 import com.ssafy.ghem.user.controller.exception.NoModify;
 import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.SteamUserVO;
 import com.ssafy.ghem.user.model.vo.UserVO;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public HttpVo updateUserInfo(UserVO userInfo) {
-        HttpVo http = new HttpVo();
+    public HttpVO updateUserInfo(UserVO userInfo) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = userCommonRepository.findById(userInfo.getUser_id())
@@ -41,8 +41,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public HttpVo getUserDetail(Long user_id) {
-        HttpVo http = new HttpVo();
+    public HttpVO getUserDetail(Long user_id) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = userCommonRepository.findById(user_id)
@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HttpVo checkNickname(String nickname) {
-        HttpVo http = new HttpVo();
+    public HttpVO checkNickname(String nickname) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = userCommonRepository.findUserByNickname(nickname);
@@ -73,8 +73,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public HttpVo updateSteamId(SteamUserVO steamUser) {
-        HttpVo http = new HttpVo();
+    public HttpVO updateSteamId(SteamUserVO steamUser) {
+        HttpVO http = new HttpVO();
 
         http.setFlag(true);
         return http;

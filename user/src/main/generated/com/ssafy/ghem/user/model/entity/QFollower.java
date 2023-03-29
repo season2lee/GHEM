@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -18,36 +17,26 @@ public class QFollower extends EntityPathBase<Follower> {
 
     private static final long serialVersionUID = -521801473L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
+    public static final QFollower follower = new QFollower("follower");
 
-    public static final QFollower follower1 = new QFollower("follower1");
-
-    public final QUser follower;
+    public final NumberPath<Long> followerId = createNumber("followerId", Long.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QUser user;
+    public final BooleanPath isFollowing = createBoolean("isFollowing");
+
+    public final NumberPath<Long> userId = createNumber("userId", Long.class);
 
     public QFollower(String variable) {
-        this(Follower.class, forVariable(variable), INITS);
+        super(Follower.class, forVariable(variable));
     }
 
     public QFollower(Path<? extends Follower> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QFollower(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QFollower(PathMetadata metadata, PathInits inits) {
-        this(Follower.class, metadata, inits);
-    }
-
-    public QFollower(Class<? extends Follower> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.follower = inits.isInitialized("follower") ? new QUser(forProperty("follower")) : null;
-        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
+        super(Follower.class, metadata);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.ssafy.ghem.user.controller;
 
 import com.ssafy.ghem.user.model.service.MySpecsService;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.MyPcSpecsVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +29,8 @@ public class MySpecController {
             "user_id = 유저 고유번호",
     response = String.class)
     ResponseEntity<?> makeMySpecs(@RequestBody MyPcSpecsVO myPcSpecsVO){
-        HttpVo http = mySpecsService.makeMySpecs(myPcSpecsVO);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = mySpecsService.makeMySpecs(myPcSpecsVO);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @PutMapping("/modify")
@@ -44,24 +44,24 @@ public class MySpecController {
                     "spec_id = 스펙 고유번호",
             response = String.class)
     ResponseEntity<?> modifyMySpecs(@RequestBody MyPcSpecsVO myPcSpecsVO){
-        HttpVo http = mySpecsService.updateMySpecs(myPcSpecsVO);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = mySpecsService.updateMySpecs(myPcSpecsVO);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/my/{user_id}")
     @ApiOperation(value = "스펙사항 데이터 호출 APU",
     response = String.class)
     ResponseEntity<?> getMySpecs(@PathVariable Long user_id){
-        HttpVo http = mySpecsService.getMySpecs(user_id);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = mySpecsService.getMySpecs(user_id);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/cpu/brand")
     @ApiOperation(value = "cpu brand 데이터 호출 API",
     response = String.class)
     ResponseEntity<?> getCpuBrand(){
-        HttpVo http = mySpecsService.getCpuBrand();
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = mySpecsService.getCpuBrand();
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/cpu/{brand}/{input}")
@@ -70,16 +70,16 @@ public class MySpecController {
                     "input = 검색하고자 하는 모델명",
             response = String.class)
     ResponseEntity<?> getCpuModel(@PathVariable String brand, @PathVariable String input){
-        HttpVo http = mySpecsService.getCpuModel(brand, input);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = mySpecsService.getCpuModel(brand, input);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/gpu/brand")
     @ApiOperation(value = "gpu brand 데이터 호출 API",
             response = String.class)
     ResponseEntity<?> getGpuBrand(){
-        HttpVo http = mySpecsService.getGpuBrand();
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = mySpecsService.getGpuBrand();
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/gpu/{brand}/{input}")
@@ -88,8 +88,8 @@ public class MySpecController {
             "input = 검색하고자 하는 모델명",
             response = String.class)
     ResponseEntity<?> getGpuModel(@PathVariable String brand, @PathVariable String input){
-        HttpVo http = mySpecsService.getGpuModel(brand, input);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = mySpecsService.getGpuModel(brand, input);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
     @GetMapping("/cpu/compare/{my_model}/{game_model}")
@@ -98,8 +98,8 @@ public class MySpecController {
                     "game_model = 내가 적은 cpu 모델 이름",
             response = String.class)
     ResponseEntity<?> getCompareCpu(@PathVariable String my_model, @PathVariable String game_model){
-        HttpVo http = mySpecsService.getCompareCpu(my_model, game_model);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = mySpecsService.getCompareCpu(my_model, game_model);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
     @GetMapping("/gpu/compare/{my_model}/{game_model}")
     @ApiOperation(value = "gpu 적합여부 확인 API",
@@ -107,8 +107,8 @@ public class MySpecController {
                     "game_model = 내가 적은 gpu 모델 이름",
             response = String.class)
     ResponseEntity<?> getCompareGpu(@PathVariable String my_model, @PathVariable String game_model){
-        HttpVo http = mySpecsService.getCompareGpu(my_model, game_model);
-        return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
+        HttpVO http = mySpecsService.getCompareGpu(my_model, game_model);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
 }

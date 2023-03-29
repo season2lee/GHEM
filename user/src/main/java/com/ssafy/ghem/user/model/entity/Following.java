@@ -1,6 +1,7 @@
 package com.ssafy.ghem.user.model.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,36 +15,18 @@ public class Following {
 
     @Id
     @GeneratedValue
-    @Column(name = "following_id")
+    @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "following")
-    private User following;
+    @Column(name = "following_id")
+    private Long followingId;
 
-    public static Following getFollowing(User user, User following){
-        Following newFollowing = new Following();
-        newFollowing.setUser(user);
-        newFollowing.setFollowing(following);
-
-        return newFollowing;
-    }
-
-    private void setUser(User user){
-        if (this.user != null) {
-            this.user.getFollowings().remove(this);
-        }
-        this.user = user;
-        if (user != null && !user.getFollowings().contains(this)) {
-            user.getFollowings().add(this);
-        }
-    }
-
-    private void setFollowing(User following){
-        this.following = following;
+    @Builder
+    public Following(Long userId, Long followingId){
+        this.userId = userId;
+        this.followingId = followingId;
     }
 }

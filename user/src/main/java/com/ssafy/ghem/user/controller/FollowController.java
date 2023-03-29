@@ -3,11 +3,10 @@ package com.ssafy.ghem.user.controller;
 import com.ssafy.ghem.user.model.entity.Follower;
 import com.ssafy.ghem.user.model.entity.Following;
 import com.ssafy.ghem.user.model.service.FollowService;
-import com.ssafy.ghem.user.model.service.UserService;
 import com.ssafy.ghem.user.model.vo.FollowVO;
-import com.ssafy.ghem.user.model.vo.HttpVo;
-import com.ssafy.ghem.user.model.vo.SteamUserVO;
-import com.ssafy.ghem.user.model.vo.UserVO;
+import com.ssafy.ghem.user.model.vo.FollowerVO;
+import com.ssafy.ghem.user.model.vo.FollowingVO;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,18 +28,16 @@ public class FollowController {
     @GetMapping("/following/{user_id}")
     @ApiOperation(value = "user_id가 follow 하고 있는 유저 목록을 반환합니다.\n",
             notes = "user_id : 유저 교유번호\n",
-            response = List.class)
+            response = String.class)
     public ResponseEntity<?> getFollowing(@PathVariable("user_id") Long user_id) {
-        List<Following> followings = followService.getFollowingList(user_id);
+        List<FollowingVO> followings = followService.getFollowingList(user_id);
 
-        if (followings != null && !followings.isEmpty()) {
-            List<Long> result = followings.stream()
-                    .map(following -> following.getFollowing().getUser_id())
-                    .collect(Collectors.toList());
+        log.info(followings + ": getFollowing");
+        HttpVO http = new HttpVO();
+        http.setFlag(true);
+        http.setData(followings);
 
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<HttpVO>(http,HttpStatus.OK);
     }
 
     @PostMapping
@@ -48,18 +45,16 @@ public class FollowController {
             notes = "following_id : follow 하는 유저의 고유번호\n" +
                     "follower_id = follow 당하는 유저의 고유번호\n",
             response = String.class)
-    public ResponseEntity<?> createFollowing(@RequestBody FollowVO followVO) {
-        int val = followService.saveFollowing(followVO);
+    public ResponseEntity<?> createFollow(@RequestBody FollowVO followVO) {
+        log.info(followVO + "createFollow");
 
-        if(val == 1){
-            return new ResponseEntity<String>("The parameter has a NULL value", HttpStatus.NOT_FOUND);
-        }else if(val == 2){
-            return new ResponseEntity<String>("The following_id or follower_id user does not exist", HttpStatus.NOT_FOUND);
-        }else if(val == 3){
-            return new ResponseEntity<String>("You are already following this user", HttpStatus.NOT_ACCEPTABLE);
-        }else{
-            return new ResponseEntity<String>("success", HttpStatus.OK);
-        }
+        followService.saveFollow(followVO);
+
+        HttpVO http = new HttpVO();
+        http.setFlag(true);
+        http.setData("success");
+
+        return new ResponseEntity<>(http, HttpStatus.OK);
     }
 
     @DeleteMapping
@@ -67,18 +62,16 @@ public class FollowController {
             notes = "following_id : follow 하는 유저의 고유번호\n" +
                     "follower_id = follow 당하는 유저의 고유번호\n",
             response = String.class)
-    public ResponseEntity<String> deleteFollow(@RequestBody FollowVO followVO) {
-        int val = followService.deleteFollow(followVO);
+    public ResponseEntity<?> deleteFollow(FollowVO followVO) {
+        log.info(followVO + "createFollow");
 
-        if(val == 1){
-            return new ResponseEntity<String>("The parameter has a NULL value", HttpStatus.NOT_FOUND);
-        }else if(val == 2){
-            return new ResponseEntity<String>("The following_id or follower_id user does not exist", HttpStatus.NOT_FOUND);
-        }else if(val == 3){
-            return new ResponseEntity<String>("You are already unfollowing this user", HttpStatus.NOT_ACCEPTABLE);
-        }else{
-            return new ResponseEntity<String>("success", HttpStatus.OK);
-        }
+        followService.deleteFollow(followVO);
+
+        HttpVO http = new HttpVO();
+        http.setFlag(true);
+        http.setData("success");
+
+        return new ResponseEntity<>(http, HttpStatus.OK);
     }
 
 
@@ -87,16 +80,16 @@ public class FollowController {
             notes = "user_id : 유저 교유번호\n",
             response = List.class)
     public ResponseEntity<?> getFollower(@PathVariable("user_id") Long user_id) {
-        List<Follower> followers = followService.getFollowerList(user_id);
+        List<FollowerVO> followers = followService.getFollowerList(user_id);
 
-        if (followers != null && !followers.isEmpty()) {
-            List<Long> result = followers.stream()
-                    .map(follower -> follower.getFollower().getUser_id())
-                    .collect(Collectors.toList());
+        log.info(followers + ": getFollower");
+        HttpVO http = new HttpVO();
+        http.setFlag(true);
+        http.setData(followers);
 
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<HttpVO>(http,HttpStatus.OK);
+
     }
+
 
 }

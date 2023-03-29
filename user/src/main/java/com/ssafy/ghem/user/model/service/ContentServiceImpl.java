@@ -10,7 +10,7 @@ import com.ssafy.ghem.user.model.respository.common.GameReviewCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserGameCommonRepository;
 import com.ssafy.ghem.user.model.vo.ContentVO;
-import com.ssafy.ghem.user.model.vo.HttpVo;
+import com.ssafy.ghem.user.model.vo.HttpVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,8 +33,8 @@ public class ContentServiceImpl implements ContentService{
 
     @Override
     @Transactional
-    public HttpVo writeContent(ContentVO contentInfo) {
-        HttpVo http = new HttpVo();
+    public HttpVO writeContent(ContentVO contentInfo) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = userCommonRepository.findById(contentInfo.getUser_id())
@@ -61,8 +61,8 @@ public class ContentServiceImpl implements ContentService{
 
     @Override
     @Transactional
-    public HttpVo listContent(Long app_id, Pageable pageable) {
-        HttpVo http = new HttpVo();
+    public HttpVO listContent(Long app_id, Pageable pageable) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         Game game = gameCommonRepository.findById(app_id)
@@ -78,8 +78,8 @@ public class ContentServiceImpl implements ContentService{
 
     @Override
     @Transactional
-    public HttpVo updateContent(ContentVO contentInfo) {
-        HttpVo http = new HttpVo();
+    public HttpVO updateContent(ContentVO contentInfo) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = userCommonRepository.findById(contentInfo.getUser_id())
@@ -99,8 +99,8 @@ public class ContentServiceImpl implements ContentService{
 
     @Override
     @Transactional
-    public HttpVo checkContent(Long app_id, Long user_id) {
-        HttpVo http = new HttpVo();
+    public HttpVO checkContent(Long app_id, Long user_id) {
+        HttpVO http = new HttpVO();
         Map<String, Object> map = new HashMap<>();
 
         User user = getUser(user_id);

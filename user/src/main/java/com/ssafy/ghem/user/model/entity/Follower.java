@@ -1,6 +1,7 @@
 package com.ssafy.ghem.user.model.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,36 +14,23 @@ import javax.persistence.*;
 public class Follower {
 
     @Id @GeneratedValue
-    @Column(name = "follower_id")
+    @Column(name = "id")
     private Long id;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "follower_id")
+    private Long followerId;
 
-    @ManyToOne
-    @JoinColumn(name = "follower")
-    private User follower;
+    private boolean isFollowing;
 
-    public static Follower getFollower(User user, User follower){
-        Follower newFollower = new Follower();
-        newFollower.setUser(user);
-        newFollower.setFollower(follower);
-
-        return newFollower;
+    public void setIsFollowing(boolean tf){
+        this.isFollowing = tf;
     }
 
-    private void setUser(User user){
-        if (this.user != null) {
-            this.user.getFollowers().remove(this);
-        }
-        this.user = user;
-        if (user != null && !user.getFollowers().contains(this)) {
-            user.getFollowers().add(this);
-        }
-    }
-
-    private void setFollower(User follower){
-        this.follower = follower;
+    @Builder
+    public Follower(Long userId, Long followerId){
+        this.userId = userId;
+        this.followerId = followerId;
     }
 }
