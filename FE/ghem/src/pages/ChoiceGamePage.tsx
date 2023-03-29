@@ -32,7 +32,8 @@ function ChoiceGamePage() {
   const [gameRecommend, setGameRecommend] =
     useRecoilState<gameRecommendStateType[]>(gameRecommendState);
   const currentEvaluate = useRecoilValue(evaluatedGameState); // 평가 된 게임
-  const { state } = useLocation();
+  // const { state } = useLocation();
+  const state = ['RPG','Action']
 
   useEffect(() => {
     categoryList(state);
@@ -49,7 +50,7 @@ function ChoiceGamePage() {
     }
   }, [userId]);
 
-  // 추천 받을 게임 axios 요청
+  //비 로그인시 추천 받을 게임 axios 요청
   const RecommendGame = async () => {
     try {
       const response = await axios.get(
@@ -61,7 +62,7 @@ function ChoiceGamePage() {
     }
   };
 
-  const categoryList = async (state:[]) => {
+  const categoryList = async (state:string[]) => {
     for (let i = 0; i < state.length; i++) {
       try {
         await TopRankListApi(state[i]);
@@ -75,7 +76,7 @@ function ChoiceGamePage() {
   const TopRankListApi = async (genre: string) => {
     try {
       const response = await axios.get(
-        `http://j8d107.p.ssafy.io:32003/genre?genre=${genre}&top=10`
+        `http://192.168.100.124:8000/games/genre?genre=${genre}&top=10`
       );
       let item = response.data;
       for (let i = 0; i < item.length; i++) {
