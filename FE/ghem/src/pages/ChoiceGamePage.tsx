@@ -112,7 +112,6 @@ function ChoiceGamePage() {
         </>
         ) : null}
       </div>
-
       <div>
         <ChoiceGameList
           gameList={gameList}
