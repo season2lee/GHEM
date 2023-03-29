@@ -2,9 +2,7 @@ import { useState } from "react";
 import { css } from "@emotion/react";
 import FollowModal from "./../follow/FollowModal";
 
-type ProfileFollowProps = {};
-
-function ProfileFollow({}: ProfileFollowProps) {
+function ProfileFollow() {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [followType, setFollowType] = useState<string>("");
 
@@ -17,9 +15,9 @@ function ProfileFollow({}: ProfileFollowProps) {
 
   return (
     <div css={followWrapper}>
-      <span onClick={() => handleOpenFollowModal("팔로잉")}>팔로잉 2</span>
+      <span onClick={() => handleOpenFollowModal("팔로잉")}>팔로잉</span>
       <div></div>
-      <span onClick={() => handleOpenFollowModal("팔로워")}>팔로워 1</span>
+      <span onClick={() => handleOpenFollowModal("팔로워")}>팔로워</span>
       {isOpenModal && <FollowModal handleOpenFollowModal={handleOpenFollowModal} type={followType} />}
     </div>
   );
@@ -27,8 +25,8 @@ function ProfileFollow({}: ProfileFollowProps) {
 
 const followWrapper = css`
   width: 100%;
-  border-top: 1px solid #716969;
-  border-bottom: 1px solid #716969;
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
   padding: 10px;
   display: flex;
   flex-direction: row;
@@ -48,7 +46,7 @@ const followWrapper = css`
 
   > div:nth-of-type(1) {
     height: 30px;
-    border: 1px solid #716969;
+    border: 1px solid #ffffff;
   }
 `;
 

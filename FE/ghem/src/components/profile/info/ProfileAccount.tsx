@@ -4,6 +4,7 @@ import steamLogo from "../../../assets/image/steamLogo.png";
 import { mobile } from "@/util/Mixin";
 import ProfileSteamIdModal from "./ProfileSteamIdModal";
 import { useLocation } from "react-router-dom";
+import { postUserFollow, deleteUserUnfollow } from "@/api/following";
 
 type ProfileAccountProps = {
   nickname: string;
@@ -23,10 +24,26 @@ function ProfileAccount({ nickname, steamId }: ProfileAccountProps) {
   };
 
   const handleFollowUser = async (): Promise<void> => {
+    // 언팔로우 요청
     if (followType === "팔로우") {
-      // 언팔로우 요청
-    } else if (followType === "언팔로우") {
-      // 팔로우 요청
+      const response = await deleteUserUnfollow(userId, pathnameId);
+
+      if (response) {
+        alert("언팔로우 성공");
+      }
+    }
+    // 팔로우 요청
+    else if (followType === "언팔로우") {
+      const body = {
+        follower_id: pathnameId,
+        following_id: userId,
+      };
+
+      const response = await postUserFollow(body);
+
+      if (response) {
+        alert("팔로우 성공");
+      }
     }
   };
 
