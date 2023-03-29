@@ -36,4 +36,9 @@ declare module "apiTypes" {
     user_id?: number | null;
     spec_id?: number | null;
   };
+
+  export type userFollowType = {
+    follower_id: number;
+    following_id: number;
+  };
 }

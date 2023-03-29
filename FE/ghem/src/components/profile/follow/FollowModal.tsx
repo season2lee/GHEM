@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import { AiOutlineClose } from "react-icons/ai";
 import FollowList from "./FollowList";
+import { getUserFollowerList, getUserFollowingList } from "@/api/following";
 
 type FollowModalProps = {
   handleOpenFollowModal: () => void;
@@ -9,7 +10,9 @@ type FollowModalProps = {
 };
 
 function FollowModal({ handleOpenFollowModal, type }: FollowModalProps) {
+  const userId: number | null = Number(localStorage.getItem("id"));
   const [followType, setFollowType] = useState<string>("");
+  const [followList, setFollowList] = useState<string[]>([]);
 
   const handleCloseModal = (): void => {
     handleOpenFollowModal();
@@ -19,18 +22,37 @@ function FollowModal({ handleOpenFollowModal, type }: FollowModalProps) {
     setFollowType(type);
   };
 
+  const getFollowListFunc = async (): Promise<void> => {
+    if (followType === "팔로잉") {
+      const response = await getUserFollowingList(userId);
+
+      if (response) {
+        setFollowList(response); // 임시
+      }
+    } else if (followType === "팔로워") {
+      const response = await getUserFollowerList(userId);
+
+      if (response) {
+        setFollowList(response); // 임시
+      }
+    }
+  };
+
   useEffect(() => {
     setFollowType(type);
   }, []);
+
+  useEffect(() => {
+    // type이 정해지거나 바뀔 때마다 새로운 list 불러오기
+    getFollowListFunc();
+  }, [followType]);
 
   return (
     <div css={wrapper}>
       <div css={followModalWrapper}>
         <div css={headerWrapper}>
-          <span>
-            <b>닉네임</b> 님의 친구 목록
-          </span>
-          <AiOutlineClose onClick={handleCloseModal} />
+          <h4>관심친구 목록</h4>
+          <AiOutlineClose onClick={handleCloseModal} size="20" />
         </div>
         <div css={followMenuWrapper}>
           <span
@@ -46,7 +68,7 @@ function FollowModal({ handleOpenFollowModal, type }: FollowModalProps) {
             팔로워
           </span>
         </div>
-        <FollowList type="팔로잉" />
+        <FollowList type={followType} followList={followList} />
       </div>
     </div>
   );
@@ -79,10 +101,9 @@ const headerWrapper = css`
   align-items: center;
   justify-content: space-between;
 
-  > span,
+  > h4,
   > svg {
     color: #7d7d7d;
-    font-size: 20px;
   }
 
   > svg {
