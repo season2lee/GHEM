@@ -22,7 +22,6 @@ public class MySpecController {
     @ApiOperation(value = "스펙사항을 입력하는 API",
     notes = "cpu_com = cpu 제조사\n" +
             "cpu_series = cpu 시리즈\n" +
-            "cpu_gen = cpu 세대\n" +
             "gpu_com = gpu 제조사\n" +
             "gpu_name = gpu 모델명\n" +
             "ram = 램 크기\n" +
@@ -38,7 +37,6 @@ public class MySpecController {
     @ApiOperation(value = "스펙사항을 수정하는 API",
             notes = "cpu_com = 변경된 cpu 제조사\n" +
                     "cpu_series = 변경된 cpu 시리즈\n" +
-                    "cpu_gen = 변경된 cpu 세대\n" +
                     "gpu_com = 변경된 gpu 제조사\n" +
                     "gpu_name = 변경된 gpu 모델명\n" +
                     "ram = 변경된 램 크기\n" +

@@ -20,9 +20,9 @@ public class QFollowing extends EntityPathBase<Following> {
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QFollowing following = new QFollowing("following");
+    public static final QFollowing following1 = new QFollowing("following1");
 
-    public final QUser follower_user;
+    public final QUser following;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -46,7 +46,7 @@ public class QFollowing extends EntityPathBase<Following> {
 
     public QFollowing(Class<? extends Following> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.follower_user = inits.isInitialized("follower_user") ? new QUser(forProperty("follower_user")) : null;
+        this.following = inits.isInitialized("following") ? new QUser(forProperty("following")) : null;
         this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
     }
 
