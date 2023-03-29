@@ -17,7 +17,7 @@ function GameInterested() {
   const [startX, setStartX] = useState<number>(0);
   const [gameList, setGameList] = useState<interestedGameListType[]>([]);
   const [isDragMove, setIsDragMove] = useState<boolean>(false);
-  const [isEachFollow, setIsEachFollow] = useState<boolean>(false); // 맞팔인지 확인
+  const [isEachFollow, setIsEachFollow] = useState<boolean>(true); // 맞팔인지 확인
 
   const handleDragStart = (e: React.MouseEvent) => {
     if (!isEachFollow) return;

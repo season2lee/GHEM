@@ -14,6 +14,17 @@ export const getUserProfile = async (userId: number) => {
   }
 };
 
+export const getNicknameCheck = async (nickname: string) => {
+  try {
+    const { data } = await axios.get(`/nickname/${nickname}`);
+
+    if (data.flag) return data.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // PUT
 
 export const putUserProfile = async (userInfo: userInfoType) => {
