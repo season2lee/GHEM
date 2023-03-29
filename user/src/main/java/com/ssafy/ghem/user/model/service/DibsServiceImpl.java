@@ -1,5 +1,6 @@
 package com.ssafy.ghem.user.model.service;
 
+import com.ssafy.ghem.user.controller.exception.AlreadyExistData;
 import com.ssafy.ghem.user.controller.exception.DoesNotExistData;
 import com.ssafy.ghem.user.model.entity.Dib;
 import com.ssafy.ghem.user.model.entity.Game;
@@ -35,6 +36,11 @@ public class DibsServiceImpl implements DibsService{
 
         User user = getUser(dibsInfo.getUserId());
         Game game = getGame(dibsInfo.getAppId());
+
+        Dib check = dibsIndividualRepository.getByAppIdAndUserId(dibsInfo.getAppId(),
+                dibsInfo.getUserId());
+        if(check != null) throw new AlreadyExistData("이미 찜을 하였습니다. app_id: "+dibsInfo.getAppId()+
+                " user_id: "+dibsInfo.getAppId());
 
         Dib dib = Dib.builder()
                 .app_id(game.getAppId())
