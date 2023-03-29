@@ -10,6 +10,7 @@ import com.ssafy.ghem.user.model.vo.UserVO;
 import com.ssafy.ghem.user.tool.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,6 +32,11 @@ public class OauthServiceImpl implements OauthService {
     private final UserCommonRepository userCommonRepository;
     private final JwtProvider jwtProvider;
     private final String clientId = "09a612622415a74fb256afb4648d932d";
+
+    @Value("${naver.id}")
+    private String clientIdNaver;
+    @Value("${naver.secret}")
+    private String clientSecretNaver;
 
     @Override
     @Transactional("commonTransactionManager")
@@ -155,7 +161,8 @@ public class OauthServiceImpl implements OauthService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", clientId);
+        body.add("client_id", clientIdNaver);
+        body.add("client_secret", clientSecretNaver);
 //        body.add("redirect_uri", "http://j8d107.p.ssafy.io/oauth/kakao/callback");
         body.add("redirect_uri", "http://localhost:5173/oauth/naver/callback");
         body.add("code", code);
