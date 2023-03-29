@@ -15,6 +15,7 @@ type SteadySellerProps = {
   setColId: React.Dispatch<React.SetStateAction<string>>;
   setPageXY: React.Dispatch<React.SetStateAction<PageXY>>;
   currentColId: string;
+  canClickWithHover: boolean;
 };
 
 function SteadySeller(props: SteadySellerProps) {
@@ -52,6 +53,7 @@ function SteadySeller(props: SteadySellerProps) {
         setPageXY={props.setPageXY}
         colId="steady1"
         currentColId={props.currentColId}
+        canClickWithHover={props.canClickWithHover}
       />
       <div css={divheight} />
       <CommonGameList
@@ -66,6 +68,7 @@ function SteadySeller(props: SteadySellerProps) {
         setPageXY={props.setPageXY}
         colId="steady2"
         currentColId={props.currentColId}
+        canClickWithHover={props.canClickWithHover}
       />
       <div css={divheight} />
       <CommonGameList
@@ -80,6 +83,7 @@ function SteadySeller(props: SteadySellerProps) {
         setPageXY={props.setPageXY}
         colId="steady3"
         currentColId={props.currentColId}
+        canClickWithHover={props.canClickWithHover}
       />
     </div>
   );
