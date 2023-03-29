@@ -68,7 +68,7 @@ function FollowModal({ handleOpenFollowModal, type }: FollowModalProps) {
             팔로워
           </span>
         </div>
-        <FollowList type="팔로잉" followList={followList} />
+        <FollowList type={followType} followList={followList} />
       </div>
     </div>
   );
