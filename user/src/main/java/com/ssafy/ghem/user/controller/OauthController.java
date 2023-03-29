@@ -38,7 +38,7 @@ public class OauthController {
     }
 
     @GetMapping("/code/naver")
-    @ApiOperation(value = "카카오 OAuth 로그인.",
+    @ApiOperation(value = "네이버 OAuth 로그인.",
             notes = "https://nid.naver.com/oauth2.0/authorize\n" +
                     "?client_id=oly_VB_lNhvzchBlzhkx\n" +
                     "&redirect_uri=http://j8d107.p.ssafy.io\n" +
@@ -49,7 +49,7 @@ public class OauthController {
 
         log.info("code: " + code);
 
-        HttpVo http = oauthService.tryOauthKakao(code);
+        HttpVo http = oauthService.tryOauthNaver(code);
 
         return new ResponseEntity<HttpVo>(http, HttpStatus.OK);
     }

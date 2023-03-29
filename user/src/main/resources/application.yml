@@ -31,3 +31,6 @@ logging:
 server:
   port: 8080
 
+naver:
+  id: 4KTRJeSReuNJYRdnQdgt
+  secret: 4KugOOPWh5
