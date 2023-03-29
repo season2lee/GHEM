@@ -149,7 +149,7 @@ def contains_genre(value, input_genres):
     if not isinstance(input_genres, list):
         input_genres = [input_genres]
     for genre in input_genres:
-        if genre in value:
+        if genre.lower() in value.lower():
             return True
     return False
 
