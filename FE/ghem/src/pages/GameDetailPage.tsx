@@ -30,7 +30,6 @@ function GameDetailPage() {
   // 게임 상세 정보 가져오기
   const getGameData = async () => {
     try {
-      console.log("gameData 요청");
       const response = await axios.get(env.VITE_GAME_DETAIL + appID);
       const data = response.data[String(appID)].data;
       setGameData(() => {
@@ -48,7 +47,6 @@ function GameDetailPage() {
   // 유저가 매긴 평점 가져오기
   const getRatingData = async () => {
     try {
-      console.log("ratingData 요청");
       const response = await axios.get(env.VITE_API_BASE_URL + "/review/check", {
         params: {
           app_id: appID,
@@ -56,7 +54,7 @@ function GameDetailPage() {
         }
       });
       const data = response.data;
-      console.log(data);
+      console.log("ratingData:", data);
     } catch {
       console.log("ratingData 불러오기 실패");
     }
@@ -111,6 +109,8 @@ function GameDetailPage() {
   useEffect(() => {
     getGameData();
     getRatingData();
+    const userId: number | null = Number(localStorage.getItem("id"));
+    console.log("유저 아이디:", userId);
   }, [])
   
   return (

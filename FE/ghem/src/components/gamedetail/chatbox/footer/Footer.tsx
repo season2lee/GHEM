@@ -5,20 +5,43 @@ import React, { useRef } from "react";
 import { MessageType } from "../body/MessageType";
 
 type FooterProps = {
-  setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>;
+  setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
+  scrollToBottom: () => void,
 };
 
-function Footer({ setMessages }: FooterProps) {
+function Footer({ setMessages, scrollToBottom }: FooterProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // 보내기 버튼 클릭 했을 때의 핸들러
-  const sendClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSendClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (textareaRef.current?.value) {
       console.log(textareaRef.current.value);
       textareaRef.current.value = "";
     }
   };
+
+  // 공백 문자인지 점검함
+  const isWhitespace = (str: string) => {
+    return /^\s*$/.test(str);
+  }
+
+  // textarea에서 엔터 쳤을 때의 핸들러
+  const handleSendEnterDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && textareaRef.current && !isWhitespace(textareaRef.current.value)) {
+      const newContent = textareaRef.current.value
+      e.preventDefault();
+      console.log("엔터빵!", newContent);
+      setMessages((oldState) => {
+        const newMessage = {
+          content: newContent
+        }
+        return [...oldState, newMessage];
+      })
+      textareaRef.current.value = "";
+      scrollToBottom();
+    }
+  }
 
   return (
     <form css={container}>
@@ -27,9 +50,10 @@ function Footer({ setMessages }: FooterProps) {
         cols={30}
         rows={3}
         ref={textareaRef}
+        onKeyDown={handleSendEnterDown}
       ></textarea>
       <div>
-        <button onClick={sendClickHandler} css={sendButtonStyle}>
+        <button css={sendButtonStyle} onClick={handleSendClick}>
           보내기
         </button>
       </div>

@@ -29,13 +29,13 @@ function ReviewSection({currentRating}: ReciewSectionProps) {
     console.log("요청합니다:", reviewCount, "개 만큼", pageNum, "페이지를 요청함");
   }
 
+  // useEffect(() => {
+  //   console.log("리뷰데이터:", reviewData);
+  // }, [])
+
   useEffect(() => {
     loadReviewData(5, currentPage);
   }, [currentPage])
-
-  useEffect(() => {
-    console.log("리뷰데이터:", reviewData);
-  }, [])
   
   return (
     <div css={container}>

@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import Header from './header/Header'
 import Body from './body/Body'
@@ -9,12 +9,24 @@ import { dummyMessages } from './dummyMessages'
 import { MessageType } from './body/MessageType'
 
 function ChatBox() {
-  const [messages, setMessages] = useState<MessageType[]>(dummyMessages);
+  const [messages, setMessages] = useState<MessageType[]>([]);
+  const bodyRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    if (bodyRef.current) {
+      bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+    }
+  }
+
+  useEffect(() => {
+    // setMessages(dummyMessages);
+  }, [])
+  
   return (
     <div css={container}>
       <Header />
-      <Body messages={messages}/>
-      <Footer setMessages={setMessages}/>
+      <Body messages={messages} bodyRef={bodyRef}/>
+      <Footer setMessages={setMessages} scrollToBottom={scrollToBottom} />
     </div>
   )
 }
