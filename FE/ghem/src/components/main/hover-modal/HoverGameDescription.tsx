@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import HoverGameTag from "./HoverGameTag";
+import noImage from "../../../assets/image/notgame.png";
 import { GameDetailFromSteam } from "../HoverGameItem";
 import { css } from "@emotion/react";
 
@@ -53,7 +54,11 @@ function HoverGameDescription(props: HoverGameDescriptionProps) {
         {props.haveData === "have" && <p>{gameDescripbe}</p>}
         {props.haveData === "loading" && <p>loading...</p>}
         {props.haveData === "null" && (
-          <p>현재 지역에서 플레이 불가능하거나 개발 중인 게임입니다.</p>
+          <div>
+            <img src={noImage} alt="nodata" css={imgSize} />
+            <p>현재 지역에서 플레이 불가능하거나 개발 중인 게임입니다.</p>
+            <p>SORRY</p>
+          </div>
         )}
       </div>
       <HoverGameTag />
@@ -62,7 +67,7 @@ function HoverGameDescription(props: HoverGameDescriptionProps) {
 }
 
 const description = css`
-  > p {
+  p {
     font-size: 0.8rem;
     line-height: 1.6;
     max-height: 4.8em;
