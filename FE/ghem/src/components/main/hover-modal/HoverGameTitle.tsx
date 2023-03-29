@@ -71,10 +71,14 @@ function HoverGameTitle(props: HoverGameTitleProps) {
 
   return (
     <div>
-      <p>{props.gameTitle}</p>
-      {isLike && <FaHeart onClick={unLikeGame} size="25" color="red" />}
-      {!isLike && <FaHeart onClick={likeGame} size="25" color="white" />}
-      {props.gameRecommend?.total}
+      {props.haveData === "have" && (
+        <div>
+          <p>{props.gameTitle}</p>
+          {isLike && <FaHeart onClick={unLikeGame} size="25" color="red" />}
+          {!isLike && <FaHeart onClick={likeGame} size="25" color="white" />}
+          {props.gameRecommend?.total}
+        </div>
+      )}
     </div>
   );
 }

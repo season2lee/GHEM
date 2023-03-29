@@ -19,17 +19,27 @@ function MainPage() {
   const [appid, setAppid] = useState<number | null>(null);
   const [colId, setColId] = useState<string>("empty");
   const [pageXY, setPageXY] = useState<PageXY>({ x: 0, y: 0 });
+  const [canClickWithHover, setCanClickWithHover] = useState<boolean>(true);
+
   return (
     <div css={centerDiv}>
       <FixedButtom />
       <Banner />
-      <BannerTwo />
+      <BannerTwo
+        setAppid={setAppid}
+        setIsEnter={setIsEnter}
+        setColId={setColId}
+        setPageXY={setPageXY}
+        currentColId={colId}
+        canClickWithHover={canClickWithHover}
+      />
       <Discount
         setAppid={setAppid}
         setIsEnter={setIsEnter}
         setColId={setColId}
         setPageXY={setPageXY}
         currentColId={colId}
+        canClickWithHover={canClickWithHover}
       />
       <TopRankNewRelease
         setAppid={setAppid}
@@ -37,6 +47,7 @@ function MainPage() {
         setColId={setColId}
         setPageXY={setPageXY}
         currentColId={colId}
+        canClickWithHover={canClickWithHover}
       />
       <hr />
       <FriendRecommend />
@@ -47,6 +58,7 @@ function MainPage() {
         setColId={setColId}
         setPageXY={setPageXY}
         currentColId={colId}
+        canClickWithHover={canClickWithHover}
       />
       먼가 깐지나는 말
       {isEnter && (
@@ -56,6 +68,7 @@ function MainPage() {
           colId={colId}
           pageXY={pageXY}
           setColId={setColId}
+          setCanClickWithHover={setCanClickWithHover}
         />
       )}
     </div>
