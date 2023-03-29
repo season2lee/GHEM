@@ -3,7 +3,12 @@ import { css } from "@emotion/react";
 import baseProfile from "../../../assets/image/baseProfile.png";
 import { useNavigate } from "react-router-dom";
 
-function FollowListItem() {
+type FollowListItemProps = {
+  key: number;
+  followUser: string;
+};
+
+function FollowListItem({ key, followUser }: FollowListItemProps) {
   const navigate = useNavigate();
 
   const moveToOtherProfile = (): void => {

@@ -14,11 +14,55 @@ export const getMyComputerSpec = async (userId: number) => {
   }
 };
 
+export const getCpuBrand = async () => {
+  try {
+    const { data } = await axios.get(`/specs/cpu/brand`);
+
+    if (data.flag) return data.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getGpuBrand = async () => {
+  try {
+    const { data } = await axios.get(`/specs/gpu/brand`);
+
+    if (data.flag) return data.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCpuModel = async (brand: string, input: string) => {
+  try {
+    const { data } = await axios.get(`/specs/cpu/${brand}/${input}`);
+
+    if (data.flag) return data.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getGpuModel = async (brand: string, input: string) => {
+  try {
+    const { data } = await axios.get(`/specs/gpu/${brand}/${input}`);
+
+    if (data.flag) return data.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // POST
 
 export const postMyComputerSpec = async (specInfo: specInfoType) => {
   try {
-    const { data } = await axios.post(`/specs/modify`, specInfo);
+    const { data } = await axios.post(`/specs`, specInfo);
 
     if (data.flag) return true;
     else return false;

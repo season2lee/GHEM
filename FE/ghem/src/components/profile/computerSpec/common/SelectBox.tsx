@@ -1,20 +1,19 @@
-import React from "react";
 import { css } from "@emotion/react";
+import { mobile } from "@/util/Mixin";
 
 type SelectBoxProps = {
   optionList: string[];
+  setOption: React.Dispatch<React.SetStateAction<string>>;
+  selectedOption: string;
 };
 
-function SelectBox({ optionList }: SelectBoxProps) {
-  const initOptions = ["제조사", "시리즈", "세대", "모델명", "종류"];
-
+function SelectBox({ optionList, setOption, selectedOption }: SelectBoxProps) {
   const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    if (initOptions.includes(e.target.value)) return;
-    console.log(e.target.value);
+    setOption(e.target.value);
   };
 
   return (
-    <select css={select} onChange={handleChangeOption}>
+    <select css={select} onChange={handleChangeOption} value={selectedOption}>
       {optionList.map((option, idx) => (
         <option key={idx}>{option}</option>
       ))}
@@ -36,6 +35,10 @@ const select = css`
 
   > option {
     background: #352c42;
+  }
+
+  ${mobile} {
+    width: 100px;
   }
 `;
 

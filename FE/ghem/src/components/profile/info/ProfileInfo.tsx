@@ -53,8 +53,12 @@ function ProfileInfo() {
     // 로그인 유저라면
     if (userId) {
       // 다른 유저의 프로필 조회를 위해 URL에서 id 가져오기
-      const pathnameId = Number(location.pathname.split("/")[2]);
-      getUserProfileFunc(pathnameId);
+      if (location.pathname === "/profile/computerspec") {
+        getUserProfileFunc(userId);
+      } else {
+        const pathnameId = Number(location.pathname.split("/")[2]);
+        getUserProfileFunc(pathnameId);
+      }
     }
     // 비로그인 유저는 로그인 페이지로 이동
     else {

@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useState, useEffect } from "react";
+import { FaPowerOff } from "react-icons/fa";
 import logoTitle from "../../assets/image/for_logo.png";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";

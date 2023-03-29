@@ -1,5 +1,6 @@
 import { atom } from "recoil";
 import { userInfoStateType, contentInfoType } from "atomTypes";
+import { specInfoType } from "apiTypes";
 
 // hover 했을 때 메인 창의 게임 리스트 움직임 멈추기 위한 상태관리
 export const hoverEnter = atom<boolean>({
@@ -57,7 +58,35 @@ export type evaluatedGameStateType = {
 
 export const evaluatedGameState = atom<evaluatedGameStateType[]>({
   key: "evaluatedGame",
-  default: []
+  default: [],
+});
+
+export const specInfoState = atom<specInfoType>({
+  key: "specInfoState",
+  default: {
+    cpu_com: "",
+    cpu_series: "",
+    gpu_com: "",
+    gpu_name: "",
+    os: "",
+    ram: 0,
+    user_id: 0,
+    spec_id: 0,
+  },
+});
+
+export const modifiedSpecInfoState = atom<specInfoType>({
+  key: "modifiedSpecInfoState",
+  default: {
+    cpu_com: "",
+    cpu_series: "",
+    gpu_com: "",
+    gpu_name: "",
+    os: "",
+    ram: 0,
+    user_id: 0,
+    spec_id: 0,
+  },
 });
 
 // 비로그인 시 추천을 위해 선택 된 게임 

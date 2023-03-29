@@ -28,7 +28,6 @@ declare module "apiTypes" {
 
   export type specInfoType = {
     cpu_com: string;
-    cpu_gen: number;
     cpu_series: string;
     gpu_com: string;
     gpu_name: string;
@@ -36,5 +35,10 @@ declare module "apiTypes" {
     ram: number;
     user_id?: number | null;
     spec_id?: number | null;
+  };
+
+  export type userFollowType = {
+    follower_id: number;
+    following_id: number;
   };
 }
