@@ -1,17 +1,27 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getRequestNaverLogin } from "@/api/oauth";
 import Loading from "@components/common/Loading";
 
 function NaverLogin() {
   const location = useLocation();
+  const navigate = useNavigate();
   const authorizationCode: string = location.search.split("=")[1];
 
   const handleNaverLogin = async (code: string) => {
     const response = await getRequestNaverLogin(code);
-    console.log("response : ", response);
-    // 로그인 되면 유저가 닉네임이 있는지 확인하고 없으면 마이페이지로 강제이동
-    // 닉네임 있으면 메인페이지로 이동
+
+    if (response) {
+      localStorage.setItem("accessToken", response.AccessToken);
+      localStorage.setItem("id", JSON.stringify(response.userId));
+
+      // 닉네임을 설정하지 않은 유저라면 마이프로필 페이지로 이동 (최초 로그인)
+      if (response.userNickname === null) {
+        navigate("/update/profile");
+      } else {
+        navigate("/");
+      }
+    }
   };
 
   useEffect(() => {
