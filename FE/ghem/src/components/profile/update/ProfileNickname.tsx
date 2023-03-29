@@ -1,5 +1,7 @@
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import { AiOutlineCheck } from "react-icons/ai";
+import { getNicknameCheck } from "@/api/user";
 
 type ProfileNicknameProps = {
   nickname: string;
@@ -7,11 +9,27 @@ type ProfileNicknameProps = {
 };
 
 function ProfileNickname({ nickname, setNickname }: ProfileNicknameProps) {
-  const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const [isPossible, setIsPossible] = useState<boolean>(true);
+
+  const handleChangeNickname = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     if (e.target.value.length >= 6) {
       e.target.value = e.target.value.substr(0, 6);
     }
+
     setNickname(e.target.value);
+
+    if (e.target.value !== "") {
+      const response = await getNicknameCheck(e.target.value);
+
+      if (response) {
+        // 사용 가능한 닉네임이면
+        if (response.isPossible) {
+          setIsPossible(true);
+        } else {
+          setIsPossible(false);
+        }
+      }
+    }
   };
 
   return (
@@ -23,7 +41,13 @@ function ProfileNickname({ nickname, setNickname }: ProfileNicknameProps) {
       </div>
       <div css={inputWrapper}>
         <input type="text" value={nickname} onChange={handleChangeNickname} />
-        <AiOutlineCheck />
+        {isPossible === true ? (
+          <AiOutlineCheck color="#08f908" size="23" />
+        ) : isPossible === false ? (
+          <AiOutlineCheck color="#f90808" size="23" />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
@@ -70,7 +94,7 @@ const inputWrapper = css`
   }
 
   > svg {
-    color: #f90808;
+    /* color: #f90808; */
     /* color: #08f908; */
   }
 `;
