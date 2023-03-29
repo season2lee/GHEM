@@ -7,7 +7,7 @@ from typing import List
 from contextlib import asynccontextmanager
 from db.database import get_postgres_connection, get_mysql_connection
 from db.cosin import update_svd_model, get_similar_games, get_similar_users, recommend_games, sort_by_genre
-from db.model import Game, GameRecommendation, Genre, UserRecommendation, UserGameRating
+from db.model import Game, GameRecommendation, Genre, UserRecommendation, UserGameRating, DisLikeGame
 
 # svd, ratings, gameinfo, trainset
 userinfo = pd.DataFrame()
@@ -193,11 +193,17 @@ def recommusergames(steam_id : int = 0):
 
 # 게임과 비슷한 게임 추천
 @app.get("/games", response_model=List[GameRecommendation])
-def recommgames(app_id : int = 0):
-    if app_id == 0:
+def recommgames(apps : str = ''):
+    if apps == 0:
         return '', 200
     
-    recommend_games = get_similar_games(app_id, svd, trainset, gameinfo)
+    app_list = apps.split('/')
+    recommend_games = []
+    for app_id in app_list:
+        app_id = int(app_id)
+        game_list = get_similar_games(app_id, svd, trainset, gameinfo)
+        recommend_games.extend(game_list)
+    recommend_games = list({game['app_id']: game for game in recommend_games}.values())  # 중복 제거
     return recommend_games
 
 # 게임 장르별 추천 추천
@@ -206,7 +212,12 @@ def recommgames(genre : str = '', top : int = 10):
     if genre == '':
         return '', 200
     
-    recommend_games = sort_by_genre(gameinfo, genre, top)
+    genre_list = genre.split('/')
+    recommend_games = []
+    for g in genre_list:
+        game_list = sort_by_genre(gameinfo, g, top)
+        recommend_games.extend(game_list)
+    recommend_games = list({game['app_id']: game for game in recommend_games}.values())  # 중복 제거
     return recommend_games
 
 # 게임 장르 리스트
@@ -221,3 +232,59 @@ async def genres():
                 return genres
     except Exception as e:
         return str(e), 500
+
+
+# POST dislike
+@app.post("/dislike")
+async def create_dislike(disLikeGame : DisLikeGame):
+    try:
+        async with get_postgres_connection() as conn:
+            await conn.fetch(
+                "INSERT INTO ghem.dislike (steam_id, app_id) VALUES ($1, $2);",
+                disLikeGame.steam_id,
+                disLikeGame.app_id
+            )
+        return "Dislike created successfully", 200
+    except Exception as e:
+        return  str(e), 500
+    
+# GET dislike
+@app.get("/dislike", response_model=List[Game])
+async def get_dislike(steam_id : int = 0):
+    if steam_id == 0:
+        return [], 200
+
+    try:
+        async with get_postgres_connection() as conn:
+            rows = await conn.fetch("SELECT * FROM ghem.dislike WHERE steam_id=$1;", steam_id)
+            games = [Game(**row) for row in rows]
+            return games, 200
+    except Exception as e:
+        return  str(e), 500
+    
+
+# Post Disapproving 부적절한 컨텐츠
+@app.post("/disapproving")
+async def create_disapproving(game : Game):
+    try:
+        async with get_postgres_connection() as conn:
+            await conn.fetch(
+                "INSERT INTO ghem.disapproving (app_id) VALUES ($1);",
+                game.app_id
+            )
+        return "Rating created successfully", 200
+    except Exception as e:
+        return  str(e), 500
+    
+# GET Disapproving 부적절한 컨텐츠
+@app.get("/disapproving", response_model=List[Game])
+async def get_disapproving(steam_id : int = 0):
+    if steam_id == 0:
+        return [], 200
+    try:
+        async with get_postgres_connection() as conn:
+            rows = await conn.fetch("SELECT * FROM ghem.disapproving;")
+            games = [Game(**row) for row in rows]
+            return games, 200
+    except Exception as e:
+        return  str(e), 500

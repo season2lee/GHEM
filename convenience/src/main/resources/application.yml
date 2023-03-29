@@ -27,7 +27,8 @@ logging:
   level:
     org.hibernate.sql : debug
     org.hibernate.type : trace
+    org.springframework.web.socket: trace
+    org.springframework.messaging: trace
 
 server:
   port: 8080
-

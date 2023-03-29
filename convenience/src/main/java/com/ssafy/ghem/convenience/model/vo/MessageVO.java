@@ -4,7 +4,9 @@ import lombok.Data;
 
 @Data
 public class MessageVO {
-    private Long user_id;
-    private Long app_id;
+    private Long userId;
+    private Long appId;
+    private Integer type;
     private String content;
+    private String date;
 }
