@@ -26,3 +26,7 @@ class Genre(BaseModel):
 
 class Game(BaseModel):
     app_id : int
+
+class DisLikeGame(BaseModel):
+    steam_id : int
+    app_id : int
