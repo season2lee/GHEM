@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 type FollowListItemProps = {
   key: number;
   followUser: string;
+  followType: string;
 };
 
-function FollowListItem({ key, followUser }: FollowListItemProps) {
+function FollowListItem({ key, followUser, followType }: FollowListItemProps) {
   const navigate = useNavigate();
 
   const moveToOtherProfile = (): void => {
@@ -16,7 +17,7 @@ function FollowListItem({ key, followUser }: FollowListItemProps) {
     // 모달 닫기
   };
 
-  const handleFollowUser = (): void => {
+  const handleUnfollowUser = (): void => {
     // 다른 유저 팔로우
     alert("다른 유저 팔로우");
   };
@@ -28,7 +29,15 @@ function FollowListItem({ key, followUser }: FollowListItemProps) {
         <span>티코</span>
         <small>@steamid</small>
       </div>
-      <button onClick={handleFollowUser}>팔로우</button>
+      {followType === "팔로잉" ? (
+        <button css={unfollowButton} onClick={handleUnfollowUser}>
+          언팔로우
+        </button>
+      ) : (
+        <button css={deleteButton} onClick={handleUnfollowUser}>
+          삭제
+        </button>
+      )}
     </div>
   );
 }
@@ -53,15 +62,27 @@ const wrapper = css`
     cursor: pointer;
     border: none;
     outline: none;
-    background: #756292;
     border-radius: 20px;
     color: white;
     padding: 5px 12px;
+  }
+`;
 
-    :hover {
-      transition: all 0.5s;
-      background: #695883;
-    }
+const unfollowButton = css`
+  background: #756292;
+
+  :hover {
+    transition: all 0.5s;
+    background: #695883;
+  }
+`;
+
+const deleteButton = css`
+  background: #f90808;
+
+  :hover {
+    transition: all 0.5s;
+    background: #d50707;
   }
 `;
 

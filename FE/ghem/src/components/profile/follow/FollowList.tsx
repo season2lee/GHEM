@@ -12,9 +12,13 @@ function FollowList({ type, followList }: FollowListProps) {
     <div css={wrapper}>
       <span>총 {followList.length}명</span>
       <div>
-        {followList.map((followUser, idx) => (
-          <FollowListItem key={idx} followUser={followUser} />
-        ))}
+        {followList.length > 0 ? (
+          followList.map((followUser, idx) => <FollowListItem key={idx} followUser={followUser} followType={type} />)
+        ) : (
+          <div css={followNoneWrapper}>
+            <span>관심 친구가 없습니다.</span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -28,8 +32,19 @@ const wrapper = css`
 
   > div {
     margin-top: 20px;
-    max-height: 320px;
+    height: 300px;
+    height: 300px;
     overflow-y: scroll;
+  }
+`;
+
+const followNoneWrapper = css`
+  display: flex;
+  justify-content: center;
+
+  > span {
+    color: #7d7d7d;
+    font-size: 15px;
   }
 `;
 
