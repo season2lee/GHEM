@@ -62,7 +62,7 @@ export const getGpuModel = async (brand: string, input: string) => {
 
 export const postMyComputerSpec = async (specInfo: specInfoType) => {
   try {
-    const { data } = await axios.post(`/specs/modify`, specInfo);
+    const { data } = await axios.post(`/specs`, specInfo);
 
     if (data.flag) return true;
     else return false;
