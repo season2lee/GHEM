@@ -4,18 +4,17 @@ import FollowListItem from "./FollowListItem";
 
 type FollowListProps = {
   type: string;
+  followList: string[];
 };
 
-function FollowList({ type }: FollowListProps) {
+function FollowList({ type, followList }: FollowListProps) {
   return (
     <div css={wrapper}>
-      <span>총 3명</span>
+      <span>총 {followList.length}명</span>
       <div>
-        <FollowListItem />
-        <FollowListItem />
-        <FollowListItem />
-        <FollowListItem />
-        <FollowListItem />
+        {followList.map((followUser, idx) => (
+          <FollowListItem key={idx} followUser={followUser} />
+        ))}
       </div>
     </div>
   );
