@@ -33,6 +33,7 @@ function FriendListItem(props: FriendListItemProps) {
         css={imgSize}
         src={`${props.friend.user_profile}`}
         alt={`${props.friend.nickname}`}
+        draggable="false"
       />
       <p>{props.friend.nickname}</p>
     </div>

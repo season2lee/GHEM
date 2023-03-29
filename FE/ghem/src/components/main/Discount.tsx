@@ -11,6 +11,7 @@ type DiscountList = {
   finalPrice: number;
   largeImage: string;
   smallImage: string;
+  headerImage: string;
 };
 
 type Special = {
@@ -22,6 +23,7 @@ type Special = {
   final_price: number;
   large_capsule_image: string;
   small_capsule_image: string;
+  header_image: string;
 };
 
 type DiscountProps = {
@@ -29,6 +31,7 @@ type DiscountProps = {
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   setColId: React.Dispatch<React.SetStateAction<string>>;
   setPageXY: React.Dispatch<React.SetStateAction<PageXY>>;
+  canClickWithHover: boolean;
   currentColId: string;
 };
 
@@ -56,6 +59,7 @@ function Discount(props: DiscountProps) {
               finalPrice: special.final_price,
               largeImage: special.large_capsule_image,
               smallImage: special.small_capsule_image,
+              headerImage: special.header_image,
             };
           }
         }
@@ -78,6 +82,7 @@ function Discount(props: DiscountProps) {
         setIsEnter={props.setIsEnter}
         setColId={props.setColId}
         setPageXY={props.setPageXY}
+        canClickWithHover={props.canClickWithHover}
         colId="discount1"
         currentColId={props.currentColId}
       />
