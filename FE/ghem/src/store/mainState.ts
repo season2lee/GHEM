@@ -73,3 +73,17 @@ export const specInfoState = atom<specInfoType>({
     spec_id: 0,
   },
 });
+
+export const modifiedSpecInfoState = atom<specInfoType>({
+  key: "modifiedSpecInfoState",
+  default: {
+    cpu_com: "",
+    cpu_series: "",
+    gpu_com: "",
+    gpu_name: "",
+    os: "",
+    ram: 0,
+    user_id: 0,
+    spec_id: 0,
+  },
+});

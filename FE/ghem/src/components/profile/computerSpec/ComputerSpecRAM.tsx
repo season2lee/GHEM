@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import { mobile } from "@/util/Mixin";
-import { specInfoState } from "@/store/mainState";
-import { useRecoilState } from "recoil";
+import { specInfoState, modifiedSpecInfoState } from "@/store/mainState";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 function ComputerSpecRAM() {
-  const [specInfo, setSpecInfo] = useRecoilState(specInfoState);
+  const specInfo = useRecoilValue(specInfoState);
+  const setModifiedSpecInfo = useSetRecoilState(modifiedSpecInfoState);
   const [selectedRam, setSelectedRam] = useState<number>(0);
 
   const handleChangeRam = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 숫자 맞는지 유효성 검사 필요
     setSelectedRam(Number(e.target.value));
-    // 변경되는 ram recoil에 저장
-    setSpecInfo((prev) => {
+    setModifiedSpecInfo((prev) => {
       return {
         ...prev,
         ram: Number(e.target.value),
@@ -24,7 +24,7 @@ function ComputerSpecRAM() {
     if (specInfo.ram !== 0) {
       setSelectedRam(specInfo.ram);
     }
-  }, []);
+  }, [specInfo]);
 
   return (
     <div css={ComputerSpecWrapper}>
