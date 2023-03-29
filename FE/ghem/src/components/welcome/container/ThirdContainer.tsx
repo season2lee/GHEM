@@ -10,7 +10,7 @@ function ThirdContainer() {
   return (
     <div css={layout}>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-      <h3>
+        <h3>
           무슨 게임 할 지 항상 고민 하셨나요?
           <br />
           steam에서 추천해주는 게임이 지루하셨나요?
@@ -20,7 +20,13 @@ function ThirdContainer() {
         </h3>
       </div>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-      <img src={gameRecommend}></img>
+        <div>
+          <div>
+            <div>호버 했을 때 표정 변화 보여주기 </div>
+            <div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -43,7 +49,7 @@ const section = css`
   width: 50%;
   text-align: center;
 
-  img { 
+  img {
     max-width: 100%;
     max-height: 100%;
   }

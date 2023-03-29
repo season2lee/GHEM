@@ -44,12 +44,13 @@ export type gameRecommendStateType = {
   positive_reviews: number;
   negative_reviews: number;
 };
-
+// 비 로그인 시 추천 받은 비슷한 게임 
 export const gameRecommendState = atom<gameRecommendStateType[]>({
   key: "gameRecommend",
   default: [],
 });
 
+// 로그인 시 추천을 위해 평가 된 게임 
 export type evaluatedGameStateType = {
   app_id: number;
   rating: number;
@@ -86,4 +87,11 @@ export const modifiedSpecInfoState = atom<specInfoType>({
     user_id: 0,
     spec_id: 0,
   },
+});
+
+// 비로그인 시 추천을 위해 선택 된 게임 
+
+export const choiceGameState= atom<number[]>({
+  key: "choiceGame",
+  default: []
 });
