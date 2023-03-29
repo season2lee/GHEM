@@ -2,10 +2,8 @@ package com.ssafy.ghem.convenience.model.vo;
 
 import lombok.*;
 
-import java.util.List;
-
 @Data
-public class HttpVo {
+public class HttpVO {
     boolean flag;
     Object data;
 }
