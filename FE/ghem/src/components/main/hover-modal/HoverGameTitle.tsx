@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaRegSadTear, FaRegMeh } from "react-icons/fa";
+import thumbUp from "@/assets/image/thumbup.svg";
+import { css } from "@emotion/react";
 
 type HoverGameTitleProps = {
   appid: number | null;
@@ -71,16 +73,40 @@ function HoverGameTitle(props: HoverGameTitleProps) {
 
   return (
     <div>
+      {props.haveData === "null" && (
+        <div>
+          <p>Can't Find Detail</p>
+          <FaRegSadTear size="25" fill="#8e83bb8f" />
+        </div>
+      )}
       {props.haveData === "have" && (
         <div>
           <p>{props.gameTitle}</p>
-          {isLike && <FaHeart onClick={unLikeGame} size="25" color="red" />}
-          {!isLike && <FaHeart onClick={likeGame} size="25" color="white" />}
-          {props.gameRecommend?.total}
+          <div css={justifyDiv}>
+            <div>
+              <span>
+                <img src={thumbUp} style={{ height: "15px" }} />
+              </span>
+              <span>{props.gameRecommend?.total}</span>
+            </div>
+            <div>
+              {isLike && <FaHeart onClick={unLikeGame} size="25" color="red" />}
+              {!isLike && (
+                <FaHeart onClick={likeGame} size="25" color="white" />
+              )}
+              <FaRegMeh size="25" fill="#8e83bb8f" />
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
 }
+
+const justifyDiv = css`
+  display: flex;
+  justify-content: space-between;
+  margin: 0rem 2rem;
+`;
 
 export default HoverGameTitle;

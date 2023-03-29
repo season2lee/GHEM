@@ -3,6 +3,7 @@ import React, { useEffect, useRef, RefObject, useState } from "react";
 import { useNavigate } from "react-router";
 import BannerGameItemDetail from "./BannerGameItemDetail";
 import heroCapsule from "../../../assets/image/hero_capsule.jpg";
+import thumbupLine from "@/assets/image/thumbup-line.svg";
 
 type BannerGameItemProps = {
   appId: number;
@@ -87,7 +88,7 @@ const backImgDiv = css`
 
 const blurDiv = css`
   /* backdrop-filter: blur(1rem); */
-  background-color: #8e83bb74;
+  background-color: #8e83bb8f;
   padding: 1rem;
 `;
 
