@@ -55,13 +55,13 @@ function ComputerSpec() {
         ram: modifiedSpecInfo.ram || specInfo.ram,
         user_id: userId,
       };
-      console.log("등록 body : ", body);
 
       const response = await postMyComputerSpec(body);
 
       if (response) {
         alert("등록되었습니다.");
         setIsFirstSetting(false);
+        location.reload();
       }
     } else {
       const body = {
@@ -78,6 +78,7 @@ function ComputerSpec() {
 
       if (response) {
         alert("수정되었습니다.");
+        location.reload();
       }
     }
   };
