@@ -8,6 +8,7 @@ import axios from "axios";
 type HoverGameItemProps = {
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   setColId: React.Dispatch<React.SetStateAction<string>>;
+  setCanClickWithHover: React.Dispatch<React.SetStateAction<boolean>>;
   appid: number | null;
   colId: string;
   pageXY: PageXY;
@@ -57,6 +58,15 @@ function HoverGameItem(props: HoverGameItemProps) {
     getGameDetail();
     return () => {};
   }, [props.appid]);
+
+  useEffect(() => {
+    if (haveData !== "have") {
+      props.setCanClickWithHover(false);
+      console.log("???");
+    } else {
+      props.setCanClickWithHover(true);
+    }
+  }, [haveData]);
 
   const getGameDetail = async () => {
     try {

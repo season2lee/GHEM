@@ -21,6 +21,7 @@ type TopRankNewReleaseProps = {
   setColId: React.Dispatch<React.SetStateAction<string>>;
   setPageXY: React.Dispatch<React.SetStateAction<PageXY>>;
   currentColId: string;
+  canClickWithHover: boolean;
 };
 
 function TopRankNewRelease(props: TopRankNewReleaseProps) {
@@ -57,6 +58,7 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         setPageXY={props.setPageXY}
         colId="toprate1"
         currentColId={props.currentColId}
+        canClickWithHover={props.canClickWithHover}
       />
       <CommonGameList
         gameList={topRankLists[1]?.item_ids}
@@ -68,6 +70,7 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         setPageXY={props.setPageXY}
         colId="toprate2"
         currentColId={props.currentColId}
+        canClickWithHover={props.canClickWithHover}
       />
       <CommonGameList
         gameList={topRankLists[2]?.item_ids}
@@ -79,6 +82,7 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
         setPageXY={props.setPageXY}
         colId="toprate3"
         currentColId={props.currentColId}
+        canClickWithHover={props.canClickWithHover}
       />
     </div>
   );
