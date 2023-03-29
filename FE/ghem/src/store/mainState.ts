@@ -44,7 +44,7 @@ export type gameRecommendStateType = {
   positive_reviews: number;
   negative_reviews: number;
 };
-
+// 비 로그인 시 추천 받은 비슷한 게임 
 export const gameRecommendState = atom<gameRecommendStateType[]>({
   key: "gameRecommend",
   default: [],

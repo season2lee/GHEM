@@ -28,8 +28,8 @@ function ChoiceGamePage() {
   const [gameList, setGameList] = useState<GameList[]>([]);
   const userId: number | null = Number(localStorage.getItem("id"));
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
-  const [gameRecommend, setGameRecommend] =
-    useRecoilState<gameRecommendStateType[]>(gameRecommendState);
+  const [gameRecommend, setGameRecommend] =useRecoilState<gameRecommendStateType[]>(gameRecommendState); 
+  // 비 로그인 시 추천 받은 게임  
   const currentChoiceGame = useRecoilValue(choiceGameState); // 평가 된 게임
   const { state } = useLocation();
   const navigate = useNavigate();
