@@ -7,9 +7,10 @@ import { MessageType } from "../body/MessageType";
 type FooterProps = {
   setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
   scrollToBottom: () => void,
+  isConnected: boolean
 };
 
-function Footer({ setMessages, scrollToBottom }: FooterProps) {
+function Footer({ setMessages, scrollToBottom, isConnected }: FooterProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // 보내기 버튼 클릭 했을 때의 핸들러
@@ -29,7 +30,7 @@ function Footer({ setMessages, scrollToBottom }: FooterProps) {
   // textarea에서 엔터 쳤을 때의 핸들러
   const handleSendEnterDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && textareaRef.current && !isWhitespace(textareaRef.current.value)) {
-      const newContent = textareaRef.current.value
+      const newContent = textareaRef.current.value;
       e.preventDefault();
       console.log("엔터빵!", newContent);
       setMessages((oldState) => {
@@ -51,9 +52,11 @@ function Footer({ setMessages, scrollToBottom }: FooterProps) {
         rows={3}
         ref={textareaRef}
         onKeyDown={handleSendEnterDown}
+        placeholder={isConnected ? "채팅 내용을 입력해주세요..." : "네트워크 연결이 필요합니다"}
+        disabled={!isConnected}
       ></textarea>
       <div>
-        <button css={sendButtonStyle} onClick={handleSendClick}>
+        <button css={isConnected ? sendButtonStyle : disabledSendButtonStyle} onClick={handleSendClick} disabled={!isConnected}>
           보내기
         </button>
       </div>
@@ -93,6 +96,17 @@ const sendButtonStyle = css`
   &:hover {
     background-color: rgb(117, 98, 146);
   }
+`;
+
+const disabledSendButtonStyle = css`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 5px;
+  padding: 7px 10px;
+  border: none;
+  color: gray;
+  background-color: rgb(88, 74, 110);
 `;
 
 export default Footer;
