@@ -3,16 +3,18 @@ import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
 import { getGpuBrand, getGpuModel } from "@/api/computerSpec";
-import { specInfoState } from "@/store/mainState";
-import { useRecoilState } from "recoil";
+import { specInfoState, modifiedSpecInfoState } from "@/store/mainState";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 function ComputerSpecGPU() {
-  const [specInfo, setSpecInfo] = useRecoilState(specInfoState);
+  const specInfo = useRecoilValue(specInfoState);
+  const setModifiedSpecInfo = useSetRecoilState(modifiedSpecInfoState);
   const [brand, setBrand] = useState<string[]>([]);
   const [modelName, setModelName] = useState<string[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [selectedModelName, setSelectedModelName] = useState<string>("");
   const [isOpenOption, setIsOpenOption] = useState<boolean>(false);
+  const [count, setCount] = useState<number>(0);
 
   const getGpuBrandFunc = async (): Promise<void> => {
     const response = await getGpuBrand();
@@ -23,9 +25,8 @@ function ComputerSpecGPU() {
   };
 
   const handleChangeModelName = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-    // 시리즈 검색 시 특수기호 제거
     const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/g;
-    e.target.value = e.target.value.replace(regExp, "");
+    e.target.value = e.target.value.replace(regExp, ""); // 시리즈 검색 시 특수기호 제거
 
     setSelectedModelName(e.target.value);
 
@@ -40,48 +41,52 @@ function ComputerSpecGPU() {
   };
 
   const handleSelectModelName = (selected: string) => {
-    setSelectedModelName(selected);
-    // 변경되는 GPU 모델명 recoil에 저장
-    setSpecInfo((prev) => {
+    setModifiedSpecInfo((prev) => {
       return {
         ...prev,
         gpu_name: selected,
       };
     });
+    setSelectedModelName(selected);
     setIsOpenOption(false);
   };
 
   useEffect(() => {
-    // 기존에 설정된 스펙이 있다면 세팅하기
-    if (specInfo.gpu_com !== "" && specInfo.gpu_name !== "") {
-      setSelectedBrand(specInfo.gpu_com);
-      setSelectedModelName(specInfo.gpu_name);
-    }
     getGpuBrandFunc();
   }, []);
 
   useEffect(() => {
-    if (brand.length) {
+    // 기존에 설정된 스펙 값 세팅
+    if (specInfo.gpu_com !== "" && specInfo.gpu_name !== "") {
+      setSelectedBrand(specInfo.gpu_com);
+      setSelectedModelName(specInfo.gpu_name);
+    }
+  }, [specInfo]);
+
+  useEffect(() => {
+    if (brand.length && selectedModelName === "") {
       setSelectedBrand(brand[0]);
     }
   }, [brand]);
 
   useEffect(() => {
-    setSelectedModelName("");
-    // 변경되는 GPU 브랜드 recoil에 저장
-    setSpecInfo((prev) => {
+    setModifiedSpecInfo((prev) => {
       return {
         ...prev,
         gpu_com: selectedBrand,
       };
     });
+
+    // 최초에 브랜드를 설정하는 한 번은 적용 안되게
+    if (count > 1) setSelectedModelName("");
+    setCount(count + 1);
   }, [selectedBrand]);
 
   return (
     <div css={ComputerSpecWrapper}>
       <h5>GPU</h5>
       <div css={selectBoxWrapper}>
-        <SelectBox optionList={brand} setOption={setSelectedBrand} />
+        <SelectBox optionList={brand} setOption={setSelectedBrand} selectedOption={selectedBrand} />
         <div css={inputWrapper}>
           <input type="text" placeholder="모델명" onChange={handleChangeModelName} value={selectedModelName} />
           {isOpenOption && (

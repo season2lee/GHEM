@@ -10,6 +10,7 @@ type GameList = {
   finalPrice?: number;
   largeImage?: string;
   smallImage?: string;
+  headerImage?: string;
 };
 
 type CommonGameListProps = {
@@ -23,6 +24,7 @@ type CommonGameListProps = {
   setPageXY: React.Dispatch<React.SetStateAction<PageXY>>;
   colId: string;
   currentColId: string;
+  canClickWithHover: boolean;
 };
 
 function CommonGameList(props: CommonGameListProps) {
@@ -129,11 +131,13 @@ function CommonGameList(props: CommonGameListProps) {
             finalPrice={item.finalPrice}
             largeImage={item.largeImage}
             smallImage={item.smallImage}
+            headerImage={item.headerImage}
             setAppid={props.setAppid}
             setIsEnter={props.setIsEnter}
             setColId={props.setColId}
             setPageXY={props.setPageXY}
             colId={props.colId}
+            canClickWithHover={props.canClickWithHover}
             isDrag={isDrag}
           />
         );

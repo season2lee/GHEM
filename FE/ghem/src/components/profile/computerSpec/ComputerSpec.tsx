@@ -7,16 +7,17 @@ import ComputerSpecRAM from "./ComputerSpecRAM";
 import ComputerSpecOS from "./ComputerSpecOS";
 import { mobile } from "@/util/Mixin";
 import { getMyComputerSpec, postMyComputerSpec, putMyComputerSpec } from "@/api/computerSpec";
-import { specInfoState } from "@/store/mainState";
-import { useRecoilState } from "recoil";
+import { specInfoState, modifiedSpecInfoState } from "@/store/mainState";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 function ComputerSpec() {
   const userId: number | null = Number(localStorage.getItem("id"));
+  const modifiedSpecInfo = useRecoilValue(modifiedSpecInfoState);
   const [specInfo, setSpecInfo] = useRecoilState(specInfoState);
   const [isFirstSetting, setIsFirstSetting] = useState<boolean>(false);
 
   const handleResetComputerSpec = (): void => {
-    alert("정말 초기화하시겠습니까?");
+    // 사양 초기화
   };
 
   // 컴퓨터 스펙 정보 가져오기
@@ -25,11 +26,9 @@ function ComputerSpec() {
 
     if (response) {
       // 스펙 설정이 처음인지 확인
-      if (response.MyPcSpecs.ram === 0) {
+      if (response.MyPcSpecs === null) {
         setIsFirstSetting(true);
-      }
-      // 스펙 설정이 처음일 때는 dummy값 저장X
-      else {
+      } else {
         // recoil에 현재 컴퓨터 사양 상태 저장
         setSpecInfo({
           cpu_com: response.MyPcSpecs.cpu_com,
@@ -48,36 +47,38 @@ function ComputerSpec() {
   const handleRegistSpec = async (): Promise<void> => {
     if (isFirstSetting) {
       const body = {
-        cpu_com: specInfo.cpu_com,
-        cpu_series: specInfo.cpu_series,
-        gpu_com: specInfo.gpu_com,
-        gpu_name: specInfo.gpu_name,
-        os: specInfo.os,
-        ram: specInfo.ram,
+        cpu_com: modifiedSpecInfo.cpu_com,
+        cpu_series: modifiedSpecInfo.cpu_series || specInfo.cpu_series,
+        gpu_com: modifiedSpecInfo.gpu_com,
+        gpu_name: modifiedSpecInfo.gpu_name || specInfo.gpu_name,
+        os: modifiedSpecInfo.os,
+        ram: modifiedSpecInfo.ram || specInfo.ram,
         user_id: userId,
       };
 
       const response = await postMyComputerSpec(body);
 
       if (response) {
-        alert("등록되었습니다."); // 임시 alert
+        alert("등록되었습니다.");
+        setIsFirstSetting(false);
+        location.reload();
       }
     } else {
       const body = {
-        cpu_com: specInfo.cpu_com,
-        cpu_series: specInfo.cpu_series,
-        gpu_com: specInfo.gpu_com,
-        gpu_name: specInfo.gpu_name,
-        os: specInfo.os,
-        ram: specInfo.ram,
+        cpu_com: modifiedSpecInfo.cpu_com,
+        cpu_series: modifiedSpecInfo.cpu_series || specInfo.cpu_series,
+        gpu_com: modifiedSpecInfo.gpu_com,
+        gpu_name: modifiedSpecInfo.gpu_name || specInfo.gpu_name,
+        os: modifiedSpecInfo.os,
+        ram: modifiedSpecInfo.ram || specInfo.ram,
         spec_id: specInfo.spec_id,
       };
 
       const response = await putMyComputerSpec(body);
 
       if (response) {
-        alert("수정되었습니다."); // 임시 alert
-        setIsFirstSetting(false);
+        alert("수정되었습니다.");
+        location.reload();
       }
     }
   };

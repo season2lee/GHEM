@@ -15,7 +15,7 @@ function LoginPage() {
 
   const NAVER_REST_API_KEY = env.VITE_NAVER_REST_API_KEY;
   const NAVER_REDIRECT_URI = env.VITE_NAVER_REDIRECT_URI;
-  const NAVER_CALLBACK_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_REST_API_KEY}&state=test&redirect_uri=${NAVER_REDIRECT_URI}`;
+  const NAVER_CALLBACK_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_REST_API_KEY}&state=login&redirect_uri=${NAVER_REDIRECT_URI}`;
 
   const handleOauthLoginClcik = (flag: string): void => {
     switch (flag) {

@@ -3,21 +3,22 @@ import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
 import { getCpuModel } from "@/api/computerSpec";
-import { specInfoState } from "@/store/mainState";
-import { useRecoilState } from "recoil";
+import { specInfoState, modifiedSpecInfoState } from "@/store/mainState";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 
 function ComputerSpecCPU() {
-  const [specInfo, setSpecInfo] = useRecoilState(specInfoState);
+  const specInfo = useRecoilValue(specInfoState);
+  const setModifiedSpecInfo = useSetRecoilState(modifiedSpecInfoState);
   const brand: string[] = ["Intel", "AMD"];
   const [series, setSeries] = useState<string[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>(brand[0]);
   const [selectedSeries, setSelectedSeries] = useState<string>("");
   const [isOpenOption, setIsOpenOption] = useState<boolean>(false);
+  const [count, setCount] = useState<number>(0);
 
   const handleChangeSeries = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-    // 시리즈 검색 시 특수기호 제거
     const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/g;
-    e.target.value = e.target.value.replace(regExp, "");
+    e.target.value = e.target.value.replace(regExp, ""); // 시리즈 검색 시 특수기호 제거
 
     setSelectedSeries(e.target.value);
 
@@ -32,41 +33,42 @@ function ComputerSpecCPU() {
   };
 
   const handleSelectSeries = (selected: string) => {
-    setSelectedSeries(selected);
-    // 변경되는 CPU 시리즈 recoil에 저장
-    setSpecInfo((prev) => {
+    setModifiedSpecInfo((prev) => {
       return {
         ...prev,
         cpu_series: selected,
       };
     });
+    setSelectedSeries(selected);
     setIsOpenOption(false);
   };
 
   useEffect(() => {
-    setSelectedSeries("");
-    // 변경되는 CPU 브랜드 recoil에 저장
-    setSpecInfo((prev) => {
+    setModifiedSpecInfo((prev) => {
       return {
         ...prev,
         cpu_com: selectedBrand,
       };
     });
+
+    // 최초에 브랜드를 설정하는 한 번은 적용 안되게
+    if (count > 1) setSelectedSeries("");
+    setCount(count + 1);
   }, [selectedBrand]);
 
   useEffect(() => {
-    // 기존에 설정된 스펙이 있다면 세팅하기
+    // 기존에 설정된 스펙 값 세팅
     if (specInfo.cpu_com !== "" && specInfo.cpu_series !== "") {
       setSelectedBrand(specInfo.cpu_com);
       setSelectedSeries(specInfo.cpu_series);
     }
-  }, []);
+  }, [specInfo]);
 
   return (
     <div css={ComputerSpecWrapper}>
       <h5>CPU</h5>
       <div css={selectBoxWrapper}>
-        <SelectBox optionList={brand} setOption={setSelectedBrand} />
+        <SelectBox optionList={brand} setOption={setSelectedBrand} selectedOption={selectedBrand} />
         <div css={inputWrapper}>
           <input type="text" placeholder="시리즈" onChange={handleChangeSeries} value={selectedSeries} />
           {isOpenOption && (
