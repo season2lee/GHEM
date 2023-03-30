@@ -14,6 +14,8 @@ import ReviewSection from '@components/gamedetail/review/ReviewSection'
 import GameInfo from '@components/gamedetail/gameinfo/GameInfo'
 import SimilarUserSection from '@components/gamedetail/similaruser/SimilarUserSection'
 
+const BROKER_URL = "ws://192.168.100.209:8080/ws";
+
 type GameDataType = {
   appID: string,
   name: string,
@@ -136,7 +138,7 @@ function GameDetailPage() {
           </div>
           <div css={rightContainer}>
             {/* 채팅창 컴포넌트 */}
-            <ChatBox />
+            <ChatBox brokerUrl={BROKER_URL} />
           </div>
         </div>
       </div>
