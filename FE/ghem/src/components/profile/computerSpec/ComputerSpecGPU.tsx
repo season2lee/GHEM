@@ -14,7 +14,6 @@ function ComputerSpecGPU() {
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [selectedModelName, setSelectedModelName] = useState<string>("");
   const [isOpenOption, setIsOpenOption] = useState<boolean>(false);
-  const [count, setCount] = useState<number>(0);
 
   const getGpuBrandFunc = async (): Promise<void> => {
     const response = await getGpuBrand();
@@ -34,8 +33,10 @@ function ComputerSpecGPU() {
       const response = await getGpuModel(selectedBrand, e.target.value);
 
       if (response) {
-        setModelName(response.gpu_brand_list);
-        setIsOpenOption(true);
+        if (response.gpu_brand_list.length > 0) {
+          setModelName(response.gpu_brand_list);
+          setIsOpenOption(true);
+        }
       }
     }
   };
@@ -76,10 +77,6 @@ function ComputerSpecGPU() {
         gpu_com: selectedBrand,
       };
     });
-
-    // 최초에 브랜드를 설정하는 한 번은 적용 안되게
-    if (count > 1) setSelectedModelName("");
-    setCount(count + 1);
   }, [selectedBrand]);
 
   return (
