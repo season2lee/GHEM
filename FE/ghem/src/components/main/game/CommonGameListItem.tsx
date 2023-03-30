@@ -58,10 +58,10 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         setCurrentHeaderImg(
           response.data[props.appid ?? "null"].data.header_image
         );
-        setCurrentCapsuleImg(HeroCapsule);
+        setCurrentCapsuleImg(
+          `https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appid}/capsule_616x353.jpg`
+        );
       } else {
-        setCurrentHeaderImg(HeaderImg);
-        setErrorCount(errorCount + 1);
         setIsData(false);
         const target = e.target as HTMLInputElement;
         target.style.display = "none";
@@ -77,13 +77,21 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     if (errorCount === 0) {
       getGameImgTitle(e);
       setErrorCount(errorCount + 1);
+    } else if (errorCount === 1) {
+      setCurrentHeaderImg(HeaderImg);
+      setErrorCount(errorCount + 1);
     }
   };
   const handleCapsuleImgError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
-    getGameImgTitle(e);
-    setErrorCount(errorCount + 2);
+    if (errorCount === 0) {
+      getGameImgTitle(e);
+      setErrorCount(errorCount + 1);
+    } else if (errorCount === 1) {
+      setCurrentCapsuleImg(HeroCapsule);
+      setErrorCount(errorCount + 1);
+    }
   };
 
   return (
@@ -115,7 +123,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
       <div onClick={toDetail} css={relativeDiv}>
         {props.imgType === "header" && (
           <img
-            css={imgsize}
+            css={headerImgSize}
             src={props.headerImage ? props.headerImage : currentHeaderImg}
             alt={`${props.appid}`}
             onError={handleHeaderImgError}
@@ -124,7 +132,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         )}
         {props.imgType === "capsule" && (
           <img
-            css={imgsize}
+            css={capsuleImgSize}
             src={currentCapsuleImg}
             alt={`${props.appid}`}
             onError={handleCapsuleImgError}
@@ -160,9 +168,14 @@ const relativeDiv = css`
   position: relative;
 `;
 
-const imgsize = css`
-  width: 15rem;
-  height: auto;
+const headerImgSize = css`
+  width: auto;
+  height: 20vh;
+`;
+
+const capsuleImgSize = css`
+  width: auto;
+  height: 45vh;
 `;
 
 const inImgText = css`

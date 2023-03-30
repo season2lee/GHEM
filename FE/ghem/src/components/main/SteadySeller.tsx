@@ -43,8 +43,8 @@ function SteadySeller(props: SteadySellerProps) {
       <div css={divheight} />
       <CommonGameList
         gameList={steadyGameList.slice(0, 30)}
-        // imgType="capsule"
-        imgType="header"
+        imgType="capsule"
+        // imgType="header"
         scrollType={1}
         gameType="steady"
         setAppid={props.setAppid}
@@ -58,8 +58,8 @@ function SteadySeller(props: SteadySellerProps) {
       <div css={divheight} />
       <CommonGameList
         gameList={steadyGameList.slice(30, 60)}
-        // imgType="capsule"
-        imgType="header"
+        imgType="capsule"
+        // imgType="header"
         scrollType={-1}
         gameType="steady"
         setAppid={props.setAppid}
@@ -73,8 +73,8 @@ function SteadySeller(props: SteadySellerProps) {
       <div css={divheight} />
       <CommonGameList
         gameList={steadyGameList.slice(60, 90)}
-        // imgType="capsule"
-        imgType="header"
+        imgType="capsule"
+        // imgType="header"
         scrollType={1}
         gameType="steady"
         setAppid={props.setAppid}
