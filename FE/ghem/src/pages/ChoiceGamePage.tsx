@@ -5,6 +5,8 @@ import {
   gameRecommendState,
   gameRecommendStateType,
   choiceGameState,
+  evaluatedGameState
+
 } from "@/store/mainState";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useLocation, useNavigate } from "react-router";
@@ -31,8 +33,11 @@ function ChoiceGamePage() {
   const [gameRecommend, setGameRecommend] =useRecoilState<gameRecommendStateType[]>(gameRecommendState); 
   // 비 로그인 시 추천 받은 게임  
   const currentChoiceGame = useRecoilValue(choiceGameState); // 평가 된 게임
+  const currentEvaluateGame = useRecoilValue(evaluatedGameState)
   const { state } = useLocation();
   const navigate = useNavigate();
+
+  // useEffect(() =>{console.log("@@@@",currentEvaluateGame)}, [currentEvaluateGame])
 
   useEffect(() => {
     console.log(gameList);
@@ -66,6 +71,24 @@ function ChoiceGamePage() {
       console.log(err);
     }
   }
+
+
+  const EvalRecommendGame = () => {
+    for ( const game of currentEvaluateGame){
+      EvalRecommendGameApi(game)
+    }
+  } 
+
+  const EvalRecommendGameApi = async (data:{}) => {
+    console.log(data)
+    try {
+      const response = await axios.post("http://j8d107.p.ssafy.io:32003/rating",data)
+      console.log(response)
+    }catch (err) {
+      console.log(err)
+    }
+  }
+
 
   const RecommendGame = async () => {
       const choiceGameList = currentChoiceGame.join("/");
@@ -111,8 +134,11 @@ function ChoiceGamePage() {
           </>):(<button onClick={RecommendGame}>추천 받기</button>)}
         </>
         ) : null}
+        {currentEvaluateGame.length > 0 ? (<>
+        <button onClick={EvalRecommendGame}>추천받기</button>
+        </>):(<>
+        </>)}
       </div>
-
       <div>
         <ChoiceGameList
           gameList={gameList}
