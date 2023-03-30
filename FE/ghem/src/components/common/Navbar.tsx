@@ -5,6 +5,7 @@ import logoTitle from "../../assets/image/for_logo.png";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useLocation } from "react-router";
 
 type searchResultDropdown = {
   appId: string;
@@ -21,12 +22,24 @@ function Navbar() {
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [searchList, setSearchList] = useState<searchResultDropdown[]>([]);
   const [searchWord, setSearchWord] = useState<string>("");
+  const { pathname } = useLocation();
 
   const moveToMyProfile = () => {
     if (userId) {
       navigater(`/profile/${userId}/gamelist`);
     }
   };
+
+  useEffect(() => {
+    setSearchList([]);
+    setSearchWord("");
+    setIsSearch(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isSearch) {
+    }
+  }, [isSearch]);
 
   useEffect(() => {
     if (searchWord) {
@@ -39,13 +52,6 @@ function Navbar() {
       setIsLoginStatus(true);
     }
   }, [userId]);
-
-  useEffect(() => {
-    if (!isSearch) {
-      setSearchList([]);
-      setSearchWord("");
-    }
-  }, [isSearch]);
 
   const inputWord = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
