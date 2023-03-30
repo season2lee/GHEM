@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { AiOutlineClose } from "react-icons/ai";
 import FollowList from "./FollowList";
 import { getUserFollowerList, getUserFollowingList } from "@/api/following";
+import { followListType } from "apiTypes";
 
 type FollowModalProps = {
   handleOpenFollowModal: () => void;
@@ -12,7 +13,7 @@ type FollowModalProps = {
 function FollowModal({ handleOpenFollowModal, type }: FollowModalProps) {
   const userId: number | null = Number(localStorage.getItem("id"));
   const [followType, setFollowType] = useState<string>("");
-  const [followList, setFollowList] = useState<string[]>([]);
+  const [followList, setFollowList] = useState<followListType[]>([]);
 
   const handleCloseModal = (): void => {
     handleOpenFollowModal();
@@ -27,13 +28,13 @@ function FollowModal({ handleOpenFollowModal, type }: FollowModalProps) {
       const response = await getUserFollowingList(userId);
 
       if (response) {
-        setFollowList(response); // 임시
+        setFollowList(response);
       }
     } else if (followType === "팔로워") {
       const response = await getUserFollowerList(userId);
 
       if (response) {
-        setFollowList(response); // 임시
+        setFollowList(response);
       }
     }
   };

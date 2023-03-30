@@ -4,7 +4,8 @@ import steamLogo from "../../../assets/image/steamLogo.png";
 import { mobile } from "@/util/Mixin";
 import ProfileSteamIdModal from "./ProfileSteamIdModal";
 import { useLocation } from "react-router-dom";
-import { postUserFollow, deleteUserUnfollow } from "@/api/following";
+import { postUserFollow, deleteUserUnfollow, getUserFollowerList } from "@/api/following";
+import { followListType } from "apiTypes";
 
 type ProfileAccountProps = {
   nickname: string;
@@ -24,16 +25,8 @@ function ProfileAccount({ nickname, steamId }: ProfileAccountProps) {
   };
 
   const handleFollowUser = async (): Promise<void> => {
-    // 언팔로우 요청
-    if (followType === "팔로우") {
-      const response = await deleteUserUnfollow(userId, pathnameId);
-
-      if (response) {
-        alert("언팔로우 성공");
-      }
-    }
     // 팔로우 요청
-    else if (followType === "언팔로우") {
+    if (followType === "팔로우") {
       const body = {
         follower_id: pathnameId,
         following_id: userId,
@@ -42,16 +35,29 @@ function ProfileAccount({ nickname, steamId }: ProfileAccountProps) {
       const response = await postUserFollow(body);
 
       if (response) {
-        alert("팔로우 성공");
+        window.location.reload();
+      }
+    }
+    // 언팔로우 요청
+    else if (followType === "언팔로우") {
+      const response = await deleteUserUnfollow(userId, pathnameId);
+
+      if (response) {
+        window.location.reload();
       }
     }
   };
 
   const getFollowTypeFunc = async (): Promise<void> => {
-    // userId가 pathnameId를 팔로우하는지 언팔로우하는지 api 요청으로 알아내기
-    // const response = await getFollowType(userId, pathnameId);
-    // setFollowType("팔로우");
-    // setFollowType("언팔로우");
+    const response = await getUserFollowerList(userId); // 내가 팔로우하고 있는 유저 목록 불러오기
+
+    if (response && response.length > 0) {
+      response.map((el: followListType) => {
+        if (el.user_id === pathnameId) {
+          el.following === true ? setFollowType("언팔로우") : setFollowType("팔로우");
+        }
+      });
+    }
   };
 
   useEffect(() => {
