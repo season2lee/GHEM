@@ -5,11 +5,13 @@ import {
   gameRecommendState,
   gameRecommendStateType,
   choiceGameState,
-  evaluatedGameState
+  evaluatedGameState,
+  dbGameState
 
 } from "@/store/mainState";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useLocation, useNavigate } from "react-router";
+import { css } from "@emotion/react";
 
 type GameItemList = {
   appid: number;
@@ -32,12 +34,15 @@ function ChoiceGamePage() {
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
   const [gameRecommend, setGameRecommend] =useRecoilState<gameRecommendStateType[]>(gameRecommendState); 
   // 비 로그인 시 추천 받은 게임  
-  const currentChoiceGame = useRecoilValue(choiceGameState); // 평가 된 게임
-  const currentEvaluateGame = useRecoilValue(evaluatedGameState)
+  const currentChoiceGame = useRecoilValue(choiceGameState); // 비로그인 시  평가 된 게임
+  const currentEvaluateGame = useRecoilValue(evaluatedGameState) // 로그인 시 평가 된 게임
+  const currentdbGame = useRecoilValue(dbGameState) //로그인 시 평가 된 게임 db 용 
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  // useEffect(() =>{console.log("@@@@",currentEvaluateGame)}, [currentEvaluateGame])
+  useEffect(() =>{console.log("@@@@",currentdbGame)}, [currentdbGame])
+
+
 
   useEffect(() => {
     console.log(gameList);
@@ -77,12 +82,25 @@ function ChoiceGamePage() {
     for ( const game of currentEvaluateGame){
       EvalRecommendGameApi(game)
     }
+    for (const dbGame of currentdbGame){
+      dbGameApi(dbGame)
+    }
   } 
 
   const EvalRecommendGameApi = async (data:{}) => {
     console.log(data)
     try {
       const response = await axios.post("http://j8d107.p.ssafy.io:32003/rating",data)
+      console.log(response)
+    }catch (err) {
+      console.log(err)
+    }
+  }
+
+  const dbGameApi = async (data:{}) => {
+    console.log(data)
+    try {
+      const response = await axios.post("http://j8d107.p.ssafy.io:32000/user/rating",data)
       console.log(response)
     }catch (err) {
       console.log(err)
@@ -121,23 +139,22 @@ function ChoiceGamePage() {
   };
 
   return (
-    <div>
-      <div>
+    <div css={layout}>
+      <div css={section}>
         {isLoginStatus ? (
           <div> 플레이 한 게임을 평가 해 보세요 </div>
         ) : (
           <div> 재밌게 플레이 했던 게임을 선택 해주세요</div>
         )}
         {currentChoiceGame.length > 0 ? (<>
-          {currentChoiceGame.length == 1? (<>
+          {currentChoiceGame.length == 1? (
           <button onClick={RecommendOneGame}>추천 받기</button>
-          </>):(<button onClick={RecommendGame}>추천 받기</button>)}
+          ):(<button onClick={RecommendGame}>추천 받기</button>)}
         </>
         ) : null}
-        {currentEvaluateGame.length > 0 ? (<>
+        {currentEvaluateGame.length > 0 ? (
         <button onClick={EvalRecommendGame}>추천받기</button>
-        </>):(<>
-        </>)}
+        ):(null)}
       </div>
       <div>
         <ChoiceGameList
@@ -150,4 +167,20 @@ function ChoiceGamePage() {
   );
 }
 
+const layout = css`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10%;
+
+`
+const section = css`
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  height: 20%;
+  margin-bottom: 5%;
+ 
+`
 export default ChoiceGamePage;

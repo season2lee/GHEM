@@ -48,6 +48,8 @@ function ChoiceGameList({ gameList,userId,isLoginStatus }: ChoiceGameListProps) 
 const choiceList = css`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default ChoiceGameList;
