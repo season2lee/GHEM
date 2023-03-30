@@ -42,7 +42,7 @@ export const postUserFollow = async (body: userFollowType) => {
 
 export const deleteUserUnfollow = async (followingId: number, followerId: number) => {
   try {
-    const { data } = await axios.delete(`/follow/${followingId}/${followerId}`);
+    const { data } = await axios.delete(`/follow?follower_id=${followerId}&following_id=${followingId}`);
 
     if (data.flag) return true;
     else return false;

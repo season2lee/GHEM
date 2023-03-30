@@ -5,20 +5,42 @@ import React, { useRef } from "react";
 import { MessageType } from "../body/MessageType";
 
 type FooterProps = {
-  setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>;
+  setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
+  isConnected: boolean
 };
 
-function Footer({ setMessages }: FooterProps) {
+function Footer({ setMessages, isConnected }: FooterProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // 보내기 버튼 클릭 했을 때의 핸들러
-  const sendClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSendClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (textareaRef.current?.value) {
       console.log(textareaRef.current.value);
       textareaRef.current.value = "";
     }
   };
+
+  // 공백 문자인지 점검함
+  const isWhitespace = (str: string) => {
+    return /^\s*$/.test(str);
+  }
+
+  // textarea에서 엔터 쳤을 때의 핸들러
+  const handleSendEnterDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && textareaRef.current && !isWhitespace(textareaRef.current.value)) {
+      const newContent = textareaRef.current.value;
+      e.preventDefault();
+      console.log("엔터빵!", newContent);
+      setMessages((oldState) => {
+        const newMessage = {
+          content: newContent
+        }
+        return [...oldState, newMessage];
+      })
+      textareaRef.current.value = "";
+    }
+  }
 
   return (
     <form css={container}>
@@ -27,9 +49,12 @@ function Footer({ setMessages }: FooterProps) {
         cols={30}
         rows={3}
         ref={textareaRef}
+        onKeyDown={handleSendEnterDown}
+        placeholder={isConnected ? "채팅 내용을 입력해주세요..." : "네트워크 연결이 필요합니다"}
+        disabled={!isConnected}
       ></textarea>
       <div>
-        <button onClick={sendClickHandler} css={sendButtonStyle}>
+        <button css={isConnected ? sendButtonStyle : disabledSendButtonStyle} onClick={handleSendClick} disabled={!isConnected}>
           보내기
         </button>
       </div>
@@ -69,6 +94,17 @@ const sendButtonStyle = css`
   &:hover {
     background-color: rgb(117, 98, 146);
   }
+`;
+
+const disabledSendButtonStyle = css`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 5px;
+  padding: 7px 10px;
+  border: none;
+  color: gray;
+  background-color: rgb(88, 74, 110);
 `;
 
 export default Footer;

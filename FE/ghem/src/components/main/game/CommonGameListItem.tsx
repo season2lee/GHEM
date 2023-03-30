@@ -106,7 +106,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         props.setColId("empty");
       }}
     >
-      <div onClick={toDetail}>
+      <div onClick={toDetail} css={relativeDiv}>
         {props.imgType === "header" && (
           <img
             css={imgsize}
@@ -150,6 +150,10 @@ const gameItem = css`
   /* margin: 5px; */
 `;
 
+const relativeDiv = css`
+  position: relative;
+`;
+
 const imgsize = css`
   width: 15rem;
   height: auto;
@@ -161,8 +165,9 @@ const inImgText = css`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  word-break: break-all;
   > p {
-    font-size: 50px;
+    font-size: large;
     color: #1e043d;
     text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 4px #fff, 0 0 7px #f6b4ff,
       0 0 10px #f1c1ff, 0 0 15px #ffd8f8, 0 0 18px #eb68ff, 0 0 23px #ffa9cb;

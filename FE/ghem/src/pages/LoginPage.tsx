@@ -21,7 +21,6 @@ function LoginPage() {
     switch (flag) {
       case "kakao":
         window.location.href = KAKAO_CALLBACK_URL;
-        // navigate(KAKAO_CALLBACK_URL); -> 이거 왜 안먹혔는지 알아보기
         break;
       case "naver":
         window.location.href = NAVER_CALLBACK_URL;

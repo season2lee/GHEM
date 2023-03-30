@@ -1,7 +1,7 @@
 class Message {
-  constructor(public id: number, public text: string) {
+  constructor(public id: number, public content: string) {
     this.id = id;
-    this.text = text;
+    this.content = content;
   }
 }
 const msg = new Message(0, "티코");

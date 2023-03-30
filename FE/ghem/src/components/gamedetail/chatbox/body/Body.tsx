@@ -3,21 +3,16 @@
   2. 날짜 경계선
 */
 import { css } from '@emotion/react'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, forwardRef } from 'react'
 import Message from './Message';
-
-// const dummyMessages = Array.from({length: 50}, () => 0);
+import { MessageType } from './MessageType';
 
 type BodyProps = {
-  messages: {
-    id: number,
-    text: string
-  }[]
+  messages: MessageType[]
 }
 
 function Body({messages}: BodyProps) {
   const bodyRef = useRef<HTMLDivElement | null>(null);
-  
 
   // 스크롤 위치 맨 아래에서 시작함
   useEffect(() => {
@@ -28,7 +23,7 @@ function Body({messages}: BodyProps) {
 
   return (
     <div css={container} ref={bodyRef}>
-      {messages.map((message, index) => <Message key={message.id} msg={message.text} isSender={index%2 === 0 ? true : false}/>)}
+      {messages.map((message, index) => <Message key={index} msg={message.content} isSender={index%2 === 0 ? true : false}/>)}
     </div>
   )
 }

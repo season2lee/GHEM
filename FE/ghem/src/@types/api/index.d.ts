@@ -41,4 +41,12 @@ declare module "apiTypes" {
     follower_id: number;
     following_id: number;
   };
+
+  export type followListType = {
+    user_id: number;
+    userProfile: string;
+    nickname: string;
+    steamId: string;
+    following?: boolean;
+  };
 }

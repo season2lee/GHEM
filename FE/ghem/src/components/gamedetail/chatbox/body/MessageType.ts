@@ -1,4 +1,3 @@
 export type MessageType = {
-  id: number,
-  text: string
+  content: string
 }

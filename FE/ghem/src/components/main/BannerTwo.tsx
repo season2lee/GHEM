@@ -1,5 +1,7 @@
 import { css } from "@emotion/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { gameRecommendState, gameRecommendStateType } from "@/store/mainState";
+import { useRecoilState, useRecoilValue } from "recoil";
 import CommonGameList from "./game/CommonGameList";
 import { PageXY } from "@/pages/MainPage";
 
@@ -12,12 +14,40 @@ type BannerTwoProps = {
   canClickWithHover: boolean;
 };
 
+// type GameList = {
+//   appid: number;
+//   discountPercent?: number;
+//   originalPrice?: number;
+//   finalPrice?: number;
+//   largeImage?: string;
+//   smallImage?: string;
+//   headerImage?: string;
+// };
+
 function BannerTwo(props: BannerTwoProps) {
+  const [gameRecommend, setGameRecommend] =
+    useRecoilState<gameRecommendStateType[]>(gameRecommendState);
+  const [secondBannerList, setSecondBannerList] = useState<{ appid: number }[]>(
+    []
+  );
+
+  useEffect(() => {
+    if (gameRecommend !== null) {
+      const newList = gameRecommend.map((game) => {
+        return { appid: game.app_id };
+      });
+      setSecondBannerList(newList);
+    } else {
+      // 내가 평가한 게임 중 하나 랜덤의 유사게임
+    }
+  }, [gameRecommend]);
+
   return (
     <div css={bannerTwoDiv}>
       <span css={bannerTwoText}>LIKE YOU LIKE</span>
+      <span>!</span>
       <CommonGameList
-        gameList={[]}
+        gameList={secondBannerList}
         imgType="capsule"
         scrollType={-1}
         setAppid={props.setAppid}

@@ -1,34 +1,58 @@
 import React from "react";
 import { css } from "@emotion/react";
-import baseProfile from "../../../assets/image/baseProfile.png";
 import { useNavigate } from "react-router-dom";
+import { followListType } from "apiTypes";
+import { deleteUserUnfollow } from "@/api/following";
 
 type FollowListItemProps = {
-  key: number;
-  followUser: string;
+  followUser: followListType;
+  followType: string;
 };
 
-function FollowListItem({ key, followUser }: FollowListItemProps) {
+function FollowListItem({ followUser, followType }: FollowListItemProps) {
   const navigate = useNavigate();
+  const userId: number | null = Number(localStorage.getItem("id"));
 
   const moveToOtherProfile = (): void => {
-    navigate("/profile/1/gamelist"); // 임시 유저 아이디
-    // 모달 닫기
+    navigate(`/profile/${followUser.user_id}/gamelist`);
+    location.reload();
   };
 
-  const handleFollowUser = (): void => {
-    // 다른 유저 팔로우
-    alert("다른 유저 팔로우");
+  const handleUnfollowUser = async (type: string): Promise<void> => {
+    // 유저 언팔로우
+    if (type === "언팔로우") {
+      const response = await deleteUserUnfollow(userId, followUser.user_id);
+
+      if (response) {
+        location.reload();
+      }
+    }
+    // 팔로워 유저 삭제
+    else if (type === "삭제") {
+      const response = await deleteUserUnfollow(followUser.user_id, userId);
+
+      if (response) {
+        location.reload();
+      }
+    }
   };
 
   return (
     <div css={wrapper}>
       <div css={userInfoWrapper} onClick={moveToOtherProfile}>
-        <img src={baseProfile} alt="유저 프로필 이미지" />
-        <span>티코</span>
-        <small>@steamid</small>
+        <img src={followUser.userProfile.substr(1, followUser.userProfile.length - 2)} alt="유저 프로필 이미지" />
+        <span>{followUser.nickname}</span>
+        {followUser.steamId === "(NULL)" ? <small>@미등록</small> : <small>@{followUser.steamId}</small>}
       </div>
-      <button onClick={handleFollowUser}>팔로우</button>
+      {followType === "팔로잉" ? (
+        <button css={unfollowButton} onClick={() => handleUnfollowUser("언팔로우")}>
+          언팔로우
+        </button>
+      ) : (
+        <button css={deleteButton} onClick={() => handleUnfollowUser("삭제")}>
+          삭제
+        </button>
+      )}
     </div>
   );
 }
@@ -53,15 +77,27 @@ const wrapper = css`
     cursor: pointer;
     border: none;
     outline: none;
-    background: #756292;
     border-radius: 20px;
     color: white;
     padding: 5px 12px;
+  }
+`;
 
-    :hover {
-      transition: all 0.5s;
-      background: #695883;
-    }
+const unfollowButton = css`
+  background: #756292;
+
+  :hover {
+    transition: all 0.5s;
+    background: #695883;
+  }
+`;
+
+const deleteButton = css`
+  background: #f90808;
+
+  :hover {
+    transition: all 0.5s;
+    background: #d50707;
   }
 `;
 
@@ -84,7 +120,7 @@ const userInfoWrapper = css`
   }
 
   > small {
-    font-size: 14px;
+    font-size: 13px;
   }
 `;
 

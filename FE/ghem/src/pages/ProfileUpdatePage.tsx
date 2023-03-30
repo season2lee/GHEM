@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
+import { mobile } from "@/util/Mixin";
+import { getUserProfile, putUserProfile } from "@/api/user";
+import { userInfoType } from "apiTypes";
 import ProfileImage from "../components/profile/common/ProfileImage";
 import ProfileNickname from "../components/profile/update/ProfileNickname";
 import ProfileBirth from "../components/profile/update/ProfileBirth";
 import ProfileGender from "../components/profile/update/ProfileGender";
 import ProfileIntroduce from "../components/profile/update/ProfileIntroduce";
-import { useNavigate } from "react-router-dom";
-import { mobile } from "@/util/Mixin";
-import { getUserProfile, putUserProfile } from "@/api/user";
-import { userInfoType } from "apiTypes";
-import baseProfile from "../assets/image/baseProfile.png";
 
 function ProfileUpdatePage() {
   const navigate = useNavigate();
   const userId: number | null = Number(localStorage.getItem("id"));
   const [nickname, setNickname] = useState<string>("");
+  const [isPossibleNickname, setIsPossibleNickname] = useState<number | null>(0);
   const [gender, setGender] = useState<number>(0);
   const [birth, setBirth] = useState<string>("");
   const [introduce, setIntroduce] = useState<string>("");
-  const [profileImage, setProfileImage] = useState<string>(baseProfile);
+  const [profileImage, setProfileImage] = useState<string>("");
 
   const getUserProfileFunc = async (id: number) => {
     const response = await getUserProfile(id);
@@ -39,31 +39,39 @@ function ProfileUpdatePage() {
   };
 
   const handleUpdateProfile = async (): Promise<void> => {
-    if (userId) {
-      setIntroduce(introduce.replaceAll("<br>", "\r\n")); // 개행 처리
+    // 유효성 검사
+    if (isPossibleNickname === 2 || isPossibleNickname === 3) {
+      alert("사용 가능한 닉네임을 입력해주세요.");
+      return;
+    }
 
-      const changedUserInfo: userInfoType = {
-        user_id: userId,
-        nickname: nickname,
-        gender: gender,
-        birth: birth,
-        introduce: introduce,
-      };
+    if (birth !== "" && !birth.match(/^(\d{4})-(\d{2})-(\d{2})$/)) {
+      alert("생년월일의 형식을 맞춰주세요.");
+      return;
+    }
 
-      const response = await putUserProfile(changedUserInfo);
-      if (response) {
-        navigate(`/profile/${userId}/gamelist`);
-      }
+    setIntroduce(introduce.replaceAll("<br>", "\r\n")); // 개행 처리
+
+    const changedUserInfo: userInfoType = {
+      user_id: userId,
+      nickname: nickname,
+      gender: gender,
+      birth: birth,
+      introduce: introduce,
+    };
+
+    const response = await putUserProfile(changedUserInfo);
+
+    if (response) {
+      navigate(`/profile/${userId}/gamelist`);
     }
   };
 
   useEffect(() => {
     if (userId) {
       getUserProfileFunc(userId);
-    }
-    // 비로그인 유저는 로그인 페이지로 이동
-    else {
-      navigate("/login");
+    } else {
+      navigate("/login"); // 비로그인 유저는 로그인 페이지로 이동
     }
   }, []);
 
@@ -72,7 +80,12 @@ function ProfileUpdatePage() {
       <div css={profileUpdateWrapper}>
         <h3>프로필 수정</h3>
         <ProfileImage size={150} src={profileImage} />
-        <ProfileNickname nickname={nickname} setNickname={setNickname} />
+        <ProfileNickname
+          nickname={nickname}
+          setNickname={setNickname}
+          isPossibleNickname={isPossibleNickname}
+          setIsPossibleNickname={setIsPossibleNickname}
+        />
         <div css={rowFlexWrapper}>
           <ProfileGender gender={gender} setGender={setGender} />
           <ProfileBirth birth={birth} setBirth={setBirth} />
