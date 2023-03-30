@@ -14,7 +14,6 @@ function ComputerSpecCPU() {
   const [selectedBrand, setSelectedBrand] = useState<string>(brand[0]);
   const [selectedSeries, setSelectedSeries] = useState<string>("");
   const [isOpenOption, setIsOpenOption] = useState<boolean>(false);
-  const [count, setCount] = useState<number>(0);
 
   const handleChangeSeries = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/g;
@@ -26,8 +25,10 @@ function ComputerSpecCPU() {
       const response = await getCpuModel(selectedBrand, e.target.value);
 
       if (response) {
-        setSeries(response.cpu_brand_list);
-        setIsOpenOption(true);
+        if (response.cpu_brand_list.length > 0) {
+          setSeries(response.cpu_brand_list);
+          setIsOpenOption(true);
+        }
       }
     }
   };
@@ -50,10 +51,6 @@ function ComputerSpecCPU() {
         cpu_com: selectedBrand,
       };
     });
-
-    // 최초에 브랜드를 설정하는 한 번은 적용 안되게
-    if (count > 1) setSelectedSeries("");
-    setCount(count + 1);
   }, [selectedBrand]);
 
   useEffect(() => {
@@ -73,7 +70,7 @@ function ComputerSpecCPU() {
           <input type="text" placeholder="시리즈" onChange={handleChangeSeries} value={selectedSeries} />
           {isOpenOption && (
             <div css={resultWrapper}>
-              {series.length &&
+              {series.length > 0 &&
                 series.map((el, idx) => (
                   <span key={idx} onClick={() => handleSelectSeries(el)}>
                     {el}
