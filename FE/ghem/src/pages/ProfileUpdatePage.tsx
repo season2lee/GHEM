@@ -14,7 +14,7 @@ function ProfileUpdatePage() {
   const navigate = useNavigate();
   const userId: number | null = Number(localStorage.getItem("id"));
   const [nickname, setNickname] = useState<string>("");
-  const [isPossible, setIsPossible] = useState<boolean | null>(null);
+  const [isPossibleNickname, setIsPossibleNickname] = useState<number | null>(0);
   const [gender, setGender] = useState<number>(0);
   const [birth, setBirth] = useState<string>("");
   const [introduce, setIntroduce] = useState<string>("");
@@ -39,12 +39,8 @@ function ProfileUpdatePage() {
   };
 
   const handleUpdateProfile = async (): Promise<void> => {
-    if (nickname === "") {
-      alert("닉네임 입력은 필수에요.");
-      return;
-    }
-
-    if (!isPossible) {
+    // 유효성 검사
+    if (isPossibleNickname === 2 || isPossibleNickname === 3) {
       alert("사용 가능한 닉네임을 입력해주세요.");
       return;
     }
@@ -87,8 +83,8 @@ function ProfileUpdatePage() {
         <ProfileNickname
           nickname={nickname}
           setNickname={setNickname}
-          isPossible={isPossible}
-          setIsPossible={setIsPossible}
+          isPossibleNickname={isPossibleNickname}
+          setIsPossibleNickname={setIsPossibleNickname}
         />
         <div css={rowFlexWrapper}>
           <ProfileGender gender={gender} setGender={setGender} />

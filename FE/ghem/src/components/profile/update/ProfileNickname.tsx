@@ -5,11 +5,11 @@ import { getNicknameCheck } from "@/api/user";
 type ProfileNicknameProps = {
   nickname: string;
   setNickname: React.Dispatch<React.SetStateAction<string>>;
-  isPossible: boolean | null;
-  setIsPossible: React.Dispatch<React.SetStateAction<boolean | null>>;
+  isPossibleNickname: number | null;
+  setIsPossibleNickname: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
-function ProfileNickname({ nickname, setNickname, isPossible, setIsPossible }: ProfileNicknameProps) {
+function ProfileNickname({ nickname, setNickname, isPossibleNickname, setIsPossibleNickname }: ProfileNicknameProps) {
   const [originNickname, setOriginNickname] = useState<string>("");
   const [isChanged, setIsChanged] = useState<boolean>(true);
 
@@ -24,7 +24,7 @@ function ProfileNickname({ nickname, setNickname, isPossible, setIsPossible }: P
 
     if (e.target.value !== "") {
       if (e.target.value === originNickname) {
-        setIsPossible(null);
+        setIsPossibleNickname(0); // 기존 닉네임과 같은 경우 무시
         return;
       }
 
@@ -32,13 +32,13 @@ function ProfileNickname({ nickname, setNickname, isPossible, setIsPossible }: P
 
       if (response) {
         if (response.isPossible) {
-          setIsPossible(true); // 사용 가능 닉네임
+          setIsPossibleNickname(1); // 사용 가능 닉네임
         } else {
-          setIsPossible(false); // 사용 불가능 닉네임
+          setIsPossibleNickname(2); // 사용 불가능 닉네임
         }
       }
     } else if (e.target.value === "") {
-      setIsPossible(null);
+      setIsPossibleNickname(3); // 검사할 닉네임이 없으면 무시
     }
   };
 
@@ -54,9 +54,9 @@ function ProfileNickname({ nickname, setNickname, isPossible, setIsPossible }: P
         <h5>닉네임</h5>
         <h5>*</h5>
         <span>(최대 6자)</span>
-        {isPossible === true ? (
+        {isPossibleNickname === 1 ? (
           <span css={nicknameCheckSpan}>사용 가능한 닉네임이에요.</span>
-        ) : isPossible === false ? (
+        ) : isPossibleNickname === 2 ? (
           <span css={nicknameNoCheckSpan}>이미 사용 중인 닉네임이에요.</span>
         ) : (
           <></>
