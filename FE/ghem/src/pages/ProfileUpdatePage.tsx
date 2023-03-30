@@ -60,10 +60,8 @@ function ProfileUpdatePage() {
   useEffect(() => {
     if (userId) {
       getUserProfileFunc(userId);
-    }
-    // 비로그인 유저는 로그인 페이지로 이동
-    else {
-      navigate("/login");
+    } else {
+      navigate("/login"); // 비로그인 유저는 로그인 페이지로 이동
     }
   }, []);
 

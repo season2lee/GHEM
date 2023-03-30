@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
-import { AiOutlineCheck } from "react-icons/ai";
 import { getNicknameCheck } from "@/api/user";
 
 type ProfileNicknameProps = {
@@ -9,7 +8,7 @@ type ProfileNicknameProps = {
 };
 
 function ProfileNickname({ nickname, setNickname }: ProfileNicknameProps) {
-  const [isPossible, setIsPossible] = useState<boolean>(true);
+  const [isPossible, setIsPossible] = useState<boolean | null>(null);
 
   const handleChangeNickname = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     if (e.target.value.length >= 6) {
@@ -38,16 +37,16 @@ function ProfileNickname({ nickname, setNickname }: ProfileNicknameProps) {
         <h5>닉네임</h5>
         <h5>*</h5>
         <span>(최대 6자)</span>
-      </div>
-      <div css={inputWrapper}>
-        <input type="text" value={nickname} onChange={handleChangeNickname} />
         {isPossible === true ? (
-          <AiOutlineCheck color="#08f908" size="23" />
+          <span css={nicknameCheckSpan}>사용 가능한 닉네임이에요.</span>
         ) : isPossible === false ? (
-          <AiOutlineCheck color="#f90808" size="23" />
+          <span css={nicknameNoCheckSpan}>이미 사용 중인 닉네임이에요.</span>
         ) : (
           <></>
         )}
+      </div>
+      <div css={inputWrapper}>
+        <input type="text" value={nickname} onChange={handleChangeNickname} />
       </div>
     </div>
   );
@@ -69,7 +68,7 @@ const headerWrapper = css`
     margin-left: 3px;
   }
 
-  > span {
+  > span:nth-of-type(1) {
     margin-left: 10px;
     font-size: 16px;
   }
@@ -92,11 +91,18 @@ const inputWrapper = css`
     font-size: 16px;
     padding: 0 5px;
   }
+`;
 
-  > svg {
-    /* color: #f90808; */
-    /* color: #08f908; */
-  }
+const nicknameCheckSpan = css`
+  margin-left: 10px;
+  font-size: 14px;
+  color: #08f908;
+`;
+
+const nicknameNoCheckSpan = css`
+  margin-left: 10px;
+  font-size: 14px;
+  color: #f90808;
 `;
 
 export default ProfileNickname;
