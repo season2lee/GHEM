@@ -117,7 +117,7 @@ public class RatingServiceImpl implements RatingService{
 
 
         List<UserGame> userGames = userGameCommonRepository.findByUser(user);
-        
+
         HttpVO http = new HttpVO();
         http.setFlag(true);
         http.setData(userGames);
