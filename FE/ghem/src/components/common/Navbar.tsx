@@ -1,32 +1,76 @@
 import { css } from "@emotion/react";
-import { useState, useEffect } from "react";
-import { FaPowerOff } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { FaPowerOff, FaSearch } from "react-icons/fa";
 import logoTitle from "../../assets/image/for_logo.png";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+type searchResultDropdown = {
+  appId: string;
+  genre: string;
+  rating: number;
+  release_date: string;
+  title: string;
+};
 
 function Navbar() {
-  const navigate = useNavigate();
+  const navigater = useNavigate();
   const userId: number | null = Number(localStorage.getItem("id"));
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
+  const [isSearch, setIsSearch] = useState<boolean>(false);
+  const [searchList, setSearchList] = useState<searchResultDropdown[]>([]);
+  const [searchWord, setSearchWord] = useState<string>("");
 
   const moveToMyProfile = () => {
     if (userId) {
-      navigate(`/profile/${userId}/gamelist`);
+      navigater(`/profile/${userId}/gamelist`);
     }
   };
 
-  const handleLogOut = () => {
-    localStorage.clear();
-    setIsLoginStatus(false);
-    navigate("/");
-  };
+  useEffect(() => {
+    if (searchWord) {
+      getSearchList();
+    }
+  }, [searchWord]);
 
   useEffect(() => {
     if (userId) {
       setIsLoginStatus(true);
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (!isSearch) {
+      setSearchList([]);
+      setSearchWord("");
+    }
+  }, [isSearch]);
+
+  const inputWord = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchWord(e.target.value);
+  };
+
+  // http://192.168.100.124:8080/search
+  const getSearchList = async () => {
+    try {
+      const response = await axios.get(
+        "http://j8d107.p.ssafy.io:32001/convenience/search",
+        {
+          params: { search: searchWord },
+        }
+      );
+      setSearchList(response.data.data);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
+  const handleLogOut = () => {
+    localStorage.clear();
+    setIsLoginStatus(false);
+    navigater("/");
+  };
 
   return (
     <div css={navbar}>
@@ -35,12 +79,42 @@ function Navbar() {
       </NavLink>
       <div>
         <NavLink to="/main">main</NavLink>
-        {isLoginStatus && <span onClick={moveToMyProfile}>profile</span>}
+        {isLoginStatus && <a onClick={moveToMyProfile}>profile</a>}
         {!isLoginStatus && <NavLink to="/login">login</NavLink>}
         {isLoginStatus && (
-          <span id="logout" onClick={handleLogOut}>
-            logout
-          </span>
+          <>
+            {/* 이건 나중에 css 수정하며 수정하겠슴다 */}
+            <span id="logout" onClick={handleLogOut}>
+              logout
+            </span>
+            <span>
+              <FaSearch
+                onClick={() => {
+                  setIsSearch(!isSearch);
+                }}
+              />
+              {isSearch && (
+                <span>
+                  <input type="text" onChange={inputWord} value={searchWord} />
+                  {searchList.length !== 0 && (
+                    <ul className="dropdown">
+                      {searchList.map((search) => {
+                        return (
+                          <li
+                            onClick={() => {
+                              navigater(`../detail/${search.appId}`);
+                            }}
+                          >
+                            {search.appId}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </span>
+              )}
+            </span>
+          </>
         )}
       </div>
     </div>
