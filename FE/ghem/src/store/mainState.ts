@@ -52,6 +52,7 @@ export const gameRecommendState = atom<gameRecommendStateType[]>({
 
 // 로그인 시 추천을 위해 평가 된 게임 
 export type evaluatedGameStateType = {
+  steam_id: number;
   app_id: number;
   rating: number;
 };
