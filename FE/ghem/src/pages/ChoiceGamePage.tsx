@@ -58,7 +58,7 @@ function ChoiceGamePage() {
   const RecommendOneGame = async ()=> {
     try {
       const response = await axios.get(
-        `http://192.168.100.124:8000/games?apps=${currentChoiceGame}`
+        `http://j8d107.p.ssafy.io:32003/games?apps=${currentChoiceGame}`
       );
       navigate("/recommendloading")
       // if (response.data === 0){
@@ -82,7 +82,7 @@ function ChoiceGamePage() {
   const EvalRecommendGameApi = async (data:{}) => {
     console.log(data)
     try {
-      const response = await axios.post("http://192.168.100.124:8000/rating",data)
+      const response = await axios.post("http://j8d107.p.ssafy.io:32003/rating",data)
       console.log(response)
     }catch (err) {
       console.log(err)
@@ -95,7 +95,7 @@ function ChoiceGamePage() {
       navigate("/recommendloading")
       try {
         const response = await axios.get(
-          `http://192.168.100.124:8000/games?apps=${choiceGameList}`
+          `http://j8d107.p.ssafy.io:32003/games?apps=${choiceGameList}`
         );
         setGameRecommend(response.data);
       } catch (err) {
