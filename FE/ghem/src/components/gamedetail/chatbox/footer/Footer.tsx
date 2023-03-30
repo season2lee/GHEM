@@ -6,11 +6,10 @@ import { MessageType } from "../body/MessageType";
 
 type FooterProps = {
   setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
-  scrollToBottom: () => void,
   isConnected: boolean
 };
 
-function Footer({ setMessages, scrollToBottom, isConnected }: FooterProps) {
+function Footer({ setMessages, isConnected }: FooterProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // 보내기 버튼 클릭 했을 때의 핸들러
@@ -40,7 +39,6 @@ function Footer({ setMessages, scrollToBottom, isConnected }: FooterProps) {
         return [...oldState, newMessage];
       })
       textareaRef.current.value = "";
-      scrollToBottom();
     }
   }
 
