@@ -1,5 +1,6 @@
 package com.ssafy.ghem.user.model.service;
 
+import com.ssafy.ghem.user.controller.exception.AlreadyExistData;
 import com.ssafy.ghem.user.controller.exception.DoesNotExistData;
 import com.ssafy.ghem.user.model.entity.Game;
 import com.ssafy.ghem.user.model.entity.User;
@@ -29,6 +30,10 @@ public class RatingServiceImpl implements RatingService{
         Game game = gameCommonRepository.findById(ratingInfo.getApp_id())
                 .orElseThrow(() -> new DoesNotExistData("해당하는 게임 정보가 없습니다."));
 
+        UserGame findUserGame = userGameCommonRepository.findByUserGame(game, user);
+
+        if(findUserGame != null) throw new AlreadyExistData("해당게임에 대한 유저의 평점이 이미 존재합니다.");
+
         UserGame usergame = UserGame.builder()
                 .rating(ratingInfo.getRating())
                 .build();
@@ -53,6 +58,9 @@ public class RatingServiceImpl implements RatingService{
                 .orElseThrow(() -> new DoesNotExistData("해당하는 게임 정보가 없습니다."));
 
         UserGame usergame = userGameCommonRepository.findByUserGame(game, user);
+
+        if(usergame == null) throw new DoesNotExistData("해당게임에 대한 유저의 평점이 존재하지 않습니다.");
+
         usergame.setRating(ratingInfo.getRating());
 
         userGameCommonRepository.save(usergame);
@@ -72,6 +80,9 @@ public class RatingServiceImpl implements RatingService{
                 .orElseThrow(() -> new DoesNotExistData("해당하는 게임 정보가 없습니다."));
 
         UserGame usergame = userGameCommonRepository.findByUserGame(game, user);
+
+        if(usergame == null) throw new DoesNotExistData("해당게임에 대한 유저의 평점이 존재하지 않습니다.");
+
         userGameCommonRepository.delete(usergame);
 
         HttpVO http = new HttpVO();
@@ -90,6 +101,8 @@ public class RatingServiceImpl implements RatingService{
 
         UserGame usergame = userGameCommonRepository.findByUserGame(game, user);
 
+        if(usergame == null) throw new DoesNotExistData("해당게임에 대한 유저의 평점이 존재하지 않습니다.");
+
         HttpVO http = new HttpVO();
         http.setFlag(true);
         http.setData(usergame);
@@ -104,7 +117,7 @@ public class RatingServiceImpl implements RatingService{
 
 
         List<UserGame> userGames = userGameCommonRepository.findByUser(user);
-
+        
         HttpVO http = new HttpVO();
         http.setFlag(true);
         http.setData(userGames);
