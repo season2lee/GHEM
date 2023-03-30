@@ -20,7 +20,6 @@ function ProfileInfo() {
   const [steamId, setSteamId] = useState<string>("미등록");
   const [introduce, setIntroduce] = useState<string>("");
   const [profileImage, setProfileImage] = useState<string>(baseProfile);
-  // 팔로잉, 팔로우 목록 가져오기
 
   const getUserProfileFunc = async (id: number) => {
     const response = await getUserProfile(id);
