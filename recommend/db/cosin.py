@@ -20,6 +20,7 @@ def update_svd_model(new_data, model):
     new_data_surprise = Dataset.load_from_df(new_data, reader)
     new_trainset = new_data_surprise.build_full_trainset()
     model.fit(new_trainset)
+    return model
 
 #아이템과 비슷한 아이템 추천------------------------------------------------------------------------------------------------------------------------------------
 

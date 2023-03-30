@@ -71,11 +71,10 @@ public class ReviewServiceImpl implements ReviewService {
 
         if(userGame == null){
             map.put("isExist", false);
-            userGame.setRating(0);
-            map.put("ReviewData", userGame);
+            map.put("ReviewRating", 0);
         } else{
             map.put("isExist", true);
-            map.put("ReviewData", userGame);
+            map.put("ReviewRating", userGame.getRating());
         }
 
         http.setData(map);

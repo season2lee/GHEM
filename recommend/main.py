@@ -108,6 +108,32 @@ app.add_middleware(
 async def root():
     return {"message" : "Hello World"}
 
+# DELETE 요청 처리 및 데이터 삽입
+@app.delete("/rating")
+async def create_rating(userGameRating : UserGameRating):
+    try:
+        ratings = ratings[~((ratings['steam_id'] == userGameRating.steam_id) & (ratings['app_id'] == userGameRating.app_id))]
+        
+        # SVD 모델 업데이트
+        svd = update_svd_model(ratings, svd)
+
+        return "Rating delete successfully", 200
+    except Exception as e:
+        return  str(e), 500
+
+# PUT 요청 처리 및 데이터 삽입
+@app.put("/rating")
+async def create_rating(userGameRating : UserGameRating):
+    try:
+        ratings.loc[((ratings['steam_id'] == userGameRating.steam_id) & (ratings['app_id'] == userGameRating.app_id)), 'rating'] = userGameRating.rating
+        
+        # SVD 모델 업데이트
+        svd = update_svd_model(ratings, svd)
+
+        return "Rating created successfully", 200
+    except Exception as e:
+        return  str(e), 500
+
 
 # POST 요청 처리 및 데이터 삽입
 @app.post("/rating")
@@ -118,8 +144,9 @@ async def create_rating(userGameRating : UserGameRating):
             columns=["steam_id", "app_id", "rating"],
         )
 
+        new_data = pd.concat([ratings, new_data], ignore_index=True)
         # SVD 모델 업데이트
-        update_svd_model(new_data, svd)
+        svd = update_svd_model(new_data, svd)
 
         return "Rating created successfully", 200
     except Exception as e:
