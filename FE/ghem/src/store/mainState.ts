@@ -62,6 +62,17 @@ export const evaluatedGameState = atom<evaluatedGameStateType[]>({
   default: [],
 });
 
+export type dbGameStateType = {
+  app_id: number;
+  rating: number;
+  user_id: number ; 
+}
+
+export const dbGameState =atom<dbGameStateType[]>({
+  key: "dbgame",
+  default:[],
+})
+
 export const specInfoState = atom<specInfoType>({
   key: "specInfoState",
   default: {

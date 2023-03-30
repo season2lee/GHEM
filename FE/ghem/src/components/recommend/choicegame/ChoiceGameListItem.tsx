@@ -6,6 +6,8 @@ import {
   evaluatedGameStateType,
   evaluatedGameState,
   choiceGameState,
+  dbGameState,
+  dbGameStateType
 } from "@/store/mainState";
 import { useRecoilState } from "recoil";
 
@@ -32,6 +34,7 @@ function ChoiceGameListItem({
     useRecoilState<evaluatedGameStateType[]>(evaluatedGameState);
   const [choiceGame, setChoiceGame] = useRecoilState(choiceGameState);
   const [currentRating, setCurrentRating] = useState<number>(0);
+  const [dbGame, setDbGame] = useRecoilState<dbGameStateType[]>(dbGameState)
 
   useEffect(() => {
     if (userId) {
@@ -62,6 +65,9 @@ function ChoiceGameListItem({
         setEvaluatedGame(evaluatedGame.map((game:evaluatedGameStateType) => {
           return game.app_id === app_id ? { ...game, rating: newRating} : game
         }))
+        setDbGame(dbGame.map((game:dbGameStateType) => {
+          return game.app_id === app_id ? { ...game, rating: newRating} : game
+        }))
       }
       else {
         // 처음 평가하는 경우
@@ -70,13 +76,15 @@ function ChoiceGameListItem({
           ...evaluatedGame,
           { steam_id: userId, app_id: app_id, rating: newRating },
         ]);
-
+        setDbGame([...dbGame,
+        {app_id: app_id, rating: newRating, user_id: userId, }])
       }
       }
   };
   // 평가 삭제하는 경우
   const RemoveEvaluated = () => {
     setEvaluatedGame(evaluatedGame.filter((game) =>game.app_id !== app_id))
+    setDbGame(dbGame.filter((game) =>game.app_id !== app_id))
     setCurrentRating(0)
     setChecked(!checked)
     console.log(evaluatedGame)
@@ -85,54 +93,71 @@ function ChoiceGameListItem({
   return (
     <div>
       {isLoginStatus ? (
-        <Card key={app_id} checked={checked}>
+        <Card key={app_id}>
           <div css={star}>
             <StarRating
               starSize={2}
               currentRating={currentRating}
               ratingHandler={ratingHandler}
+              isPromptAvailable={false}
             />
           </div>
-          <img
-            css={selectTmg}
-            src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/hero_capsule.jpg`}
+          <SelectTmg
+            src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/capsule_616x353.jpg`}
             alt={`${app_id}`}
-          />
+            checked={checked}         />
 
           {checked ? (
             <>
-              <button onClick={RemoveEvaluated}>평가 취소하기</button>
+              <button css={removeBtn} onClick={RemoveEvaluated}>평가 취소하기</button>
             </>
           ) : (
-            <></>
+            null
           )}
         </Card>
       ) : (
-        <Card key={app_id} onClick={onClickCard} checked={checked}>
-          <img
-            css={selectTmg}
-            src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/hero_capsule.jpg`}
-            alt={`${app_id}`}
-          />
+        <Card key={app_id} onClick={onClickCard}>
+          <SelectTmg
+              checked={checked}
+              src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/capsule_616x353.jpg`}
+              alt={`${app_id}`}         />
         </Card>
       )}
     </div>
   );
 }
-const Card = styled.div<{ checked: boolean }>`
-  opacity: ${(props) => (props.checked ? 0.3 : 1)};
+const Card = styled.div`
+  display: flex;
+  align-items: start;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 20rem;
+  height: 20rem;
+  border: solid 1px  #23152a;
+  border-radius: 1rem;
+  margin: 1rem;
+  background: #23152a;
 `;
 
-const selectTmg = css`
+const SelectTmg = styled.img<{ checked: boolean }>`
+  opacity: ${(props) => (props.checked ? 0.3 : 1)};
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  object-fit: cover;
+  width:18rem;
+  margin-top:1rem;
+  
 `;
 
 const star = css`
   position: absolute;
-  margin-left: 5rem;
-  margin-top: 10rem;
+  margin-top: 13rem;
 `;
+
+const removeBtn = css`
+  margin-top: 3rem;
+  opacity: 1;
+`
 export default ChoiceGameListItem;
