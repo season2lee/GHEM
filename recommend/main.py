@@ -3,11 +3,19 @@ import requests
 from surprise import Dataset, Reader, SVD
 from surprise.model_selection import train_test_split
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 from contextlib import asynccontextmanager
 from db.database import get_postgres_connection, get_mysql_connection
 from db.cosin import update_svd_model, get_similar_games, get_similar_users, recommend_games, sort_by_genre
 from db.model import Game, GameRecommendation, Genre, UserRecommendation, UserGameRating, DisLikeGame
+
+# CORS 미들웨어 설정
+origins = [
+    "http://localhost:5173",
+    "http://j8d107.p.ssafy.io:8081"
+]
+
 
 # svd, ratings, gameinfo, trainset
 userinfo = pd.DataFrame()
@@ -35,6 +43,25 @@ async def get_data_from_databases():
     # Get data from MySQL database
     async with get_mysql_connection() as mysql_conn:
         mysql_cur = await mysql_conn.cursor()
+
+        # rating in mysql
+        await mysql_cur.execute("SELECT * FROM usergame;")
+        rows = await mysql_cur.fetchall()
+        col_name = ['user_game_id', 'rating', 'app_id', 'steam_id']
+        ratings_mysql = pd.DataFrame(rows, columns=col_name)
+        ratings_mysql = ratings_mysql[['app_id','steam_id', 'rating']]
+
+        ratings = pd.concat([ratings, ratings_mysql], axis=0)
+
+
+        # user in mysql
+        await mysql_cur.execute("SELECT * FROM users;")
+        rows = await mysql_cur.fetchall()
+        col_name = ['steam_id', 'birth', 'gender', 'id', 'introduce', 'nickname', 'real_steam_id', 'user_profile']
+        userinfo_mysql = pd.DataFrame(rows, columns=col_name)
+        userinfo_mysql = userinfo_mysql[['steam_id','nickname', 'user_profile']]
+
+        userinfo = pd.concat([userinfo, userinfo_mysql], axis=0)
 
         await mysql_cur.execute("SELECT * FROM game;")
         rows = await mysql_cur.fetchall()
@@ -69,6 +96,14 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/")
 async def root():
     return {"message" : "Hello World"}
@@ -78,13 +113,6 @@ async def root():
 @app.post("/rating")
 async def create_rating(userGameRating : UserGameRating):
     try:
-        async with get_postgres_connection() as conn:
-            result = await conn.fetch(
-                "INSERT INTO ghem.rating (app_id, steam_id, rating) VALUES ($1, $2, $3);",
-                userGameRating.app_id,
-                userGameRating.steam_id,
-                userGameRating.rating,
-            )
         new_data = pd.DataFrame(
             [[userGameRating.steam_id, userGameRating.app_id, userGameRating.rating]],
             columns=["steam_id", "app_id", "rating"],
@@ -94,7 +122,6 @@ async def create_rating(userGameRating : UserGameRating):
         update_svd_model(new_data, svd)
 
         return "Rating created successfully", 200
-
     except Exception as e:
         return  str(e), 500
 
