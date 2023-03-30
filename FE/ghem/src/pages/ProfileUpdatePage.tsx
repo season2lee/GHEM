@@ -14,6 +14,7 @@ function ProfileUpdatePage() {
   const navigate = useNavigate();
   const userId: number | null = Number(localStorage.getItem("id"));
   const [nickname, setNickname] = useState<string>("");
+  const [isPossible, setIsPossible] = useState<boolean | null>(null);
   const [gender, setGender] = useState<number>(0);
   const [birth, setBirth] = useState<string>("");
   const [introduce, setIntroduce] = useState<string>("");
@@ -38,6 +39,21 @@ function ProfileUpdatePage() {
   };
 
   const handleUpdateProfile = async (): Promise<void> => {
+    if (nickname === "") {
+      alert("닉네임 입력은 필수에요.");
+      return;
+    }
+
+    if (!isPossible) {
+      alert("사용 가능한 닉네임을 입력해주세요.");
+      return;
+    }
+
+    if (birth !== "" && !birth.match(/^(\d{4})-(\d{2})-(\d{2})$/)) {
+      alert("생년월일의 형식을 맞춰주세요.");
+      return;
+    }
+
     setIntroduce(introduce.replaceAll("<br>", "\r\n")); // 개행 처리
 
     const changedUserInfo: userInfoType = {
@@ -49,6 +65,7 @@ function ProfileUpdatePage() {
     };
 
     const response = await putUserProfile(changedUserInfo);
+
     if (response) {
       navigate(`/profile/${userId}/gamelist`);
     }
@@ -67,7 +84,12 @@ function ProfileUpdatePage() {
       <div css={profileUpdateWrapper}>
         <h3>프로필 수정</h3>
         <ProfileImage size={150} src={profileImage} />
-        <ProfileNickname nickname={nickname} setNickname={setNickname} />
+        <ProfileNickname
+          nickname={nickname}
+          setNickname={setNickname}
+          isPossible={isPossible}
+          setIsPossible={setIsPossible}
+        />
         <div css={rowFlexWrapper}>
           <ProfileGender gender={gender} setGender={setGender} />
           <ProfileBirth birth={birth} setBirth={setBirth} />

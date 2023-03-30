@@ -5,12 +5,13 @@ import { getNicknameCheck } from "@/api/user";
 type ProfileNicknameProps = {
   nickname: string;
   setNickname: React.Dispatch<React.SetStateAction<string>>;
+  isPossible: boolean | null;
+  setIsPossible: React.Dispatch<React.SetStateAction<boolean | null>>;
 };
 
-function ProfileNickname({ nickname, setNickname }: ProfileNicknameProps) {
+function ProfileNickname({ nickname, setNickname, isPossible, setIsPossible }: ProfileNicknameProps) {
   const [originNickname, setOriginNickname] = useState<string>("");
   const [isChanged, setIsChanged] = useState<boolean>(true);
-  const [isPossible, setIsPossible] = useState<boolean | null>(null);
 
   const handleChangeNickname = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     setIsChanged(false);
