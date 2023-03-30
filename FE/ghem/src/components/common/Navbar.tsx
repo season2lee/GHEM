@@ -22,6 +22,7 @@ function Navbar() {
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [searchList, setSearchList] = useState<searchResultDropdown[]>([]);
   const [searchWord, setSearchWord] = useState<string>("");
+  const [searchPage, setSearchPage] = useState<number>(0);
   const { pathname } = useLocation();
 
   const moveToMyProfile = () => {
@@ -38,14 +39,17 @@ function Navbar() {
 
   useEffect(() => {
     if (!isSearch) {
+      setSearchList([]);
+      setSearchWord("");
     }
   }, [isSearch]);
 
   useEffect(() => {
     if (searchWord) {
+      // console.log(searchPage, "---------------");
       getSearchList();
     }
-  }, [searchWord]);
+  }, [searchWord, searchPage]);
 
   useEffect(() => {
     if (userId) {
@@ -55,6 +59,7 @@ function Navbar() {
 
   const inputWord = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
+    setSearchPage(0);
   };
 
   // http://192.168.100.124:8080/search
@@ -62,11 +67,13 @@ function Navbar() {
     try {
       const response = await axios.get(
         "http://j8d107.p.ssafy.io:32001/convenience/search",
+        // "http://192.168.100.124:8080/search",
         {
-          params: { search: searchWord },
+          params: { search: searchWord, page: searchPage },
         }
       );
-      setSearchList(response.data.data);
+      setSearchList(response.data.data.content);
+      // console.log(response);
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -125,6 +132,13 @@ function Navbar() {
                           </li>
                         );
                       })}
+                      <button
+                        onClick={() => {
+                          setSearchPage(searchPage + 1);
+                        }}
+                      >
+                        next
+                      </button>
                     </ul>
                   )}
                 </span>

@@ -66,7 +66,7 @@ const bannerTwoDiv = css`
   > span {
     font-size: 60px;
   }
-  margin: 10rem 6rem;
+  margin: 8rem 6rem;
   padding: 1rem 0rem 1rem 0rem;
   background-color: #352c42;
   border-radius: 30px;
