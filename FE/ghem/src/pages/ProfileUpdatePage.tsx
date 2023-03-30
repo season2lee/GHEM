@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
+import { mobile } from "@/util/Mixin";
+import { getUserProfile, putUserProfile } from "@/api/user";
+import { userInfoType } from "apiTypes";
 import ProfileImage from "../components/profile/common/ProfileImage";
 import ProfileNickname from "../components/profile/update/ProfileNickname";
 import ProfileBirth from "../components/profile/update/ProfileBirth";
 import ProfileGender from "../components/profile/update/ProfileGender";
 import ProfileIntroduce from "../components/profile/update/ProfileIntroduce";
-import { useNavigate } from "react-router-dom";
-import { mobile } from "@/util/Mixin";
-import { getUserProfile, putUserProfile } from "@/api/user";
-import { userInfoType } from "apiTypes";
-import baseProfile from "../assets/image/baseProfile.png";
 
 function ProfileUpdatePage() {
   const navigate = useNavigate();
@@ -18,7 +17,7 @@ function ProfileUpdatePage() {
   const [gender, setGender] = useState<number>(0);
   const [birth, setBirth] = useState<string>("");
   const [introduce, setIntroduce] = useState<string>("");
-  const [profileImage, setProfileImage] = useState<string>(baseProfile);
+  const [profileImage, setProfileImage] = useState<string>("");
 
   const getUserProfileFunc = async (id: number) => {
     const response = await getUserProfile(id);
@@ -39,21 +38,19 @@ function ProfileUpdatePage() {
   };
 
   const handleUpdateProfile = async (): Promise<void> => {
-    if (userId) {
-      setIntroduce(introduce.replaceAll("<br>", "\r\n")); // 개행 처리
+    setIntroduce(introduce.replaceAll("<br>", "\r\n")); // 개행 처리
 
-      const changedUserInfo: userInfoType = {
-        user_id: userId,
-        nickname: nickname,
-        gender: gender,
-        birth: birth,
-        introduce: introduce,
-      };
+    const changedUserInfo: userInfoType = {
+      user_id: userId,
+      nickname: nickname,
+      gender: gender,
+      birth: birth,
+      introduce: introduce,
+    };
 
-      const response = await putUserProfile(changedUserInfo);
-      if (response) {
-        navigate(`/profile/${userId}/gamelist`);
-      }
+    const response = await putUserProfile(changedUserInfo);
+    if (response) {
+      navigate(`/profile/${userId}/gamelist`);
     }
   };
 

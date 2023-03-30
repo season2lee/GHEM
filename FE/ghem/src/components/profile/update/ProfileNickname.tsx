@@ -8,9 +8,13 @@ type ProfileNicknameProps = {
 };
 
 function ProfileNickname({ nickname, setNickname }: ProfileNicknameProps) {
+  const [originNickname, setOriginNickname] = useState<string>("");
+  const [isChanged, setIsChanged] = useState<boolean>(true);
   const [isPossible, setIsPossible] = useState<boolean | null>(null);
 
   const handleChangeNickname = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+    setIsChanged(false);
+
     if (e.target.value.length >= 6) {
       e.target.value = e.target.value.substr(0, 6);
     }
@@ -18,18 +22,30 @@ function ProfileNickname({ nickname, setNickname }: ProfileNicknameProps) {
     setNickname(e.target.value);
 
     if (e.target.value !== "") {
+      if (e.target.value === originNickname) {
+        setIsPossible(null);
+        return;
+      }
+
       const response = await getNicknameCheck(e.target.value);
 
       if (response) {
-        // 사용 가능한 닉네임이면
         if (response.isPossible) {
-          setIsPossible(true);
+          setIsPossible(true); // 사용 가능 닉네임
         } else {
-          setIsPossible(false);
+          setIsPossible(false); // 사용 불가능 닉네임
         }
       }
+    } else if (e.target.value === "") {
+      setIsPossible(null);
     }
   };
+
+  useEffect(() => {
+    if (isChanged) {
+      setOriginNickname(nickname);
+    }
+  }, [nickname]);
 
   return (
     <div css={wrapper}>
