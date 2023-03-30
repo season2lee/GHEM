@@ -119,7 +119,7 @@ function GameDetailPage() {
     getRatingData();
     const userId: number | null = Number(localStorage.getItem("id"));
     console.log("유저 아이디:", userId);
-  }, []);
+  }, [appID]);
 
   return (
     <div>

@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import React, { useState, useEffect } from "react";
-import { FaPowerOff, FaSearch } from "react-icons/fa";
+import { FaPowerOff, FaSearch, FaUserCircle, FaHome } from "react-icons/fa";
 import logoTitle from "../../assets/image/for_logo.png";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -84,14 +84,24 @@ function Navbar() {
         <img src={logoTitle} alt="GHEM" css={title} />
       </NavLink>
       <div>
-        <NavLink to="/main">main</NavLink>
-        {isLoginStatus && <a onClick={moveToMyProfile}>profile</a>}
-        {!isLoginStatus && <NavLink to="/login">login</NavLink>}
+        <NavLink to="/main">
+          <FaHome size={20} />
+        </NavLink>
+        {isLoginStatus && (
+          <a onClick={moveToMyProfile}>
+            <FaUserCircle size={19} />
+          </a>
+        )}
+        {!isLoginStatus && (
+          <NavLink to="/login">
+            <FaPowerOff fill="#aaffb7" />
+          </NavLink>
+        )}
         {isLoginStatus && (
           <>
             {/* 이건 나중에 css 수정하며 수정하겠슴다 */}
             <span id="logout" onClick={handleLogOut}>
-              logout
+              <FaPowerOff fill="#ff8484" />
             </span>
             <span>
               <FaSearch

@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { css } from "@emotion/react";
 import { gameRecommendState } from "@/store/mainState";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router";
+import GameCanvas from "@components/common/GameCanvas";
 
 function RecommendLoading() {
-    const currentGameRecommend = useRecoilValue(gameRecommendState)
-    const navigate = useNavigate()
-    const moveToMainPage = () => {
-        navigate("/main")
-    }
+  const currentGameRecommend = useRecoilValue(gameRecommendState);
+  const navigate = useNavigate();
+  const moveToMainPage = () => {
+    navigate("/main");
+  };
 
   return (
     <div>
@@ -20,13 +21,14 @@ function RecommendLoading() {
           <span></span>
           <span></span>
         </div>
-      <div>
-        {currentGameRecommend.length === 0 ? (null) :(
+        <GameCanvas />
+        <div>
+          {currentGameRecommend.length === 0 ? null : (
             <>
-            <button onClick={moveToMainPage}>추천결과 보기</button>
+              <button onClick={moveToMainPage}>추천결과 보기</button>
             </>
-        )}
-      </div>
+          )}
+        </div>
       </div>
     </div>
   );
