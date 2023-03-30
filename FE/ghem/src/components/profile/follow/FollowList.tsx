@@ -1,10 +1,11 @@
 import React from "react";
 import { css } from "@emotion/react";
 import FollowListItem from "./FollowListItem";
+import { followListType } from "apiTypes";
 
 type FollowListProps = {
   type: string;
-  followList: string[];
+  followList: followListType[];
 };
 
 function FollowList({ type, followList }: FollowListProps) {
