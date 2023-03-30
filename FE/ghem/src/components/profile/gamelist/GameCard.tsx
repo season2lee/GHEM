@@ -57,7 +57,7 @@ function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove, 
   };
 
   const moveToGameDetail = (): void => {
-    if (!isEachFollow) return;
+    if (isEachFollow !== undefined && !isEachFollow) return;
     if (!isDragMove) {
       navigate(`/detail/${game.appId}`);
     }
@@ -129,7 +129,6 @@ const gameImageWrapper = css`
     width: 100%;
     height: 100%;
     border-radius: 5px 5px 0 0;
-    pointer-events: none;
   }
 `;
 
@@ -186,7 +185,6 @@ const blurGameContentWrapper = css`
   display: flex;
   flex-direction: column;
   padding: 10px 15px 15px 15px;
-  pointer-events: none;
 
   > span {
     font-size: 15px;

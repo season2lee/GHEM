@@ -1,6 +1,4 @@
-import React from "react";
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
 import { followListType } from "apiTypes";
 import { deleteUserUnfollow } from "@/api/following";
 
@@ -11,25 +9,20 @@ type FollowListItemProps = {
 };
 
 function FollowListItem({ followUser, followType, isMyProfile }: FollowListItemProps) {
-  const navigate = useNavigate();
   const userId: number | null = Number(localStorage.getItem("id"));
 
   const moveToOtherProfile = (): void => {
-    navigate(`/profile/${followUser.user_id}/gamelist`);
-    location.reload();
+    location.href = `/profile/${followUser.user_id}/gamelist`;
   };
 
   const handleUnfollowUser = async (type: string): Promise<void> => {
-    // 유저 언팔로우
     if (type === "언팔로우") {
       const response = await deleteUserUnfollow(userId, followUser.user_id);
 
       if (response) {
         location.reload();
       }
-    }
-    // 팔로워 유저 삭제
-    else if (type === "삭제") {
+    } else if (type === "삭제") {
       const response = await deleteUserUnfollow(followUser.user_id, userId);
 
       if (response) {
