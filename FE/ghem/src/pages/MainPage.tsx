@@ -2,7 +2,9 @@ import BannerTwo from "@components/main/BannerTwo";
 import FixedButtom from "@components/main/FixedButtom";
 import HoverGameItem from "@components/main/HoverGameItem";
 import { css } from "@emotion/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { gameRecommendState, gameRecommendStateType } from "@/store/mainState";
+import { useRecoilState } from "recoil";
 import Banner from "../components/main/Banner";
 import Discount from "../components/main/Discount";
 import FriendRecommend from "../components/main/FriendRecommend";
@@ -15,16 +17,27 @@ export type PageXY = {
 };
 
 function MainPage() {
+  const userId: number | null = Number(localStorage.getItem("id"));
+  const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
   const [isEnter, setIsEnter] = useState<boolean>(false);
   const [appid, setAppid] = useState<number | null>(null);
   const [colId, setColId] = useState<string>("empty");
   const [pageXY, setPageXY] = useState<PageXY>({ x: 0, y: 0 });
   const [canClickWithHover, setCanClickWithHover] = useState<boolean>(true);
 
+  const [gameRecommend, setGameRecommend] =
+    useRecoilState<gameRecommendStateType[]>(gameRecommendState);
+
+  useEffect(() => {
+    if (userId) {
+      setIsLoginStatus(true);
+    }
+  }, [userId]);
+
   return (
     <div css={centerDiv}>
       <FixedButtom />
-      <Banner />
+      {isLoginStatus && <Banner />}
       <BannerTwo
         setAppid={setAppid}
         setIsEnter={setIsEnter}

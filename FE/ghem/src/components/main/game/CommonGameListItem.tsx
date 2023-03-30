@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import DiscountGameDetail from "../discount/DiscountGameDetail";
 import { PageXY } from "@/pages/MainPage";
@@ -36,7 +36,8 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     `https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appid}/hero_capsule.jpg`
   );
   const [errorCount, setErrorCount] = useState<number>(0);
-  const [title, setTitle] = useState<string>();
+  const [title, setTitle] = useState<string | null>(null);
+  const [isData, setIsData] = useState<boolean>(true);
 
   const toDetail = () => {
     if (props.canClick && props.canClickWithHover) {
@@ -45,7 +46,9 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     }
   };
 
-  const getGameImgTitle = async () => {
+  const getGameImgTitle = async (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
     try {
       const response = await axios.get(
         `https://store.steampowered.com/api/appdetails?appids=${props.appid}&l=korean`
@@ -55,9 +58,13 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         setCurrentHeaderImg(
           response.data[props.appid ?? "null"].data.header_image
         );
+        setCurrentCapsuleImg(
+          `https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appid}/capsule_616x353.jpg`
+        );
       } else {
-        setCurrentHeaderImg(HeaderImg);
-        setErrorCount(errorCount + 1);
+        setIsData(false);
+        const target = e.target as HTMLInputElement;
+        target.style.display = "none";
       }
     } catch (err) {
       console.log("Error >>", err);
@@ -68,16 +75,23 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     if (errorCount === 0) {
-      getGameImgTitle();
+      getGameImgTitle(e);
+      setErrorCount(errorCount + 1);
+    } else if (errorCount === 1) {
+      setCurrentHeaderImg(HeaderImg);
       setErrorCount(errorCount + 1);
     }
   };
   const handleCapsuleImgError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
-    getGameImgTitle();
-    setErrorCount(errorCount + 2);
-    setCurrentCapsuleImg(HeroCapsule);
+    if (errorCount === 0) {
+      getGameImgTitle(e);
+      setErrorCount(errorCount + 1);
+    } else if (errorCount === 1) {
+      setCurrentCapsuleImg(HeroCapsule);
+      setErrorCount(errorCount + 1);
+    }
   };
 
   return (
@@ -109,7 +123,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
       <div onClick={toDetail} css={relativeDiv}>
         {props.imgType === "header" && (
           <img
-            css={imgsize}
+            css={headerImgSize}
             src={props.headerImage ? props.headerImage : currentHeaderImg}
             alt={`${props.appid}`}
             onError={handleHeaderImgError}
@@ -118,14 +132,14 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         )}
         {props.imgType === "capsule" && (
           <img
-            css={imgsize}
+            css={capsuleImgSize}
             src={currentCapsuleImg}
             alt={`${props.appid}`}
             onError={handleCapsuleImgError}
             draggable="false"
           />
         )}
-        {errorCount === 2 && (
+        {isData && errorCount === 2 && (
           <div css={inImgText}>
             <p>
               <b>{title}</b>
@@ -133,7 +147,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
           </div>
         )}
       </div>
-      {props.gameType === "discount" && (
+      {isData && props.gameType === "discount" && (
         <DiscountGameDetail
           discountPercent={props.discountPercent}
           originalPrice={props.originalPrice}
@@ -154,9 +168,14 @@ const relativeDiv = css`
   position: relative;
 `;
 
-const imgsize = css`
-  width: 15rem;
-  height: auto;
+const headerImgSize = css`
+  width: auto;
+  height: 20vh;
+`;
+
+const capsuleImgSize = css`
+  width: auto;
+  height: 45vh;
 `;
 
 const inImgText = css`

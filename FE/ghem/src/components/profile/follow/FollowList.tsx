@@ -6,15 +6,18 @@ import { followListType } from "apiTypes";
 type FollowListProps = {
   type: string;
   followList: followListType[];
+  isMyProfile: boolean;
 };
 
-function FollowList({ type, followList }: FollowListProps) {
+function FollowList({ type, followList, isMyProfile }: FollowListProps) {
   return (
     <div css={wrapper}>
       <span>총 {followList.length}명</span>
       <div>
         {followList.length > 0 ? (
-          followList.map((followUser, idx) => <FollowListItem key={idx} followUser={followUser} followType={type} />)
+          followList.map((followUser, idx) => (
+            <FollowListItem key={idx} followUser={followUser} followType={type} isMyProfile={isMyProfile} />
+          ))
         ) : (
           <div css={followNoneWrapper}>
             <span>관심 친구가 없습니다.</span>

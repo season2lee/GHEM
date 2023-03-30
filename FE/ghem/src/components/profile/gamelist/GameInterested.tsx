@@ -6,18 +6,20 @@ import { getInterestedGameList } from "@/api/gamelist";
 import { interestedGameListType } from "gameList";
 import GameNoneList from "./GameNoneList";
 import { useLocation } from "react-router-dom";
+import { getUserFollowerList } from "@/api/following";
+import { followListType } from "apiTypes";
 
 function GameInterested() {
   const location = useLocation();
   const pathnameId = Number(location.pathname.split("/")[2]);
-  // const userId: number | null = Number(localStorage.getItem("id"));
+  const userId: number | null = Number(localStorage.getItem("id"));
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollElement = scrollRef.current;
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
   const [gameList, setGameList] = useState<interestedGameListType[]>([]);
   const [isDragMove, setIsDragMove] = useState<boolean>(false);
-  const [isEachFollow, setIsEachFollow] = useState<boolean>(true); // 맞팔인지 확인
+  const [isEachFollow, setIsEachFollow] = useState<boolean>(false);
 
   const handleDragStart = (e: React.MouseEvent) => {
     if (!isEachFollow) return;
@@ -51,7 +53,21 @@ function GameInterested() {
     }
   };
 
+  const getFollowTypeFunc = async (): Promise<void> => {
+    const response = await getUserFollowerList(userId); // 내가 팔로우하고 있는 유저 목록 불러오기
+
+    if (response && response.length > 0) {
+      response.map((el: followListType) => {
+        if (el.user_id === pathnameId) {
+          // 서로 맞팔 상태인지 확인
+          el.following === true ? setIsEachFollow(true) : setIsEachFollow(false);
+        }
+      });
+    }
+  };
+
   useEffect(() => {
+    getFollowTypeFunc();
     getInterestedGameListFunc(pathnameId);
   }, [location]);
 

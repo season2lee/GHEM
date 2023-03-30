@@ -49,12 +49,12 @@ function ProfileAccount({ nickname, steamId }: ProfileAccountProps) {
   };
 
   const getFollowTypeFunc = async (): Promise<void> => {
-    const response = await getUserFollowerList(userId); // 내가 팔로우하고 있는 유저 목록 불러오기
+    const response = await getUserFollowerList(pathnameId);
 
     if (response && response.length > 0) {
       response.map((el: followListType) => {
-        if (el.user_id === pathnameId) {
-          el.following === true ? setFollowType("언팔로우") : setFollowType("팔로우");
+        if (el.user_id === userId) {
+          setFollowType("언팔로우");
         }
       });
     }
