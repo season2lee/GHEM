@@ -7,9 +7,10 @@ import { deleteUserUnfollow } from "@/api/following";
 type FollowListItemProps = {
   followUser: followListType;
   followType: string;
+  isMyProfile: boolean;
 };
 
-function FollowListItem({ followUser, followType }: FollowListItemProps) {
+function FollowListItem({ followUser, followType, isMyProfile }: FollowListItemProps) {
   const navigate = useNavigate();
   const userId: number | null = Number(localStorage.getItem("id"));
 
@@ -42,16 +43,24 @@ function FollowListItem({ followUser, followType }: FollowListItemProps) {
       <div css={userInfoWrapper} onClick={moveToOtherProfile}>
         <img src={followUser.userProfile.substr(1, followUser.userProfile.length - 2)} alt="유저 프로필 이미지" />
         <span>{followUser.nickname}</span>
-        {followUser.steamId === "(NULL)" ? <small>@미등록</small> : <small>@{followUser.steamId}</small>}
+        {followUser.steamId === "(NULL)" || followUser.steamId === null ? (
+          <small>@미등록</small>
+        ) : (
+          <small>@{followUser.steamId}</small>
+        )}
       </div>
-      {followType === "팔로잉" ? (
-        <button css={unfollowButton} onClick={() => handleUnfollowUser("언팔로우")}>
-          언팔로우
-        </button>
+      {isMyProfile ? (
+        followType === "팔로잉" ? (
+          <button css={unfollowButton} onClick={() => handleUnfollowUser("언팔로우")}>
+            언팔로우
+          </button>
+        ) : (
+          <button css={deleteButton} onClick={() => handleUnfollowUser("삭제")}>
+            삭제
+          </button>
+        )
       ) : (
-        <button css={deleteButton} onClick={() => handleUnfollowUser("삭제")}>
-          삭제
-        </button>
+        <></>
       )}
     </div>
   );

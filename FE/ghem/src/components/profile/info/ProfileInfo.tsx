@@ -27,8 +27,6 @@ function ProfileInfo() {
     if (response) {
       const { user } = response;
 
-      console.log(user.steamId);
-
       if (user.nickname) setNickname(user.nickname);
       if (user.steamId && user.steamId !== "(NULL)") setSteamId(user.steamId);
       if (user.introduce) setIntroduce(user.introduce);
