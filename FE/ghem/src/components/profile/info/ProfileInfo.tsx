@@ -27,8 +27,10 @@ function ProfileInfo() {
     if (response) {
       const { user } = response;
 
+      console.log(user.steamId);
+
       if (user.nickname) setNickname(user.nickname);
-      if (user.steamId) setSteamId(user.steamId);
+      if (user.steamId && user.steamId !== "(NULL)") setSteamId(user.steamId);
       if (user.introduce) setIntroduce(user.introduce);
       setProfileImage(user.userProfile.substr(1, user.userProfile.length - 2));
 
