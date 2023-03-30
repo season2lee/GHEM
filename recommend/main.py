@@ -124,6 +124,9 @@ async def create_rating(userGameRating : UserGameRating):
 # PUT 요청 처리 및 데이터 삽입
 @app.put("/rating")
 async def create_rating(userGameRating : UserGameRating):
+    if ((ratings['steam_id'] == userGameRating.steam_id) & (ratings['app_id'] == userGameRating.app_id)).any():
+        return "No data found", 200
+
     try:
         ratings.loc[((ratings['steam_id'] == userGameRating.steam_id) & (ratings['app_id'] == userGameRating.app_id)), 'rating'] = userGameRating.rating
         
@@ -138,6 +141,11 @@ async def create_rating(userGameRating : UserGameRating):
 # POST 요청 처리 및 데이터 삽입
 @app.post("/rating")
 async def create_rating(userGameRating : UserGameRating):
+    # 새로운 데이터를 추가하기 전에, 이미 존재하는 데이터인지 확인합니다.
+    if ((ratings['steam_id'] == userGameRating.steam_id) & (ratings['app_id'] == userGameRating.app_id)).any():
+    # 이미 존재하는 데이터인 경우, 새로운 데이터를 추가하지 않습니다.
+        return "Rating already exists", 200
+
     try:
         new_data = pd.DataFrame(
             [[userGameRating.steam_id, userGameRating.app_id, userGameRating.rating]],
