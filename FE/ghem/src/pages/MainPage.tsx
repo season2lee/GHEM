@@ -37,17 +37,15 @@ function MainPage() {
   return (
     <div css={centerDiv}>
       <FixedButtom />
-      <Banner />
-      {gameRecommend.length !== 0 && (
-        <BannerTwo
-          setAppid={setAppid}
-          setIsEnter={setIsEnter}
-          setColId={setColId}
-          setPageXY={setPageXY}
-          currentColId={colId}
-          canClickWithHover={canClickWithHover}
-        />
-      )}
+      {isLoginStatus && <Banner />}
+      <BannerTwo
+        setAppid={setAppid}
+        setIsEnter={setIsEnter}
+        setColId={setColId}
+        setPageXY={setPageXY}
+        currentColId={colId}
+        canClickWithHover={canClickWithHover}
+      />
       <Discount
         setAppid={setAppid}
         setIsEnter={setIsEnter}
