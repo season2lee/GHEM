@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import DiscountGameDetail from "../discount/DiscountGameDetail";
 import { PageXY } from "@/pages/MainPage";
@@ -36,7 +36,8 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     `https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appid}/hero_capsule.jpg`
   );
   const [errorCount, setErrorCount] = useState<number>(0);
-  const [title, setTitle] = useState<string>();
+  const [title, setTitle] = useState<string | null>(null);
+  const [isData, setIsData] = useState<boolean>(true);
 
   const toDetail = () => {
     if (props.canClick && props.canClickWithHover) {
@@ -45,7 +46,9 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     }
   };
 
-  const getGameImgTitle = async () => {
+  const getGameImgTitle = async (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
     try {
       const response = await axios.get(
         `https://store.steampowered.com/api/appdetails?appids=${props.appid}&l=korean`
@@ -55,9 +58,13 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         setCurrentHeaderImg(
           response.data[props.appid ?? "null"].data.header_image
         );
+        setCurrentCapsuleImg(HeroCapsule);
       } else {
         setCurrentHeaderImg(HeaderImg);
         setErrorCount(errorCount + 1);
+        setIsData(false);
+        const target = e.target as HTMLInputElement;
+        target.style.display = "none";
       }
     } catch (err) {
       console.log("Error >>", err);
@@ -68,16 +75,15 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     if (errorCount === 0) {
-      getGameImgTitle();
+      getGameImgTitle(e);
       setErrorCount(errorCount + 1);
     }
   };
   const handleCapsuleImgError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
-    getGameImgTitle();
+    getGameImgTitle(e);
     setErrorCount(errorCount + 2);
-    setCurrentCapsuleImg(HeroCapsule);
   };
 
   return (
@@ -125,7 +131,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
             draggable="false"
           />
         )}
-        {errorCount === 2 && (
+        {isData && errorCount === 2 && (
           <div css={inImgText}>
             <p>
               <b>{title}</b>
@@ -133,7 +139,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
           </div>
         )}
       </div>
-      {props.gameType === "discount" && (
+      {isData && props.gameType === "discount" && (
         <DiscountGameDetail
           discountPercent={props.discountPercent}
           originalPrice={props.originalPrice}
