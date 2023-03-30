@@ -8,14 +8,11 @@ import Message from './Message';
 import { MessageType } from './MessageType';
 
 type BodyProps = {
-  messages: MessageType[],
-  bodyRef: React.MutableRefObject<HTMLDivElement | null>
+  messages: MessageType[]
 }
 
-
-
-const ForwarededBody = forwardRef(function Body({messages, bodyRef}: BodyProps) {
-  // const bodyRef = useRef<HTMLDivElement | null>(null);
+function Body({messages}: BodyProps) {
+  const bodyRef = useRef<HTMLDivElement | null>(null);
 
   // 스크롤 위치 맨 아래에서 시작함
   useEffect(() => {
@@ -29,7 +26,7 @@ const ForwarededBody = forwardRef(function Body({messages, bodyRef}: BodyProps) 
       {messages.map((message, index) => <Message key={index} msg={message.content} isSender={index%2 === 0 ? true : false}/>)}
     </div>
   )
-})
+}
 
 const container = css`
   height: 100%;
@@ -38,4 +35,4 @@ const container = css`
   padding: 5px 10px 5px 10px;
 `
 
-export default ForwarededBody
+export default Body
