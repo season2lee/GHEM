@@ -24,15 +24,8 @@ type ChatBoxProps = {
 
 function ChatBox({brokerUrl}: ChatBoxProps) {
   const [messages, setMessages] = useState<MessageType[]>([]);
-  const bodyRef = useRef<HTMLDivElement | null>(null);
   const clientRef = useRef(new Client(STOMP_CONFIG));
   const [isConnected, setIsConnected] = useState(false);
-
-  const scrollToBottom = () => {
-    if (bodyRef.current) {
-      bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-    }
-  }
 
   const connetToBroker = () => {
     const client = clientRef.current;
@@ -72,8 +65,8 @@ function ChatBox({brokerUrl}: ChatBoxProps) {
   return (
     <div css={container}>
       <Header />
-      <Body messages={messages} bodyRef={bodyRef}/>
-      <Footer setMessages={setMessages} scrollToBottom={scrollToBottom} isConnected={isConnected} />
+      <Body messages={messages} />
+      <Footer setMessages={setMessages} isConnected={isConnected} />
     </div>
   )
 }
