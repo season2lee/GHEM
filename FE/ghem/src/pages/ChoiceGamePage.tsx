@@ -5,6 +5,8 @@ import {
   gameRecommendState,
   gameRecommendStateType,
   choiceGameState,
+  evaluatedGameState
+
 } from "@/store/mainState";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useLocation, useNavigate } from "react-router";
@@ -31,8 +33,11 @@ function ChoiceGamePage() {
   const [gameRecommend, setGameRecommend] =useRecoilState<gameRecommendStateType[]>(gameRecommendState); 
   // 비 로그인 시 추천 받은 게임  
   const currentChoiceGame = useRecoilValue(choiceGameState); // 평가 된 게임
+  const currentEvaluateGame = useRecoilValue(evaluatedGameState)
   const { state } = useLocation();
   const navigate = useNavigate();
+
+  // useEffect(() =>{console.log("@@@@",currentEvaluateGame)}, [currentEvaluateGame])
 
   useEffect(() => {
     console.log(gameList);
@@ -53,7 +58,7 @@ function ChoiceGamePage() {
   const RecommendOneGame = async ()=> {
     try {
       const response = await axios.get(
-        `http://j8d107.p.ssafy.io:32003/games?apps=${currentChoiceGame}`
+        `http://192.168.100.124:8000/games?apps=${currentChoiceGame}`
       );
       navigate("/recommendloading")
       // if (response.data === 0){
@@ -67,12 +72,30 @@ function ChoiceGamePage() {
     }
   }
 
+
+  const EvalRecommendGame = () => {
+    for ( const game of currentEvaluateGame){
+      EvalRecommendGameApi(game)
+    }
+  } 
+
+  const EvalRecommendGameApi = async (data:{}) => {
+    console.log(data)
+    try {
+      const response = await axios.post("http://192.168.100.124:8000/rating",data)
+      console.log(response)
+    }catch (err) {
+      console.log(err)
+    }
+  }
+
+
   const RecommendGame = async () => {
       const choiceGameList = currentChoiceGame.join("/");
       navigate("/recommendloading")
       try {
         const response = await axios.get(
-          `http://j8d107.p.ssafy.io:32003/games?apps=${choiceGameList}`
+          `http://192.168.100.124:8000/games?apps=${choiceGameList}`
         );
         setGameRecommend(response.data);
       } catch (err) {
@@ -111,6 +134,10 @@ function ChoiceGamePage() {
           </>):(<button onClick={RecommendGame}>추천 받기</button>)}
         </>
         ) : null}
+        {currentEvaluateGame.length > 0 ? (<>
+        <button onClick={EvalRecommendGame}>추천받기</button>
+        </>):(<>
+        </>)}
       </div>
       <div>
         <ChoiceGameList

@@ -39,7 +39,6 @@ function ChoiceGameListItem({
     } else {
       // console.log(choiceGame);
     }
-    console.log(evaluatedGame)
   }, [evaluatedGame]);
 
   // 비 로그인 시 게임 선택
@@ -52,30 +51,36 @@ function ChoiceGameListItem({
     }
   };
 
-  // 로그인 시 게임 평점 매기기 
+  // 로그인 시 게임 평점 매기기
   const ratingHandler = (newRating: number) => {
-    // 평가를 한 경우 
+    console.log(app_id)
     if (newRating !== 0) {
-      if (evaluatedGame.some((obj)=> obj.app_id === app_id )){
-        // 평가 수정하는 경우 
-      }
       setChecked(true);
-      setCurrentRating(newRating);
-      setEvaluatedGame([
-        ...evaluatedGame,
-        { app_id: app_id, rating: newRating },
-      ]);
-    } // 평가를 수정하는 경우 
-    // else{
-    //   setEvaluatedGame(evaluatedGame.filter((game) => game.app_id !== app_id));
-    //   setCurrentRating(newRating);
-    //   setEvaluatedGame([
-    //     ...evaluatedGame,
-    //     { app_id: app_id, rating: newRating },
-    //   ]);
-    //   console.log(evaluatedGame)
-    // }
+      if (evaluatedGame.some((obj) => obj.app_id === app_id)) {
+        // 평가 수정하는 경우
+        setCurrentRating(newRating);
+        setEvaluatedGame(evaluatedGame.map((game:evaluatedGameStateType) => {
+          return game.app_id === app_id ? { ...game, rating: newRating} : game
+        }))
+      }
+      else {
+        // 처음 평가하는 경우
+        setCurrentRating(newRating);
+        setEvaluatedGame([
+          ...evaluatedGame,
+          { steam_id: userId, app_id: app_id, rating: newRating },
+        ]);
+
+      }
+      }
   };
+  // 평가 삭제하는 경우
+  const RemoveEvaluated = () => {
+    setEvaluatedGame(evaluatedGame.filter((game) =>game.app_id !== app_id))
+    setCurrentRating(0)
+    setChecked(!checked)
+    console.log(evaluatedGame)
+  }
 
   return (
     <div>
@@ -93,10 +98,10 @@ function ChoiceGameListItem({
             src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/hero_capsule.jpg`}
             alt={`${app_id}`}
           />
-          
+
           {checked ? (
             <>
-              <button>평가 취소하기</button>
+              <button onClick={RemoveEvaluated}>평가 취소하기</button>
             </>
           ) : (
             <></>
@@ -127,5 +132,7 @@ const selectTmg = css`
 
 const star = css`
   position: absolute;
+  margin-left: 5rem;
+  margin-top: 10rem;
 `;
 export default ChoiceGameListItem;
