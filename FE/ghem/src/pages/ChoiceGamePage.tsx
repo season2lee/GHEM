@@ -85,6 +85,7 @@ function ChoiceGamePage() {
     for (const dbGame of currentdbGame){
       dbGameApi(dbGame)
     }
+    navigate("/recommendloading")
   } 
 
   const EvalRecommendGameApi = async (data:{}) => {

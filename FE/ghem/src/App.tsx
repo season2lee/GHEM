@@ -11,6 +11,7 @@ import ProfileUpdatePage from "@/pages/ProfileUpdatePage";
 import KakaoLogin from "@components/login/KakaoLogin";
 import NaverLogin from "@components/login/NaverLogin";
 import ScrollToTop from "./util/ScrollToTop";
+import GameBanPage from "./pages/GameBanPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/profile/*" element={<ProfilePage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/*" element={<WelcomePage />} />
+        <Route path="/gameban" element={<GameBanPage />} />
         <Route path="/update/profile" element={<ProfileUpdatePage />} />
         <Route path="/oauth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/oauth/naver/callback" element={<NaverLogin />} />

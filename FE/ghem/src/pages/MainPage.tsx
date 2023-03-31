@@ -62,9 +62,13 @@ function MainPage() {
         currentColId={colId}
         canClickWithHover={canClickWithHover}
       />
-      <hr />
-      <FriendRecommend />
-      <hr />
+      {isLoginStatus && (
+        <div>
+          <hr />
+          <FriendRecommend />
+          <hr />
+        </div>
+      )}
       <SteadySeller
         setAppid={setAppid}
         setIsEnter={setIsEnter}

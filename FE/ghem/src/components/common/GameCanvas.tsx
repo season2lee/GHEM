@@ -9,17 +9,18 @@ function GameCanvas() {
     ) as HTMLCanvasElement;
     var ctx = gameCanvas.getContext("2d") as CanvasRenderingContext2D;
 
-    gameCanvas.width = window.innerWidth;
+    gameCanvas.width = (window.innerWidth * 7) / 10;
     gameCanvas.height = window.innerHeight;
 
     window.addEventListener("resize", function () {
-      gameCanvas.width = window.innerWidth;
+      gameCanvas.width = (window.innerWidth * 7) / 10;
       gameCanvas.height = window.innerHeight;
 
-      Planet.prototype.width = window.innerWidth / 10;
-      Planet.prototype.height = window.innerHeight / 5;
-      Planet.prototype.x = gameCanvas.width - window.innerWidth / 10;
-      Planet.prototype.y = gameCanvas.height - window.innerHeight / 5;
+      Planet.prototype.width = gameCanvas.width / 7;
+      Planet.prototype.height = gameCanvas.width / 7;
+      Planet.prototype.x =
+        Math.floor(Math.random() * 7) * (gameCanvas.width / 7);
+      Planet.prototype.y = 0;
     });
 
     // UFO 객체 정의
@@ -32,10 +33,10 @@ function GameCanvas() {
     };
 
     const ufo = {
-      x: 0,
-      y: window.innerHeight - (window.innerHeight * 3) / 5 + 2, // 수정된 부분
-      width: window.innerWidth / 10, // 수정된 부분
-      height: window.innerHeight / 5 - 2, // 수정된 부분
+      x: gameCanvas.width - (gameCanvas.width * 4) / 7 - 2,
+      y: window.innerHeight - window.innerHeight / 10 + 2, // 수정된 부분
+      width: gameCanvas.width / 7, // 수정된 부분
+      height: gameCanvas.width / 7 + 2, // 수정된 부분
 
       draw() {
         ctx.fillStyle = "green";
@@ -55,14 +56,14 @@ function GameCanvas() {
       speed?: number;
 
       constructor() {
-        this.x = gameCanvas.width - window.innerWidth / 10;
-        this.y = Math.floor(Math.random() * 5) * (gameCanvas.height / 5); // 수정된 부분
-        this.width = window.innerWidth / 10;
-        this.height = window.innerHeight / 5;
+        this.x = Math.floor(Math.random() * 7) * (gameCanvas.width / 7);
+        this.y = 0; // 수정된 부분
+        this.width = gameCanvas.width / 7;
+        this.height = gameCanvas.width / 7;
       }
 
       draw() {
-        ctx.fillStyle = "red";
+        // ctx.fillStyle = "red";
         ctx.fillRect(this.x, this.y, this.width, this.height);
       }
 
@@ -75,7 +76,7 @@ function GameCanvas() {
         if (this.hp && this.speed) {
           this.hp--;
           if (this.hp <= 0) {
-            score += this.speed * 10;
+            score += this.getScore();
             PlanetArray.splice(PlanetArray.indexOf(this), 1);
           }
         }
@@ -85,12 +86,12 @@ function GameCanvas() {
     class SmallPlanet extends Planet {
       constructor() {
         super();
-        this.hp = 3;
+        this.hp = 1;
         this.speed = 3;
       }
 
       draw() {
-        ctx.fillStyle = "green"; // 녹색으로 변경
+        ctx.fillStyle = "red"; // 녹색으로 변경
         ctx.fillRect(this.x, this.y, this.width, this.height);
       }
 
@@ -144,17 +145,17 @@ function GameCanvas() {
       constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
-        this.width = 10;
-        this.height = 5;
+        this.width = 5;
+        this.height = 10;
         this.speed = 10;
       }
 
       move() {
-        this.x += this.speed;
+        this.y -= this.speed;
       }
 
       draw() {
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "orange";
         ctx.fillRect(this.x, this.y, this.width, this.height);
       }
     }
@@ -173,6 +174,9 @@ function GameCanvas() {
     let timeToReset = timerResetInterval;
 
     let isGameOver = false;
+
+    let lives = 3;
+    let livesText = "Lives: ";
 
     // 점수판 그리기 함수
     function drawScoreBoard() {
@@ -207,7 +211,7 @@ function GameCanvas() {
       buttonX = textX;
       buttonY = textY + buttonHeight + 20;
       ctx.fillStyle = "blue";
-      ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+      ctx.fillRect(buttonX, buttonY - 10, buttonWidth, buttonHeight + 10);
       ctx.fillStyle = "white";
       ctx.font = fontSize * 0.6 + "px Arial";
       ctx.fillText(
@@ -217,7 +221,39 @@ function GameCanvas() {
       );
     }
 
+    // 생명 표시 함수
+    function drawLives() {
+      const rectSize = Math.min(gameCanvas.width, gameCanvas.height) / 20;
+      const spacing = rectSize / 5;
+      const startX = 10;
+      const startY = 10;
+
+      for (let i = 0; i < lives; i++) {
+        ctx.fillStyle = "red";
+        ctx.fillRect(
+          startX + i * (rectSize + spacing),
+          startY,
+          rectSize,
+          rectSize
+        );
+      }
+
+      for (let i = lives; i < 3; i++) {
+        ctx.fillStyle = "gray";
+        ctx.fillRect(
+          startX + i * (rectSize + spacing),
+          startY,
+          rectSize,
+          rectSize
+        );
+      }
+    }
+
     function gameLoop() {
+      if (lives <= 0) {
+        isGameOver = true;
+      }
+
       if (isGameOver) {
         ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
         drawGameOver();
@@ -243,6 +279,9 @@ function GameCanvas() {
         PlanetArray.push(Planet);
       }
 
+      // 생명선 그리기
+      drawLives();
+
       // 점수판 그리기
       drawScoreBoard();
 
@@ -254,11 +293,12 @@ function GameCanvas() {
       }
 
       PlanetArray.forEach((a, i, o) => {
-        if (a.x < 0) {
+        if (a.y + a.height >= gameCanvas.height) {
           o.splice(i, 1);
+          lives--;
         }
         if (a.speed) {
-          a.x -= a.speed * speedMultiplier;
+          a.y += a.speed * speedMultiplier;
         }
 
         checkCollision(ufo, a);
@@ -314,26 +354,26 @@ function GameCanvas() {
 
     // 위 아래 키를 누를 때마다 이동
     document.addEventListener("keyup", function (e) {
-      let moveAmount = gameCanvas.height / 5; // 맵 사이즈의 1/5만큼 이동
+      let moveAmount = gameCanvas.width / 7; // 맵 사이즈의 1/5만큼 이동
 
-      if (e.code === "ArrowUp") {
-        if (ufo.y - moveAmount >= 0) {
+      if (e.code === "ArrowLeft") {
+        if (ufo.x - moveAmount >= 0) {
           // 화면 위쪽 경계를 넘지 않도록 함
-          ufo.y -= moveAmount;
+          ufo.x -= moveAmount;
         } else {
-          ufo.y = 0;
+          ufo.x = 0;
         }
       }
-      if (e.code === "ArrowDown") {
-        if (ufo.y + ufo.height + moveAmount <= gameCanvas.height) {
+      if (e.code === "ArrowRight") {
+        if (ufo.x + ufo.width + moveAmount <= gameCanvas.width) {
           // 화면 아래쪽 경계를 넘지 않도록 함
-          ufo.y += moveAmount;
+          ufo.x += moveAmount;
         } else {
-          ufo.y = gameCanvas.height - ufo.height;
+          ufo.x = gameCanvas.width - ufo.width;
         }
       }
       if (e.code === "Space") {
-        let missle = new Missle(ufo.x + ufo.width, ufo.y + ufo.height / 2);
+        let missle = new Missle(ufo.x + ufo.width / 2, ufo.y);
         MissleArray.push(missle);
       }
     });
@@ -342,13 +382,14 @@ function GameCanvas() {
       if (isGameOver) {
         // 전역 변수를 사용하여 클릭 위치 검사
         if (
-          e.clientX >= buttonX &&
-          e.clientX <= buttonX + buttonWidth &&
+          e.clientX >= window.innerWidth / 2 - buttonX &&
+          e.clientX <= window.innerWidth / 2 + buttonX &&
           e.clientY >= buttonY &&
           e.clientY <= buttonY + buttonHeight
         ) {
           // 변수 및 배열 초기화
           timer = 0;
+          lives = 3;
           PlanetArray = [];
           MissleArray = [];
           score = 0;
