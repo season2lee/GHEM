@@ -14,6 +14,8 @@ function CategorySelect() {
   const navigate = useNavigate();
   const [selectedList, setSelectedList] = useState<string[]>([]);
   const [categoryList, setCategoryList] = useState<categoryListType[]>([]);
+  const userId: number | null = Number(localStorage.getItem("id"));
+
 
   useEffect(() => {
     CategoryListApi();
@@ -31,6 +33,8 @@ function CategorySelect() {
 
 
   const onSelectedItem = (checked: boolean, item: string) => {
+    // 로그인 시 
+    // 비로그인 시 
     if (checked) {
       setSelectedList([...selectedList, item]);
     } else if (!checked) {

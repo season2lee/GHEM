@@ -195,6 +195,7 @@ const searchInput =css`
   background-color: black;
   border-radius: 0.5rem;
   height: 1.5rem;
+  top: -1rem
 
 `
 
