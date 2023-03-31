@@ -72,9 +72,9 @@ function ComputerSpecCPU() {
             <div css={resultWrapper}>
               {series.length > 0 &&
                 series.map((el, idx) => (
-                  <span key={idx} onClick={() => handleSelectSeries(el)}>
+                  <div key={idx} onClick={() => handleSelectSeries(el)}>
                     {el}
-                  </span>
+                  </div>
                 ))}
             </div>
           )}
@@ -129,25 +129,28 @@ const resultWrapper = css`
   top: 45px;
   width: 100%;
   max-height: 200px;
-  padding: 10px;
   background: white;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   overflow-y: scroll;
   z-index: 2;
-  border: 2px solid #756292;
+  border: 1px solid white;
 
-  > span {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  > div {
     cursor: pointer;
     color: black;
     font-size: 14px;
-    margin-bottom: 8px;
+    background: white;
+    padding: 10px;
 
     :hover {
-      color: #756292;
-      font-weight: bold;
+      background: #756292;
+      color: white;
     }
   }
 `;

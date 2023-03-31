@@ -10,7 +10,10 @@ function ComputerSpecRAM() {
   const [selectedRam, setSelectedRam] = useState<number>(0);
 
   const handleChangeRam = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // 숫자 맞는지 유효성 검사 필요
+    const regExp = /[^0-9]/g;
+    e.target.value = e.target.value.replace(regExp, ""); // 숫자만 가능
+    e.target.value = e.target.value.replace(/(^0+)/, ""); // 맨 앞이 0이라면 제거
+
     setSelectedRam(Number(e.target.value));
     setModifiedSpecInfo((prev) => {
       return {
