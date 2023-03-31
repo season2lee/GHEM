@@ -27,28 +27,58 @@ type BannerTwoProps = {
 // };
 
 function BannerTwo(props: BannerTwoProps) {
+  const userId: number | null = Number(localStorage.getItem("id"));
   const [gameRecommend, setGameRecommend] =
     useRecoilState<gameRecommendStateType[]>(gameRecommendState);
   const [secondBannerList, setSecondBannerList] = useState<{ appid: number }[]>(
     []
   );
+  const [randomAppid, setRandomAppid] = useState<number>();
 
   useEffect(() => {
-    if (gameRecommend !== null) {
+    if (gameRecommend.length > 0) {
       const newList = gameRecommend.map((game) => {
         return { appid: game.app_id };
       });
       setSecondBannerList(newList);
     } else {
       // 내가 평가한 게임 중 하나 랜덤의 유사게임
+      // console.log("???");
+      bannerTwoListApi();
     }
   }, [gameRecommend]);
+
+  useEffect(() => {
+    if (randomAppid) {
+      randomAppidGameList();
+    }
+  }, [randomAppid]);
 
   const bannerTwoListApi = async () => {
     try {
       const response = await axios.get(
-        `http://j8d107.p.ssafy.io:32003/user/games`
+        // `http://j8d107.p.ssafy.io:32003/user/rating/${userId}`
+        `http://192.168.100.124:8080/rating/v2/${userId}`
       );
+      const ids = response.data.data;
+      setRandomAppid(ids[Math.floor(Math.random() * ids.length)]);
+      // console.log(response);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
+  const randomAppidGameList = async () => {
+    try {
+      const response = await axios.get(`http://j8d107.p.ssafy.io:32003/games`, {
+        params: { apps: randomAppid },
+      });
+      const newDataList = response.data.map((special: { app_id: number }) => {
+        return {
+          appid: special.app_id,
+        };
+      });
+      setSecondBannerList(newDataList);
     } catch (err) {
       console.log("Error >>", err);
     }
