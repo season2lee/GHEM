@@ -19,6 +19,8 @@ function FriendList() {
 
   const GetFriendApi = async () => {
     try {
+      // `http://192.168.100.124:8000/user`
+      // `http://j8d107.p.ssafy.io:32003/user`
       const response = await axios.get(`http://j8d107.p.ssafy.io:32003/user`, {
         params: { steam_id: userId },
       });
