@@ -8,6 +8,8 @@ import GameCanvas from "@components/common/GameCanvas";
 function RecommendLoading() {
   const currentGameRecommend = useRecoilValue(gameRecommendState);
   const navigate = useNavigate();
+  const userId: number | null = Number(localStorage.getItem("id"));
+
   const moveToMainPage = () => {
     navigate("/main");
   };
@@ -23,9 +25,17 @@ function RecommendLoading() {
         </div>
         <GameCanvas />
         <div>
-          {currentGameRecommend.length === 0 ? null : (
+          {userId ? (
             <>
-              <button onClick={moveToMainPage}>추천결과 보기</button>
+              <button onClick={moveToMainPage}>추천 결과 보러가기 </button>
+            </>
+          ) : (
+            <>
+              {currentGameRecommend.length === 0 ? null : (
+                <>
+                  <button onClick={moveToMainPage}>추천결과 보기</button>
+                </>
+              )}
             </>
           )}
         </div>
