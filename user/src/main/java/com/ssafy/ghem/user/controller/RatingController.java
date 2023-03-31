@@ -28,6 +28,15 @@ public class RatingController {
         return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
+    @GetMapping("/v2/{user_id}")
+    @ApiOperation(value = "user_id가 준 평점리스트를 반환하는 API\n",
+            notes = "app_id = (게임 고유번호)\n",
+            response = String.class)
+    public ResponseEntity<?> getListRatingV2(@PathVariable Long user_id){
+        HttpVO http = ratingService.getListV2(user_id);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
+    }
+
     @GetMapping("/{user_id}/{app_id}")
     @ApiOperation(value = "user_id가 app_id에 준 평점을 반환하는 API\n",
             notes = "app_id = (게임 고유번호)\n" +

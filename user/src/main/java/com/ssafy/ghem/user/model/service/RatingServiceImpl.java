@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -121,6 +122,24 @@ public class RatingServiceImpl implements RatingService{
         HttpVO http = new HttpVO();
         http.setFlag(true);
         http.setData(userGames);
+
+        return http;
+    }
+
+    @Override
+    public HttpVO getListV2(Long user_id) {
+        User user = userCommonRepository.findById(user_id)
+                .orElseThrow(() -> new DoesNotExistData("해당하는 유저 정보가 없습니다."));
+
+
+        List<UserGame> userGames = userGameCommonRepository.findByUser(user);
+
+        List<Long> result = userGames.stream().map(usergame -> usergame.getGame().getAppId()).collect(Collectors.toList());
+
+        HttpVO http = new HttpVO();
+
+        http.setFlag(true);
+        http.setData(result);
 
         return http;
     }

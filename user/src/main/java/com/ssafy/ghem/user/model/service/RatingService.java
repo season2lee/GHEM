@@ -14,4 +14,6 @@ public interface RatingService {
     HttpVO read(Long user_id, Long app_id);
 
     HttpVO getList(Long user_id);
+
+    HttpVO getListV2(Long user_id);
 }
