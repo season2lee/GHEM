@@ -52,9 +52,8 @@ public class UserController {
     }
 
     @PutMapping("/steam")
-    @ApiOperation(value = "스팀아이디를 설정할 때, 사용하시면 됩니다.\n" +
-            "ID에 특수기호를 삽입하지 못하도록 해주세요!!!",
-            notes = "",
+    @ApiOperation(value = "스팀아이디를 설정할 때, 사용",
+            notes = "user_id, steam_id를 body에 담아서 넘겨주세요",
             response = String.class)
     public ResponseEntity<?> updateSteamId(@RequestBody SteamUserVO steamUser){
         HttpVO http = userService.updateSteamId(steamUser);

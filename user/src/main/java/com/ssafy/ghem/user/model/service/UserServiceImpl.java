@@ -1,5 +1,7 @@
 package com.ssafy.ghem.user.model.service;
 
+import com.ssafy.ghem.user.controller.exception.AlreadyExistData;
+import com.ssafy.ghem.user.controller.exception.DoesNotExistData;
 import com.ssafy.ghem.user.controller.exception.NoModify;
 import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
@@ -74,9 +76,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public HttpVO updateSteamId(SteamUserVO steamUser) {
-        HttpVO http = new HttpVO();
+        User user = userCommonRepository.findUserById(steamUser.getUserId());
 
+        if (user == null)
+            throw new DoesNotExistData("해당 데이터가 존재하지 않습니다.");
+
+        user.setSteamId(steamUser.getSteamId());
+        userCommonRepository.save(user);
+
+        HttpVO http = new HttpVO();
         http.setFlag(true);
+        http.setData("success");
+
         return http;
     }
 }
