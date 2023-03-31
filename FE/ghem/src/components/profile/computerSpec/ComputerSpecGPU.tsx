@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
@@ -7,6 +7,7 @@ import { specInfoState, modifiedSpecInfoState } from "@/store/mainState";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 function ComputerSpecGPU() {
+  const resultModalRef = useRef<HTMLDivElement>(null);
   const specInfo = useRecoilValue(specInfoState);
   const setModifiedSpecInfo = useSetRecoilState(modifiedSpecInfoState);
   const [brand, setBrand] = useState<string[]>([]);
@@ -79,6 +80,17 @@ function ComputerSpecGPU() {
     });
   }, [selectedBrand]);
 
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (resultModalRef.current && !resultModalRef.current.contains(e.target as Node)) {
+        setIsOpenOption(false);
+      }
+    };
+
+    window.addEventListener("mousedown", handleClick);
+    return () => window.removeEventListener("mousedown", handleClick);
+  }, [resultModalRef]);
+
   return (
     <div css={ComputerSpecWrapper}>
       <h5>GPU</h5>
@@ -87,12 +99,12 @@ function ComputerSpecGPU() {
         <div css={inputWrapper}>
           <input type="text" placeholder="모델명" onChange={handleChangeModelName} value={selectedModelName} />
           {isOpenOption && (
-            <div css={resultWrapper}>
+            <div css={resultWrapper} ref={resultModalRef}>
               {modelName.length &&
                 modelName.map((el, idx) => (
-                  <span key={idx} onClick={() => handleSelectModelName(el)}>
+                  <div key={idx} onClick={() => handleSelectModelName(el)}>
                     {el}
-                  </span>
+                  </div>
                 ))}
             </div>
           )}
@@ -147,25 +159,28 @@ const resultWrapper = css`
   top: 45px;
   width: 100%;
   max-height: 200px;
-  padding: 10px;
   background: white;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   overflow-y: scroll;
   z-index: 1;
-  border: 2px solid #756292;
+  border: 1px solid white;
 
-  > span {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  > div {
     cursor: pointer;
     color: black;
     font-size: 14px;
-    margin-bottom: 8px;
+    background: white;
+    padding: 10px;
 
     :hover {
-      color: #756292;
-      font-weight: bold;
+      background: #756292;
+      color: white;
     }
   }
 `;

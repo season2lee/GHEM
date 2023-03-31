@@ -15,6 +15,7 @@ function ComputerSpec() {
   const modifiedSpecInfo = useRecoilValue(modifiedSpecInfoState);
   const [specInfo, setSpecInfo] = useRecoilState(specInfoState);
   const [isFirstSetting, setIsFirstSetting] = useState<boolean>(false);
+  const [isValidate, setIsValidate] = useState<boolean>(true);
 
   const handleResetComputerSpec = (): void => {
     // 사양 초기화
@@ -56,6 +57,17 @@ function ComputerSpec() {
         user_id: userId,
       };
 
+      if (
+        (modifiedSpecInfo.cpu_series === "" && specInfo.cpu_series === "") ||
+        (modifiedSpecInfo.gpu_name === "" && specInfo.gpu_name === "") ||
+        (modifiedSpecInfo.ram === 0 && specInfo.ram === 0)
+      ) {
+        setIsValidate(false);
+        return;
+      }
+
+      setIsValidate(true);
+
       const response = await postMyComputerSpec(body);
 
       if (response) {
@@ -92,6 +104,7 @@ function ComputerSpec() {
       <div css={computerSpecBox}>
         <div css={computerSpecHeader}>
           <h4>내 컴퓨터 사양</h4>
+          {!isValidate && <span>빈칸을 모두 채워주세요.</span>}
           {/* <BiReset size="28" onClick={handleResetComputerSpec} /> */}
         </div>
         <ComputerSpecCPU />
@@ -138,7 +151,7 @@ const computerSpecBox = css`
 const computerSpecHeader = css`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 40px;
 
@@ -146,6 +159,12 @@ const computerSpecHeader = css`
     color: #f90808;
     cursor: pointer;
     margin-left: 10px;
+  }
+
+  > span {
+    color: #f90808;
+    font-size: 13px;
+    font-weight: bold;
   }
 
   ${mobile} {
