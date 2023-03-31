@@ -57,12 +57,12 @@ function BannerTwo(props: BannerTwoProps) {
   const bannerTwoListApi = async () => {
     try {
       const response = await axios.get(
-        // `http://j8d107.p.ssafy.io:32003/user/rating/${userId}`
-        `http://192.168.100.124:8080/rating/v2/${userId}`
+        `http://j8d107.p.ssafy.io:32000/user/rating/v2/${userId}`
+        // `http://192.168.100.124:8080/rating/v2/${userId}`
       );
       const ids = response.data.data;
       setRandomAppid(ids[Math.floor(Math.random() * ids.length)]);
-      // console.log(response);
+      // console.log(response, "=================");
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -70,14 +70,18 @@ function BannerTwo(props: BannerTwoProps) {
 
   const randomAppidGameList = async () => {
     try {
-      const response = await axios.get(`http://j8d107.p.ssafy.io:32003/games`, {
-        params: { apps: randomAppid },
-      });
+      const response = await axios.get(
+        `http://j8d107.p.ssafy.io:32003/games/v2`,
+        {
+          params: { apps: randomAppid, steam_id: userId },
+        }
+      );
       const newDataList = response.data.map((special: { app_id: number }) => {
         return {
           appid: special.app_id,
         };
       });
+      // console.log(response, "--------------------");
       setSecondBannerList(newDataList);
     } catch (err) {
       console.log("Error >>", err);
