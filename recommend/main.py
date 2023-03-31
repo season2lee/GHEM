@@ -2,13 +2,13 @@ import pandas as pd
 import requests
 from surprise import Dataset, Reader, SVD
 from surprise.model_selection import train_test_split
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 from contextlib import asynccontextmanager
 from db.database import get_postgres_connection, get_mysql_connection
 from db.cosin import update_svd_model, get_similar_games, get_similar_users, recommend_games, sort_by_genre
-from db.model import Game, GameRecommendation, Genre, UserRecommendation, UserGameRating, DisLikeGame
+from db.model import Game, GameRecommendation, Genre, UserRecommendation, UserGameRating, DisLikeGame, GameRecomm, GenreRecomm
 
 # CORS 미들웨어 설정
 origins = [
@@ -231,8 +231,6 @@ async def create_game(game : Game):
         return  str(e), 500
 
 
-
-
 # 유저와 비슷한 유저 추천
 @app.get("/user", response_model=List[UserRecommendation])
 def recommuser(steam_id : int = 0):
@@ -245,18 +243,17 @@ def recommuser(steam_id : int = 0):
 
 # 유저에게 게임 추천 
 @app.get("/user/games", response_model=List[GameRecommendation])
-def recommusergames(steam_id : int = 0):
+def recommusergames(steam_id : int = 0, start : int = 0, end : int = 10):
     if steam_id == 0:
         return [], 200
 
-    games = recommend_games(steam_id, svd, ratings, gameinfo)
+    games = recommend_games(steam_id, svd, ratings, gameinfo, start, end)
     return games
 
-
 # 게임과 비슷한 게임 추천
-@app.get("/games", response_model=List[GameRecommendation])
+@app.get("/games/v1", response_model=List[GameRecommendation])
 def recommgames(apps : str = ''):
-    if apps == 0:
+    if apps == '':
         return '', 200
     
     app_list = apps.split('/')
@@ -265,11 +262,36 @@ def recommgames(apps : str = ''):
         app_id = int(app_id)
         game_list = get_similar_games(app_id, svd, trainset, gameinfo)
         recommend_games.extend(game_list)
-    recommend_games = list({game['app_id']: game for game in recommend_games}.values())  # 중복 제거
+
+    # 중복 제거
+    recommend_games = list({game['app_id']: game for game in recommend_games}.values())
     return recommend_games
 
-# 게임 장르별 추천 추천
-@app.get("/games/genre", response_model=List[GameRecommendation])
+# 게임과 비슷한 게임 추천
+@app.get("/games/v2", response_model=List[GameRecommendation])
+def recommgames(model : GameRecomm = Depends(GameRecomm)):
+    if model.apps == '':
+        return '', 200
+    
+    app_list = model.apps.split('/')
+    recommend_games = []
+    for app_id in app_list:
+        app_id = int(app_id)
+        game_list = get_similar_games(app_id, svd, trainset, gameinfo)
+        recommend_games.extend(game_list)
+
+    # model.steam_id에 해당하는 사용자가 이미 평가한 app_id를 찾습니다.
+    rated_app_ids = set(ratings[ratings['steam_id'] == model.steam_id]['app_id'])
+
+    # 이미 평가한 app_id를 제외하고 recommend_games를 필터링합니다.
+    recommend_games = [game for game in recommend_games if game['app_id'] not in rated_app_ids]
+
+    # 중복 제거
+    recommend_games = list({game['app_id']: game for game in recommend_games}.values())
+    return recommend_games
+
+# 게임 장르별 추천
+@app.get("/games/genre/v1", response_model=List[GameRecommendation])
 def recommgames(genre : str = '', top : int = 10):
     if genre == '':
         return '', 200
@@ -279,6 +301,29 @@ def recommgames(genre : str = '', top : int = 10):
     for g in genre_list:
         game_list = sort_by_genre(gameinfo, g, top)
         recommend_games.extend(game_list)
+    
+    # 중복 제거
+    recommend_games = list({game['app_id']: game for game in recommend_games}.values())  
+    return recommend_games
+
+# 게임 장르별 추천
+@app.get("/games/genre/v2", response_model=List[GameRecommendation])
+def recommgames(model : GenreRecomm = Depends(GenreRecomm)):
+    if model.genre == '':
+        return '', 200
+    
+    genre_list = model.genre.split('/')
+    recommend_games = []
+    for g in genre_list:
+        game_list = sort_by_genre(gameinfo, g, model.top)
+        recommend_games.extend(game_list)
+
+        # model.steam_id에 해당하는 사용자가 이미 평가한 app_id를 찾습니다.
+    rated_app_ids = set(ratings[ratings['steam_id'] == model.steam_id]['app_id'])
+
+    # 이미 평가한 app_id를 제외하고 recommend_games를 필터링합니다.
+    recommend_games = [game for game in recommend_games if game['app_id'] not in rated_app_ids]
+
     recommend_games = list({game['app_id']: game for game in recommend_games}.values())  # 중복 제거
     return recommend_games
 

@@ -115,7 +115,7 @@ def get_similar_users(steam_id, model, trainset, userinfo, start = 0, end = 10, 
 
 #유저에게 아이템 추천 ------------------------------------------------------------------------------------------------------------------------------------
 
-def recommend_games(steam_id, model, data, gameinfo, start = 0, end = 10):
+def recommend_games(steam_id, model, data, gameinfo, start, end):
     unique_items = data["app_id"].unique()
     user_item_ratings = [(steam_id, item, model.predict(steam_id, item).est) for item in unique_items]
     user_item_ratings.sort(key=lambda x: x[2], reverse=True)

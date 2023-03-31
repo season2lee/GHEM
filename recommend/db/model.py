@@ -30,3 +30,13 @@ class Game(BaseModel):
 class DisLikeGame(BaseModel):
     steam_id : int
     app_id : int
+
+
+class GameRecomm(BaseModel):
+    steam_id : int
+    apps : str = ''
+
+class GenreRecomm(BaseModel):
+    steam_id : int
+    genre : str = ''
+    top : int = 10
