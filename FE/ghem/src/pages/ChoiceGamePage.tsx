@@ -128,7 +128,7 @@ function ChoiceGamePage() {
   const TopRankListApi = async (state: string) => {
     try {
       const response = await axios.get(
-        `http://j8d107.p.ssafy.io:32003/games/genre?genre=${state}&top=30`
+        `http://192.168.100.124:8000/games/genre?genre=${state}&top=30`
       );
       let item = response.data;
       for (let i = 0; i < item.length; i++) {

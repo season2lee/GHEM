@@ -118,9 +118,9 @@ function Navbar() {
               />
               {isSearch && (
                 <span>
-                  <input type="text" onChange={inputWord} value={searchWord} />
+                  <input css={searchInput} type="text" onChange={inputWord} value={searchWord} />
                   {searchList.length !== 0 && (
-                    <ul className="dropdown">
+                    <ul css={search} className="dropdown">
                       {searchList.map((search) => {
                         return (
                           <li
@@ -152,12 +152,15 @@ function Navbar() {
 }
 
 const navbar = css`
+  position: relative;
+  z-index: 1000;
   height: 60px;
   /* background-color: #292233; */
   display: flex;
   justify-content: space-between;
   /* position: fixed;
   top: 0; */
+  align-items: center;
   width: 100%;
   div {
     padding: 1rem;
@@ -187,5 +190,16 @@ const title = css`
   height: auto;
   margin: 0.8rem;
 `;
+
+const searchInput =css`
+  background-color: black;
+  border-radius: 0.5rem;
+  height: 1.5rem;
+
+`
+
+const search = css`
+  z-index: 500;
+`
 
 export default Navbar;
