@@ -2,6 +2,7 @@ import { css, keyframes } from "@emotion/react";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import BannerGameItem from "./BannerGameItem";
+import { MdAutorenew } from "react-icons/md";
 
 type BannerList = {
   app_id: number;
@@ -76,7 +77,9 @@ function BannerGameList() {
         <span>
           <b css={boxStyle}>WHAT FOR YOU</b>
         </span>
-        <span>O</span>
+        <span>
+          <MdAutorenew size={40} color="white" />
+        </span>
       </div>
       <div
         css={recommendList}

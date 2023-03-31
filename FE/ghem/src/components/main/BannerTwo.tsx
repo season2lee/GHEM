@@ -2,8 +2,10 @@ import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
 import { gameRecommendState, gameRecommendStateType } from "@/store/mainState";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { FaInfoCircle } from "react-icons/fa";
 import CommonGameList from "./game/CommonGameList";
 import { PageXY } from "@/pages/MainPage";
+import axios from "axios";
 
 type BannerTwoProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
@@ -42,10 +44,24 @@ function BannerTwo(props: BannerTwoProps) {
     }
   }, [gameRecommend]);
 
+  const bannerTwoListApi = async () => {
+    try {
+      const response = await axios.get(
+        `http://j8d107.p.ssafy.io:32003/user/games`
+      );
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
   return (
     <div css={bannerTwoDiv}>
-      <span css={bannerTwoText}>LIKE YOU LIKE</span>
-      <span>!</span>
+      <div css={flexDiv}>
+        <span css={bannerTwoText}>LIKE YOU LIKE</span>
+        <span>
+          <FaInfoCircle size={25} />
+        </span>
+      </div>
       <CommonGameList
         gameList={secondBannerList}
         imgType="capsule"
@@ -62,12 +78,18 @@ function BannerTwo(props: BannerTwoProps) {
   );
 }
 
-const bannerTwoDiv = css`
+const flexDiv = css`
+  display: flex;
+  justify-content: space-between;
   > span {
-    font-size: 60px;
+    font-size: 70px;
+    padding: 1rem 4rem 0rem 4rem;
   }
+`;
+
+const bannerTwoDiv = css`
   margin: 8rem 6rem;
-  padding: 1rem 0rem 1rem 0rem;
+  padding: 1rem 0rem;
   background-color: #352c42;
   border-radius: 30px;
 `;
