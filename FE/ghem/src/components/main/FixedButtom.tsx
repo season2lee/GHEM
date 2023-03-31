@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { FaPowerOff } from "react-icons/fa";
+import { FaPowerOff, FaArrowUp } from "react-icons/fa";
 
 function FixedButtom() {
   const navigator = useNavigate();
@@ -20,9 +20,8 @@ function FixedButtom() {
 
   return (
     <div css={fixedBtn}>
-      <div onClick={scrollToTop}>
-        위로 가기
-        <FaPowerOff size={30} style={{ fill: "black" }} />
+      <div css={centerBtn} onClick={scrollToTop}>
+        <FaArrowUp size={30} />
       </div>
       <div
         onClick={() => {
@@ -57,6 +56,20 @@ const fixedBtn = css`
     height: 3rem;
     background-color: #eae7ef;
     border-radius: 10%;
+  }
+`;
+
+const centerBtn = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > svg {
+    fill: #292233;
+  }
+  &:hover {
+    > svg {
+      fill: #5e8b65;
+    }
   }
 `;
 
