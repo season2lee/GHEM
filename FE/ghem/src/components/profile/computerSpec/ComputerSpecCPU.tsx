@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
@@ -7,6 +7,7 @@ import { specInfoState, modifiedSpecInfoState } from "@/store/mainState";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 
 function ComputerSpecCPU() {
+  const resultModalRef = useRef<HTMLDivElement>(null);
   const specInfo = useRecoilValue(specInfoState);
   const setModifiedSpecInfo = useSetRecoilState(modifiedSpecInfoState);
   const brand: string[] = ["Intel", "AMD"];
@@ -61,6 +62,17 @@ function ComputerSpecCPU() {
     }
   }, [specInfo]);
 
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (resultModalRef.current && !resultModalRef.current.contains(e.target as Node)) {
+        setIsOpenOption(false);
+      }
+    };
+
+    window.addEventListener("mousedown", handleClick);
+    return () => window.removeEventListener("mousedown", handleClick);
+  }, [resultModalRef]);
+
   return (
     <div css={ComputerSpecWrapper}>
       <h5>CPU</h5>
@@ -69,7 +81,7 @@ function ComputerSpecCPU() {
         <div css={inputWrapper}>
           <input type="text" placeholder="시리즈" onChange={handleChangeSeries} value={selectedSeries} />
           {isOpenOption && (
-            <div css={resultWrapper}>
+            <div css={resultWrapper} ref={resultModalRef}>
               {series.length > 0 &&
                 series.map((el, idx) => (
                   <div key={idx} onClick={() => handleSelectSeries(el)}>

@@ -16,6 +16,7 @@ function GameEvaluated() {
   // const userId: number | null = Number(localStorage.getItem("id"));
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollElement = scrollRef.current;
+  const modalRef = useRef<HTMLDivElement>(null);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
   const [gameList, setGameList] = useState<evaluatedGameListType[]>([]);
@@ -77,6 +78,17 @@ function GameEvaluated() {
     getEvaluatedGameListFunc(pathnameId);
   }, [location, filterType]);
 
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        setIsOpenFilter(false);
+      }
+    };
+
+    window.addEventListener("mousedown", handleClick);
+    return () => window.removeEventListener("mousedown", handleClick);
+  }, [modalRef]);
+
   return (
     <div css={gameEvaluatedWrapper}>
       <div css={headerWrapper}>
@@ -84,7 +96,7 @@ function GameEvaluated() {
           평가했어요 <span>({gameList.length})</span>
         </h4>
         {filterType === 0 && (
-          <div css={filterWrapper} onClick={handleOpenFilter}>
+          <div css={filterWrapper} onClick={handleOpenFilter} ref={modalRef}>
             <span>필터</span>
             <img src={filterIcon} alt="필터 아이콘" />
             {isOpenFilter && <FilterDropdown setFilterType={setFilterType} />}

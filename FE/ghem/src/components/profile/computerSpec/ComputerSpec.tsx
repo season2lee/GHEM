@@ -66,6 +66,8 @@ function ComputerSpec() {
         return;
       }
 
+      setIsValidate(true);
+
       const response = await postMyComputerSpec(body);
 
       if (response) {
@@ -102,8 +104,7 @@ function ComputerSpec() {
       <div css={computerSpecBox}>
         <div css={computerSpecHeader}>
           <h4>내 컴퓨터 사양</h4>
-          <span>빈칸을 모두 채워주세요.</span>
-          {/* {isValidate === false && <span>빈칸을 모두 채워주세요.</span>} */}
+          {!isValidate && <span>빈칸을 모두 채워주세요.</span>}
           {/* <BiReset size="28" onClick={handleResetComputerSpec} /> */}
         </div>
         <ComputerSpecCPU />
