@@ -175,6 +175,7 @@ const navbar = css`
   }
   & a:hover {
     color: #aaffb7;
+    cursor: pointer;
   }
   #logout:hover {
     color: #ff8484;
