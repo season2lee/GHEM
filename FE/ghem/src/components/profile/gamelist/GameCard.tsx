@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import meatballIcon from "../../../assets/image/meatballIcon.png";
 import { FaHeart } from "react-icons/fa";
@@ -25,6 +25,7 @@ type GameCardProps = {
 function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove, isEachFollow }: GameCardProps) {
   const navigate = useNavigate();
   const location = useLocation();
+  const modalRef = useRef<HTMLDivElement>(null);
   const pathnameId = Number(location.pathname.split("/")[2]);
   const userId: number | null = Number(localStorage.getItem("id"));
   const setReviewInfo = useSetRecoilState(contentInfoState);
@@ -71,6 +72,17 @@ function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove, 
     }
   }, [location]);
 
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        setIsOpenMenu(false);
+      }
+    };
+
+    window.addEventListener("mousedown", handleClick);
+    return () => window.removeEventListener("mousedown", handleClick);
+  }, [modalRef]);
+
   return (
     <div css={gameCardWrapper}>
       <div css={gameImageWrapper}>
@@ -81,7 +93,7 @@ function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove, 
               <FaHeart size="25" onClick={handleRemoveLike} />
             </div>
           ) : (
-            <div css={gameMeatballWrapper} onClick={handleOpenMenu}>
+            <div css={gameMeatballWrapper} onClick={handleOpenMenu} ref={modalRef}>
               <img src={meatballIcon} alt="미트볼 메뉴 아이콘" />
               {isOpenMenu && <MenuDropdown />}
             </div>
