@@ -2,6 +2,7 @@ import { useState } from "react";
 import { css } from "@emotion/react";
 import { AiOutlineClose } from "react-icons/ai";
 import { putUserSteamAccount } from "@/api/user";
+import { RiInformationLine } from "react-icons/ri";
 import { steamAccountType } from "apiTypes";
 
 type ProfileSteamIdModalProps = {
@@ -9,31 +10,41 @@ type ProfileSteamIdModalProps = {
 };
 
 function ProfileSteamIdModal({ handleOpenSteamIdModal }: ProfileSteamIdModalProps) {
+  const userId: string | null = localStorage.getItem("id");
   const [steamId, setSteamId] = useState<string>("");
-  const [steamPassword, setSteamPassword] = useState<string>("");
-  const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; // 특수문자 정규식
+  const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false);
+
+  const regExp1 = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; // 특수문자 정규식
+  const regExp2 = /[^0-9]/g; // 숫자만 가능
 
   const handleCloseModal = (): void => {
     handleOpenSteamIdModal();
   };
 
   const handleChangeSteamId = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.value = e.target.value.replace(regExp, "");
+    e.target.value = e.target.value.replace(regExp1, "");
+    e.target.value = e.target.value.replace(regExp2, "");
     setSteamId(e.target.value);
   };
 
   const handleRegistSteamAccount = async (): Promise<void> => {
-    const steamAccount: steamAccountType = {
-      steamId: steamId,
-      steamPassword: steamPassword,
-    };
+    if (userId) {
+      const steamAccount: steamAccountType = {
+        steamId: steamId,
+        userId: userId,
+      };
 
-    const response = await putUserSteamAccount(steamAccount);
-    if (response) {
-      // 정상적으로 등록되었습니다.
-    } else {
-      // 일치하는 계정이 없습니다.
+      const response = await putUserSteamAccount(steamAccount);
+      if (response) {
+        // 정상적으로 등록되었습니다.
+      } else {
+        // 일치하는 계정이 없습니다.
+      }
     }
+  };
+
+  const handleOpenTooltip = (): void => {
+    setIsTooltipOpen(!isTooltipOpen);
   };
 
   return (
@@ -43,13 +54,22 @@ function ProfileSteamIdModal({ handleOpenSteamIdModal }: ProfileSteamIdModalProp
           <h5>Steam ID 등록</h5>
           <AiOutlineClose onClick={handleCloseModal} size="23" />
         </div>
-        <input type="text" placeholder="Steam ID" value={steamId} onChange={handleChangeSteamId} />
-        <input
-          type="password"
-          placeholder="Password"
-          value={steamPassword}
-          onChange={(e) => setSteamPassword(e.target.value)}
-        />
+        <div css={tooltipWrapper}>
+          <div css={tooltip} onClick={handleOpenTooltip}>
+            도움말
+            <RiInformationLine size="20" />
+          </div>
+          {isTooltipOpen && (
+            <div css={tooltipBox}>
+              <span>Steam 프로필을 다른 사용자들과 공유하려면, 17자리 고유 ID를 등록하세요 !</span>
+              <span>고유ID는 프로필 주소창에서 확인할 수 있어요.</span>
+              <a href="https://store.steampowered.com/" target="_blank">
+                고유 ID 확인하러가기
+              </a>
+            </div>
+          )}
+        </div>
+        <input type="text" placeholder="숫자만 입력 가능" value={steamId} onChange={handleChangeSteamId} />
         <div css={buttonWrapper}>
           <button onClick={handleRegistSteamAccount}>등록</button>
         </div>
@@ -108,10 +128,56 @@ const headerWrapper = css`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 
   > svg {
     cursor: pointer;
+  }
+`;
+
+const tooltipWrapper = css`
+  position: relative;
+`;
+
+const tooltip = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: right;
+  margin-bottom: 20px;
+  color: #aeaeae;
+  font-size: 15px;
+  cursor: pointer;
+
+  > svg {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+
+  :hover {
+    transition: all 0.5s;
+    color: #d3d2d2;
+  }
+`;
+
+const tooltipBox = css`
+  position: absolute;
+  width: 100%;
+  height: 140px;
+  background: white;
+  top: 25px;
+  right: 0;
+  border-radius: 5px;
+  z-index: 1;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+
+  > span {
+    font-size: 15px;
+    color: black;
   }
 `;
 
