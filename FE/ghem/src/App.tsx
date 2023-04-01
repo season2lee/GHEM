@@ -30,7 +30,7 @@ function App() {
   }, [randomAppid]);
 
   useEffect(() => {
-    if (userId !== null) {
+    if (userId) {
       bannerTwoListApi();
     }
   }, [userId]);
