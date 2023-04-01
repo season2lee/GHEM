@@ -6,6 +6,8 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
+import { getSearchList } from "@/api/search";
+
 
 type searchResultDropdown = {
   appId: string;
@@ -14,6 +16,21 @@ type searchResultDropdown = {
   release_date: string;
   title: string;
 };
+
+type gameType = {
+  appId: string;
+  genre: string;
+  negative_reviews: number;
+  positive_reivews: number ; 
+  rating: number;
+  rating_desc: string;
+  release_date: string;
+  title: string;
+}
+type responseType = {
+  content: gameType[];
+ 
+}
 
 function Navbar() {
   const navigater = useNavigate();
@@ -24,6 +41,7 @@ function Navbar() {
   const [searchWord, setSearchWord] = useState<string>("");
   const [searchPage, setSearchPage] = useState<number>(0);
   const { pathname } = useLocation();
+  const [searchValue, setSearchValue] = useState<{}>({})
 
   const moveToMyProfile = () => {
     if (userId) {
@@ -46,10 +64,14 @@ function Navbar() {
 
   useEffect(() => {
     if (searchWord) {
-      // console.log(searchPage, "---------------");
-      getSearchList();
+      setSearchValue({ search: searchWord, page: searchPage })
+      // getSearchList()
     }
   }, [searchWord, searchPage]);
+
+  useEffect(()=>{
+    SearchList(searchValue);
+  },[searchValue])
 
   useEffect(() => {
     if (userId) {
@@ -63,20 +85,11 @@ function Navbar() {
   };
 
   // http://192.168.100.124:8080/search
-  const getSearchList = async () => {
-    try {
-      const response = await axios.get(
-        "http://j8d107.p.ssafy.io:32001/convenience/search",
-        // "http://192.168.100.124:8080/search",
-        {
-          params: { search: searchWord, page: searchPage },
-        }
-      );
-      setSearchList(response.data.data.content);
-      // console.log(response);
-    } catch (err) {
-      console.log("Error >>", err);
-    }
+  const SearchList = async (param:{}) => {
+      const response:any = await getSearchList(param)
+      if (response) {
+        setSearchList(response);
+      }
   };
 
   const handleLogOut = () => {
@@ -90,7 +103,7 @@ function Navbar() {
       <NavLink to="/">
         <img src={logoTitle} alt="GHEM" css={title} />
       </NavLink>
-      <div>
+      <div css={menu}>
         <NavLink to="/main">
           <FaHome size={20} />
         </NavLink>
@@ -125,16 +138,16 @@ function Navbar() {
                     value={searchWord}
                   />
                   {searchList.length !== 0 && (
-                    <ul css={search} className="dropdown">
+                    <div css={search} className="dropdown">
                       {searchList.map((search) => {
                         return (
-                          <li
+                          <div
                             onClick={() => {
                               navigater(`../detail/${search.appId}`);
                             }}
                           >
                             {search.appId}
-                          </li>
+                          </div>
                         );
                       })}
                       <button
@@ -144,7 +157,7 @@ function Navbar() {
                       >
                         next
                       </button>
-                    </ul>
+                    </div>
                   )}
                 </span>
               )}
@@ -158,6 +171,10 @@ function Navbar() {
 
 const navbar = css`
   position: relative;
+  top:0px;
+  bottom:0px;
+  left: 0px;
+  right: 0px;
   z-index: 1000;
   height: 60px;
   /* background-color: #292233; */
@@ -196,15 +213,51 @@ const title = css`
   margin: 0.8rem;
 `;
 
-const searchInput = css`
-  background-color: black;
+const menu = css`
+  position: absolute;
+  top:0rem;
+  bottom: 0rem;
+  right: 0rem;
+  left: 0rem;
+  text-align: end;
+  align-items: center;
+`
+
+const searchInput =css`
   border-radius: 0.5rem;
-  height: 1.5rem;
-  top: -1rem;
-`;
+  border: none;
+  width: 20%;
+  box-shadow:inset .2rem .2rem .5rem #15121b,
+  inset -.2rem -.2rem .5rem #5a4b70;
+  background:none;
+  padding-top: 0.5rem;
+  text-align: center;
+  color: white;
+  
+  &:focus {
+    outline: none;
+  }
+
+
+`
 
 const search = css`
+  background:#292233;
+  right: 0px; 
+  width: 20%;
   z-index: 500;
-`;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.2rem;
+  box-shadow: .2rem .2rem .5rem #15121b,
+  -.2rem -.2rem .5rem transparent;
+  position: absolute;
+  text-align: start;
+  margin-right: 3rem;
+  div{
+    border-bottom: 1px solid white;
+
+  }
+`
 
 export default Navbar;
