@@ -82,6 +82,7 @@ function BannerGameList() {
           onClick={() => {
             setStartPage(startPage + 10);
           }}
+          style={{ cursor: "pointer" }}
         >
           <MdAutorenew size={40} color="white" />
         </span>
@@ -105,7 +106,7 @@ function BannerGameList() {
           );
         })}
       </div>
-      <div css={bannerDetail}>체크용</div>
+      <div css={bannerDetail}></div>
     </div>
   );
 }

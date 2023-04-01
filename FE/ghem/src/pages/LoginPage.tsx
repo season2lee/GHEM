@@ -35,8 +35,14 @@ function LoginPage() {
       <div css={loginBoxWrapper}>
         <img src={forLogo} alt="GHEM" css={logoSize} />
         <div css={oauthWrapper}>
-          <img src={kakaoOauth} onClick={() => handleOauthLoginClcik("kakao")} />
-          <img src={naverOauth} onClick={() => handleOauthLoginClcik("naver")} />
+          <img
+            src={kakaoOauth}
+            onClick={() => handleOauthLoginClcik("kakao")}
+          />
+          <img
+            src={naverOauth}
+            onClick={() => handleOauthLoginClcik("naver")}
+          />
         </div>
       </div>
     </div>
@@ -57,7 +63,12 @@ const wrapper = css`
 const bgWrapper = css`
   width: 100%;
   height: 600px;
-  background-image: linear-gradient(360deg, #292233 0%, rgba(41, 34, 51, 0) 169.72%), url(${loginBackground});
+  background-image: linear-gradient(
+      360deg,
+      #292233 0%,
+      rgba(41, 34, 51, 0) 169.72%
+    ),
+    url(${loginBackground});
   background-repeat: repeat-x;
   position: absolute;
   left: 0;

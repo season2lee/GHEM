@@ -118,7 +118,12 @@ function Navbar() {
               />
               {isSearch && (
                 <span>
-                  <input css={searchInput} type="text" onChange={inputWord} value={searchWord} />
+                  <input
+                    css={searchInput}
+                    type="text"
+                    onChange={inputWord}
+                    value={searchWord}
+                  />
                   {searchList.length !== 0 && (
                     <ul css={search} className="dropdown">
                       {searchList.map((search) => {
@@ -191,16 +196,15 @@ const title = css`
   margin: 0.8rem;
 `;
 
-const searchInput =css`
+const searchInput = css`
   background-color: black;
   border-radius: 0.5rem;
   height: 1.5rem;
-  top: -1rem
-
-`
+  top: -1rem;
+`;
 
 const search = css`
   z-index: 500;
-`
+`;
 
 export default Navbar;
