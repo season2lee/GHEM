@@ -18,6 +18,7 @@ function KakaoLogin() {
     const response: responseType = await getRequestKakaoLogin(code);
 
     if (response) {
+      console.log(response)
       localStorage.setItem("accessToken", response.AccessToken);
       localStorage.setItem("id", JSON.stringify(response.userId));
 

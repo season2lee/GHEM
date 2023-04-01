@@ -5,6 +5,7 @@ import axios from "axios";
 import { mobile } from "@/util/Mixin";
 import styled from "@emotion/styled";
 
+
 type categoryListType = {
   genre_id: number;
   genre: string;
