@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import BannerGameItemDetail from "./BannerGameItemDetail";
 import heroCapsule from "../../../assets/image/hero_capsule.jpg";
 import thumbupLine from "@/assets/image/thumbup-line.svg";
+import BannerGameItemButtons from "./BannerGameItemButtons";
 
 type BannerGameItemProps = {
   appId: number;
@@ -48,6 +49,7 @@ function BannerGameItem(props: BannerGameItemProps) {
         onClick={toDetail}
         style={{
           backgroundImage: `url('https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appId}/library_hero.jpg')`,
+          cursor: "pointer",
         }}
       >
         <div css={blurDiv}>
@@ -71,11 +73,11 @@ function BannerGameItem(props: BannerGameItemProps) {
                 </div>
               )}
             </div>
-            <div>게임 설명 들어갈 건데 그렇게만 알고 있으면 됨</div>
+            <BannerGameItemDetail appId={props.appId} title={props.title} />
           </div>
         </div>
       </div>
-      <BannerGameItemDetail />
+      <BannerGameItemButtons />
     </div>
   );
 }

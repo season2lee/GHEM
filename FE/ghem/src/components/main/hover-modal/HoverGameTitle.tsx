@@ -139,14 +139,27 @@ function HoverGameTitle(props: HoverGameTitleProps) {
               <span>{props.gameRecommend?.total}</span>
             </div>
             <div>
-              {isWish && <FaHeart onClick={unWishGame} size="25" color="red" />}
+              {isWish && (
+                <FaHeart
+                  onClick={unWishGame}
+                  size="25"
+                  color="red"
+                  style={{ cursor: "pointer" }}
+                />
+              )}
               {!isWish && (
-                <FaHeart onClick={wishGame} size="25" color="white" />
+                <FaHeart
+                  onClick={wishGame}
+                  size="25"
+                  color="white"
+                  style={{ cursor: "pointer" }}
+                />
               )}
               <FaRegMeh
                 onClick={() => {
                   setRealyUnLike(true);
                 }}
+                style={{ cursor: "pointer" }}
                 size="25"
                 fill="#8e83bb8f"
               />
