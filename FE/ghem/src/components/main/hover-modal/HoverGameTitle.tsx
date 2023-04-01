@@ -27,7 +27,7 @@ function HoverGameTitle(props: HoverGameTitleProps) {
     if (realyUnLike) {
       const timer = setTimeout(() => {
         setUnLikeTimer(unLikeTimer - 1);
-        console.log("카운트중", unLikeTimer);
+        // console.log("카운트중", unLikeTimer);
       }, 1000);
       if (unLikeTimer === 0) {
         if (doUnLike) {
@@ -150,13 +150,14 @@ function HoverGameTitle(props: HoverGameTitleProps) {
                 size="25"
                 fill="#8e83bb8f"
               />
-              {unLikeTimer}
+
               {realyUnLike && (
                 <p
                   onClick={() => {
                     setDoUnLike(false);
                   }}
                 >
+                  {unLikeTimer}
                   취소?
                 </p>
               )}

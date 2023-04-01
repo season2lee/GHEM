@@ -12,8 +12,63 @@ import KakaoLogin from "@components/login/KakaoLogin";
 import NaverLogin from "@components/login/NaverLogin";
 import ScrollToTop from "./util/ScrollToTop";
 import GameBanPage from "./pages/GameBanPage";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { loginRandomGameList } from "@/store/mainState";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
+  const userId: number | null = Number(localStorage.getItem("id"));
+  const [loginRandomGame, setLoginRandomGame] =
+    useRecoilState<{ appid: number }[]>(loginRandomGameList);
+  const [randomAppid, setRandomAppid] = useState<number>();
+
+  useEffect(() => {
+    if (randomAppid) {
+      randomAppidGameList();
+    }
+  }, [randomAppid]);
+
+  useEffect(() => {
+    if (userId !== null) {
+      bannerTwoListApi();
+    }
+  }, [userId]);
+
+  // 새로고침 전까지 바뀌지 않을 현재 로그인 유저를 위한
+  // 유저가 평가한 게임 중 랜덤 1개와 유사한 게임 10개 리스트
+  const bannerTwoListApi = async () => {
+    try {
+      const response = await axios.get(
+        `http://j8d107.p.ssafy.io:32000/user/rating/v2/${userId}`
+        // `http://192.168.100.124:8080/rating/v2/${userId}`
+      );
+      const ids = response.data.data;
+      setRandomAppid(ids[Math.floor(Math.random() * ids.length)]);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
+  const randomAppidGameList = async () => {
+    try {
+      const response = await axios.get(
+        `http://j8d107.p.ssafy.io:32003/games/v2`,
+        {
+          params: { apps: randomAppid, steam_id: userId },
+        }
+      );
+      const newDataList = response.data.map((special: { app_id: number }) => {
+        return {
+          appid: special.app_id,
+        };
+      });
+      setLoginRandomGame(newDataList);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
   return (
     <BrowserRouter>
       <Navbar />
