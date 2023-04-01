@@ -46,7 +46,8 @@ function Discount(props: DiscountProps) {
   const DiscountListApi = async () => {
     try {
       const response = await axios.get(
-        "https://store.steampowered.com/api/featuredcategories"
+        "https://store.steampowered.com/api/featuredcategories?currency=KRW"
+        // "https://store.steampowered.com/api/featuredcategories"
       );
 
       const newDiscountList = response.data.specials.items.map(
