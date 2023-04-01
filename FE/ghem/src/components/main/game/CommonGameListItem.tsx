@@ -96,6 +96,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
 
   return (
     <div
+      id={`${props.appid}`}
       css={gameItem}
       onMouseOver={(e) => {
         props.setAppid(props.appid);
