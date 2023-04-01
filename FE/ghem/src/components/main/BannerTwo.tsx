@@ -38,7 +38,7 @@ function BannerTwo(props: BannerTwoProps) {
       setSecondBannerList(newList);
     } else {
       // 내가 평가한 게임 중 하나 랜덤의 유사게임
-      if (userId !== null && loginRandomGame.length > 0) {
+      if (userId && loginRandomGame.length > 0) {
         setSecondBannerList(loginRandomGame);
         console.log("이부분 이후에 콘솔창 확인하고 좀 수정하세요");
       }

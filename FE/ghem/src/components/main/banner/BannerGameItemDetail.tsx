@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { GameDetailFromSteam } from "../HoverGameItem";
 
 type BannerGameItemDetailProps = {
   appId: number;
@@ -8,28 +9,38 @@ type BannerGameItemDetailProps = {
 };
 
 function BannerGameItemDetail(props: BannerGameItemDetailProps) {
+  const [gameData, setGameData] = useState<GameDetailFromSteam>();
+
+  useEffect(() => {
+    getGameDetail();
+  }, []);
+
   const getGameDetail = async () => {
     try {
       const response = await axios.get(
         `https://store.steampowered.com/api/appdetails?appids=${props.appId}&l=korean`
       );
       if (response.data[props.appId ?? "null"].success) {
-        // setGamedetail(response.data[props.appid ?? "null"].data);
-        // setHaveData("have");
+        setGameData(response.data[props.appId ?? "null"].data);
+        // console.log(response);
       } else {
-        // setHaveData("null");
+        const items = document.getElementById(`${props.appId}`) as HTMLElement;
+        items.style.display = "none";
       }
     } catch (err) {
       console.log("Error >>", err);
+      const items = document.getElementById(`${props.appId}`) as HTMLElement;
+      items.style.display = "none";
     }
   };
 
   return (
     <div css={bannerDetail}>
       <h1>{props.title}</h1>
-      {props.appId}
-      BannerGameItemDetail(게임 이미지 + 게임 설명(가격 + 설명 + 좋아요 수 +
-      가격 등 정보))
+      <p>{gameData?.short_description}</p>
+      <p>{gameData?.price_overview.final_formatted}</p>
+      {gameData?.is_free && <p>free</p>}
+      <p>{gameData?.recommendations.total}</p>
     </div>
   );
 }
