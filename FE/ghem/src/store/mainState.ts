@@ -3,7 +3,7 @@ import { userInfoStateType, contentInfoType } from "atomTypes";
 import { specInfoType } from "apiTypes";
 
 // 로그인 + 평점 준 게임이 있는 유저일 시 그 중 랜덤한 게임의 유사 게임 목록 받아올 state
-export const loginRandomGameList = atom<number[]>({
+export const loginRandomGameList = atom<{ appid: number }[]>({
   key: "loginRandomGameList",
   default: [],
 });
