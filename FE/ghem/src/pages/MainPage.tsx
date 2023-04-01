@@ -3,8 +3,6 @@ import FixedButtom from "@components/main/FixedButtom";
 import HoverGameItem from "@components/main/HoverGameItem";
 import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
-import { gameRecommendState, gameRecommendStateType } from "@/store/mainState";
-import { useRecoilState } from "recoil";
 import Banner from "../components/main/Banner";
 import Discount from "../components/main/Discount";
 import FriendRecommend from "../components/main/FriendRecommend";
@@ -24,9 +22,6 @@ function MainPage() {
   const [colId, setColId] = useState<string>("empty");
   const [pageXY, setPageXY] = useState<PageXY>({ x: 0, y: 0 });
   const [canClickWithHover, setCanClickWithHover] = useState<boolean>(true);
-
-  const [gameRecommend, setGameRecommend] =
-    useRecoilState<gameRecommendStateType[]>(gameRecommendState);
 
   useEffect(() => {
     if (userId) {

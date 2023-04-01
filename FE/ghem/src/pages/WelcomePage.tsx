@@ -6,7 +6,12 @@ import ChoiceGamePage from "./ChoiceGamePage";
 import WelcomeContainer from "@components/welcome/WelcomeContainer";
 import RecommendLoading from "@components/recommend/RecommendLoading";
 
-function WelcomePage() {
+function WelcomePage(props: {
+  setCheckLogin: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  useEffect(() => {
+    props.setCheckLogin(true);
+  }, []);
   return (
     <div>
       <Routes>

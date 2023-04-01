@@ -2,10 +2,10 @@ import { atom } from "recoil";
 import { userInfoStateType, contentInfoType } from "atomTypes";
 import { specInfoType } from "apiTypes";
 
-// hover 했을 때 메인 창의 게임 리스트 움직임 멈추기 위한 상태관리
-export const hoverEnter = atom<boolean>({
-  key: "hoverEnter",
-  default: false,
+// 로그인 + 평점 준 게임이 있는 유저일 시 그 중 랜덤한 게임의 유사 게임 목록 받아올 state
+export const loginRandomGameList = atom<{ appid: number }[]>({
+  key: "loginRandomGameList",
+  default: [],
 });
 
 export const userInfoState = atom<userInfoStateType>({
@@ -44,13 +44,13 @@ export type gameRecommendStateType = {
   positive_reviews: number;
   negative_reviews: number;
 };
-// 비 로그인 시 추천 받은 비슷한 게임 
+// 비 로그인 시 추천 받은 비슷한 게임
 export const gameRecommendState = atom<gameRecommendStateType[]>({
   key: "gameRecommend",
   default: [],
 });
 
-// 로그인 시 추천을 위해 평가 된 게임 
+// 로그인 시 추천을 위해 평가 된 게임
 export type evaluatedGameStateType = {
   steam_id: number;
   app_id: number;
@@ -65,13 +65,13 @@ export const evaluatedGameState = atom<evaluatedGameStateType[]>({
 export type dbGameStateType = {
   app_id: number;
   rating: number;
-  user_id: number ; 
-}
+  user_id: number;
+};
 
-export const dbGameState =atom<dbGameStateType[]>({
+export const dbGameState = atom<dbGameStateType[]>({
   key: "dbgame",
-  default:[],
-})
+  default: [],
+});
 
 export const specInfoState = atom<specInfoType>({
   key: "specInfoState",
@@ -101,9 +101,9 @@ export const modifiedSpecInfoState = atom<specInfoType>({
   },
 });
 
-// 비로그인 시 추천을 위해 선택 된 게임 
+// 비로그인 시 추천을 위해 선택 된 게임
 
-export const choiceGameState= atom<number[]>({
+export const choiceGameState = atom<number[]>({
   key: "choiceGame",
-  default: []
+  default: [],
 });

@@ -1,12 +1,16 @@
 import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { FaPowerOff } from "react-icons/fa";
+import { FaPowerOff, FaArrowUp } from "react-icons/fa";
+import { GrGamepad } from "react-icons/gr";
 
 function FixedButtom() {
   const navigator = useNavigate();
   const userId: number | null = Number(localStorage.getItem("id"));
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
+  const [isUpHover, setIsUpHover] = useState<boolean>(false);
+  const [isGameHover, setIsGameHover] = useState<boolean>(false);
+  const [isLoginHover, setIsLoginHover] = useState<boolean>(false);
 
   useEffect(() => {
     if (userId) {
@@ -20,24 +24,53 @@ function FixedButtom() {
 
   return (
     <div css={fixedBtn}>
-      <div onClick={scrollToTop}>
-        위로 가기
-        <FaPowerOff size={30} style={{ fill: "black" }} />
+      <div
+        css={centerBtn}
+        onClick={scrollToTop}
+        onMouseEnter={() => {
+          setIsUpHover(true);
+        }}
+        onMouseLeave={() => {
+          setIsUpHover(false);
+        }}
+        style={isUpHover ? { width: "auto", padding: "0rem 0.5rem" } : {}}
+      >
+        <FaArrowUp size={30} />
+        {isUpHover && <p>위로</p>}
       </div>
       <div
+        css={centerBtn}
         onClick={() => {
           navigator("/category");
         }}
+        onMouseEnter={() => {
+          setIsGameHover(true);
+        }}
+        onMouseLeave={() => {
+          setIsGameHover(false);
+        }}
+        style={isGameHover ? { width: "auto", padding: "0rem 0.5rem" } : {}}
       >
-        게임 더 평가하기
+        <GrGamepad size={38} />
+        {isGameHover && userId === 0 && <p>게임 새로 평가하기</p>}
+        {isGameHover && userId !== 0 && <p>게임 더 평가하기</p>}
       </div>
       {!isLoginStatus && (
         <div
+          css={centerBtn}
           onClick={() => {
             navigator("/login");
           }}
+          onMouseEnter={() => {
+            setIsLoginHover(true);
+          }}
+          onMouseLeave={() => {
+            setIsLoginHover(false);
+          }}
+          style={isLoginHover ? { width: "auto", padding: "0rem 0.5rem" } : {}}
         >
-          로그인하기
+          <FaPowerOff size={30} />
+          {isLoginHover && <p>로그인</p>}
         </div>
       )}
     </div>
@@ -49,14 +82,41 @@ const fixedBtn = css`
   bottom: 0%;
   right: 0%;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 0.5rem;
   > div {
     color: black;
     font-size: 14px;
-    margin: 1rem;
+    margin: 0.5rem;
     width: 3rem;
     height: 3rem;
     background-color: #eae7ef;
-    border-radius: 10%;
+    border-radius: 0.8rem;
+  }
+`;
+
+const centerBtn = css`
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  p {
+    padding-left: 0.5rem;
+  }
+  > svg {
+    fill: #292233;
+  }
+  &:hover {
+    > svg {
+      fill: #5e8b65;
+      stroke: #5e8b65;
+      > path {
+        stroke: #5e8b65;
+      }
+    }
   }
 `;
 

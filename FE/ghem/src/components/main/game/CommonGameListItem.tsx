@@ -96,6 +96,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
 
   return (
     <div
+      id={`${props.appid}`}
       css={gameItem}
       onMouseOver={(e) => {
         props.setAppid(props.appid);
@@ -162,6 +163,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
 
 const gameItem = css`
   /* margin: 5px; */
+  cursor: pointer;
 `;
 
 const relativeDiv = css`

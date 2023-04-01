@@ -14,6 +14,7 @@ function FriendListItem(props: FriendListItemProps) {
   return (
     <div
       css={friedCard}
+      style={{ cursor: "pointer" }}
       onClick={() => {
         if (props.canClick) {
           if (props.friend.steam_id.toString().length !== 17) {

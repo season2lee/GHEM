@@ -131,7 +131,12 @@ function Navbar() {
               />
               {isSearch && (
                 <span>
-                  <input css={searchInput} type="text" onChange={inputWord} value={searchWord} />
+                  <input
+                    css={searchInput}
+                    type="text"
+                    onChange={inputWord}
+                    value={searchWord}
+                  />
                   {searchList.length !== 0 && (
                     <div css={search} className="dropdown">
                       {searchList.map((search) => {

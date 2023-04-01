@@ -28,18 +28,19 @@ function BannerGameList() {
   useEffect(() => {
     bannerListApi();
     return () => {};
-  }, []);
+  }, [startPage]);
 
   const bannerListApi = async () => {
     try {
       const response = await axios.get(
+        // `http://192.168.100.124:8000/user/games`,
         `http://j8d107.p.ssafy.io:32003/user/games`,
         {
           params: { steam_id: userId, start: startPage, end: startPage + 10 },
         }
       );
+      // console.log(response);
       setBannerList(response.data);
-      setStartPage(startPage + 10);
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -77,7 +78,12 @@ function BannerGameList() {
         <span>
           <b css={boxStyle}>WHAT FOR YOU</b>
         </span>
-        <span>
+        <span
+          onClick={() => {
+            setStartPage(startPage + 10);
+          }}
+          style={{ cursor: "pointer" }}
+        >
           <MdAutorenew size={40} color="white" />
         </span>
       </div>
@@ -100,7 +106,7 @@ function BannerGameList() {
           );
         })}
       </div>
-      <div css={bannerDetail}>체크용</div>
+      <div css={bannerDetail}></div>
     </div>
   );
 }

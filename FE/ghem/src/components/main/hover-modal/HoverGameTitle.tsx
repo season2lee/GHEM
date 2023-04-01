@@ -14,8 +14,40 @@ type HoverGameTitleProps = {
 
 function HoverGameTitle(props: HoverGameTitleProps) {
   const userId: number | null = Number(localStorage.getItem("id"));
-  const [isLike, setIsLike] = useState<boolean>(false);
+  const [isWish, setIsWish] = useState<boolean>(false);
   const [numDib, setNumDib] = useState<number | null>(null);
+  const [realyUnLike, setRealyUnLike] = useState<boolean>(false);
+  // ㄴ 언라이크 버튼 눌렀음 확인
+  const [doUnLike, setDoUnLike] = useState<boolean>(true);
+  // ㄴ 진짜로 언라이크 할 건지 3초 뒤 확인함(취소하면 false 되어서 언라이크 못함)
+  const [unLikeTimer, setUnLikeTimer] = useState<number>(3);
+
+  // 관심없어요 3초 세기 함수
+  useEffect(() => {
+    if (realyUnLike) {
+      const timer = setTimeout(() => {
+        setUnLikeTimer(unLikeTimer - 1);
+        // console.log("카운트중", unLikeTimer);
+      }, 1000);
+      if (unLikeTimer === 0) {
+        if (doUnLike) {
+          clearInterval(timer);
+          disLikeGame();
+          console.log("관심없음 완료");
+          setRealyUnLike(false);
+        }
+      }
+    } else {
+      setUnLikeTimer(3);
+      setDoUnLike(true);
+    }
+  }, [realyUnLike, unLikeTimer]);
+
+  useEffect(() => {
+    if (!doUnLike) {
+      setRealyUnLike(false);
+    }
+  }, [doUnLike]);
 
   const getIsLike = async () => {
     try {
@@ -25,16 +57,16 @@ function HoverGameTitle(props: HoverGameTitleProps) {
       // console.log(response);
       if (response.data.data.Dib !== null) {
         setNumDib(response.data.data.Dib.dibs_id);
-        setIsLike(true);
+        setIsWish(true);
       } else {
-        setIsLike(false);
+        setIsWish(false);
       }
     } catch (err) {
       console.log("Error >>", err);
     }
   };
 
-  const likeGame = async () => {
+  const wishGame = async () => {
     const data = {
       appId: props.appid,
       userId: userId,
@@ -44,7 +76,7 @@ function HoverGameTitle(props: HoverGameTitleProps) {
         `http://j8d107.p.ssafy.io:32000/user/dibs`,
         data
       );
-      setIsLike(true);
+      setIsWish(true);
       setNumDib(response.data.data.result.dibs_id);
       // console.log(response);
     } catch (err) {
@@ -52,14 +84,31 @@ function HoverGameTitle(props: HoverGameTitleProps) {
     }
   };
 
-  const unLikeGame = async () => {
+  const unWishGame = async () => {
     try {
       const response = await axios.delete(
         `http://j8d107.p.ssafy.io:32000/user/dibs/delete/${numDib}`
       );
-      setIsLike(false);
+      setIsWish(false);
       setNumDib(null);
       // console.log(response);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
+  const disLikeGame = async () => {
+    try {
+      const response = await axios.post(
+        `http://j8d107.p.ssafy.io:32003/dislike`,
+        {
+          steam_id: userId,
+          app_id: props.appid,
+        }
+      );
+      console.log(response);
+      const items = document.getElementById(`${props.appid}`) as HTMLDivElement;
+      items.style.display = "none";
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -90,11 +139,41 @@ function HoverGameTitle(props: HoverGameTitleProps) {
               <span>{props.gameRecommend?.total}</span>
             </div>
             <div>
-              {isLike && <FaHeart onClick={unLikeGame} size="25" color="red" />}
-              {!isLike && (
-                <FaHeart onClick={likeGame} size="25" color="white" />
+              {isWish && (
+                <FaHeart
+                  onClick={unWishGame}
+                  size="25"
+                  color="red"
+                  style={{ cursor: "pointer" }}
+                />
               )}
-              <FaRegMeh size="25" fill="#8e83bb8f" />
+              {!isWish && (
+                <FaHeart
+                  onClick={wishGame}
+                  size="25"
+                  color="white"
+                  style={{ cursor: "pointer" }}
+                />
+              )}
+              <FaRegMeh
+                onClick={() => {
+                  setRealyUnLike(true);
+                }}
+                style={{ cursor: "pointer" }}
+                size="25"
+                fill="#8e83bb8f"
+              />
+
+              {realyUnLike && (
+                <p
+                  onClick={() => {
+                    setDoUnLike(false);
+                  }}
+                >
+                  {unLikeTimer}
+                  취소?
+                </p>
+              )}
             </div>
           </div>
         </div>

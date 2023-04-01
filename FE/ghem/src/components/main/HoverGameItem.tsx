@@ -80,8 +80,10 @@ function HoverGameItem(props: HoverGameItemProps) {
       }
     } catch (err) {
       console.log("Error >>", err);
+      setHaveData("null");
     }
   };
+
   return (
     <div
       css={hoverModal}
