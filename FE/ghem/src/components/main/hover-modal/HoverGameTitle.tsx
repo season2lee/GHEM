@@ -17,7 +17,9 @@ function HoverGameTitle(props: HoverGameTitleProps) {
   const [isWish, setIsWish] = useState<boolean>(false);
   const [numDib, setNumDib] = useState<number | null>(null);
   const [realyUnLike, setRealyUnLike] = useState<boolean>(false);
+  // ㄴ 언라이크 버튼 눌렀음 확인
   const [doUnLike, setDoUnLike] = useState<boolean>(true);
+  // ㄴ 진짜로 언라이크 할 건지 3초 뒤 확인함(취소하면 false 되어서 언라이크 못함)
   const [unLikeTimer, setUnLikeTimer] = useState<number>(3);
 
   // 관심없어요 3초 세기 함수
@@ -105,6 +107,8 @@ function HoverGameTitle(props: HoverGameTitleProps) {
         }
       );
       console.log(response);
+      const items = document.getElementById(`${props.appid}`) as HTMLDivElement;
+      items.style.display = "none";
     } catch (err) {
       console.log("Error >>", err);
     }

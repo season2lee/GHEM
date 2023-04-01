@@ -42,7 +42,7 @@ function BannerGameItem(props: BannerGameItemProps) {
   };
 
   return (
-    <div>
+    <div id={`${props.appId}`}>
       <div
         css={backImgDiv}
         onClick={toDetail}
