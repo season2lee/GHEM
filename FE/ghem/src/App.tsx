@@ -22,6 +22,17 @@ function App() {
   const [loginRandomGame, setLoginRandomGame] =
     useRecoilState<{ appid: number }[]>(loginRandomGameList);
   const [randomAppid, setRandomAppid] = useState<number>();
+  const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
+  const [checkLogin, setCheckLogin] = useState<boolean>(false);
+
+  // 로그인 하고 새로고침 안 하면 안 되는 방식이라서 수정이 필요함
+  useEffect(() => {
+    console.log(userId, "============");
+    if (userId) {
+      setIsLoginStatus(true);
+      console.log("why,,,");
+    }
+  }, [checkLogin]);
 
   useEffect(() => {
     if (randomAppid) {
@@ -30,10 +41,12 @@ function App() {
   }, [randomAppid]);
 
   useEffect(() => {
-    if (userId) {
+    console.log("ㅠㅠ...");
+    if (userId && isLoginStatus) {
       bannerTwoListApi();
+      console.log("여기는?", userId);
     }
-  }, [userId]);
+  }, [isLoginStatus]);
 
   // 새로고침 전까지 바뀌지 않을 현재 로그인 유저를 위한
   // 유저가 평가한 게임 중 랜덤 1개와 유사한 게임 10개 리스트
@@ -44,6 +57,7 @@ function App() {
         // `http://192.168.100.124:8080/rating/v2/${userId}`
       );
       const ids = response.data.data;
+      console.log("여기까진 된 건지");
       setRandomAppid(ids[Math.floor(Math.random() * ids.length)]);
     } catch (err) {
       console.log("Error >>", err);
@@ -79,7 +93,10 @@ function App() {
         <Route path="/detail/:appid" element={<GameDetailPage />} />
         <Route path="/profile/*" element={<ProfilePage />} />
         <Route path="/main" element={<MainPage />} />
-        <Route path="/*" element={<WelcomePage />} />
+        <Route
+          path="/*"
+          element={<WelcomePage setCheckLogin={setCheckLogin} />}
+        />
         <Route path="/gameban" element={<GameBanPage />} />
         <Route path="/update/profile" element={<ProfileUpdatePage />} />
         <Route path="/oauth/kakao/callback" element={<KakaoLogin />} />
