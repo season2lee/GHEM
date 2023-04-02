@@ -14,7 +14,9 @@ export type PageXY = {
   y: number;
 };
 
-function MainPage() {
+function MainPage(props: {
+  setCheckLogin: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const userId: number | null = Number(localStorage.getItem("id"));
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
   const [isEnter, setIsEnter] = useState<boolean>(false);
@@ -22,6 +24,10 @@ function MainPage() {
   const [colId, setColId] = useState<string>("empty");
   const [pageXY, setPageXY] = useState<PageXY>({ x: 0, y: 0 });
   const [canClickWithHover, setCanClickWithHover] = useState<boolean>(true);
+
+  useEffect(() => {
+    props.setCheckLogin(true);
+  }, []);
 
   useEffect(() => {
     if (userId) {

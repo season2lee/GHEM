@@ -2,7 +2,11 @@ import { css, keyframes } from "@emotion/react";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import BannerGameItem from "./BannerGameItem";
-import { MdAutorenew } from "react-icons/md";
+import {
+  MdAutorenew,
+  MdOutlineArrowForwardIos,
+  MdOutlineArrowBackIos,
+} from "react-icons/md";
 
 type BannerList = {
   app_id: number;
@@ -25,10 +29,18 @@ function BannerGameList() {
 
   const [bannerList, setBannerList] = useState<BannerList[]>();
 
+  const scrollElement = scrollRef.current as HTMLDivElement;
+
   useEffect(() => {
     bannerListApi();
     return () => {};
   }, [startPage]);
+
+  useEffect(() => {
+    if (bannerList) {
+      scrollElement.scrollLeft = 0;
+    }
+  }, [bannerList]);
 
   const bannerListApi = async () => {
     try {
@@ -45,8 +57,6 @@ function BannerGameList() {
       console.log("Error >>", err);
     }
   };
-
-  const scrollElement = scrollRef.current as HTMLDivElement;
 
   const onDragStart = (e: React.MouseEvent<HTMLElement>) => {
     setIsDrag(true);

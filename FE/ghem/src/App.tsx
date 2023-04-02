@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import GameDetailPage from "./pages/GameDetailPage";
 import Footer from "./components/common/Footer";
 import Navbar from "./components/common/Navbar";
@@ -21,11 +21,14 @@ function App() {
   const userId: number | null = Number(localStorage.getItem("id"));
   const [loginRandomGame, setLoginRandomGame] =
     useRecoilState<{ appid: number }[]>(loginRandomGameList);
+  const [randomAppList, setRandomAppList] = useState<number[]>();
   const [randomAppid, setRandomAppid] = useState<number>();
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
   const [checkLogin, setCheckLogin] = useState<boolean>(false);
 
-  // 로그인 하고 새로고침 안 하면 안 되는 방식이라서 수정이 필요함
+  const navigator = useNavigate();
+
+  // App => Main페이지로 가며 로그인 상태 확인
   useEffect(() => {
     console.log(userId, "============");
     if (userId) {
@@ -34,12 +37,7 @@ function App() {
     }
   }, [checkLogin]);
 
-  useEffect(() => {
-    if (randomAppid) {
-      randomAppidGameList();
-    }
-  }, [randomAppid]);
-
+  // 유저 아이디 있고, 로그인 했으면 bannerTwo를 위한 작업 시작
   useEffect(() => {
     console.log("ㅠㅠ...");
     if (userId && isLoginStatus) {
@@ -48,8 +46,31 @@ function App() {
     }
   }, [isLoginStatus]);
 
+  // 내가 평가한 게임 목록 가져와서... 랜덤 1개 뽑기
+  useEffect(() => {
+    if (randomAppList) {
+      getRandomAppId();
+    }
+  }, [randomAppList]);
+
+  //랜덤 뽑은 게임으로 랜덤한 한 게임의 유사 게임 10개 가져오기
+  useEffect(() => {
+    if (randomAppid) {
+      randomAppidGameList();
+    }
+  }, [randomAppid]);
+
+  // 내가 평가한 게임 리스트에서 랜덤 1개를 뽑기 위한  함수
+  const getRandomAppId = () => {
+    if (randomAppList) {
+      setRandomAppid(
+        randomAppList[Math.floor(Math.random() * randomAppList.length)]
+      );
+    }
+  };
+
   // 새로고침 전까지 바뀌지 않을 현재 로그인 유저를 위한
-  // 유저가 평가한 게임 중 랜덤 1개와 유사한 게임 10개 리스트
+  // 유저가 평가한 게임 리스트 (이후 그중 랜덤 1개와 유사한 게임 10개 리스트 만들 것)
   const bannerTwoListApi = async () => {
     try {
       const response = await axios.get(
@@ -57,8 +78,14 @@ function App() {
         // `http://192.168.100.124:8080/rating/v2/${userId}`
       );
       const ids = response.data.data;
-      console.log("여기까진 된 건지");
-      setRandomAppid(ids[Math.floor(Math.random() * ids.length)]);
+      console.log("여기까진 된 건지", response);
+      if (ids.length > 0) {
+        setRandomAppList(ids);
+      } else {
+        // 내가 평가한 게임이 0개면 카테고리로 게임 평가하러 보내기
+        navigator("/category");
+      }
+      // setRandomAppid(ids[Math.floor(Math.random() * ids.length)]);
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -79,12 +106,14 @@ function App() {
       });
       setLoginRandomGame(newDataList);
     } catch (err) {
+      // 유사 게임 없는 게임 데이터를 사용했을 시를 대비
+      getRandomAppId();
       console.log("Error >>", err);
     }
   };
 
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
       <StarBackground />
       <ScrollToTop />
@@ -92,18 +121,18 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/detail/:appid" element={<GameDetailPage />} />
         <Route path="/profile/*" element={<ProfilePage />} />
-        <Route path="/main" element={<MainPage />} />
         <Route
-          path="/*"
-          element={<WelcomePage setCheckLogin={setCheckLogin} />}
+          path="/main"
+          element={<MainPage setCheckLogin={setCheckLogin} />}
         />
+        <Route path="/*" element={<WelcomePage />} />
         <Route path="/gameban" element={<GameBanPage />} />
         <Route path="/update/profile" element={<ProfileUpdatePage />} />
         <Route path="/oauth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/oauth/naver/callback" element={<NaverLogin />} />
       </Routes>
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }
 
