@@ -97,6 +97,10 @@ function BannerGameList() {
           <MdAutorenew size={40} color="white" />
         </span>
       </div>
+      <div>
+        <MdOutlineArrowBackIos />
+        <MdOutlineArrowForwardIos />
+      </div>
       <div
         css={recommendList}
         ref={scrollRef}
