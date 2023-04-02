@@ -339,6 +339,20 @@ async def genres():
                 return genres
     except Exception as e:
         return str(e), 500
+    
+# Delete dislike
+@app.delete("/dislike")
+async def delete_dislike(disLikeGame : DisLikeGame = Depends(DisLikeGame)):
+    try:
+        async with get_postgres_connection() as conn:
+            await conn.fetch(
+                "DELETE FROM ghem.dislike WHERE steam_id = $1 AND app_id = $2;",
+                disLikeGame.steam_id,
+                disLikeGame.app_id
+            )
+        return "Dislike deleted successfully", 200
+    except Exception as e:
+        return  str(e), 500
 
 
 # POST dislike
@@ -368,7 +382,19 @@ async def get_dislike(steam_id : int = 0):
             return games, 200
     except Exception as e:
         return  str(e), 500
-    
+
+# Delete Disapproving 부적절한 컨텐츠
+@app.delete("/disapproving")
+async def delete_disapproving(game : Game = Depends(Game)):
+    try:
+        async with get_postgres_connection() as conn:
+            await conn.fetch(
+                "DELETE FROM ghem.disapproving WHERE app_id = $1;",
+                game.app_id
+            )
+        return "disapproving deleted successfully", 200
+    except Exception as e:
+        return  str(e), 500
 
 # Post Disapproving 부적절한 컨텐츠
 @app.post("/disapproving")
@@ -379,15 +405,13 @@ async def create_disapproving(game : Game):
                 "INSERT INTO ghem.disapproving (app_id) VALUES ($1);",
                 game.app_id
             )
-        return "Rating created successfully", 200
+        return "disapproving created successfully", 200
     except Exception as e:
         return  str(e), 500
     
 # GET Disapproving 부적절한 컨텐츠
 @app.get("/disapproving", response_model=List[Game])
-async def get_disapproving(steam_id : int = 0):
-    if steam_id == 0:
-        return [], 200
+async def get_disapproving():
     try:
         async with get_postgres_connection() as conn:
             rows = await conn.fetch("SELECT * FROM ghem.disapproving;")
