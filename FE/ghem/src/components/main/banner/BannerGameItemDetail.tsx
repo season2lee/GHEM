@@ -35,21 +35,41 @@ function BannerGameItemDetail(props: BannerGameItemDetailProps) {
   };
 
   return (
-    <div css={bannerDetail}>
-      <h1>{props.title}</h1>
-      <p>{gameData?.short_description}</p>
-      <p>{gameData?.price_overview?.final_formatted}</p>
+    <div css={gameDetail}>
+      <p css={gameTitle}>
+        <b>{props.title}</b>
+      </p>
+      <p css={gameDescription}>{gameData?.short_description}</p>
+      {/* <p>{gameData?.price_overview?.final_formatted}</p>
       {gameData?.is_free && <p>free</p>}
-      <p>{gameData?.recommendations?.total}</p>
+      <p>{gameData?.recommendations?.total}</p> */}
     </div>
   );
 }
 
-const bannerDetail = css`
-  /* margin: 0rem 6rem 2rem;
-  padding: 1rem 0rem 1rem 1rem; */
-  /* background-color: #584a6e; */
-  /* border-radius: 0px 0px 30px 30px; */
+// const bannerDetail = css`
+//   /* margin: 0rem 6rem 2rem;
+//   padding: 1rem 0rem 1rem 1rem; */
+//   /* background-color: #584a6e; */
+//   /* border-radius: 0px 0px 30px 30px; */
+// `;
+
+const gameTitle = css`
+  font-size: 200%;
+`;
+
+const gameDetail = css`
+  margin: 0rem 2rem;
+`;
+
+const gameDescription = css`
+  margin: 1rem 2rem;
+  height: 9.5rem;
+  overflow: scroll;
+  line-height: 140%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default BannerGameItemDetail;

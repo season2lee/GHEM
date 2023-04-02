@@ -1,11 +1,13 @@
 import { css } from "@emotion/react";
-import { FaHeart, FaRegSadTear, FaRegMeh } from "react-icons/fa";
+import { FaHeart, FaRegMeh } from "react-icons/fa";
 import React from "react";
 
 function BannerGameItemButtons() {
   return (
     <div css={bannerDetail}>
       <FaHeart size="25" color="red" style={{ cursor: "pointer" }} />
+      <FaHeart size="25" color="white" style={{ cursor: "pointer" }} />
+      <FaRegMeh size="25" color="white" style={{ cursor: "pointer" }} />
       BannerGameItemButtons 좋아요 버튼 + 리뷰 몇개? + 관심 없어요 버튼
     </div>
   );

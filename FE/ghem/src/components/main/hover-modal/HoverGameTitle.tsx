@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { disLikeGameList } from "@/store/mainState";
 import { FaHeart, FaRegSadTear, FaRegMeh } from "react-icons/fa";
 import thumbUp from "@/assets/image/thumbup.svg";
 import { css } from "@emotion/react";
@@ -7,6 +9,7 @@ import { css } from "@emotion/react";
 type HoverGameTitleProps = {
   appid: number | null;
   haveData: "have" | "null" | "loading";
+  setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   gameTitle?: string;
   gameRecommend?: { total: number };
   gameType?: string;
@@ -22,6 +25,10 @@ function HoverGameTitle(props: HoverGameTitleProps) {
   // ㄴ 진짜로 언라이크 할 건지 3초 뒤 확인함(취소하면 false 되어서 언라이크 못함)
   const [unLikeTimer, setUnLikeTimer] = useState<number>(3);
 
+  const [userDisLikeGame, setUserDisLikeGame] =
+    useRecoilState<number[]>(disLikeGameList);
+  // ㄴ 관심없어요 누를 때마다 store의 dislike리스트 갱신해야함
+
   // 관심없어요 3초 세기 함수
   useEffect(() => {
     if (realyUnLike) {
@@ -34,6 +41,7 @@ function HoverGameTitle(props: HoverGameTitleProps) {
           clearInterval(timer);
           disLikeGame();
           console.log("관심없음 완료");
+          props.setIsEnter(false);
           setRealyUnLike(false);
         }
       }
@@ -63,6 +71,18 @@ function HoverGameTitle(props: HoverGameTitleProps) {
       }
     } catch (err) {
       console.log("Error >>", err);
+      addGame();
+    }
+  };
+
+  const addGame = async () => {
+    try {
+      const response = await axios.post(`http://j8d107.p.ssafy.io:32003/game`, {
+        app_id: props.appid,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log("Error >>", err);
     }
   };
 
@@ -79,6 +99,7 @@ function HoverGameTitle(props: HoverGameTitleProps) {
       setIsWish(true);
       setNumDib(response.data.data.result.dibs_id);
       // console.log(response);
+      console.log(userDisLikeGame);
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -107,6 +128,10 @@ function HoverGameTitle(props: HoverGameTitleProps) {
         }
       );
       console.log(response);
+      // disLikegame을 store에서도 업데이트
+      if (props.appid) {
+        setUserDisLikeGame([...userDisLikeGame, props.appid]);
+      }
       const items = document.getElementById(`${props.appid}`) as HTMLDivElement;
       items.style.display = "none";
     } catch (err) {
