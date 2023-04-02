@@ -1,10 +1,23 @@
 import { atom } from "recoil";
 import { userInfoStateType, contentInfoType } from "atomTypes";
 import { specInfoType } from "apiTypes";
+import { number } from "prop-types";
 
 // 로그인 + 평점 준 게임이 있는 유저일 시 그 중 랜덤한 게임의 유사 게임 목록 받아올 state
 export const loginRandomGameList = atom<{ appid: number }[]>({
   key: "loginRandomGameList",
+  default: [],
+});
+
+// 밴 한 게임 목록
+export const banGameList = atom<number[]>({
+  key: "banGameList",
+  default: [],
+});
+
+// 유저의 dislike game 목록
+export const disLikeGameList = atom<number[]>({
+  key: "disLikeGameList",
   default: [],
 });
 
