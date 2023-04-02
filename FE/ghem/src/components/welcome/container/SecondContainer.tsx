@@ -19,11 +19,11 @@ function SecondContainer() {
         <img css={logo} src={steamLogo}></img>
       </div>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-        <h3>무슨 게임 할 지 항상 고민 하셨나요?</h3>
+        어떤 게임을 할 지 항상 고민 하셨나요?
         <br />
-        <h3>steam에서 추천해주는 게임이 지루하셨나요?</h3>
+        steam에서 추천해주는 게임이 지루하셨나요?
         <br />
-        <h3>까다로운 당신의 취향에 딱 맞는 서비스를 받아보세요</h3>
+        까다로운 당신의 취향에 딱 맞는 서비스를 받아보세요
       </div>
     </div>
   );
@@ -43,14 +43,18 @@ const section = css`
   z-index: 100;
   height: 50%;
   width: 50%;
-  text-align: center;
+  text-align: start;
   justify-content: center;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  img { 
+  img {
     max-width: 100%;
     max-height: 100%;
+  }
+
+  h3 {
+    text-align: start;
   }
 
   &.animation {
@@ -66,8 +70,6 @@ const section = css`
       }
     }
   }
-
-  
 `;
 const footer = css`
   height: 50%;
