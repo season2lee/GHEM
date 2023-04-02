@@ -182,7 +182,7 @@ function GameCanvas() {
     function drawScoreBoard() {
       const fontSize = Math.min(gameCanvas.width, gameCanvas.height) / 20;
       ctx.font = `${fontSize}px Arial`;
-      ctx.fillStyle = "black";
+      ctx.fillStyle = "white";
       const text = scoreText + score;
       const textWidth = ctx.measureText(text).width;
       ctx.fillText(text, gameCanvas.width - textWidth - 10, 30);
@@ -199,7 +199,7 @@ function GameCanvas() {
 
       let fontSize = Math.min(gameCanvas.width, gameCanvas.height) * 0.1; // 폰트 크기를 화면 크기에 비례하게 설정
       ctx.font = fontSize + "px Arial";
-      ctx.fillStyle = "black";
+      ctx.fillStyle = "white";
       let textWidth = ctx.measureText("Game Over").width;
       let textX = (gameCanvas.width - textWidth) / 2;
       let textY = (gameCanvas.height - fontSize) / 2;
@@ -349,6 +349,7 @@ function GameCanvas() {
       if (xOverlap && yOverlap) {
         // 3. 충돌 발생 시, 게임 오버 상태를 `true`로 변경하고 다시하기 버튼을 표시
         isGameOver = true;
+        // lives--;
       }
     }
 

@@ -18,7 +18,7 @@ function NaverLogin() {
       if (response.userNickname === null) {
         navigate("/update/profile"); // 닉네임 설정X -> 마이프로필 이동
       } else {
-        navigate("/");
+        navigate("/main");
       }
     }
   };
