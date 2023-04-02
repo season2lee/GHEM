@@ -29,16 +29,19 @@ function ProfileSteamIdModal({ handleOpenSteamIdModal }: ProfileSteamIdModalProp
 
   const handleRegistSteamAccount = async (): Promise<void> => {
     if (userId) {
+      if (steamId === "") {
+        return;
+      }
+
       const steamAccount: steamAccountType = {
         steamId: steamId,
         userId: userId,
       };
 
       const response = await putUserSteamAccount(steamAccount);
+
       if (response) {
-        // 정상적으로 등록되었습니다.
-      } else {
-        // 일치하는 계정이 없습니다.
+        location.reload();
       }
     }
   };
@@ -171,13 +174,30 @@ const tooltipBox = css`
   z-index: 1;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
-  padding: 10px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0.9;
 
   > span {
     font-size: 15px;
     color: black;
+  }
+
+  > a {
+    padding: 5px 15px;
+    color: white;
+    background: #352c42;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+
+    :hover {
+      transition: all 0.2s;
+      background: #5e4e74;
+    }
   }
 `;
 

@@ -21,7 +21,17 @@ function ProfileAccount({ nickname, steamId }: ProfileAccountProps) {
   const [followType, setFollowType] = useState<string>("팔로우");
 
   const handleOpenSteamIdModal = (): void => {
-    setIsOpenModal(!isOpenModal);
+    // 내 프로필이라면 steamId 설정 모달 띄우기
+    if (isMyProfile) {
+      setIsOpenModal(!isOpenModal);
+    }
+    // 다른 사람의 프로필이라면 steam profile 페이지로 이동
+    else {
+      if (!steamId || steamId === "미등록" || steamId === "") {
+        return;
+      }
+      window.location.href = `https://steamcommunity.com/profiles/${steamId}/`;
+    }
   };
 
   const handleFollowUser = async (): Promise<void> => {
