@@ -36,7 +36,7 @@ function FollowListItem({ followUser, followType, isMyProfile }: FollowListItemP
       <div css={userInfoWrapper} onClick={moveToOtherProfile}>
         <img src={followUser.userProfile.substr(1, followUser.userProfile.length - 2)} alt="유저 프로필 이미지" />
         <span>{followUser.nickname}</span>
-        {followUser.steamId === "(NULL)" || followUser.steamId === null ? (
+        {!followUser.steamId || followUser.steamId === "" ? (
           <small>@미등록</small>
         ) : (
           <small>@{followUser.steamId}</small>
