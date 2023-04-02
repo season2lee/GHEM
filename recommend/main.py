@@ -2,7 +2,7 @@ import pandas as pd
 import requests
 from surprise import Dataset, Reader, SVD
 from surprise.model_selection import train_test_split
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 from contextlib import asynccontextmanager
@@ -410,12 +410,12 @@ async def create_disapproving(game : Game):
         return  str(e), 500
     
 # GET Disapproving 부적절한 컨텐츠
-@app.get("/disapproving", response_model=List[Game])
+@app.get("/disapproving", response_model=List[Game], status_code=200)
 async def get_disapproving():
     try:
         async with get_postgres_connection() as conn:
             rows = await conn.fetch("SELECT * FROM ghem.disapproving;")
             games = [Game(**row) for row in rows]
-            return games, 200
+            return games
     except Exception as e:
-        return  str(e), 500
+        raise HTTPException(status_code=500, detail=str(e))
