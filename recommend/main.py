@@ -370,18 +370,18 @@ async def create_dislike(disLikeGame : DisLikeGame):
         return  str(e), 500
     
 # GET dislike
-@app.get("/dislike", response_model=List[Game])
-async def get_dislike(steam_id : int = 0):
+@app.get("/dislike", response_model=List[DisLikeGame], status_code=200)
+async def get_dislike(steam_id: int = 0):
     if steam_id == 0:
-        return [], 200
+        return []
 
     try:
         async with get_postgres_connection() as conn:
             rows = await conn.fetch("SELECT * FROM ghem.dislike WHERE steam_id=$1;", steam_id)
-            games = [Game(**row) for row in rows]
-            return games, 200
+            games = [DisLikeGame(**row) for row in rows]
+            return games
     except Exception as e:
-        return  str(e), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
 # Delete Disapproving 부적절한 컨텐츠
 @app.delete("/disapproving")
