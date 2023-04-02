@@ -18,14 +18,14 @@ function KakaoLogin() {
     const response: responseType = await getRequestKakaoLogin(code);
 
     if (response) {
-      console.log(response)
+      console.log(response);
       localStorage.setItem("accessToken", response.AccessToken);
       localStorage.setItem("id", JSON.stringify(response.userId));
 
       if (response.userNickname === null) {
         navigate("/update/profile"); // 닉네임 설정X -> 마이프로필 이동
       } else {
-        navigate("/");
+        navigate("/main");
       }
     }
   };

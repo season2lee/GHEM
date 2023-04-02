@@ -38,9 +38,9 @@ function BannerGameItemDetail(props: BannerGameItemDetailProps) {
     <div css={bannerDetail}>
       <h1>{props.title}</h1>
       <p>{gameData?.short_description}</p>
-      <p>{gameData?.price_overview.final_formatted}</p>
+      <p>{gameData?.price_overview?.final_formatted}</p>
       {gameData?.is_free && <p>free</p>}
-      <p>{gameData?.recommendations.total}</p>
+      <p>{gameData?.recommendations?.total}</p>
     </div>
   );
 }
