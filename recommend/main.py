@@ -360,12 +360,21 @@ async def delete_dislike(disLikeGame : DisLikeGame = Depends(DisLikeGame)):
 async def create_dislike(disLikeGame : DisLikeGame):
     try:
         async with get_postgres_connection() as conn:
-            await conn.fetch(
-                "INSERT INTO ghem.dislike (steam_id, app_id) VALUES ($1, $2);",
-                disLikeGame.steam_id,
-                disLikeGame.app_id
-            )
-        return "Dislike created successfully", 200
+            row = await conn.fetchrow("SELECT * FROM ghem.dislike WHERE steam_id = $1 AND app_id = $2;", disLikeGame.steam_id, disLikeGame.app_id)
+            
+            res = str()
+
+            if row is None:
+                await conn.fetch(
+                    "INSERT INTO ghem.dislike (steam_id, app_id) VALUES ($1, $2);",
+                    disLikeGame.steam_id,
+                    disLikeGame.app_id
+                )
+                res = "Dislike created successfully"
+            else:
+                res = "Value already exists"
+
+        return res, 200
     except Exception as e:
         return  str(e), 500
     
