@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -76,11 +77,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public HttpVO updateSteamId(SteamUserVO steamUser) {
-        User user = userCommonRepository.findUserById(steamUser.getUserId());
+        Optional<User> OptionalUser = userCommonRepository.findById(steamUser.getUserId());
 
-        if (user == null)
+        if (!OptionalUser.isPresent())
             throw new DoesNotExistData("해당 데이터가 존재하지 않습니다.");
 
+        User user = OptionalUser.get();
+        
         user.setSteamId(steamUser.getSteamId());
         userCommonRepository.save(user);
 

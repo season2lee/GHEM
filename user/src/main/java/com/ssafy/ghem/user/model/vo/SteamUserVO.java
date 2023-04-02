@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class SteamUserVO {
-    String userId;
+    Long userId;
     String SteamId;
 }
