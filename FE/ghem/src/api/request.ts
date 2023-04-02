@@ -1,16 +1,20 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, AxiosInstance, AxiosInterceptorManager, AxiosResponse, AxiosRequestHeaders } from "axios";
 
+interface InternalAxiosRequestConfig<T = any> extends AxiosRequestConfig {
+  headers: AxiosRequestHeaders;
+}
 
-
-export const request = axios.create({
+export const request: AxiosInstance = axios.create({
   baseURL: "http://j8d107.p.ssafy.io:32001",
 });
+
 
 const delay = 500; // 0.5초
 let cancel: (() => void) | undefined;
 
+
 request.interceptors.request.use(
-  (config:AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     // 이전 요청 취소
     if (cancel) {
       cancel();
@@ -22,7 +26,7 @@ request.interceptors.request.use(
     });
 
     // 요청 지연
-    return new Promise<AxiosRequestConfig>((resolve) =>
+    return new Promise<InternalAxiosRequestConfig>((resolve) =>
       setTimeout(() => resolve(config), delay)
     );
   },

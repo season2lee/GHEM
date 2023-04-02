@@ -37,6 +37,6 @@ const section = css`
   width: 100%;
   height: 80%;
   text-align: start;
-  margin: 5rem;
+  padding:5rem;
 `;
 export default CategoryPage;

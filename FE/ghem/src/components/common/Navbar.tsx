@@ -141,7 +141,7 @@ function Navbar() {
                     <div css={search} className="dropdown">
                       {searchList.map((search) => {
                         return (
-                          <div
+                          <div key={search.appId}
                             onClick={() => {
                               navigater(`../detail/${search.appId}`);
                             }}
