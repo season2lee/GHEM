@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { TbPencilMinus } from "react-icons/tb";
 import { AiOutlineDelete } from "react-icons/ai";
 import GameReviewModal from "../gamelist/GameReviewModal";
-import { deleteEvaluatedGame } from "@/api/gamelist";
+import { deleteGameRating } from "@/api/rating";
 import { useRecoilValue } from "recoil";
 import { contentInfoState } from "@/store/mainState";
 
@@ -21,7 +21,13 @@ function MenuDropdown() {
   // 평가 항목에서 게임 삭제
   const handleDeleteGame = async (): Promise<void> => {
     if (confirm("평가 항목에서 삭제하시겠습니까?")) {
-      const response = await deleteEvaluatedGame(userId, contentInfo.app_id);
+      const deletedGameInfo = {
+        app_id: contentInfo.app_id,
+        user_id: userId,
+        rating: contentInfo.rating,
+      };
+
+      const response = await deleteGameRating(deletedGameInfo);
 
       if (response) {
         location.reload();

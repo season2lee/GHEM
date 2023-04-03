@@ -26,6 +26,18 @@ declare module "apiTypes" {
     content: string;
   };
 
+  export type ratingInfoType = {
+    app_id: number;
+    user_id: number;
+    rating: number;
+  };
+
+  export type reviewInfoType = {
+    app_id: number;
+    user_id: number;
+    content: string;
+  };
+
   export type specInfoType = {
     cpu_com: string;
     cpu_series: string;

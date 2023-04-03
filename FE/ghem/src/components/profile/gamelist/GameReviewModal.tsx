@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import { contentInfoState } from "@/store/mainState";
 import { useRecoilValue } from "recoil";
 import GameRating from "./GameRating";
-import { postGameContent, putUpdateGameContent, getCheckReviewStatus } from "@/api/gamelist";
-import FormatDate from "@/util/FormatDate";
+import { putGameReview } from "@/api/review";
 
 type GameReviewModalProps = {
   handleOpenModifyModal: (e: React.MouseEvent) => void;
@@ -14,64 +13,26 @@ function GameReviewModal({ handleOpenModifyModal }: GameReviewModalProps) {
   const userId: number | null = Number(localStorage.getItem("id"));
   const contentInfo = useRecoilValue(contentInfoState);
   const [content, setContent] = useState<string>("");
-  const [isFirstReview, setIsFirstReview] = useState<boolean>(false);
 
   const handleCloseModal = (e: React.MouseEvent): void => {
     handleOpenModifyModal(e);
   };
 
   const handleUpdateGameReview = async (): Promise<void> => {
-    // 리뷰 등록이 안돼있으면 POST요청
-    if (isFirstReview) {
-      const date = FormatDate();
-      const changedContentInfo = {
-        app_id: contentInfo.app_id,
-        user_id: userId,
-        content: content,
-        date: date,
-        user_game_id: contentInfo.user_game_id,
-      };
+    const changedContentInfo = {
+      app_id: contentInfo.app_id,
+      user_id: userId,
+      content: content,
+    };
 
-      const response = await postGameContent(changedContentInfo);
+    console.log(changedContentInfo);
 
-      if (response) {
-        location.reload();
-      }
-    }
-    // 리뷰 등록이 이미 돼있으면 PUT 요청
-    else {
-      const changedContentInfo = {
-        app_id: contentInfo.app_id,
-        user_id: userId,
-        content: content,
-      };
-
-      const response = await putUpdateGameContent(changedContentInfo);
-
-      if (response) {
-        location.reload();
-      }
-    }
-  };
-
-  const getCheckReviewStatusFunc = async (): Promise<void> => {
-    const response = await getCheckReviewStatus(contentInfo.app_id, userId);
+    const response = await putGameReview(changedContentInfo);
 
     if (response) {
-      // 이미 리뷰가 있다면
-      if (response.isExist) {
-        setIsFirstReview(false);
-      }
-      // 리뷰 작성이 처음이라면
-      else {
-        setIsFirstReview(true);
-      }
+      location.reload();
     }
   };
-
-  useEffect(() => {
-    getCheckReviewStatusFunc();
-  }, []);
 
   return (
     <div css={wrapper} onClick={(e) => e.stopPropagation()}>

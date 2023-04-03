@@ -17,7 +17,7 @@ type GameCardProps = {
   userGameId?: number;
   dibsId?: number;
   rating?: number;
-  review?: string;
+  review?: string | null;
   path?: string;
   isEachFollow?: boolean;
 };
@@ -40,7 +40,7 @@ function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove, 
         user_game_id: userGameId,
         title: game.title,
         rating: rating,
-        review: review,
+        review: review || "",
       });
 
       setIsOpenMenu(!isOpenMenu);
