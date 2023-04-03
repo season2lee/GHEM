@@ -120,8 +120,8 @@ public class OauthServiceImpl implements OauthService {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
         body.add("client_id", clientId);
-//        body.add("redirect_uri", "http://j8d107.p.ssafy.io/oauth/kakao/callback");
-        body.add("redirect_uri", "http://localhost:5173/oauth/kakao/callback");
+        body.add("redirect_uri", "http://j8d107.p.ssafy.io/oauth/kakao/callback");
+        //body.add("redirect_uri", "http://localhost:5173/oauth/kakao/callback");
         body.add("code", code);
 
         // HTTP 요청 보내기
@@ -163,8 +163,8 @@ public class OauthServiceImpl implements OauthService {
         body.add("grant_type", "authorization_code");
         body.add("client_id", clientIdNaver);
         body.add("client_secret", clientSecretNaver);
-//        body.add("redirect_uri", "http://j8d107.p.ssafy.io/oauth/kakao/callback");
-        body.add("redirect_uri", "http://localhost:5173/oauth/naver/callback");
+        body.add("redirect_uri", "http://j8d107.p.ssafy.io/oauth/naver/callback");
+//        body.add("redirect_uri", "http://localhost:5173/oauth/naver/callback");
         body.add("code", code);
 
         // HTTP 요청 보내기
