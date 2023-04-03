@@ -164,6 +164,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
 const gameItem = css`
   /* margin: 5px; */
   cursor: pointer;
+  position: relative;
 `;
 
 const relativeDiv = css`

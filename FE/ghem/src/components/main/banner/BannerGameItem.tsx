@@ -10,6 +10,7 @@ type BannerGameItemProps = {
   appId: number;
   title: string;
   canClick: boolean;
+  genres: string;
 };
 
 function BannerGameItem(props: BannerGameItemProps) {
@@ -73,11 +74,15 @@ function BannerGameItem(props: BannerGameItemProps) {
                 </div>
               )}
             </div>
-            <BannerGameItemDetail appId={props.appId} title={props.title} />
+            <BannerGameItemDetail
+              appId={props.appId}
+              title={props.title}
+              genres={props.genres}
+            />
           </div>
         </div>
       </div>
-      <BannerGameItemButtons />
+      <BannerGameItemButtons appId={props.appId} />
     </div>
   );
 }
@@ -90,15 +95,17 @@ const backImgDiv = css`
 
 const blurDiv = css`
   /* backdrop-filter: blur(1rem); */
-  background-color: #8e83bb8f;
+  background-color: #63598b8f;
   padding: 1rem;
 `;
 
 const flexDiv = css`
   display: flex;
+  text-align: left;
   justify-content: center;
   align-items: center;
   position: relative;
+  margin: 0rem 2.5rem;
 `;
 
 const inImgText = css`
