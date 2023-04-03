@@ -13,6 +13,7 @@ import { css } from "@emotion/react";
 import ReviewSection from "@components/gamedetail/review/ReviewSection";
 import GameInfo from "@components/gamedetail/gameinfo/GameInfo";
 import SimilarUserSection from "@components/gamedetail/similaruser/SimilarUserSection";
+import { mobile, tabletH } from "@/util/Mixin";
 
 const BROKER_URL = "ws://192.168.100.209:8080/ws";
 
@@ -140,8 +141,8 @@ function GameDetailPage() {
             <Section>
               <ReviewSection currentRating={currentRating} />
             </Section>
-            <br />
             {/* 즐겨찾기한 유저들 컴포넌트 */}
+            <br />
             <Section>
               <SimilarUserSection />
             </Section>
@@ -157,23 +158,39 @@ function GameDetailPage() {
 }
 
 const container = css`
-  padding: 0px 50px 50px 50px;
+  padding: 0px 2.5rem 2.5rem 2.5rem;
+  ${mobile} {
+    padding: 0px 2rem 2rem 2rem;
+  }
 `;
 
 const topContainer = css`
   width: 100%;
   margin-top: 100px;
   display: flex;
+  ${tabletH} {
+    margin-top: 35px;
+    flex-direction: column-reverse;
+  }
 `;
 
 const leftContainer = css`
   width: 67%;
   padding: 0px 1rem 0px 0px;
+  ${tabletH} {
+    width: auto;
+    padding: 0px 0px 0px 0px;
+  }
 `;
 
 const rightContainer = css`
   width: 33%;
   padding: 0px 0px 0px 1rem;
+  ${tabletH} {
+    width: auto;
+    padding: 0px 0px 0px 0px;
+    margin-bottom: 25px;
+  }
 `;
 
 export default GameDetailPage;

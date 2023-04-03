@@ -8,6 +8,7 @@ import Footer from './footer/Footer'
 import { dummyMessages } from './dummyMessages'
 import { MessageType } from './body/MessageType'
 import { Client } from '@stomp/stompjs'
+import { mobile } from '@/util/Mixin'
 
 const STOMP_CONFIG = {
   debug: (str: string) => {
@@ -80,6 +81,9 @@ const container = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  ${mobile} {
+    position: static;
+  }
 `
 
 export default ChatBox

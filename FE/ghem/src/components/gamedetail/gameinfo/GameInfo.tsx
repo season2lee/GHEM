@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import StarRating from '@components/common/StarRating'
 import { FaHeart, FaRegHeart } from "react-icons/fa"
 import Indicator from './Indicator'
+import { mobile, tabletH } from '@/util/Mixin'
 
 type GameInfoProps = {
   gameData: {
@@ -43,7 +44,7 @@ function GameInfo({gameData, currentRating, ratingHandler}: GameInfoProps) {
           )}
           <button css={noMoreRecomm}>추천 안받을래요</button>
         </div>
-        <h1 style={{fontSize: "5rem"}}>{gameData.name}</h1>
+        <h1 css={titleStyle}>{gameData.name}</h1>
         <p css={descContinater}>{gameData.shortDescription}</p>
         <StarRating starSize={3} currentRating={currentRating} ratingHandler={ratingHandler} />
       </div>
@@ -83,8 +84,24 @@ const noMoreRecomm = css`
   }
 `
 
+const titleStyle = css`
+  font-size: 5rem;
+  ${tabletH} {
+    font-size: 3.5rem;
+  }
+  ${mobile} {
+    font-size: 2.5rem;
+  }
+`
+
 const descContinater = css`
-  width: 50%;
+  width: 65%;
+  ${tabletH} {
+    width: 100%;
+  }
+  ${mobile} {
+    width: 100%;
+  }
   max-height: 10rem;
   overflow: hidden;
   line-height: 30px;
