@@ -13,8 +13,9 @@ function LastContainer() {
   
     return (
       <div css={layout}>
+		<div css={circle}>
+          </div>
         <div css={section}>
-          <div>fifthContainer</div>
           <button css={button} onClick={CategoryHandler}>추천받기</button>
         </div>
       </div>
@@ -39,11 +40,11 @@ function LastContainer() {
   `;
 
   const button = css`
-  display: inline-block; 
+  z-index: 100;
+  	display: inline-block; 
 	padding: 20px 40px;
 	color: white;
 	position: relative;
-	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	vertical-align: middle;
@@ -87,4 +88,37 @@ function LastContainer() {
 		}	
 	}
   `
+  const circle = css`
+  z-index: 1;
+  position: relative;
+  top: 10rem;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 50%;
+  background: linear-gradient(45deg, transparent, transparent 0%, #d400ff),
+    linear-gradient(transparent);
+  animation: rotate 1.5s linear infinite;
+
+  ::before,
+  ::after {
+    content: " ";
+    position: absolute;
+    inset: 8px;
+    background: linear-gradient(transparent);
+    border-radius: inherit;
+  }
+  ::before {
+    background: linear-gradient(45deg, transparent, transparent 0%, #0095ff);
+    filter: blur(32px);
+  }
+
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+      filter: hue-rotate(90deg);
+    }
+  }
+`;
+
+  
 export default LastContainer

@@ -211,6 +211,7 @@ const title = css`
   width: 5rem;
   height: auto;
   margin: 0.8rem;
+  
 `;
 
 const menu = css`

@@ -1,28 +1,43 @@
 import React, { useRef,useEffect } from "react";
 import { css,keyframes } from "@emotion/react";
 import useIntersectionObsever from "../../../util/hooks/useIntersectionObserver";
-
+import { mobile } from "@/util/Mixin";
 
 function FirstContainer() {
   const ref = useRef<HTMLDivElement>(null);
   const isInViewport = useIntersectionObsever(ref)
+  let count = 0
+  setInterval(() => {
+    const title = document.getElementById("title");
+    const titleStyle = title?.style;
 
-  // setInterval(() => {
-  //   const title = document.getElementById("title");
-  //   const titleStyle = title?.style;
+    // before
+    const top1 = Math.random() * 100;
+    const bottom1 = Math.random() * 100;
+    // after
+    const top2 = Math.random() * 100;
+    const bottom2 = Math.random() * 100;
 
-  //   // before
-  //   const top1 = Math.random() * 100;
-  //   const bottom1 = Math.random() * 100;
-  //   // after
-  //   const top2 = Math.random() * 100;
-  //   const bottom2 = Math.random() * 100;
+    titleStyle?.setProperty("--t1", `${top1}%`);
+    titleStyle?.setProperty("--b1", `${bottom1}%`);
+    titleStyle?.setProperty("--t2", `${top2}%`);
+    titleStyle?.setProperty("--b2", `${bottom2}%`);
+    // titleStyle?.setProperty('--scale', `1`)
+    // count++
 
-  //   titleStyle?.setProperty("--t1", `${top1}%`);
-  //   titleStyle?.setProperty("--b1", `${bottom1}%`);
-  //   titleStyle?.setProperty("--t2", `${top2}%`);
-  //   titleStyle?.setProperty("--b2", `${bottom2}%`);
-  // }, 100);
+    //       if (count % 15 === 0) {
+    //         const bigSkew = Math.random() * 180 - 90
+    //         titleStyle?.setProperty('--skew', `${bigSkew}deg`)
+    //       }
+
+    //       if (count % 30 === 0) {
+    //         const bigScale = 1 + Math.random() / 2
+    //         titleStyle?.setProperty('--scale', `${bigScale}`)
+    //       }
+  
+  }, 100);
+
+  const h1 = document.querySelector('h1')
 
  
 
@@ -31,7 +46,7 @@ function FirstContainer() {
       <div css={circle}>
           </div>
       <div css={section}>
-        <h1 css={discountText} id="title" data-text="GHEM">
+        <h1 css={discountText} id="title" data-text ="GHEM">
           GHEM
         </h1>
         <div css={grid}>
@@ -51,6 +66,7 @@ const layout = css`
   display: flex;
   flex-direction: column;
   text-align: center;
+  
 `;
 const section = css`
   height: 100%;
@@ -60,10 +76,16 @@ const section = css`
     top:-18rem;
     font-size: 10rem;
     color: #f1f1f1;
+    transform: skew(var(--skew));
+     transform: skew(var(--skew)) scale(var(--scale));
     position: relative;
+    ${mobile} {
+    font-size: 5rem;
+    top:-14rem;
+  }
   }
 
-  /* h1::before,
+  h1::before,
   h1::after {
     content: attr(data-text);
     position: absolute;
@@ -90,7 +112,7 @@ const section = css`
       100% var(--b2),
       0 var(--b2)
     );
-  } */
+  }
 `;
 
 const grid = css`
@@ -115,15 +137,19 @@ const grid = css`
       transform: perspective(300px) rotateX(80deg) translateY(3%);
     }
   }
+  /* ${mobile} {
+    top:-200px;
+    bottom:-200px;
+  } */
 `;
 const circle = css`
   z-index: 1;
   position: relative;
-  top: 3rem;
-  width: 27rem;
-  height: 260rem;
-  border-radius: 50%;
-  background: linear-gradient(45deg, transparent, transparent 0%, #d400ff),
+  top: 10rem;
+  width: 100%;
+  height: 150%;
+  /* border-radius: 50%; */
+  /* background: linear-gradient(45deg, transparent, transparent 0%, #d400ff),
     linear-gradient(transparent);
   animation: rotate 1.5s linear infinite;
 
@@ -145,14 +171,15 @@ const circle = css`
       transform: rotate(360deg);
       filter: hue-rotate(90deg);
     }
-  }
+  } */
 `;
 
 
 
 const discountText = css`
-  color: #ffffff14;
+  /* color: #ffffff14;
   text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45, 0 0 7px #f6b4ffb9,
-    0 0 10px #f1c1ff53, 0 0 15px #ffd8f840, 0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
+    0 0 10px #f1c1ff53, 0 0 15px #ffd8f840, 0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a; */
+
 `;
 export default FirstContainer;
