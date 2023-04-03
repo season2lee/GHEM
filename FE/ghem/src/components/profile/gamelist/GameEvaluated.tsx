@@ -1,14 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { css } from "@emotion/react";
-import filterIcon from "../../../assets/image/filterIcon.png";
-import FilterDropdown from "../common/FilterDropdown";
 import { mobile } from "@/util/Mixin";
-import GameCard from "./GameCard";
 import { getEvaluatedGameList } from "@/api/gamelist";
-import { evaluatedGameListType } from "gameList";
-import GameNoneList from "./GameNoneList";
+import { ratingGameListType } from "gameList";
 import { BiReset } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
+import filterIcon from "../../../assets/image/filterIcon.png";
+import FilterDropdown from "../common/FilterDropdown";
+import GameCard from "./GameCard";
+import GameNoneList from "./GameNoneList";
+import { getRatingGameList } from "@/api/rating";
 
 function GameEvaluated() {
   const location = useLocation();
@@ -19,7 +20,7 @@ function GameEvaluated() {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
-  const [gameList, setGameList] = useState<evaluatedGameListType[]>([]);
+  const [gameList, setGameList] = useState<ratingGameListType[]>([]);
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
   const [isDragMove, setIsDragMove] = useState<boolean>(false);
   const [filterType, setFilterType] = useState<number>(0); // 0: 필터X, 1: 리뷰O, 2: 리뷰X
@@ -50,24 +51,24 @@ function GameEvaluated() {
   };
 
   const getEvaluatedGameListFunc = async (userId: number) => {
-    const response = await getEvaluatedGameList(userId);
+    const response = await getRatingGameList(userId);
 
     if (response) {
       // 모든 목록
       if (filterType === 0) {
-        setGameList(response.Estimate_List);
+        setGameList(response);
       }
       // 리뷰가 있는 목록
       else if (filterType === 1) {
-        const filteredList = response.Estimate_List.filter(
-          (list: evaluatedGameListType) => list.content !== null && list.content !== ""
+        const filteredList = response.filter(
+          (list: ratingGameListType) => list.content !== null && list.content !== ""
         );
         setGameList(filteredList);
       }
       // 리뷰가 없는 목록
       else if (filterType === 2) {
-        const filteredList = response.Estimate_List.filter(
-          (list: evaluatedGameListType) => list.content === null || list.content === ""
+        const filteredList = response.filter(
+          (list: ratingGameListType) => list.content === null || list.content === ""
         );
         setGameList(filteredList);
       }
@@ -120,10 +121,10 @@ function GameEvaluated() {
         >
           {gameList.map((list, idx) => (
             <GameCard
-              key={list.userGame.userGameId}
-              userGameId={list.userGame.userGameId}
-              game={list.userGame.game}
-              rating={list.userGame.rating}
+              key={list.userGameId}
+              userGameId={list.userGameId}
+              game={list.game}
+              rating={list.rating}
               review={list.content}
               isDragMove={isDragMove}
             />

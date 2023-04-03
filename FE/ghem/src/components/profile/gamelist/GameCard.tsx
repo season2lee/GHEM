@@ -17,7 +17,7 @@ type GameCardProps = {
   userGameId?: number;
   dibsId?: number;
   rating?: number;
-  review?: string;
+  review?: string | null;
   path?: string;
   isEachFollow?: boolean;
 };
@@ -40,7 +40,7 @@ function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove, 
         user_game_id: userGameId,
         title: game.title,
         rating: rating,
-        review: review,
+        review: review || "",
       });
 
       setIsOpenMenu(!isOpenMenu);
@@ -104,10 +104,10 @@ function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove, 
       </div>
       <div css={isEachFollow ? gameContentWrapper : blurGameContentWrapper} onClick={moveToGameDetail}>
         <div css={gameContentHeader}>
-          <b>{game.title}</b>
+          {game.title.length >= 27 ? <b>{game.title.substr(0, 25) + "..."}</b> : <b>{game.title}</b>}
           {rating && <GameRating rate={rating} />}
         </div>
-        {review && <span>{review}</span>}
+        {review && review.length >= 20 ? <span>{review.substr(0, 18) + "..."}</span> : <span>{review}</span>}
       </div>
     </div>
   );
