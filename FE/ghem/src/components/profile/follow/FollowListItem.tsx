@@ -36,11 +36,6 @@ function FollowListItem({ followUser, followType, isMyProfile }: FollowListItemP
       <div css={userInfoWrapper} onClick={moveToOtherProfile}>
         <img src={followUser.userProfile.substr(1, followUser.userProfile.length - 2)} alt="유저 프로필 이미지" />
         <span>{followUser.nickname}</span>
-        {!followUser.steamId || followUser.steamId === "" ? (
-          <small>@미등록</small>
-        ) : (
-          <small>@{followUser.steamId}</small>
-        )}
       </div>
       {isMyProfile ? (
         followType === "팔로잉" ? (
@@ -118,11 +113,7 @@ const userInfoWrapper = css`
 
   > span {
     font-size: 16px;
-    margin: 0 5px;
-  }
-
-  > small {
-    font-size: 13px;
+    margin-left: 10px;
   }
 `;
 

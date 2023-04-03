@@ -89,7 +89,7 @@ function ProfileAccount({ nickname, steamId }: ProfileAccountProps) {
       </div>
       <div css={steamIdWrapper} onClick={handleOpenSteamIdModal}>
         <img src={steamLogo} alt="스팀 로고" />
-        {steamId && steamId !== "" && steamId !== "미등록" ? <span>Steam Profile</span> : <span>미등록</span>}
+        {steamId && steamId !== "" && steamId !== "미등록" ? <span>프로필</span> : <span>미등록</span>}
       </div>
       {isOpenModal && <ProfileSteamIdModal handleOpenSteamIdModal={handleOpenSteamIdModal} />}
     </div>
