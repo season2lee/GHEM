@@ -157,7 +157,7 @@ function GameDetailPage() {
 }
 
 const container = css`
-  padding: 50px;
+  padding: 0px 50px 50px 50px;
 `;
 
 const topContainer = css`

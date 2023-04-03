@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import React, { useState } from 'react'
 import StarRating from '@components/common/StarRating'
 import { FaHeart, FaRegHeart } from "react-icons/fa"
+import Indicator from './Indicator'
 
 type GameInfoProps = {
   gameData: {
@@ -31,7 +32,8 @@ function GameInfo({gameData, currentRating, ratingHandler}: GameInfoProps) {
   if (gameData) {
     return (
       <div css={container}>
-        <div css={tempContainer}>
+        <Indicator status={"playable"}/>
+        <div css={favoriteContainer}>
           {isLike ? (
             <FaHeart css={filledHeartIconStyle} onClick={handleHeartClick} />
           ) : isHover ? (
@@ -55,12 +57,13 @@ function GameInfo({gameData, currentRating, ratingHandler}: GameInfoProps) {
 
 const container = css`
   position: relative;
-  margin-top: 120px;
+  top: 0;
 `
 
-const tempContainer = css`
+const favoriteContainer = css`
   display: flex;
   align-items: center;
+  margin-top: 120px;
 `
 
 const noMoreRecomm = css`
