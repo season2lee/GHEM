@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import useIntersectionObsever from "../../../util/hooks/useIntersectionObserver";
 import steamLogo from "../../../assets/image/steamLogo.png";
+import { mobile } from "@/util/Mixin";
 
 // type SecondContainer = {
 //   position:number
@@ -48,13 +49,23 @@ const section = css`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+
+  ${mobile} {
+    height: 50%;
+    width: 100%;
+  }
+
   img {
     max-width: 100%;
     max-height: 100%;
   }
 
   h3 {
+    
     text-align: start;
+    ${mobile} {
+   
+  }
   }
 
   &.animation {

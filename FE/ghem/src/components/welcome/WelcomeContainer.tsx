@@ -26,11 +26,11 @@ function WelcomeContainer() {
     <div>
       <div css={Container}>
         <FirstContainer />
-        <SecondContainer />
+        {/* <SecondContainer /> */}
         <ThirdContainer />
         <FourthContainer />
         <FifthContainer />
-        <SixthContainer />
+        {/* <SixthContainer /> */}
         <LastContainer />
       </div>
     </div>

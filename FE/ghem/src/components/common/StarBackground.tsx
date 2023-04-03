@@ -39,7 +39,7 @@ function StarBackground() {
           
                 // Make a sphere (exactly the same as before). 
                 var geometry   = new THREE.SphereGeometry(0.5, 32, 32)
-                var material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
+                var material = new THREE.MeshBasicMaterial( {color: 0x817795} );
                 var sphere = new THREE.Mesh(geometry, material)
           
                 // This time we give the sphere random x and y positions between -500 and 500
