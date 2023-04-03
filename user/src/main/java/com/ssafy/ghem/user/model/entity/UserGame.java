@@ -3,6 +3,7 @@ package com.ssafy.ghem.user.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -30,6 +31,9 @@ public class UserGame {
     @JoinColumn(name = "app_id")
     private Game game;
 
+    private String content;
+    private LocalDateTime updateDate;
+
     public void setUser(User user){
         if(user.getGames().contains(this)){
             user.getGames().remove(this);
@@ -41,5 +45,9 @@ public class UserGame {
 
     public void setGame(Game game){
         this.game = game;
+    }
+
+    public void setDateTime(){
+        this.updateDate = LocalDateTime.now();
     }
 }

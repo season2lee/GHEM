@@ -22,9 +22,13 @@ public class QUserGame extends EntityPathBase<UserGame> {
 
     public static final QUserGame userGame = new QUserGame("userGame");
 
+    public final StringPath content = createString("content");
+
     public final QGame game;
 
     public final NumberPath<Integer> rating = createNumber("rating", Integer.class);
+
+    public final DateTimePath<java.time.LocalDateTime> updateDate = createDateTime("updateDate", java.time.LocalDateTime.class);
 
     public final QUser user;
 
