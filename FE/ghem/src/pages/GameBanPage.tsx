@@ -1,3 +1,5 @@
+import GameCanvas from "@components/common/GameCanvas";
+import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useState } from "react";
 
@@ -32,13 +34,20 @@ function GameBanPage() {
   };
 
   return (
-    <div>
-      <input type="text" onChange={onHandleChage} value={thisText} />
-      <p>{thisText}</p>
-      <button onClick={makeBanGame}>밴하자</button>
-      <button onClick={getBanGame}>밴목록 보기</button>
+    <div css={centerDiv}>
+      <div>
+        <input type="text" onChange={onHandleChage} value={thisText} />
+        <p>{thisText}</p>
+        <button onClick={makeBanGame}>밴하자</button>
+        <button onClick={getBanGame}>밴목록 보기</button>
+      </div>
+      <GameCanvas />
     </div>
   );
 }
+
+const centerDiv = css`
+  text-align: center;
+`;
 
 export default GameBanPage;
