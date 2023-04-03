@@ -1,5 +1,14 @@
 import { css } from "@emotion/react";
 import React, { useEffect } from "react";
+import mySpaceShip from "../../assets/image/mySpaceShip.png";
+import enemySpaceShip from "../../assets/image/enemySpaceShip.png";
+import enemySpaceShip7 from "../../assets/image/enemySpaceShip7.png";
+import enemySpaceShip6 from "../../assets/image/enemySpaceShip6.png";
+import enemySpaceShip5 from "../../assets/image/enemySpaceShip5.png";
+import enemySpaceShip4 from "../../assets/image/enemySpaceShip4.png";
+import enemySpaceShip3 from "../../assets/image/enemySpaceShip3.png";
+import enemySpaceShip2 from "../../assets/image/enemySpaceShip2.png";
+import enemySpaceShip1 from "../../assets/image/enemySpaceShip1.png";
 
 function GameCanvas() {
   useEffect(() => {
@@ -34,16 +43,17 @@ function GameCanvas() {
 
     const ufo = {
       x: gameCanvas.width - (gameCanvas.width * 4) / 7 - 2,
-      y: window.innerHeight - window.innerHeight / 10 + 2, // 수정된 부분
+      y: window.innerHeight - window.innerHeight / 10 - 40, // 수정된 부분
       width: gameCanvas.width / 7, // 수정된 부분
       height: gameCanvas.width / 7 + 2, // 수정된 부분
+      img: new Image(),
 
       draw() {
-        ctx.fillStyle = "green";
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
       },
     };
 
+    ufo.img.src = mySpaceShip;
     ufo.draw();
 
     // Planet 클래스 정의
@@ -52,6 +62,7 @@ function GameCanvas() {
       y: number;
       width: number;
       height: number;
+      img: HTMLImageElement;
       hp?: number;
       speed?: number;
 
@@ -60,11 +71,37 @@ function GameCanvas() {
         this.y = 0; // 수정된 부분
         this.width = gameCanvas.width / 7;
         this.height = gameCanvas.width / 7;
+        this.img = new Image();
       }
 
       draw() {
-        // ctx.fillStyle = "red";
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        if (this.hp === 1) {
+          ctx.fillStyle = "red";
+          this.img.src = enemySpaceShip1;
+        } else if (this.hp === 2) {
+          ctx.fillStyle = "orange";
+          this.img.src = enemySpaceShip2;
+        } else if (this.hp === 3) {
+          ctx.fillStyle = "yellow";
+          this.img.src = enemySpaceShip3;
+        } else if (this.hp === 4) {
+          ctx.fillStyle = "green";
+          this.img.src = enemySpaceShip4;
+        } else if (this.hp === 5) {
+          ctx.fillStyle = "blue";
+          this.img.src = enemySpaceShip5;
+        } else if (this.hp === 6) {
+          ctx.fillStyle = "Indigo";
+          this.img.src = enemySpaceShip6;
+        } else if (this.hp === 7) {
+          ctx.fillStyle = "blue";
+          this.img.src = enemySpaceShip7;
+        } else {
+          ctx.fillStyle = "black";
+          this.img.src = enemySpaceShip;
+        }
+
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
       }
 
       getScore() {
@@ -81,6 +118,11 @@ function GameCanvas() {
           }
         }
       }
+
+      clashUFO() {
+        lives--;
+        PlanetArray.splice(PlanetArray.indexOf(this), 1);
+      }
     }
 
     class SmallPlanet extends Planet {
@@ -88,11 +130,6 @@ function GameCanvas() {
         super();
         this.hp = 1;
         this.speed = 3;
-      }
-
-      draw() {
-        ctx.fillStyle = "red"; // 녹색으로 변경
-        ctx.fillRect(this.x, this.y, this.width, this.height);
       }
 
       getScore() {
@@ -107,11 +144,6 @@ function GameCanvas() {
         this.speed = 2;
       }
 
-      draw() {
-        ctx.fillStyle = "yellow"; // 노란색으로 변경
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-      }
-
       getScore() {
         return 200;
       }
@@ -122,11 +154,6 @@ function GameCanvas() {
         super();
         this.hp = 10;
         this.speed = 1;
-      }
-
-      draw() {
-        ctx.fillStyle = "orange"; // 주황색으로 변경
-        ctx.fillRect(this.x, this.y, this.width, this.height);
       }
 
       getScore() {
@@ -348,7 +375,7 @@ function GameCanvas() {
 
       if (xOverlap && yOverlap) {
         // 3. 충돌 발생 시, 게임 오버 상태를 `true`로 변경하고 다시하기 버튼을 표시
-        isGameOver = true;
+        Planet.clashUFO();
         // lives--;
       }
     }
