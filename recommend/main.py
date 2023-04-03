@@ -47,7 +47,7 @@ async def get_data_from_databases():
         # rating in mysql
         await mysql_cur.execute("SELECT * FROM usergame;")
         rows = await mysql_cur.fetchall()
-        col_name = ['user_game_id', 'rating', 'app_id', 'steam_id']
+        col_name = ['user_game_id', 'rating', 'app_id', 'steam_id', 'content', 'update_date']
         ratings_mysql = pd.DataFrame(rows, columns=col_name)
         ratings_mysql = ratings_mysql[['app_id','steam_id', 'rating']]
 
