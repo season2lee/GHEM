@@ -3,6 +3,7 @@ import ReviewInput from '@components/gamedetail/review/ReviewInput'
 import { css } from '@emotion/react'
 import Pagination from './Pagination'
 import ReviewBody from './ReviewBody';
+import { dummyReviews } from './dummyReviews';
 
 const REVIEW_COUNT = 5;
 
@@ -27,6 +28,7 @@ function ReviewSection({currentRating}: ReciewSectionProps) {
   const loadReviewData = (reviewCount: number, pageNum: number) => {
     // 비동기 요청하기
     console.log("요청합니다:", reviewCount, "개 만큼", pageNum, "페이지를 요청함");
+    setReviewData(dummyReviews);
   }
 
   // useEffect(() => {
@@ -34,7 +36,7 @@ function ReviewSection({currentRating}: ReciewSectionProps) {
   // }, [])
 
   useEffect(() => {
-    loadReviewData(5, currentPage);
+    loadReviewData(REVIEW_COUNT, currentPage);
   }, [currentPage])
   
   return (
@@ -61,7 +63,5 @@ const container = css`
 const header = css`
   margin-bottom: 2rem;
 `
-
-
 
 export default ReviewSection

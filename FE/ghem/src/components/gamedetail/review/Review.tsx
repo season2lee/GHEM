@@ -3,13 +3,15 @@
   2. 도움됨 버튼 기능 구현할 것
 */
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import chad from '@/assets/image/chad.jpeg';
 import thumbupLine from '@/assets/image/thumbup-line.svg';
 import thumbUp from '@/assets/image/thumbup.svg';
 
 
 import { css } from '@emotion/react';
+import { BiDotsVerticalRounded } from 'react-icons/bi';
+import EditDropdown from './EditDropdown';
 
 type ReviewProps = {
   review: {
@@ -24,6 +26,22 @@ type ReviewProps = {
 
 function Review({review}: ReviewProps) {
   const [isHelpful, setIsHelpful] = useState(false);
+  const [isOpenEditDropdown, setIsOpenEditDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const handleClickEditButton = () => {
+    setIsOpenEditDropdown(!isOpenEditDropdown);
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsOpenEditDropdown(false);
+      }
+    }
+    window.addEventListener("mousedown", handleClickOutside);
+    return () => window.removeEventListener("mousedown", handleClickOutside);
+  }, [])
 
   return (
     <div css={container}>
@@ -38,6 +56,10 @@ function Review({review}: ReviewProps) {
           <div>
             <p css={nameStyle}>{review.name}</p>
             <p css={dateStyle}>{review.date}</p>
+          </div>
+          <div css={editContainer} ref={dropdownRef}>
+            <span><BiDotsVerticalRounded css={threeDotStyle} onClick={handleClickEditButton}/></span>
+            {isOpenEditDropdown && <EditDropdown setIsOpenEditDropdown={setIsOpenEditDropdown}/>}
           </div>
           {/* 해당 유저가 평가한 점수 들어갈 것 
             ...
@@ -74,6 +96,15 @@ const headContainer = css`
   height: 2.8rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+`
+
+const editContainer = css`
+  position: relative;
+`
+
+const threeDotStyle = css`
+  cursor: pointer;
 `
 
 const nameStyle = css`
