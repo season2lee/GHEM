@@ -10,7 +10,7 @@ type ProfileSteamIdModalProps = {
 };
 
 function ProfileSteamIdModal({ handleOpenSteamIdModal }: ProfileSteamIdModalProps) {
-  const userId: string | null = localStorage.getItem("id");
+  const userId: number | null = Number(localStorage.getItem("id"));
   const [steamId, setSteamId] = useState<string>("");
   const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false);
 
@@ -39,6 +39,8 @@ function ProfileSteamIdModal({ handleOpenSteamIdModal }: ProfileSteamIdModalProp
       };
 
       const response = await putUserSteamAccount(steamAccount);
+
+      console.log(response);
 
       if (response) {
         location.reload();
