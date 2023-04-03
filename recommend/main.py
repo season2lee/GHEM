@@ -13,7 +13,7 @@ from db.model import Game, GameRecommendation, Genre, UserRecommendation, UserGa
 # CORS 미들웨어 설정
 origins = [
     "http://localhost:5173",
-    "http://j8d107.p.ssafy.io:8081"
+    "http://j8d107.p.ssafy.io"
 ]
 
 
