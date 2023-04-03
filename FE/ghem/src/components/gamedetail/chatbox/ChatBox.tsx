@@ -38,28 +38,28 @@ function ChatBox({brokerUrl}: ChatBoxProps) {
   }
 
   useEffect(() => {
-    const client = clientRef.current;
-    client.brokerURL = brokerUrl;
-    client.onConnect = (frame) => {
-      console.log("연결 성공!");
-      setIsConnected(true);
-    }
-    client.onWebSocketClose = () => {
-      console.log("웹소켓 연결 끊김...");
-      setIsConnected(false);
-    }
-    client.onDisconnect = () => {
-      console.log("연결 해제...");
-      setIsConnected(false);
-    }
-    client.onStompError = (frame) => {
-      console.log('Broker reported error: ' + frame.headers['message']);
-      console.log('Additional details: ' + frame.body);
-      setIsConnected(false);
-    }
-    connetToBroker();
+    // const client = clientRef.current;
+    // client.brokerURL = brokerUrl;
+    // client.onConnect = (frame) => {
+    //   console.log("연결 성공!");
+    //   setIsConnected(true);
+    // }
+    // client.onWebSocketClose = () => {
+    //   console.log("웹소켓 연결 끊김...");
+    //   setIsConnected(false);
+    // }
+    // client.onDisconnect = () => {
+    //   console.log("연결 해제...");
+    //   setIsConnected(false);
+    // }
+    // client.onStompError = (frame) => {
+    //   console.log('Broker reported error: ' + frame.headers['message']);
+    //   console.log('Additional details: ' + frame.body);
+    //   setIsConnected(false);
+    // }
+    // connetToBroker();
 
-    return () => {client.deactivate()}
+    // return () => {client.deactivate()}
   }, [])
   
   return (
