@@ -1,8 +1,7 @@
-import React from "react";
 import { css } from "@emotion/react";
+import { mobile } from "@/util/Mixin";
 import GameEvaluated from "@components/profile/gamelist/GameEvaluated";
 import GameInterested from "@components/profile/gamelist/GameInterested";
-import { mobile } from "@/util/Mixin";
 
 function GameList() {
   return (

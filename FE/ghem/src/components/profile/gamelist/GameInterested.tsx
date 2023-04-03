@@ -67,7 +67,12 @@ function GameInterested() {
   };
 
   useEffect(() => {
-    getFollowTypeFunc();
+    if (pathnameId === userId) {
+      setIsEachFollow(true);
+    } else {
+      getFollowTypeFunc();
+    }
+
     getInterestedGameListFunc(pathnameId);
   }, [location]);
 

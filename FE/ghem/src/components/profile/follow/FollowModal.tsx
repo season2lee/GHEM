@@ -27,6 +27,8 @@ function FollowModal({ handleOpenFollowModal, type }: FollowModalProps) {
   };
 
   const getFollowListFunc = async (id: number): Promise<void> => {
+    // setFollowList([]);
+
     if (followType === "팔로잉") {
       const response = await getUserFollowingList(id);
 
