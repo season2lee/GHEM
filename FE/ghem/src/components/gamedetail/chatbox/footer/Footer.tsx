@@ -63,6 +63,7 @@ function Footer({ setMessages, isConnected }: FooterProps) {
 }
 
 const container = css`
+  position: relative;
   font-size: 16px;
   min-height: 120px;
   border-radius: 0px 0px 10px 10px;

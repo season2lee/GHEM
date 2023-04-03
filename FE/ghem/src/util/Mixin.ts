@@ -11,9 +11,9 @@ export const mobile = `
 // `;
 
 // 태블릿 가로
-// export const tabletH = `
-//   @media (max-width: ${breakpoints[1]}px)
-// `;
+export const tabletH = `
+  @media (max-width: ${breakpoints[2]}px)
+`;
 
 // 태블릿 세로
 // export const tabletV = `

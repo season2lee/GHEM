@@ -20,7 +20,7 @@ type ReviewBodyType = {
 function ReviewBody({reviewData}: ReviewBodyType) {
   if (reviewData) {
     return (
-      <div>
+      <div css={container}>
         {reviewData?.map((review, index) => {
           return <div key={index}>
             <Review review={review} />
@@ -42,10 +42,8 @@ function ReviewBody({reviewData}: ReviewBodyType) {
   }
 }
 
-const reviewBorder = css`
-  /* border-bottom: 1px solid rgb(117, 98, 146); */
-  margin-top: 5px;
-  margin-bottom: 30px;
+const container = css`
+  margin-top: 30px;
 `
 
 const imageContainer = css`
@@ -58,6 +56,12 @@ const imageContainer = css`
     font-size: 1.5rem;
     font-weight: bold;
   }
+`
+
+const reviewBorder = css`
+  /* border-bottom: 1px solid rgb(117, 98, 146); */
+  margin-top: 5px;
+  margin-bottom: 30px;
 `
 
 export default ReviewBody

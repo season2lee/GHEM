@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import React, { useEffect, useState } from 'react'
+import { HiOutlineChevronDoubleLeft, HiOutlineChevronDoubleRight, HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
 
 const MAX_PAGE_COUNT = 5;  // 최대로 보여질 페이지의 갯수
 
@@ -137,26 +138,45 @@ function Pagination({currentPage, setCurrentPage, lastPageNum}: PaginationProps)
 
   return (
     <div css={container}>
-      <button onClick={moveFirstPage} css={pageButtonStyle} disabled={isDisableMoveToPrev}>처음</button>
-      <button onClick={movePrevPage} css={pageButtonStyle} disabled={isDisableMoveToPrev}>이전</button>
-      {pageNums.map(pageNum => 
-        <button onClick={() => moveSpecificPage(pageNum)} key={pageNum} css={pageNum === currentPage ? [pageButtonStyle, currentButtonStyle] : [pageButtonStyle]}>
-          {pageNum}
+      <div css={buttonsContainer}>
+        <button onClick={moveFirstPage} css={pageButtonStyle} disabled={isDisableMoveToPrev}>
+          <HiOutlineChevronDoubleLeft />
         </button>
-      )}
-      <button onClick={moveNextPage} css={pageButtonStyle} disabled={isDisableMoveToNext}>다음</button>
-      <button onClick={moveLastPage} css={pageButtonStyle} disabled={isDisableMoveToNext}>끝</button>
+        <button onClick={movePrevPage} css={pageButtonStyle} disabled={isDisableMoveToPrev}>
+          <HiOutlineChevronLeft />
+        </button>
+        {pageNums.map(pageNum => 
+          <button onClick={() => moveSpecificPage(pageNum)} key={pageNum} css={pageNum === currentPage ? [pageButtonStyle, currentButtonStyle] : [pageButtonStyle]}>
+            {pageNum}
+          </button>
+        )}
+        <button onClick={moveNextPage} css={pageButtonStyle} disabled={isDisableMoveToNext}>
+          <HiOutlineChevronRight />
+        </button>
+        <button onClick={moveLastPage} css={pageButtonStyle} disabled={isDisableMoveToNext}>
+          <HiOutlineChevronDoubleRight />
+        </button>
+      </div>
     </div>
   )
 }
 
 const container = css`
   display: flex;
-  padding: 30px 200px 0px 200px;
+  justify-content: center;
+  margin-top: 30px;
+`
+
+const buttonsContainer = css`
+  display: flex;
+  width: 500px;
   justify-content: space-around;
 `
 
 const pageButtonStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-width: 2rem;
   height: 2rem;
   border: none;
@@ -184,7 +204,7 @@ const pageButtonStyle = css`
 `
 
 const currentButtonStyle = css`
-  background-color: rgb(117, 98, 146);
+  background-color: rgb(88, 74, 110);
 `
 
 export default Pagination
