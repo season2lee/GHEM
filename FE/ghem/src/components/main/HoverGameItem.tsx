@@ -106,6 +106,7 @@ function HoverGameItem(props: HoverGameItemProps) {
         gameType={gameDetail?.type}
         appid={props.appid}
         haveData={haveData}
+        setIsEnter={props.setIsEnter}
       />
       <HoverGameDescription gameDetail={gameDetail} haveData={haveData} />
     </div>

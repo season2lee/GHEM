@@ -1,5 +1,7 @@
 import { css } from "@emotion/react";
 import React, { useEffect, useRef, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { disLikeGameList, banGameList } from "@/store/mainState";
 import CommonGameListItem from "./CommonGameListItem";
 import { PageXY } from "@/pages/MainPage";
 
@@ -35,9 +37,25 @@ function CommonGameList(props: CommonGameListProps) {
   const [startX, setStartX] = useState<number>(0);
   const [currentScroll, setCurrentScroll] = useState<number>(0);
   const [forTime, setForTime] = useState<number>(0);
+  const [gameList, setGameList] = useState<GameList[]>();
+
+  const [userDisLikeGame, setUserDisLikeGame] =
+    useRecoilState<number[]>(disLikeGameList); // 가져온 게임 리스트에서 밴 or 관심 없는 게임 필터링 처리
+  const [banGame, setBanGame] = useRecoilState<number[]>(banGameList);
 
   // current type error 때문에 임의로 만들어주는 코드
   const scrollElement = scrollRef.current as HTMLDivElement;
+
+  useEffect(() => {
+    const newList = props.gameList?.filter((game) => {
+      return !userDisLikeGame.includes(game.appid);
+    });
+    console.log(newList, "=====================");
+    const newNewList = newList?.filter((newGame) => {
+      return !banGame.includes(newGame.appid);
+    });
+    setGameList(newNewList);
+  }, [props.gameList]);
 
   useEffect(() => {
     const timeout = setTimeout(() => setForTime(forTime + 1), 30);
@@ -118,7 +136,7 @@ function CommonGameList(props: CommonGameListProps) {
       onMouseOver={() => setIsMouseOn(true)}
       // onMouseOut={() => setIsMouseOn(false)}
     >
-      {props.gameList?.map((item) => {
+      {gameList?.map((item) => {
         return (
           <CommonGameListItem
             gameType={props.gameType}
