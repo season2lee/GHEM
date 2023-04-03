@@ -114,6 +114,7 @@ function BannerGameList() {
             <BannerGameItem
               appId={bannerGame.app_id}
               title={bannerGame.title}
+              genres={bannerGame.genre}
               canClick={canClick}
               key={bannerGame.app_id}
             />

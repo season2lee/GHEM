@@ -2,9 +2,11 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GameDetailFromSteam } from "../HoverGameItem";
+import { MdOutlineRecommend } from "react-icons/md";
 
 type BannerGameItemDetailProps = {
   appId: number;
+  genres: string;
   title: string;
 };
 
@@ -39,10 +41,19 @@ function BannerGameItemDetail(props: BannerGameItemDetailProps) {
       <p css={gameTitle}>
         <b>{props.title}</b>
       </p>
+      <p css={genresCss}>{props.genres}</p>
       <p css={gameDescription}>{gameData?.short_description}</p>
-      {/* <p>{gameData?.price_overview?.final_formatted}</p>
-      {gameData?.is_free && <p>free</p>}
-      <p>{gameData?.recommendations?.total}</p> */}
+      <hr color="#caaed1" />
+      <div css={priceDiv}>
+        {gameData?.recommendations.total && (
+          <span css={recommendBtn}>
+            <MdOutlineRecommend size={20} fill="#dceeff" />
+            <span>{gameData?.recommendations?.total}</span>
+          </span>
+        )}
+        <p>{gameData?.price_overview?.final_formatted}</p>
+        {gameData?.is_free && <p>free</p>}
+      </div>
     </div>
   );
 }
@@ -55,7 +66,9 @@ function BannerGameItemDetail(props: BannerGameItemDetailProps) {
 // `;
 
 const gameTitle = css`
-  font-size: 200%;
+  font-size: 2rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const gameDetail = css`
@@ -65,10 +78,36 @@ const gameDetail = css`
 const gameDescription = css`
   margin: 1rem 2rem;
   height: 9.5rem;
-  overflow: scroll;
+  overflow-y: auto;
   line-height: 140%;
+  font-weight: 300;
+  text-indent: 1rem;
+  word-break: normal;
   &::-webkit-scrollbar {
-    display: none;
+    background-color: aliceblue;
+  }
+`;
+
+const genresCss = css`
+  text-indent: 1rem;
+  font-size: 0.8rem;
+  line-height: 120%;
+  font-weight: 100;
+  background-color: #9575a181;
+`;
+
+const recommendBtn = css`
+  display: flex;
+  align-items: center;
+  font-weight: 200;
+`;
+
+const priceDiv = css`
+  display: flex;
+  justify-content: space-between;
+  /* background-color: #0000004c; */
+  p {
+    font-weight: 200;
   }
 `;
 

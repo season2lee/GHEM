@@ -52,6 +52,12 @@ function HoverGameTitle(props: HoverGameTitleProps) {
   }, [realyUnLike, unLikeTimer]);
 
   useEffect(() => {
+    setUnLikeTimer(3);
+    setDoUnLike(true);
+    setRealyUnLike(false);
+  }, [props.appid]);
+
+  useEffect(() => {
     if (!doUnLike) {
       setRealyUnLike(false);
     }
