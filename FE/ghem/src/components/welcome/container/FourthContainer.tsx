@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { useNavigate } from "react-router";
 import useIntersectionObsever from "@/util/hooks/useIntersectionObserver";
 import gameChat from "@/assets/image/gameChat.png";
+import { mobile } from "@/util/Mixin";
 
 function ForthContainer() {
   const ref = useRef<HTMLDivElement>(null);
@@ -30,19 +31,20 @@ function ForthContainer() {
           </div>
           <div className="card__main">
             <div className="card__message">
-              <div className="card__message-box"></div>
+              <div className="card__message-box">같이 게임 하실분 구함(1/4)</div>
               <span className="card__message-time line figure"></span>
             </div>
             <div className="card__message card__message_my">
-              <div className="card__message-box card__message-box_my"></div>
+              <div className="card__message-box card__message-box_my">
+               저요!</div>
               <span className="card__message-time line figure"></span>
             </div>
             <div className="card__message">
-              <div className="card__message-box"></div>
+              <div className="card__message-box">이거 1단계 공략 아시는 분?</div>
               <span className="card__message-time line figure"></span>
             </div>
             <div className="card__message card__message_my">
-              <div className="card__message-box card__message-box_my"></div>
+              <div className="card__message-box card__message-box_my">그거 ~ 하면 됩니다</div>
               <span className="card__message-time line figure"></span>
             </div>
           </div>
@@ -62,15 +64,11 @@ function ForthContainer() {
         </div>
         </div>
       </div>
-      <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
-        <h3>
-          무슨 게임 할 지 항상 고민 하셨나요?
-          <br />
-          steam에서 추천해주는 게임이 지루하셨나요?
-          <br />
-          까다로운 당신의 취향에 딱 맞는 서비스를 받아보세요
-          <br />
-        </h3>
+      <div ref={ref} className={isInViewport ? "animation" : ""} css={textsection}>
+      <h1>실시간 채팅 서비스</h1>
+        <h2># 유저 간 실시간 소통 </h2>
+        <h3>- 게임 도중 궁금한 점을 물어보고 싶은 경우</h3>
+        <h3>- 멀티 플레이 게임을 하고 싶은데 같이 할 사람이 없는 경우</h3>      
       </div>
     </div>
   );
@@ -81,25 +79,96 @@ const layout = css`
   height: 100vh;
   font-family: sans-serif;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   flex-direction: row;
   justify-content: center;
+  ${mobile}{
+    flex-direction: column;
+  }
 `;
+
+const textsection = css`
+  z-index: 100;
+  height: 70vh;
+  width: 30%;
+  text-align: center;
+  background-color:#352c425f ;
+  margin: 2rem;
+  border-radius: 1rem;
+  margin-right: 10%;
+
+  ${mobile} {
+    margin: 5rem;
+    height: 50%;
+    width:100%
+  }
+  h1 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: #ffffffef;
+    text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
+      0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
+      0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin: 2rem;
+    text-align: start;
+    font-weight: 500;
+  }
+  h3 {
+    font-size: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    text-align: start;
+    font-weight: 400;
+    ${mobile} {
+      font-size: 0.7rem;
+    }
+  }
+  &.animation {
+    animation-name: opacity;
+    animation-duration: 1000ms;
+
+    @keyframes opacity {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  }
+  
+`
+
 
 const section = css`
   z-index: 100;
   height: 100vh;
   width: 50%;
   text-align: center;
+ 
 
-  img {
-    max-width: 100%;
-    max-height: 100%;
+  ${mobile} {
+    height: 50%;
+    width:100%
+  }
+  h3 { 
+    font-weight: 100;
+    background-color:#352C42 ;
+    margin: 2rem;
+    text-align: start;
+    ${mobile}{
+      font-size: 1rem;
+    }
   }
   &.animation {
     animation-name: opacity;
-    animation-duration: 5000ms;
+    animation-duration: 1000ms;
 
     @keyframes opacity {
       from {
@@ -119,13 +188,17 @@ const chatAni = css`
   --second-color: #E0E0E0;
   --my-messages-color: #463B58;
   --size: 2px;
-
-  margin: 0;
+  
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   animation: body-animation 1s ease forwards infinite;
+
+  ${mobile} {
+    height: 30vh;
+    margin: 2rem;
+  }
 
   .card {
   background: #fff;
@@ -133,8 +206,10 @@ const chatAni = css`
   height: 31rem;
   box-shadow: 0.3rem 0.3rem 1rem rgba(0, 0, 0, 0.2);
   position: relative;
-  opacity: 0;
-  animation: card-animation 10s 1s ease forwards;
+
+  ${mobile} {
+    height:25rem;
+  }
 }
 
 .card__header {
@@ -148,10 +223,17 @@ const chatAni = css`
   align-items: center;
   opacity: 0;
   animation: header-animation 8s 1s ease forwards;
+  ${mobile} {
+    height:3rem;
+  }
 }
 
 .card__main {
   padding: 40px 20px;
+
+  ${mobile} {
+    padding: 20px 10px;
+  }
 }
 
 .card__footer {
@@ -244,20 +326,27 @@ const chatAni = css`
   justify-content: flex-start;
   margin-bottom: 1.5rem;
   transform: scale(0);
+  font-size: 0.8rem;
+  div{
+    padding: 0.7rem;
+  }
+  
+  
+  
   
 }
 .card__message:nth-of-type(1) {
-  animation: msg-animation 9s 1s ease forwards infinite;
+  animation: msg-animation 3s 1s ease forwards;
 }
 .card__message:nth-of-type(2) {
-  animation: msg-animation 7s 3s ease forwards infinite;
+  animation: msg-animation 3s 3s ease forwards;
 }
 
 .card__message:nth-of-type(3) {
-  animation: msg-animation 5s 5s ease forwards infinite;
+  animation: msg-animation 3s 5s ease forwards;
 }
 .card__message:nth-of-type(4) {
-  animation: msg-animation 3s 10s ease forwards infinite;
+  animation: msg-animation 3s 7s ease forwards;
 }
 
 

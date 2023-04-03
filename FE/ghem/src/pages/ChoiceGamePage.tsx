@@ -170,11 +170,16 @@ const layout = css`
   margin: 10%;
 `;
 const section = css`
+  font-size: 2rem;
   display: inline-flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 90%;
   height: 20%;
   margin-bottom: 5%;
+  color: #ffffffef;
+    text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
+      0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
+      0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
 `;
 export default ChoiceGamePage;
