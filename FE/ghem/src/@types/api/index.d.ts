@@ -9,7 +9,7 @@ declare module "apiTypes" {
 
   export type steamAccountType = {
     steamId: string;
-    userId: string;
+    userId: number;
   };
 
   export type contentInfoType = {
