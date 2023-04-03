@@ -1,4 +1,3 @@
-import React from "react";
 import { css } from "@emotion/react";
 import FollowListItem from "./FollowListItem";
 import { followListType } from "apiTypes";
@@ -13,17 +12,17 @@ function FollowList({ type, followList, isMyProfile }: FollowListProps) {
   return (
     <div css={wrapper}>
       <span>총 {followList.length}명</span>
-      <div>
-        {followList.length > 0 ? (
-          followList.map((followUser, idx) => (
+      {followList.length > 0 ? (
+        <div>
+          {followList.map((followUser, idx) => (
             <FollowListItem key={idx} followUser={followUser} followType={type} isMyProfile={isMyProfile} />
-          ))
-        ) : (
-          <div css={followNoneWrapper}>
-            <span>관심 친구가 없습니다.</span>
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div css={followNoneWrapper}>
+          <span>관심 친구가 없습니다.</span>
+        </div>
+      )}
     </div>
   );
 }
