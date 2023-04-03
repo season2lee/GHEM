@@ -50,12 +50,12 @@ function CommonGameList(props: CommonGameListProps) {
     const newList = props.gameList?.filter((game) => {
       return !userDisLikeGame.includes(game.appid);
     });
-    console.log(newList, "=====================");
+    // console.log(newList, "=====================");
     const newNewList = newList?.filter((newGame) => {
       return !banGame.includes(newGame.appid);
     });
     setGameList(newNewList);
-  }, [props.gameList]);
+  }, [props.gameList, userDisLikeGame]);
 
   useEffect(() => {
     const timeout = setTimeout(() => setForTime(forTime + 1), 30);
