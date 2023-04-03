@@ -83,19 +83,6 @@ function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove, 
     return () => window.removeEventListener("mousedown", handleClick);
   }, [modalRef]);
 
-  useEffect(() => {
-    if (game.title.length >= 27) {
-      game.title = game.title.substr(0, 25) + "...";
-    }
-  }, [game]);
-
-  useEffect(() => {
-    if (review && review.length >= 20) {
-      review = review.substr(0, 18) + "...";
-      console.log(review);
-    }
-  }, [review]);
-
   return (
     <div css={gameCardWrapper}>
       <div css={gameImageWrapper}>
@@ -117,11 +104,10 @@ function GameCard({ userGameId, dibsId, path, game, rating, review, isDragMove, 
       </div>
       <div css={isEachFollow ? gameContentWrapper : blurGameContentWrapper} onClick={moveToGameDetail}>
         <div css={gameContentHeader}>
-          <b>{game.title}</b>
+          {game.title.length >= 27 ? <b>{game.title.substr(0, 25) + "..."}</b> : <b>{game.title}</b>}
           {rating && <GameRating rate={rating} />}
         </div>
-        {/* {review && <span>{review}</span>} */}
-        <span>{review}</span>
+        {review && review.length >= 20 ? <span>{review.substr(0, 18) + "..."}</span> : <span>{review}</span>}
       </div>
     </div>
   );
