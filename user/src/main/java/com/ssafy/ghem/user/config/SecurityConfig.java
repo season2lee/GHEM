@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://j8d107.p.ssafy.io/", "http://localhost:5173")); // 프론트엔드 서버의 URL을 허용 목록에 추가
+        configuration.setAllowedOrigins(Arrays.asList("http://j8d107.p.ssafy.io", "http://localhost:5173", "http://localhost:8081", "http://j8d107.p.ssafy.io:8081")); // 프론트엔드 서버의 URL을 허용 목록에 추가
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
         configuration.setAllowCredentials(true);

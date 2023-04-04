@@ -278,8 +278,12 @@ def recommgames(model : GameRecomm = Depends(GameRecomm)):
     recommend_games = []
     for app_id in app_list:
         app_id = int(app_id)
-        game_list = get_similar_games(app_id, svd, trainset, gameinfo)
-        recommend_games.extend(game_list)
+        try:
+            game_list = get_similar_games(app_id, svd, trainset, gameinfo)
+            recommend_games.extend(game_list)
+        except:
+            continue
+        
 
     # model.steam_id에 해당하는 사용자가 이미 평가한 app_id를 찾습니다.
     rated_app_ids = set(ratings[ratings['steam_id'] == model.steam_id]['app_id'])
@@ -300,8 +304,12 @@ def recommgames(genre : str = '', top : int = 10):
     genre_list = genre.split('/')
     recommend_games = []
     for g in genre_list:
-        game_list = sort_by_genre(gameinfo, g, top)
-        recommend_games.extend(game_list)
+        try:
+            game_list = sort_by_genre(gameinfo, g, top)
+            recommend_games.extend(game_list)
+        except:
+            continue
+        
     
     # 중복 제거
     recommend_games = list({game['app_id']: game for game in recommend_games}.values())  
@@ -316,8 +324,12 @@ def recommgames(model : GenreRecomm = Depends(GenreRecomm)):
     genre_list = model.genre.split('/')
     recommend_games = []
     for g in genre_list:
-        game_list = sort_by_genre(gameinfo, g, model.top)
-        recommend_games.extend(game_list)
+        try:
+            game_list = sort_by_genre(gameinfo, g, model.top)
+            recommend_games.extend(game_list)
+        except:
+            continue
+        
 
         # model.steam_id에 해당하는 사용자가 이미 평가한 app_id를 찾습니다.
     rated_app_ids = set(ratings[ratings['steam_id'] == model.steam_id]['app_id'])
