@@ -20,7 +20,7 @@ function BannerGameItemDetail(props: BannerGameItemDetailProps) {
 
   const getGameDetail = async () => {
     try {
-      const response = await axios.get(env.VITE_GAME_DETAILB + props.appId);
+      const response = await axios.get(env.VITE_GAME_DETAIL + props.appId);
       if (response.data[props.appId ?? "null"].success) {
         setGameData(response.data[props.appId ?? "null"].data);
         // console.log(response);
