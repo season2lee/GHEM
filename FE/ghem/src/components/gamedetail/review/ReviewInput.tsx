@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import React, { useRef, useState, useEffect } from 'react'
-import chad from '@/assets/image/chad.jpeg';
+import defaultProfile from '@/assets/image/defaultProfile.jpg';
 
 type ReviewInputProps = {
   isRated: boolean,
@@ -61,7 +61,7 @@ function ReviewInput({isRated}: ReviewInputProps) {
   return (
     <div>
       <div css={inputContainer}>
-        <img src={chad} css={profileImageStyle} />
+        <img src={defaultProfile} css={profileImageStyle} />
         <input onChange={onChangeHandler} css={reviewInputStyle} type="text" ref={inputRef} onFocus={onFocusHandler} onClick={handleInputClick} placeholder="입력해주세요..." />
       </div>
       {isFocused &&
