@@ -50,7 +50,7 @@ function Footer({ setMessages, isConnected }: FooterProps) {
         rows={3}
         ref={textareaRef}
         onKeyDown={handleSendEnterDown}
-        placeholder={isConnected ? "채팅 내용을 입력해주세요..." : "네트워크 연결이 필요합니다"}
+        placeholder={isConnected ? "채팅 내용을 입력해주세요..." : "채팅 서버와의 연결이 필요합니다"}
         disabled={!isConnected}
       ></textarea>
       <div>
