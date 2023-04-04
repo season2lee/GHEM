@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
-public class ContollerExceptionHandler {
+public class ControllerExceptionHandler {
 
     @ExceptionHandler(NoModify.class)
     public ResponseEntity<?> noModify(Exception e){

@@ -3,7 +3,6 @@ package com.ssafy.ghem.user.controller;
 import com.ssafy.ghem.user.model.service.RatingService;
 import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.RatingVO;
-import com.ssafy.ghem.user.model.vo.ReviewVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

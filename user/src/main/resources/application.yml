@@ -13,6 +13,24 @@ spring:
     username: root
     password: d107
 
+  security:
+    oauth2:
+      client:
+        registration:
+          steam:
+            client-id: steam # 개인적으로 입력할 필요 없음
+            client-name: Steam # 개인적으로 입력할 필요 없음
+            provider: steam # 개인적으로 입력할 필요 없음
+            scope: openid # 개인적으로 입력할 필요 없음
+            authorization-grant-type: authorization_code # 개인적으로 입력할 필요 없음
+            redirect-uri: http://j8d107.p.ssafy.io/login/oauth2/code/steam # 여기서 {baseUrl}을 애플리케이션의 실제 기본 URL로 변경하십시오.
+        provider:
+          steam:
+            authorization-uri: https://steamcommunity.com/openid/login # 개인적으로 입력할 필요 없음
+            user-info-uri: https://steamcommunity.com/openid/id/ # 개인적으로 입력할 필요 없음
+            token-uri: https://steamcommunity.com/openid/token # 개인적으로 입력할 필요 없음
+            user-name-attribute: id # 개인적으로 입력할 필요 없음
+
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:

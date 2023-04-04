@@ -7,10 +7,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -53,4 +61,19 @@ public class OauthController {
 
         return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
+
+    @GetMapping("/steam")
+    @ApiOperation(value = " Steam OpenID 로그인",
+            response = RedirectView.class)
+    public RedirectView steamAuth(@AuthenticationPrincipal OAuth2User principal, RedirectAttributes redirectAttributes) {
+        Map<String, Object> attributes = principal.getAttributes();
+
+        // 모든 사용자 속성 출력
+        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+
+        return new RedirectView("http://j8d107.p.ssafy.io/");
+    }
+
 }

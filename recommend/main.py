@@ -165,14 +165,14 @@ async def create_rating(userGameRating : UserGameRating):
 @app.post("/game")
 async def create_game(game : Game):
     if game.app_id == 0:
-        return '', 200
+        return 'app_id is null', 200
     try:
         async with get_mysql_connection() as conn:
             async with conn.cursor() as cursor:
-                await cursor.execute("SELECT app_id FROM game WHERE app_id = %s;", (game.app_id,))
+                await cursor.execute("SELECT * FROM game WHERE app_id = %s;", (game.app_id,))
                 row = await cursor.fetchone()
                 
-                
+                print(row)
 
                 if(row == None):
                     res = requests.get(f'https://store.steampowered.com/api/appdetails?appids={game.app_id}')

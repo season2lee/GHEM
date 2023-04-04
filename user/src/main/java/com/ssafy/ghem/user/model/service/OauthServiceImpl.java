@@ -38,6 +38,7 @@ public class OauthServiceImpl implements OauthService {
     @Value("${naver.secret}")
     private String clientSecretNaver;
 
+
     @Override
     @Transactional("commonTransactionManager")
     public HttpVO tryOauthKakao(String code) {
@@ -120,8 +121,8 @@ public class OauthServiceImpl implements OauthService {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
         body.add("client_id", clientId);
-//        body.add("redirect_uri", "http://j8d107.p.ssafy.io/oauth/kakao/callback");
-        body.add("redirect_uri", "http://localhost:5173/oauth/kakao/callback");
+        body.add("redirect_uri", "http://j8d107.p.ssafy.io/oauth/kakao/callback");
+        //body.add("redirect_uri", "http://localhost:5173/oauth/kakao/callback");
         body.add("code", code);
 
         // HTTP 요청 보내기
@@ -163,8 +164,8 @@ public class OauthServiceImpl implements OauthService {
         body.add("grant_type", "authorization_code");
         body.add("client_id", clientIdNaver);
         body.add("client_secret", clientSecretNaver);
-//        body.add("redirect_uri", "http://j8d107.p.ssafy.io/oauth/naver/callback");
-        body.add("redirect_uri", "http://localhost:5173/oauth/naver/callback");
+        body.add("redirect_uri", "http://j8d107.p.ssafy.io/oauth/naver/callback");
+        //body.add("redirect_uri", "http://localhost:5173/oauth/naver/callback");
         body.add("code", code);
 
         // HTTP 요청 보내기
@@ -272,4 +273,46 @@ public class OauthServiceImpl implements OauthService {
                 .userProfile(profile)
                 .build();
     }
+
+
+//    public String buildSteamAuthUrl() {
+//
+//        UriComponentsBuilder steamAuthUrlBuilder = UriComponentsBuilder.fromHttpUrl(STEAM_AUTH_URL)
+//                .queryParam("openid.ns", "http://specs.openid.net/auth/2.0")
+//                .queryParam("openid.mode", "checkid_setup")
+//                .queryParam("openid.return_to", STEAM_VERIFY_URL)
+//                .queryParam("openid.realm", STEAM_VERIFY_URL)
+//                .queryParam("openid.identity", "http://specs.openid.net/auth/2.0/identifier_select")
+//                .queryParam("openid.claimed_id", "http://specs.openid.net/auth/2.0/identifier_select");
+//
+//        return steamAuthUrlBuilder.toUriString();
+//    }
+//
+//    public boolean verifySteamAuth(String identity, String claimedId, HttpSession session) {
+//        try {
+//            // Step 0: Setup the shared associations with Steam OpenID provider
+//            List<DiscoveryInformation> discoveries = consumerManager.discover("https://steamcommunity.com/openid");
+//            DiscoveryInformation discovered = consumerManager.associate(discoveries);
+//            session.setAttribute("openid-disc", discovered);  // 세션에 DiscoveryInformation 객체 저장
+//
+//
+//            // Step 3: Verify the Steam OpenID response
+//            ParameterList openIdAuthParams = new ParameterList();
+//            openIdAuthParams.set(new Parameter("openid.ns", "http://specs.openid.net/auth/2.0"));
+//            openIdAuthParams.set(new Parameter("openid.mode", "checkid_setup"));
+//            openIdAuthParams.set(new Parameter("openid.return_to", STEAM_CALLBACK_URL));
+//            openIdAuthParams.set(new Parameter("openid.realm", "http://localhost:8080"));
+//            openIdAuthParams.set(new Parameter("openid.identity", "http://specs.openid.net/auth/2.0/identifier_select"));
+//            openIdAuthParams.set(new Parameter("openid.claimed_id", "http://specs.openid.net/auth/2.0/identifier_select"));
+//
+//            VerificationResult verification = consumerManager.verify(claimedId, openIdAuthParams, (DiscoveryInformation) session.getAttribute("openid-disc"));
+//
+//            if (verification.getVerifiedId().equals(identity)) {
+//                return true;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
 }
