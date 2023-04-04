@@ -26,6 +26,7 @@ type GameDataType = {
 function GameDetailPage() {
   const [gameData, setGameData] = useState<GameDataType | null>(null); // 보여질 게임에 대한 상세 정보
   const [currentRating, setCurrentRating] = useState(0);
+  const [userID, setUserID] = useState<number | null>(null);
   const appID = useParams().appid; // URL의 path variable로 부터 APP_ID 추출
   const env = import.meta.env;
 
@@ -33,7 +34,7 @@ function GameDetailPage() {
   // 게임 상세 정보 가져오기
   const getGameData = async () => {
     try {
-      const response = await axios.get(env.VITE_GAME_DETAIL + appID);
+      const response = await axios.get(env.VITE_GAME_DETAIL + appID + "&filters=basic");
       const data = response.data[String(appID)].data;
       setGameData(() => {
         return {
@@ -50,16 +51,9 @@ function GameDetailPage() {
   // 유저가 매긴 평점 가져오기
   const getRatingData = async () => {
     try {
-      const response = await axios.get(
-        env.VITE_API_BASE_URL + "/review/check",
-        {
-          params: {
-            app_id: appID,
-            user_id: 9,
-          },
-        }
-      );
+      const response = await axios.get(env.VITE_API_BASE_URL + "/rating/" + userID);
       const data = response.data;
+      // console.log("ratingData:", data.data[0].rating);
       console.log("ratingData:", data);
     } catch {
       console.log("ratingData 불러오기 실패");
@@ -74,14 +68,16 @@ function GameDetailPage() {
   // 유저가 매긴 평점 등록하기
   const postRatingData = async (rating: number) => {
     try {
-      console.log("평점 등록 요청");
-      const response = await axios.post(env.VITE_API_BASE_URL + "/review", {
-        app_id: appID,
-        user_id: 9,
-        rating: rating,
-      });
-      const result = response.data;
-      console.log(result);
+      console.log("평점 등록 요청:", rating);
+      if (userID !== null) {
+        const response = await axios.post(env.VITE_API_BASE_URL + "/rating", {
+          app_id: appID,
+          user_id: userID,
+          rating: rating,
+        });
+        const result = response.data;
+        console.log(result);
+      }
     } catch {
       console.log("평점 등록 실패...");
     }
@@ -89,7 +85,7 @@ function GameDetailPage() {
 
   // 유저가 매긴 평점 변경하기
   const putRatingData = async (rating: number) => {
-    console.log("평점 변경 요청");
+    console.log("평점 변경 요청:", rating);
   };
 
   // 별점 클릭한 이벤트에 대한 핸들러
@@ -113,48 +109,81 @@ function GameDetailPage() {
       });
     }
   };
+
+  const getUserIdFromLocalStorage = (localID: string | null) => {
+    
+  }
+
+  const setUserLoginState = () => {
+    const localID = localStorage.getItem("id");
+    if (localID === null) {
+      setUserID((oldState) => {
+        // console.log("로그인한 유저 없음");
+        if (oldState === null) {
+          return oldState;
+        } else {
+          return null;
+        }
+      })
+    } else if (!isNaN(parseInt(localID))) {
+      setUserID(() => {
+        // console.log("로그인한 유저:", parseInt(localID));
+        return parseInt(localID);
+      })
+    }
+  }
   /*----------------------------------------------------*/
 
   useEffect(() => {
     getGameData();
-    // getRatingData();
-    const userId: number | null = Number(localStorage.getItem("id"));
-    console.log("유저 아이디:", userId);
   }, [appID]);
 
-  return (
-    <div>
-      {/* 라이브러리 이미지를 가진 헤드 컴포넌트*/}
-      {appID && <ImageHead appID={appID} />}
-      {/* {gameData && <ImageHead gameData={gameData} currentRating={currentRating} ratingHandler={ratingHandler} />} */}
+  useEffect(() => {
+    setUserLoginState();
+    if (userID !== null) {
+      getRatingData();
+    }
+  }, [userID])
 
-      {/* 게임정보 컴포넌트 */}
-      <div css={container}>
-        <GameInfo
-          gameData={gameData}
-          currentRating={currentRating}
-          ratingHandler={ratingHandler}
-        />
-        <div css={topContainer}>
-          <div css={leftContainer}>
-            {/* 리뷰 컴포넌트 */}
-            <Section>
-              <ReviewSection currentRating={currentRating} />
-            </Section>
-            {/* 즐겨찾기한 유저들 컴포넌트 */}
-            <br />
-            <Section>
-              <SimilarUserSection />
-            </Section>
-          </div>
-          <div css={rightContainer}>
-            {/* 채팅창 컴포넌트 */}
-            <ChatBox brokerUrl={BROKER_URL} />
+  if (userID) {
+    return (
+      <div>
+        {/* 라이브러리 이미지를 가진 헤드 컴포넌트*/}
+        {appID && <ImageHead appID={appID} />}
+        {/* {gameData && <ImageHead gameData={gameData} currentRating={currentRating} ratingHandler={ratingHandler} />} */}
+  
+        {/* 게임정보 컴포넌트 */}
+        <div css={container}>
+          <GameInfo
+            gameData={gameData}
+            currentRating={currentRating}
+            ratingHandler={ratingHandler}
+          />
+          <div css={topContainer}>
+            <div css={leftContainer}>
+              {/* 리뷰 컴포넌트 */}
+              <Section>
+                <ReviewSection currentRating={currentRating} />
+              </Section>
+              {/* 즐겨찾기한 유저들 컴포넌트 */}
+              <br />
+              <Section>
+                <SimilarUserSection />
+              </Section>
+            </div>
+            <div css={rightContainer}>
+              {/* 채팅창 컴포넌트 */}
+              <ChatBox brokerUrl={BROKER_URL} />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div>로그인 먼저 하세욤</div>
+    )
+  }
 }
 
 const container = css`

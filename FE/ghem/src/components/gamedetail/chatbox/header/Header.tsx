@@ -4,12 +4,12 @@
 
 import { css } from '@emotion/react'
 import React from 'react'
-import chad from '@/assets/image/chad.jpeg';
+import defaultProfile from '@/assets/image/defaultProfile.jpg';
 
 function Header() {
   return (
     <div css={container}>
-      <img css={profileImageStyle} src={chad} alt="" />
+      <img css={profileImageStyle} src={defaultProfile} alt="" />
       <p css={nameStyle}>로그인한 유저 닉네임</p>
     </div>
   )

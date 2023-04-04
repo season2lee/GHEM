@@ -12,6 +12,7 @@ type BannerGameItemDetailProps = {
 
 function BannerGameItemDetail(props: BannerGameItemDetailProps) {
   const [gameData, setGameData] = useState<GameDetailFromSteam>();
+  const env = import.meta.env;
 
   useEffect(() => {
     getGameDetail();
@@ -19,9 +20,7 @@ function BannerGameItemDetail(props: BannerGameItemDetailProps) {
 
   const getGameDetail = async () => {
     try {
-      const response = await axios.get(
-        `https://store.steampowered.com/api/appdetails?appids=${props.appId}&l=korean`
-      );
+      const response = await axios.get(env.VITE_GAME_DETAIL + props.appId);
       if (response.data[props.appId ?? "null"].success) {
         setGameData(response.data[props.appId ?? "null"].data);
         // console.log(response);
@@ -45,12 +44,13 @@ function BannerGameItemDetail(props: BannerGameItemDetailProps) {
       <p css={gameDescription}>{gameData?.short_description}</p>
       <hr color="#caaed1" />
       <div css={priceDiv}>
-        {gameData?.recommendations.total && (
+        {gameData?.recommendations?.total && (
           <span css={recommendBtn}>
             <MdOutlineRecommend size={20} fill="#dceeff" />
             <span>{gameData?.recommendations?.total}</span>
           </span>
         )}
+        {!gameData?.recommendations?.total && <div></div>}
         <p>{gameData?.price_overview?.final_formatted}</p>
         {gameData?.is_free && <p>free</p>}
       </div>

@@ -54,6 +54,7 @@ function HoverGameItem(props: HoverGameItemProps) {
   const [haveData, setHaveData] = useState<"have" | "null" | "loading">(
     "loading"
   );
+  const env = import.meta.env;
   useEffect(() => {
     getGameDetail();
     return () => {};
@@ -70,7 +71,7 @@ function HoverGameItem(props: HoverGameItemProps) {
   const getGameDetail = async () => {
     try {
       const response = await axios.get(
-        `https://store.steampowered.com/api/appdetails?appids=${props.appid}&l=korean`
+        env.VITE_GAME_DETAIL + props.appid
       );
       if (response.data[props.appid ?? "null"].success) {
         setGamedetail(response.data[props.appid ?? "null"].data);
