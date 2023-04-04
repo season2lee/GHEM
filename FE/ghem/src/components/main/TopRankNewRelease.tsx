@@ -35,7 +35,7 @@ function TopRankNewRelease(props: TopRankNewReleaseProps) {
   const TopRankListApi = async () => {
     try {
       const response = await axios.get(
-        "https://c4q3ics2qk.execute-api.ap-northeast-2.amazonaws.com/test/isteamchart"
+        "https://c4q3ics2qk.execute-api.ap-northeast-2.amazonaws.com/test/isteamchart/gettopreleasespages"
       );
       setTopRankLists(response.data.response.pages);
     } catch (err) {

@@ -12,11 +12,7 @@ import NaverLogin from "@components/login/NaverLogin";
 import ScrollToTop from "./util/ScrollToTop";
 import GameBanPage from "./pages/GameBanPage";
 import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  loginRandomGameList,
-  banGameList,
-  disLikeGameList,
-} from "@/store/mainState";
+import { loginRandomGameList, banGameList, disLikeGameList } from "@/store/mainState";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { css } from "@emotion/react";
@@ -25,11 +21,9 @@ import Footer from "@components/common/Footer";
 
 function App() {
   const userId: number | null = Number(localStorage.getItem("id"));
-  const [loginRandomGame, setLoginRandomGame] =
-    useRecoilState<{ appid: number }[]>(loginRandomGameList);
+  const [loginRandomGame, setLoginRandomGame] = useRecoilState<{ appid: number }[]>(loginRandomGameList);
   const [allBanGame, setAllBanGame] = useRecoilState<number[]>(banGameList);
-  const [userDisLikeGame, setUserDisLikeGame] =
-    useRecoilState<number[]>(disLikeGameList);
+  const [userDisLikeGame, setUserDisLikeGame] = useRecoilState<number[]>(disLikeGameList);
   const [randomAppList, setRandomAppList] = useState<number[]>();
   const [randomAppid, setRandomAppid] = useState<number>();
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
@@ -49,20 +43,20 @@ function App() {
 
   // App => Main페이지로 가며 로그인 상태 확인
   useEffect(() => {
-    console.log(userId, "============");
+    // console.log(userId, "============");
     if (userId) {
       setIsLoginStatus(true);
-      console.log("why,,,");
+      // console.log("why,,,");
     }
   }, [checkLogin]);
 
   // 유저 아이디 있고, 로그인 했으면 bannerTwo를 위한 작업 시작
   useEffect(() => {
-    console.log("ㅠㅠ...");
+    // console.log("ㅠㅠ...");
     if (userId && isLoginStatus) {
       getUserDisLikeGame();
       bannerTwoListApi();
-      console.log("여기는?", userId);
+      // console.log("여기는?", userId);
     }
   }, [isLoginStatus]);
 
@@ -83,9 +77,7 @@ function App() {
   // 내가 평가한 게임 리스트에서 랜덤 1개를 뽑기 위한  함수
   const getRandomAppId = () => {
     if (randomAppList) {
-      setRandomAppid(
-        randomAppList[Math.floor(Math.random() * randomAppList.length)]
-      );
+      setRandomAppid(randomAppList[Math.floor(Math.random() * randomAppList.length)]);
     }
   };
 
@@ -98,7 +90,7 @@ function App() {
         // `http://192.168.100.124:8080/rating/v2/${userId}`
       );
       const ids = response.data.data;
-      console.log("여기까진 된 건지", response);
+      // console.log("여기까진 된 건지", response);
       if (ids.length > 0) {
         setRandomAppList(ids);
       } else {
@@ -114,12 +106,9 @@ function App() {
   // (이후 그중 랜덤 1개와 유사한 게임 10개 리스트 만들 것)
   const randomAppidGameList = async () => {
     try {
-      const response = await axios.get(
-        `http://j8d107.p.ssafy.io:32003/games/v2`,
-        {
-          params: { apps: randomAppid, steam_id: userId },
-        }
-      );
+      const response = await axios.get(`http://j8d107.p.ssafy.io:32003/games/v2`, {
+        params: { apps: randomAppid, steam_id: userId },
+      });
       const newDataList = response.data.map((special: { app_id: number }) => {
         return {
           appid: special.app_id,
@@ -136,12 +125,9 @@ function App() {
   // store에 특정 유저의 관심없어요 게임 저장
   const getUserDisLikeGame = async () => {
     try {
-      const response = await axios.get(
-        `http://j8d107.p.ssafy.io:32003/dislike`,
-        {
-          params: { steam_id: userId },
-        }
-      );
+      const response = await axios.get(`http://j8d107.p.ssafy.io:32003/dislike`, {
+        params: { steam_id: userId },
+      });
       // console.log(response.data);
       const newDataList = response.data.map((disLike: { app_id: number }) => {
         return disLike.app_id;
@@ -156,9 +142,7 @@ function App() {
   // store에 주의 게임 저장
   const getAllBanGame = async () => {
     try {
-      const response = await axios.get(
-        `http://j8d107.p.ssafy.io:32003/disapproving`
-      );
+      const response = await axios.get(`http://j8d107.p.ssafy.io:32003/disapproving`);
       // console.log(response.data);
       const newDataList = response.data.map((ban: { app_id: number }) => {
         return ban.app_id;
@@ -179,10 +163,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/detail/:appid" element={<GameDetailPage />} />
         <Route path="/profile/*" element={<ProfilePage />} />
-        <Route
-          path="/main"
-          element={<MainPage setCheckLogin={setCheckLogin} />}
-        />
+        <Route path="/main" element={<MainPage setCheckLogin={setCheckLogin} />} />
         <Route path="/*" element={<WelcomePage />} />
         <Route path="/gameban" element={<GameBanPage />} />
         <Route path="/update/profile" element={<ProfileUpdatePage />} />

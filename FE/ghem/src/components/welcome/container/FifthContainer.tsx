@@ -42,7 +42,7 @@ function FifthContainer() {
         <h1>PC 환경 적합도 <br /> 분석 서비스</h1>
         <h2># PC 환경 비교 </h2>
         <h3>- 게임 구매하고 사양이 달라 게임을 못한 경우</h3>
-        <h3>- PC 환경이 적절하지 않아 게임 플레이에 불편을 느끼는 경우</h3>      
+        <h3>- PC 환경이 적절하지 않아 게임 플레이에 불편을 느끼는 경우</h3>
       </div>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
         <div className="monitor">
@@ -237,19 +237,18 @@ const buttons = css`
     width: 4rem;
     border-radius: 0.5rem;
     color: #ffffffef;
-    text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
-      0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
-      0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
+    text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45, 0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53,
+      0 0 15px #ffd8f840, 0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
     cursor: pointer;
-    :nth-child(1) {
+    :nth-of-type(1) {
       background-color: #ede53d;
       border-color: #ede53d;
     }
-    :nth-child(2) {
+    :nth-of-type(2) {
       background-color: #f44ba2;
       border-color: #f44ba2;
     }
-    :nth-child(3) {
+    :nth-of-type(3) {
       background-color: #159452;
       border-color: #159452;
     }

@@ -28,7 +28,7 @@ function ReviewSection({currentRating}: ReciewSectionProps) {
   const loadReviewData = (reviewCount: number, pageNum: number) => {
     // 비동기 요청하기
     console.log("요청합니다:", reviewCount, "개 만큼", pageNum, "페이지를 요청함");
-    // setReviewData(dummyReviews);
+    setReviewData(dummyReviews);
   }
 
   // useEffect(() => {
