@@ -19,6 +19,7 @@ function ComputerSpec() {
 
   const handleResetComputerSpec = (): void => {
     // 사양 초기화
+    getMyComputerSpecFunc();
   };
 
   // 컴퓨터 스펙 정보 가져오기
@@ -105,7 +106,7 @@ function ComputerSpec() {
         <div css={computerSpecHeader}>
           <h4>내 컴퓨터 사양</h4>
           {!isValidate && <span>빈칸을 모두 채워주세요.</span>}
-          {/* <BiReset size="28" onClick={handleResetComputerSpec} /> */}
+          <BiReset size="28" onClick={handleResetComputerSpec} />
         </div>
         <ComputerSpecCPU />
         <ComputerSpecGPU />
