@@ -51,9 +51,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     try {
-      const response = await axios.get(
-        env.VITE_GAME_DETAIL + props.appid
-      );
+      const response = await axios.get(env.VITE_GAME_DETAIL + props.appid);
       if (response.data[props.appid ?? "null"].success) {
         setTitle(response.data[props.appid ?? "null"].data.name);
         setCurrentHeaderImg(
@@ -83,6 +81,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
       setErrorCount(errorCount + 1);
     }
   };
+
   const handleCapsuleImgError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
