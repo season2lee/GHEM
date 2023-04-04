@@ -97,7 +97,7 @@ function BannerGameList() {
           <MdAutorenew size={40} color="white" />
         </span>
       </div>
-      <div>
+      <div css={absoluteDiv}>
         <MdOutlineArrowBackIos />
         <MdOutlineArrowForwardIos />
       </div>
@@ -147,6 +147,7 @@ const recommendForU = css`
 
 const recommendList = css`
   display: flex;
+  position: relative;
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -174,6 +175,17 @@ const floating = keyframes`
 const boxStyle = css`
   color: #fff;
   animation: ${floating} 1.5s infinite alternate; ;
+`;
+
+const absoluteDiv = css`
+  z-index: 100;
+  top: 50%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const flexDiv = css`
+  display: flex;
 `;
 
 export default BannerGameList;
