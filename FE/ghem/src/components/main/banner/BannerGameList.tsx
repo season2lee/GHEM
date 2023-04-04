@@ -135,14 +135,14 @@ function BannerGameList() {
         </span>
       </div>
       <div css={relativeDiv}>
-        {isLeftInViewport && (
+        {!isLeftInViewport && (
           <MdOutlineArrowBackIos
             css={absoluteLeft}
             size={40}
             onClick={toLeft}
           />
         )}
-        {isRightInViewport && (
+        {!isRightInViewport && (
           <MdOutlineArrowForwardIos
             css={absoluteRight}
             size={40}
