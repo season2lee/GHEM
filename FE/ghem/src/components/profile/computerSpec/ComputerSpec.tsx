@@ -81,6 +81,7 @@ function ComputerSpec() {
         specInfo.os === modifiedSpecInfo.os &&
         specInfo.ram === modifiedSpecInfo.ram
       ) {
+        setIsValidate(true);
         return;
       }
 
@@ -121,14 +122,6 @@ function ComputerSpec() {
   useEffect(() => {
     getMyComputerSpecFunc();
   }, []);
-
-  useEffect(() => {
-    console.log("specInfo : ", specInfo);
-  }, [specInfo]);
-
-  useEffect(() => {
-    console.log("modifiedSpecInfo : ", modifiedSpecInfo);
-  }, [modifiedSpecInfo]);
 
   return (
     <div css={computerSpecWrapper}>
