@@ -1,6 +1,9 @@
 import { css, keyframes } from "@emotion/react";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { disLikeGameList, banGameList } from "@/store/mainState";
+import useIntersectionObsever from "@/util/hooks/useIntersectionObserver";
 import BannerGameItem from "./BannerGameItem";
 import {
   MdAutorenew,
@@ -21,20 +24,31 @@ type BannerList = {
 
 function BannerGameList() {
   const userId: number | null = Number(localStorage.getItem("id"));
+
   const scrollRef = useRef<HTMLDivElement>(null);
+  const leftTarget = useRef<HTMLDivElement>(null);
+  const rightTarget = useRef<HTMLDivElement>(null);
+
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [canClick, setCanClick] = useState<boolean>(true);
   const [startX, setStartX] = useState<number>(0);
   const [startPage, setStartPage] = useState<number>(0);
 
+  const isLeftInViewport = useIntersectionObsever(leftTarget);
+  const isRightInViewport = useIntersectionObsever(rightTarget);
+
   const [bannerList, setBannerList] = useState<BannerList[]>();
+
+  const [userDisLikeGame, setUserDisLikeGame] =
+    useRecoilState<number[]>(disLikeGameList); // 가져온 게임 리스트에서 밴 or 관심 없는 게임 필터링 처리
+  const [banGame, setBanGame] = useRecoilState<number[]>(banGameList);
 
   const scrollElement = scrollRef.current as HTMLDivElement;
 
   useEffect(() => {
     bannerListApi();
     return () => {};
-  }, [startPage]);
+  }, [userDisLikeGame, startPage]);
 
   useEffect(() => {
     if (bannerList) {
@@ -51,8 +65,19 @@ function BannerGameList() {
           params: { steam_id: userId, start: startPage, end: startPage + 10 },
         }
       );
+      const bannerListData = response.data.filter(
+        (game: { app_id: number }) => {
+          return !userDisLikeGame.includes(game.app_id);
+        }
+      );
+      const newBanner = bannerListData.filter((newGame: { app_id: number }) => {
+        return !banGame.includes(newGame.app_id);
+      });
       // console.log(response);
-      setBannerList(response.data);
+      // console.log(newBanner);
+      // console.log(userDisLikeGame);
+      // console.log(banGame);
+      setBannerList(newBanner);
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -82,6 +107,18 @@ function BannerGameList() {
     }
   };
 
+  const toLeft = () => {
+    const current =
+      (scrollElement.scrollLeft - window.innerWidth) / window.innerWidth;
+    scrollElement.scrollLeft = Math.round(current) * window.innerWidth;
+  };
+
+  const toRight = () => {
+    const current =
+      (scrollElement.scrollLeft + window.innerWidth) / window.innerWidth;
+    scrollElement.scrollLeft = Math.round(current) * window.innerWidth;
+  };
+
   return (
     <div>
       <div css={recommendForU}>
@@ -97,29 +134,43 @@ function BannerGameList() {
           <MdAutorenew size={40} color="white" />
         </span>
       </div>
-      <div css={absoluteDiv}>
-        <MdOutlineArrowBackIos />
-        <MdOutlineArrowForwardIos />
-      </div>
-      <div
-        css={recommendList}
-        ref={scrollRef}
-        onMouseDown={onDragStart}
-        onMouseMove={onDragMove}
-        onMouseUp={onDragEnd}
-        onMouseLeave={onDragLeave}
-      >
-        {bannerList?.map((bannerGame) => {
-          return (
-            <BannerGameItem
-              appId={bannerGame.app_id}
-              title={bannerGame.title}
-              genres={bannerGame.genre}
-              canClick={canClick}
-              key={bannerGame.app_id}
-            />
-          );
-        })}
+      <div css={relativeDiv}>
+        {isLeftInViewport && (
+          <MdOutlineArrowBackIos
+            css={absoluteLeft}
+            size={40}
+            onClick={toLeft}
+          />
+        )}
+        {isRightInViewport && (
+          <MdOutlineArrowForwardIos
+            css={absoluteRight}
+            size={40}
+            onClick={toRight}
+          />
+        )}
+        <div
+          css={recommendList}
+          ref={scrollRef}
+          onMouseDown={onDragStart}
+          onMouseMove={onDragMove}
+          onMouseUp={onDragEnd}
+          onMouseLeave={onDragLeave}
+        >
+          <div ref={leftTarget}></div>
+          {bannerList?.map((bannerGame) => {
+            return (
+              <BannerGameItem
+                appId={bannerGame.app_id}
+                title={bannerGame.title}
+                genres={bannerGame.genre}
+                canClick={canClick}
+                key={bannerGame.app_id}
+              />
+            );
+          })}
+          <div ref={rightTarget}></div>
+        </div>
       </div>
       <div css={bannerDetail}></div>
     </div>
@@ -177,15 +228,24 @@ const boxStyle = css`
   animation: ${floating} 1.5s infinite alternate; ;
 `;
 
-const absoluteDiv = css`
+const absoluteLeft = css`
   z-index: 100;
-  top: 50%;
-  display: flex;
-  justify-content: space-between;
+  top: 45%;
+  position: absolute;
+  left: 0;
+  margin: 0rem 1.5rem;
 `;
 
-const flexDiv = css`
-  display: flex;
+const absoluteRight = css`
+  z-index: 100;
+  top: 45%;
+  position: absolute;
+  right: 0;
+  margin: 0rem 1.5rem;
+`;
+
+const relativeDiv = css`
+  position: relative;
 `;
 
 export default BannerGameList;

@@ -105,7 +105,7 @@ function HoverGameTitle(props: HoverGameTitleProps) {
       setIsWish(true);
       setNumDib(response.data.data.result.dibs_id);
       // console.log(response);
-      console.log(userDisLikeGame);
+      // console.log(userDisLikeGame);
     } catch (err) {
       console.log("Error >>", err);
     }
