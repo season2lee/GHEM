@@ -71,7 +71,7 @@ function HoverGameItem(props: HoverGameItemProps) {
   const getGameDetail = async () => {
     try {
       const response = await axios.get(
-        env.VITE_GAME_DETAILB + props.appid
+        env.VITE_GAME_DETAIL + props.appid
       );
       if (response.data[props.appid ?? "null"].success) {
         setGamedetail(response.data[props.appid ?? "null"].data);

@@ -28,8 +28,7 @@ function SteadySeller(props: SteadySellerProps) {
   const TopRankListApi = async () => {
     try {
       const response = await axios.get(
-        "https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/"
-        // "https://api.steampowered.com/ISteamChartsService/GetGamesByConcurrentPlayers/v1/?"
+        "https://c4q3ics2qk.execute-api.ap-northeast-2.amazonaws.com/test/isteamchart/getmostplayedgames"
       );
       setSteadyGameList(response.data.response.ranks);
     } catch (err) {
