@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import SelectBox from "./common/SelectBox";
 import { mobile } from "@/util/Mixin";
-import { getGpuBrand, getGpuModel } from "@/api/computerSpec";
+import { getGpuModel } from "@/api/computerSpec";
 import { specInfoState, modifiedSpecInfoState } from "@/store/mainState";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -10,19 +10,12 @@ function ComputerSpecGPU() {
   const resultModalRef = useRef<HTMLDivElement>(null);
   const specInfo = useRecoilValue(specInfoState);
   const setModifiedSpecInfo = useSetRecoilState(modifiedSpecInfoState);
-  const [brand, setBrand] = useState<string[]>([]);
+
+  const brand: string[] = ["선택", "Nvidia", "AMD"];
   const [modelName, setModelName] = useState<string[]>([]);
-  const [selectedBrand, setSelectedBrand] = useState<string>("");
+  const [selectedBrand, setSelectedBrand] = useState<string>(brand[0]);
   const [selectedModelName, setSelectedModelName] = useState<string>("");
   const [isOpenOption, setIsOpenOption] = useState<boolean>(false);
-
-  const getGpuBrandFunc = async (): Promise<void> => {
-    const response = await getGpuBrand();
-
-    if (response) {
-      setBrand(response.gpu_brand_list);
-    }
-  };
 
   const handleChangeModelName = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\_+<>@\#$%&\\\=\(\'\"]/g;
@@ -39,6 +32,13 @@ function ComputerSpecGPU() {
           setIsOpenOption(true);
         }
       }
+    } else {
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          gpu_name: "",
+        };
+      });
     }
   };
 
@@ -54,31 +54,41 @@ function ComputerSpecGPU() {
   };
 
   useEffect(() => {
-    getGpuBrandFunc();
-  }, []);
+    if (specInfo.gpu_com !== selectedBrand) {
+      setSelectedModelName("");
+
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          gpu_com: selectedBrand,
+          gpu_name: "",
+        };
+      });
+    } else {
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          gpu_com: selectedBrand,
+        };
+      });
+    }
+  }, [selectedBrand]);
 
   useEffect(() => {
     // 기존에 설정된 스펙 값 세팅
     if (specInfo.gpu_com !== "" && specInfo.gpu_name !== "") {
       setSelectedBrand(specInfo.gpu_com);
       setSelectedModelName(specInfo.gpu_name);
+
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          gpu_com: specInfo.gpu_com,
+          gpu_name: specInfo.gpu_name,
+        };
+      });
     }
   }, [specInfo]);
-
-  useEffect(() => {
-    if (brand.length && selectedModelName === "") {
-      setSelectedBrand(brand[0]);
-    }
-  }, [brand]);
-
-  useEffect(() => {
-    setModifiedSpecInfo((prev) => {
-      return {
-        ...prev,
-        gpu_com: selectedBrand,
-      };
-    });
-  }, [selectedBrand]);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
