@@ -96,7 +96,7 @@ function App() {
         setRandomAppList(ids);
       } else {
         // 내가 평가한 게임이 0개면 카테고리로 게임 평가하러 보내기
-        navigator("/category");
+        // navigator("/category");
       }
       // setRandomAppid(ids[Math.floor(Math.random() * ids.length)]);
     } catch (err) {
