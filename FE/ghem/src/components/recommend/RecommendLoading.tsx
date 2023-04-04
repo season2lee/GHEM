@@ -4,6 +4,7 @@ import { gameRecommendState } from "@/store/mainState";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router";
 import GameCanvas from "@components/common/GameCanvas";
+import Footer from "@components/common/Footer";
 
 function RecommendLoading() {
   const currentGameRecommend = useRecoilValue(gameRecommendState);
@@ -40,6 +41,7 @@ function RecommendLoading() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

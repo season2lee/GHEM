@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import GameDetailPage from "./pages/GameDetailPage";
-import Footer from "./components/common/Footer";
 import Navbar from "./components/common/Navbar";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -16,6 +15,9 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { loginRandomGameList, banGameList, disLikeGameList } from "@/store/mainState";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { css } from "@emotion/react";
+import Footer from "@components/common/Footer";
+
 
 function App() {
   const userId: number | null = Number(localStorage.getItem("id"));
@@ -26,6 +28,11 @@ function App() {
   const [randomAppid, setRandomAppid] = useState<number>();
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
   const [checkLogin, setCheckLogin] = useState<boolean>(false);
+  const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    setPosition({ x: e.clientX, y: e.clientY });
+  };
 
   const navigator = useNavigate();
 
@@ -148,7 +155,7 @@ function App() {
   };
 
   return (
-    <>
+    <div>
       <Navbar />
       <StarBackground />
       <ScrollToTop />
@@ -164,8 +171,41 @@ function App() {
         <Route path="/oauth/naver/callback" element={<NaverLogin />} />
       </Routes>
       <Footer />
-    </>
+    </div>
   );
 }
+
+const container = css`
+    background-color: transparent;
+
+    /* .pointer {
+        position: absolute;
+        border: 1px solid white;
+        background: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        left: -15px;
+        top: -15px;
+        :hover{
+          cursor: Crosshair;
+        animation: hover 0.5s ease forwards ;
+        }
+        @keyframes hover {
+          from {
+            width: 30px;
+            height: 30px;
+            left: -15px;
+            top: -15px;
+          }
+          to {
+            width: 60px;
+            height: 60px;
+            left: -30px;
+            top: -30px;
+          }
+        }
+    } */
+`;
 
 export default App;
