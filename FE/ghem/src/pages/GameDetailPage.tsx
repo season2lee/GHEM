@@ -14,6 +14,7 @@ import ReviewSection from "@components/gamedetail/review/ReviewSection";
 import GameInfo from "@components/gamedetail/gameinfo/GameInfo";
 import SimilarUserSection from "@components/gamedetail/similaruser/SimilarUserSection";
 import { mobile, tabletH } from "@/util/Mixin";
+import { getUserID } from "@/api/user";
 
 const BROKER_URL = "ws://192.168.100.209:8080/ws";
 
@@ -51,10 +52,13 @@ function GameDetailPage() {
   // 유저가 매긴 평점 가져오기
   const getRatingData = async () => {
     try {
-      const response = await axios.get(env.VITE_API_BASE_URL + "/rating/" + userID);
-      const data = response.data;
-      // console.log("ratingData:", data.data[0].rating);
-      console.log("ratingData:", data);
+      const response = await axios.get(`${env.VITE_API_BASE_URL}/rating/${userID}/${appID}`);
+      const { data } = response.data;
+      const rating = data?.rating ?? 0;
+      console.log("ratingData:", rating);
+      setCurrentRating(() => {
+        return rating;
+      })
     } catch {
       console.log("ratingData 불러오기 실패");
     }
@@ -62,21 +66,31 @@ function GameDetailPage() {
 
   // 유저가 매긴 평점 삭제하기
   const deleteRatingData = async () => {
-    console.log("평점 삭제 요청");
+    try {
+      if (userID !== null) {
+        await axios.delete(`${env.VITE_API_BASE_URL}/rating`, {
+          params: {
+            user_id: userID,
+            app_id: appID
+          }
+        });
+        alert("삭제 완료!");
+      }
+    } catch {
+      console.log("평점 삭제 실패...");
+    }
   };
 
   // 유저가 매긴 평점 등록하기
   const postRatingData = async (rating: number) => {
     try {
-      console.log("평점 등록 요청:", rating);
       if (userID !== null) {
-        const response = await axios.post(env.VITE_API_BASE_URL + "/rating", {
+        await axios.post(`${env.VITE_API_BASE_URL}/rating`, {
           app_id: appID,
           user_id: userID,
-          rating: rating,
+          rating: rating
         });
-        const result = response.data;
-        console.log(result);
+        alert("등록 완료!");
       }
     } catch {
       console.log("평점 등록 실패...");
@@ -85,7 +99,18 @@ function GameDetailPage() {
 
   // 유저가 매긴 평점 변경하기
   const putRatingData = async (rating: number) => {
-    console.log("평점 변경 요청:", rating);
+    try {
+      if (userID !== null) {
+        await axios.put(env.VITE_API_BASE_URL + "/rating", {
+          app_id: appID,
+          user_id: userID,
+          rating: rating
+        });
+        alert("변경 완료!");
+      }
+    } catch {
+      console.log("평점 변경 실패...");
+    }
   };
 
   // 별점 클릭한 이벤트에 대한 핸들러
@@ -110,27 +135,10 @@ function GameDetailPage() {
     }
   };
 
-  const getUserIdFromLocalStorage = (localID: string | null) => {
-    
-  }
-
   const setUserLoginState = () => {
-    const localID = localStorage.getItem("id");
-    if (localID === null) {
-      setUserID((oldState) => {
-        // console.log("로그인한 유저 없음");
-        if (oldState === null) {
-          return oldState;
-        } else {
-          return null;
-        }
-      })
-    } else if (!isNaN(parseInt(localID))) {
-      setUserID(() => {
-        // console.log("로그인한 유저:", parseInt(localID));
-        return parseInt(localID);
-      })
-    }
+    setUserID((oldState) => {
+      return getUserID();
+    })
   }
   /*----------------------------------------------------*/
 
@@ -150,7 +158,6 @@ function GameDetailPage() {
       <div>
         {/* 라이브러리 이미지를 가진 헤드 컴포넌트*/}
         {appID && <ImageHead appID={appID} />}
-        {/* {gameData && <ImageHead gameData={gameData} currentRating={currentRating} ratingHandler={ratingHandler} />} */}
   
         {/* 게임정보 컴포넌트 */}
         <div css={container}>
