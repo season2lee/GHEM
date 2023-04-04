@@ -26,6 +26,13 @@ function ComputerSpecRAM() {
   useEffect(() => {
     if (specInfo.ram !== 0) {
       setSelectedRam(specInfo.ram);
+
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          ram: specInfo.ram,
+        };
+      });
     }
   }, [specInfo]);
 

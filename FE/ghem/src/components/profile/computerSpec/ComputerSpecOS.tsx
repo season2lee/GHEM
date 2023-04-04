@@ -8,7 +8,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 function ComputerSpecOS() {
   const specInfo = useRecoilValue(specInfoState);
   const setModifiedSpecInfo = useSetRecoilState(modifiedSpecInfoState);
-  const type: string[] = ["Windows", "Mac OS", "Linux"];
+  const type: string[] = ["선택", "Windows", "Mac OS", "Linux"];
   const [selectedType, setSelectedType] = useState<string>(type[0]);
 
   useEffect(() => {
