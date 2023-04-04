@@ -70,8 +70,20 @@ const layout = css`
 `;
 const section = css`
   height: 100%;
-
   h1 {
+    position: relative;
+    z-index: 10;
+    top:-18rem;
+    font-size: 10rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: #ffffffef;
+    text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
+      0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
+      0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
+  }
+
+  /* h1 {
     z-index: 10;
     top:-18rem;
     font-size: 10rem;
@@ -112,7 +124,7 @@ const section = css`
       100% var(--b2),
       0 var(--b2)
     );
-  }
+  } */
 `;
 
 const grid = css`

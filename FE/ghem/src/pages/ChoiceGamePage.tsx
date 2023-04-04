@@ -28,6 +28,7 @@ type GameList = {
 };
 
 function ChoiceGamePage() {
+  
   const [gameList, setGameList] = useState<GameList[]>([]);
   const userId: number | null = Number(localStorage.getItem("id"));
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
@@ -87,7 +88,7 @@ function ChoiceGamePage() {
   const LoginListApi = async (state: string) => {
     try {
       const response = await axios.get(
-        `http://j8d107.p.ssafy.io:32003/games/genre/v2?steam_id=${userId}&genre=${state}&top=10`
+        `http://j8d107.p.ssafy.io:32003/games/genre/v2?steam_id=${userId}&genre=${state}&top=30`
       );
       let item = response.data;
       for (let i = 0; i < item.length; i++) {

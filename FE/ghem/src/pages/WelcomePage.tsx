@@ -6,9 +6,11 @@ import ChoiceGamePage from "./ChoiceGamePage";
 import WelcomeContainer from "@components/welcome/WelcomeContainer";
 import RecommendLoading from "@components/recommend/RecommendLoading";
 
+
 function WelcomePage() {
+
   return (
-    <div>
+    <div >
       <Routes>
         <Route path="/category" element={<CategoryPage />} />
         <Route path="/choicegame" element={<ChoiceGamePage />} />
@@ -18,5 +20,6 @@ function WelcomePage() {
     </div>
   );
 }
+
 
 export default WelcomePage;
