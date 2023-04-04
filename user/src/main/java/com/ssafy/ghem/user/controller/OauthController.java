@@ -62,7 +62,7 @@ public class OauthController {
         return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
-    @GetMapping("/steam")
+    @GetMapping("/code/steam")
     @ApiOperation(value = " Steam OpenID 로그인",
             response = RedirectView.class)
     public RedirectView steamAuth(@AuthenticationPrincipal OAuth2User principal, RedirectAttributes redirectAttributes) {
