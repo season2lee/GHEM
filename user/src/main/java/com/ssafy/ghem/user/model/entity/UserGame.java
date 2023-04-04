@@ -32,6 +32,8 @@ public class UserGame {
     private Game game;
 
     private String content;
+
+    @Column(name = "update_date")
     private LocalDateTime updateDate;
 
     public void setUser(User user){
