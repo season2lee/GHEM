@@ -12,6 +12,7 @@ type BannerGameItemDetailProps = {
 
 function BannerGameItemDetail(props: BannerGameItemDetailProps) {
   const [gameData, setGameData] = useState<GameDetailFromSteam>();
+  const env = import.meta.env;
 
   useEffect(() => {
     getGameDetail();
@@ -20,7 +21,7 @@ function BannerGameItemDetail(props: BannerGameItemDetailProps) {
   const getGameDetail = async () => {
     try {
       const response = await axios.get(
-        `https://store.steampowered.com/api/appdetails?appids=${props.appId}&l=korean`
+        env.VITE_GAME_DETAILB + props.appId
       );
       if (response.data[props.appId ?? "null"].success) {
         setGameData(response.data[props.appId ?? "null"].data);

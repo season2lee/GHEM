@@ -91,9 +91,11 @@ const StyledContainer = styled.span<{starSize: number, rating: number}>`
       color: rgb(94, 78, 117);
     }
   }
-  &:hover {
-    button {
-      color: #fc0;
+  @media(hover: hover) {
+    &:hover {
+      button {
+        color: #fc0;
+      }
     }
   }
   ${props => `

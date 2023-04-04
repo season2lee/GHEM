@@ -46,7 +46,7 @@ function Discount(props: DiscountProps) {
   const DiscountListApi = async () => {
     try {
       const response = await axios.get(
-        "https://store.steampowered.com/api/featuredcategories?currency=KRW"
+        "https://c4q3ics2qk.execute-api.ap-northeast-2.amazonaws.com/test/featuredcategories?l=korean"
         // "https://store.steampowered.com/api/featuredcategories"
       );
 

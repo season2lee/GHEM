@@ -4,7 +4,7 @@
 */
 
 import React, { useEffect, useRef, useState } from 'react'
-import chad from '@/assets/image/chad.jpeg';
+import defaultProfile from '@/assets/image/defaultProfile.jpg';
 import thumbupLine from '@/assets/image/thumbup-line.svg';
 import thumbUp from '@/assets/image/thumbup.svg';
 
@@ -47,7 +47,7 @@ function Review({review}: ReviewProps) {
     <div css={container}>
       {/* 프로필 이미지 */}
       <div style={{marginRight: "10px"}}>
-        <img src={review.profileImageURL ?? chad} css={profileImageStyle} />
+        <img src={review.profileImageURL ?? defaultProfile} css={profileImageStyle} />
       </div>
       {/* 리뷰 본문 */}
       <div style={{width: "100%"}}>
