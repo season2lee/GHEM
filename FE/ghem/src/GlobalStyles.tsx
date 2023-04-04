@@ -39,7 +39,6 @@ const globalStyles = css`
     text-decoration: none;
     box-sizing: border-box;
     font-family: "Pretendard";
-    cursor:crosshair
   }
 
   html {

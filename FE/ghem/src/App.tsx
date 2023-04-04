@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import GameDetailPage from "./pages/GameDetailPage";
-import Footer from "./components/common/Footer";
 import Navbar from "./components/common/Navbar";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -21,6 +20,7 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { css } from "@emotion/react";
+import Footer from "@components/common/Footer";
 
 
 function App() {
@@ -171,8 +171,7 @@ function App() {
   };
 
   return (
-    <div css={container} onPointerMove={handlePointerMove}>
-      <div className="pointer" style={{ transform: `translate(${position.x}px, ${position.y}px)` }} />
+    <div>
       <Navbar />
       <StarBackground />
       <ScrollToTop />

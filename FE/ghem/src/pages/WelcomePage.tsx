@@ -6,7 +6,6 @@ import ChoiceGamePage from "./ChoiceGamePage";
 import WelcomeContainer from "@components/welcome/WelcomeContainer";
 import RecommendLoading from "@components/recommend/RecommendLoading";
 
-
 function WelcomePage() {
 
   return (
@@ -16,7 +15,7 @@ function WelcomePage() {
         <Route path="/choicegame" element={<ChoiceGamePage />} />
         <Route path="/recommendloading" element={<RecommendLoading />} />
         <Route path="/" element={<WelcomeContainer />} />
-      </Routes>
+      </Routes> 
     </div>
   );
 }
