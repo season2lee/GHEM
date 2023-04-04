@@ -53,12 +53,24 @@ function ComputerSpecCPU() {
   };
 
   useEffect(() => {
-    setModifiedSpecInfo((prev) => {
-      return {
-        ...prev,
-        cpu_com: selectedBrand,
-      };
-    });
+    if (specInfo.cpu_com !== selectedBrand) {
+      setSelectedSeries("");
+
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          cpu_com: selectedBrand,
+          cpu_series: "",
+        };
+      });
+    } else {
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          cpu_com: selectedBrand,
+        };
+      });
+    }
   }, [selectedBrand]);
 
   useEffect(() => {
@@ -66,6 +78,14 @@ function ComputerSpecCPU() {
       // 기존에 설정된 스펙 값 세팅
       setSelectedBrand(specInfo.cpu_com);
       setSelectedSeries(specInfo.cpu_series);
+
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          cpu_com: specInfo.cpu_com,
+          cpu_series: specInfo.cpu_series,
+        };
+      });
     }
   }, [specInfo]);
 

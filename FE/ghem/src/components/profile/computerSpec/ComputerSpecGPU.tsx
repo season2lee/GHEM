@@ -11,28 +11,7 @@ function ComputerSpecGPU() {
   const specInfo = useRecoilValue(specInfoState);
   const setModifiedSpecInfo = useSetRecoilState(modifiedSpecInfoState);
 
-  const brand: string[] = [
-    "선택",
-    "Nvidia",
-    "Gigabyte",
-    "Asus",
-    "MSI",
-    "Zotac",
-    "AMD",
-    "EVGA",
-    "Intel",
-    "ASRock",
-    "XFX",
-    "PowerColor",
-    "Sapphire",
-    "Gainward",
-    "PNY",
-    "PwrHis",
-    "Parallels",
-    "Vmware",
-    "Microsoft",
-    "ATI",
-  ];
+  const brand: string[] = ["선택", "Nvidia", "AMD"];
   const [modelName, setModelName] = useState<string[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>(brand[0]);
   const [selectedModelName, setSelectedModelName] = useState<string>("");
@@ -75,12 +54,24 @@ function ComputerSpecGPU() {
   };
 
   useEffect(() => {
-    setModifiedSpecInfo((prev) => {
-      return {
-        ...prev,
-        gpu_com: selectedBrand,
-      };
-    });
+    if (specInfo.gpu_com !== selectedBrand) {
+      setSelectedModelName("");
+
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          gpu_com: selectedBrand,
+          gpu_name: "",
+        };
+      });
+    } else {
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          gpu_com: selectedBrand,
+        };
+      });
+    }
   }, [selectedBrand]);
 
   useEffect(() => {
@@ -88,6 +79,14 @@ function ComputerSpecGPU() {
     if (specInfo.gpu_com !== "" && specInfo.gpu_name !== "") {
       setSelectedBrand(specInfo.gpu_com);
       setSelectedModelName(specInfo.gpu_name);
+
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          gpu_com: specInfo.gpu_com,
+          gpu_name: specInfo.gpu_name,
+        };
+      });
     }
   }, [specInfo]);
 

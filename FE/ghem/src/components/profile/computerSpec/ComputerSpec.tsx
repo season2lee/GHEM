@@ -41,16 +41,6 @@ function ComputerSpec() {
 
   const handleRegistSpec = async (): Promise<void> => {
     if (isFirstSetting) {
-      const body = {
-        cpu_com: modifiedSpecInfo.cpu_com,
-        cpu_series: modifiedSpecInfo.cpu_series || specInfo.cpu_series,
-        gpu_com: modifiedSpecInfo.gpu_com,
-        gpu_name: modifiedSpecInfo.gpu_name || specInfo.gpu_name,
-        os: modifiedSpecInfo.os,
-        ram: modifiedSpecInfo.ram || specInfo.ram,
-        user_id: userId,
-      };
-
       // 유효성 검사
       if (
         (modifiedSpecInfo.cpu_com === "선택" && specInfo.cpu_com === "") ||
@@ -62,6 +52,16 @@ function ComputerSpec() {
         return;
       }
 
+      const body = {
+        cpu_com: modifiedSpecInfo.cpu_com,
+        cpu_series: modifiedSpecInfo.cpu_series || specInfo.cpu_series,
+        gpu_com: modifiedSpecInfo.gpu_com,
+        gpu_name: modifiedSpecInfo.gpu_name || specInfo.gpu_name,
+        os: modifiedSpecInfo.os,
+        ram: modifiedSpecInfo.ram || specInfo.ram,
+        user_id: userId,
+      };
+
       setIsValidate(true);
 
       const response = await postMyComputerSpec(body);
@@ -72,22 +72,49 @@ function ComputerSpec() {
         location.reload();
       }
     } else {
+      // 변경되지 않으면
+      if (
+        specInfo.cpu_com === modifiedSpecInfo.cpu_com &&
+        specInfo.cpu_series === modifiedSpecInfo.cpu_series &&
+        specInfo.gpu_com === modifiedSpecInfo.gpu_com &&
+        specInfo.gpu_name === modifiedSpecInfo.gpu_name &&
+        specInfo.os === modifiedSpecInfo.os &&
+        specInfo.ram === modifiedSpecInfo.ram
+      ) {
+        return;
+      }
+
+      // 유효성 검사
+      if (
+        modifiedSpecInfo.cpu_com === "선택" ||
+        modifiedSpecInfo.gpu_com === "선택" ||
+        modifiedSpecInfo.os === "선택" ||
+        modifiedSpecInfo.cpu_series === "" ||
+        modifiedSpecInfo.gpu_name === "" ||
+        modifiedSpecInfo.ram === 0
+      ) {
+        setIsValidate(false);
+        return;
+      }
+
       const body = {
         cpu_com: modifiedSpecInfo.cpu_com,
-        cpu_series: modifiedSpecInfo.cpu_series || specInfo.cpu_series,
+        cpu_series: modifiedSpecInfo.cpu_series,
         gpu_com: modifiedSpecInfo.gpu_com,
-        gpu_name: modifiedSpecInfo.gpu_name || specInfo.gpu_name,
+        gpu_name: modifiedSpecInfo.gpu_name,
         os: modifiedSpecInfo.os,
-        ram: modifiedSpecInfo.ram || specInfo.ram,
+        ram: modifiedSpecInfo.ram,
         spec_id: specInfo.spec_id,
       };
 
-      // const response = await putMyComputerSpec(body);
+      setIsValidate(true);
 
-      // if (response) {
-      //   alert("수정되었습니다.");
-      //   location.reload();
-      // }
+      const response = await putMyComputerSpec(body);
+
+      if (response) {
+        alert("수정되었어요. 😀");
+        location.reload();
+      }
     }
   };
 
