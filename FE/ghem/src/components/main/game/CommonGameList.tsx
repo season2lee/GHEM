@@ -136,13 +136,13 @@ function CommonGameList(props: CommonGameListProps) {
       onMouseOver={() => setIsMouseOn(true)}
       // onMouseOut={() => setIsMouseOn(false)}
     >
-      {gameList?.map((item) => {
+      {gameList?.map((item, index) => {
         return (
           <CommonGameListItem
             gameType={props.gameType}
             appid={item.appid}
             imgType={props.imgType}
-            key={item.appid}
+            key={index}
             canClick={canClick}
             discountPercent={item.discountPercent}
             originalPrice={item.originalPrice}
