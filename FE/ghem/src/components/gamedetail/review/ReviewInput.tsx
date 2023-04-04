@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
 import React, { useRef, useState, useEffect } from 'react'
 import defaultProfile from '@/assets/image/defaultProfile.jpg';
+import { getUserID, getUserProfile } from '@/api/user';
 
 type ReviewInputProps = {
   isRated: boolean,
@@ -10,7 +11,24 @@ type ReviewInputProps = {
 function ReviewInput({isRated}: ReviewInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const inputRef = useRef<HTMLInputElement | null>(null)
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [profileImage, setProfileImage] = useState(defaultProfile);
+  const [userID, setUserID] = useState<number | null>(null);
+  useEffect(() => {
+    setUserID(() => {
+      const id = getUserID();
+      if (id !== null) {
+        const response = getUserProfile(id);
+        response
+          .then(result => {
+            const user = result?.user;
+            setProfileImage(user?.userProfile.substr(1, user.userProfile.length - 2) ?? defaultProfile);
+          });
+      }
+      return id;
+    });
+  }, [userID])
+
   const onFocusHandler = () => {
     setIsFocused(true);
   }
@@ -61,7 +79,7 @@ function ReviewInput({isRated}: ReviewInputProps) {
   return (
     <div>
       <div css={inputContainer}>
-        <img src={defaultProfile} css={profileImageStyle} />
+        <img src={profileImage} css={profileImageStyle} />
         <input onChange={onChangeHandler} css={reviewInputStyle} type="text" ref={inputRef} onFocus={onFocusHandler} onClick={handleInputClick} placeholder="입력해주세요..." />
       </div>
       {isFocused &&

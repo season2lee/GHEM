@@ -3,6 +3,15 @@ import { userInfoType, steamAccountType } from "apiTypes";
 
 // GET
 
+export const getUserID = () => {
+  const localID = localStorage.getItem("id");
+  if (localID && !isNaN(parseInt(localID))) {
+    return parseInt(localID);
+  } else {
+    return null
+  }
+}
+
 export const getUserProfile = async (userId: number) => {
   try {
     const { data } = await axios.get(`/${userId}`);
