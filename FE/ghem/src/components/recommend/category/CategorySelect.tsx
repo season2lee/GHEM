@@ -14,7 +14,6 @@ function CategorySelect() {
   const navigate = useNavigate();
   const [selectedList, setSelectedList] = useState<string[]>([]);
   const [categoryList, setCategoryList] = useState<categoryListType[]>([]);
-  const userId: number | null = Number(localStorage.getItem("id"));
 
   useEffect(() => {
     CategoryListApi();
@@ -102,6 +101,8 @@ function CategorySelect() {
 }
 
 export default CategorySelect;
+
+
 
 const moveBtn = css`
   width: 10rem;

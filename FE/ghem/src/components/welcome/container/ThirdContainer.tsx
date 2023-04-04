@@ -54,10 +54,17 @@ const section = css`
   text-align: center;
   margin: 10%;
 
+
   img {
     max-width: 100%;
     max-height: 100%;
   }
+
+  ${mobile}{
+    width: 100%;
+    height: 50%;
+  }
+
   &.animation {
     animation-name: opacity;
     animation-duration: 5000ms;
@@ -84,10 +91,13 @@ const textsection = css`
 
 
   ${mobile} {
-    margin: 5rem;
-    height: 20%;
+    margin: 0;
+    margin-left: 10%;
+    margin-right: 10%;
+    height: 50%;
     width:100%
   }
+  
   h1 {
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -174,16 +184,15 @@ const gamerecommend = css`
     /* object-fit: cover; */
     border-radius: 1rem;
 
-    ${mobile} {
+    /* ${mobile} {
     margin: 5rem;
     height: 15rem;
-    width:20rem;
+    width:20rem; */
   }
   .text {
     width: 100%;
   }
 
-  }
 `
 
 

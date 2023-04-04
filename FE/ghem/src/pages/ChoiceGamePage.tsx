@@ -11,6 +11,7 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useLocation, useNavigate } from "react-router";
 import { css } from "@emotion/react";
+import { mobile } from "@/util/Mixin";
 
 type GameItemList = {
   appid: number;
@@ -28,6 +29,7 @@ type GameList = {
 };
 
 function ChoiceGamePage() {
+  
   const [gameList, setGameList] = useState<GameList[]>([]);
   const userId: number | null = Number(localStorage.getItem("id"));
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
@@ -71,7 +73,7 @@ function ChoiceGamePage() {
     const NotLoginListApi = async (state: string) => {
       try {
         const response = await axios.get(
-          `http://j8d107.p.ssafy.io:32003/games/genre/v1?genre=${state}&top=10`
+          `http://j8d107.p.ssafy.io:32003/games/genre/v1?genre=${state}&top=30`
         );
         let item = response.data;
         for (let i = 0; i < item.length; i++) {
@@ -87,7 +89,7 @@ function ChoiceGamePage() {
   const LoginListApi = async (state: string) => {
     try {
       const response = await axios.get(
-        `http://j8d107.p.ssafy.io:32003/games/genre/v2?steam_id=${userId}&genre=${state}&top=10`
+        `http://j8d107.p.ssafy.io:32003/games/genre/v2?steam_id=${userId}&genre=${state}&top=30`
       );
       let item = response.data;
       for (let i = 0; i < item.length; i++) {
@@ -140,17 +142,21 @@ function ChoiceGamePage() {
   return (
     <div css={layout}>
       <div css={section}>
+        <div>
         {isLoginStatus ? (
-          <div> 플레이 한 게임을 평가 해 보세요 </div>
+          <div className="text"> 플레이 한 게임을 평가 해 보세요 </div>
         ) : (
-          <div> 재밌게 플레이 했던 게임을 선택 해주세요</div>
+          <div className="text"> 재밌게 플레이 했던 게임을 선택 해주세요</div>
         )}
+        </div>
+        <div css={btnContainer}>
         {currentChoiceGame.length > 0 ? (
-              <button onClick={RecommendGame}>추천 받기</button>
+              <button css={moveBtn} onClick={RecommendGame}>추천 받기</button>
         ) : null}
         {currentEvaluateGame.length > 0 ? (
-          <button onClick={EvalRecommendGame}>추천받기</button>
+          <button css={moveBtn} onClick={EvalRecommendGame}>추천받기</button>
         ) : null}
+        </div>
       </div>
       <div>
         <ChoiceGameList
@@ -166,20 +172,48 @@ function ChoiceGamePage() {
 const layout = css`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   margin: 10%;
 `;
 const section = css`
+  flex-direction: column;
   font-size: 2rem;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 90%;
+  display:flex;
+  align-items: flex-start;
+  width: 100%;
   height: 20%;
-  margin-bottom: 5%;
+  margin: 1rem;
   color: #ffffffef;
     text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
       0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
       0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
+  .text {
+    /* margin-left:1%; */
+  }
+      ${mobile} {
+    }
+
 `;
+
+const moveBtn = css`
+  width: 5rem;
+  height:2rem ;
+  border-radius: 5px;
+  padding: 7px 10px;
+  border: none;
+  color: white;
+  margin-right: 10%;
+  background-color: rgb(88, 74, 110);
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(117, 98, 146);
+  }
+`
+
+const btnContainer = css`
+  padding-top:1rem ;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+`
 export default ChoiceGamePage;

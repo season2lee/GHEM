@@ -93,14 +93,15 @@ const textsection = css`
   width: 30%;
   text-align: center;
   background-color:#352c425f ;
-  margin: 2rem;
   border-radius: 1rem;
   margin-right: 10%;
 
   ${mobile} {
-    margin: 5rem;
+    margin: 0;
     height: 50%;
-    width:100%
+    width: 80%;
+    padding-bottom: 20%;
+    margin-top: 30%;
   }
   h1 {
     margin-top: 2rem;
@@ -151,11 +152,15 @@ const section = css`
   height: 100vh;
   width: 50%;
   text-align: center;
- 
+  
 
   ${mobile} {
+    margin: 0;
+    margin-left: 10%;
+    margin-right: 10%;
     height: 50%;
-    width:100%
+    width:100%;
+    margin-top:130%;
   }
   h3 { 
     font-weight: 100;

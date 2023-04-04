@@ -7,16 +7,18 @@ import WelcomeContainer from "@components/welcome/WelcomeContainer";
 import RecommendLoading from "@components/recommend/RecommendLoading";
 
 function WelcomePage() {
+
   return (
-    <div>
+    <div >
       <Routes>
         <Route path="/category" element={<CategoryPage />} />
         <Route path="/choicegame" element={<ChoiceGamePage />} />
         <Route path="/recommendloading" element={<RecommendLoading />} />
         <Route path="/" element={<WelcomeContainer />} />
-      </Routes>
+      </Routes> 
     </div>
   );
 }
+
 
 export default WelcomePage;

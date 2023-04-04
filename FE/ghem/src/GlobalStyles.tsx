@@ -1,4 +1,5 @@
 import { Global, css } from "@emotion/react";
+import steamLogo from "@/assets/image/steamLogo.png"
 
 function GlobalStyles() {
   return <Global styles={globalStyles} />;
@@ -41,9 +42,11 @@ const globalStyles = css`
   }
 
   html {
+    
     font-size: 18px;
     background-color: #292233;
     color: white;
+
   }
 
   ::-webkit-scrollbar {
@@ -61,5 +64,4 @@ const globalStyles = css`
     border-radius: 10px;
   }
 `;
-
 export default GlobalStyles;

@@ -34,8 +34,12 @@ function FifthContainer() {
 
   return (
     <div css={layout}>
-      <div ref={ref} className={isInViewport ? "animation" : ""} css={textsection}>
-        <h1>PC 환경 적합도 분석 서비스</h1>
+      <div
+        ref={ref}
+        className={isInViewport ? "animation" : ""}
+        css={textsection}
+      >
+        <h1>PC 환경 적합도 <br /> 분석 서비스</h1>
         <h2># PC 환경 비교 </h2>
         <h3>- 게임 구매하고 사양이 달라 게임을 못한 경우</h3>
         <h3>- PC 환경이 적절하지 않아 게임 플레이에 불편을 느끼는 경우</h3>
@@ -67,42 +71,48 @@ const layout = css`
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  flex-direction: row;
   justify-content: center;
 
   ${mobile} {
-    flex-direction: column;
     flex-wrap: wrap;
+    margin-top: 100%;
   }
 `;
 
 const textsection = css`
   z-index: 100;
   height: 70vh;
-  width: 30%;
+  width: 50%;
   text-align: center;
   background-color: #352c425f;
   margin-left: 10%;
   border-radius: 1rem;
 
   ${mobile} {
-    margin: 5rem;
+    margin: 0;
     height: 50%;
-    width: 100%;
+    width: 80%;
   }
   h1 {
     margin-top: 2rem;
     margin-bottom: 2rem;
     color: #ffffffef;
-    text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45, 0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53,
-      0 0 15px #ffd8f840, 0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
-  }
+    text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
+      0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
+      0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
+    ${mobile} {
+      font-size: 1.5rem;
+    }
+    }
 
   h2 {
     font-size: 1.5rem;
     margin: 2rem;
     text-align: start;
     font-weight: 500;
+    ${mobile} {
+      font-size: 1rem;
+    }
   }
   h3 {
     font-size: 1rem;
@@ -156,6 +166,14 @@ const section = css`
     border: 1px solid black;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
+    ${mobile} {
+      width: 15rem;
+      height: 10rem;
+    }
+  }
+
+  .null {
+    height: 100%;
   }
 
   .screen {
@@ -163,6 +181,7 @@ const section = css`
     height: 90%;
     background-color: #472654;
     color: black;
+    
   }
 
   .keyboard {
@@ -172,6 +191,10 @@ const section = css`
     background-color: white;
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
+    ${mobile}{
+      width: 18rem;
+      height: 1.3rem;
+    }
   }
 
   div {

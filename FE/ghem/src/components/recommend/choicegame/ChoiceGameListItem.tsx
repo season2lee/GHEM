@@ -10,6 +10,8 @@ import {
   dbGameStateType
 } from "@/store/mainState";
 import { useRecoilState } from "recoil";
+import axios from "axios";
+import Header from "@/assets/image/header.jpg";
 
 type ChoiceGameListItemProps = {
   app_id: number;
@@ -24,17 +26,18 @@ type ChoiceGameListItemProps = {
   title: string;
 };
 
-function ChoiceGameListItem({
-  app_id,
-  userId,
-  isLoginStatus,
-}: ChoiceGameListItemProps) {
+function ChoiceGameListItem({app_id, userId, isLoginStatus}: ChoiceGameListItemProps) {
+
   const [checked, setChecked] = useState<boolean>(false);
-  const [evaluatedGame, setEvaluatedGame] =
-    useRecoilState<evaluatedGameStateType[]>(evaluatedGameState);
+  const [evaluatedGame, setEvaluatedGame] = useRecoilState<evaluatedGameStateType[]>(evaluatedGameState);
   const [choiceGame, setChoiceGame] = useRecoilState(choiceGameState);
   const [currentRating, setCurrentRating] = useState<number>(0);
   const [dbGame, setDbGame] = useRecoilState<dbGameStateType[]>(dbGameState)
+  const [currentCapsuleImg, setcurrentCapsuleImg] = useState<string>(`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/header.jpg`);
+
+  useEffect(()=>{
+    ImgApi();
+  },[])
 
   useEffect(() => {
     if (userId) {
@@ -43,6 +46,7 @@ function ChoiceGameListItem({
       // console.log(choiceGame);
     }
   }, [evaluatedGame]);
+
 
   // 비 로그인 시 게임 선택
   const onClickCard = () => {
@@ -56,7 +60,6 @@ function ChoiceGameListItem({
 
   // 로그인 시 게임 평점 매기기
   const ratingHandler = (newRating: number) => {
-    console.log(app_id)
     if (newRating !== 0) {
       setChecked(true);
       if (evaluatedGame.some((obj) => obj.app_id === app_id)) {
@@ -90,6 +93,18 @@ function ChoiceGameListItem({
     console.log(evaluatedGame)
   }
 
+  const ImgApi = async() => {
+    try {
+      const response = await axios.get(
+        `https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/header.jpg`
+      );
+    } catch (err) {
+      setcurrentCapsuleImg(Header)
+      // console.log(err);
+    }
+  };
+
+
   return (
     <div>
       {isLoginStatus ? (
@@ -103,7 +118,7 @@ function ChoiceGameListItem({
             />
           </div>
           <SelectTmg
-            src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/capsule_616x353.jpg`}
+            src={currentCapsuleImg}
             alt={`${app_id}`}
             checked={checked}         />
 
@@ -119,7 +134,7 @@ function ChoiceGameListItem({
         <Card key={app_id} onClick={onClickCard}>
           <SelectTmg
               checked={checked}
-              src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${app_id}/capsule_616x353.jpg`}
+              src={currentCapsuleImg}
               alt={`${app_id}`}         />
         </Card>
       )}
@@ -132,7 +147,7 @@ const Card = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   width: 20rem;
-  height: 20rem;
+  height: 17rem;
   border: solid 1px  #23152a;
   border-radius: 1rem;
   margin: 1rem;
@@ -153,11 +168,23 @@ const SelectTmg = styled.img<{ checked: boolean }>`
 
 const star = css`
   position: absolute;
-  margin-top: 13rem;
+  margin-top: 10rem;
 `;
 
 const removeBtn = css`
   margin-top: 3rem;
   opacity: 1;
+  width: 10rem;
+  height:2rem ;
+  border-radius: 5px;
+  padding: 7px 10px;
+  border: none;
+  color: white;
+  background-color: rgb(88, 74, 110);
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(117, 98, 146);
+  }
 `
+
 export default ChoiceGameListItem;
