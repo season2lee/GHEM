@@ -34,6 +34,7 @@ function BannerGameItem(props: BannerGameItemProps) {
     } else if (errorCount === 2) {
       setImgSrc(heroCapsule);
       //기본이미지
+      setErrorCount(errorCount + 1);
     }
   };
   // 374 448
@@ -66,7 +67,7 @@ function BannerGameItem(props: BannerGameItemProps) {
                 style={errorCount ? { objectFit: "cover" } : {}}
                 draggable="false"
               />
-              {errorCount === 2 && (
+              {errorCount === 3 && (
                 <div css={inImgText}>
                   <p>
                     <b>{props.title}</b>
