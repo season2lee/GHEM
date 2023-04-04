@@ -38,6 +38,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
   const [errorCount, setErrorCount] = useState<number>(0);
   const [title, setTitle] = useState<string | null>(null);
   const [isData, setIsData] = useState<boolean>(true);
+  const env = import.meta.env;
 
   const toDetail = () => {
     if (props.canClick && props.canClickWithHover) {
@@ -51,7 +52,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
   ) => {
     try {
       const response = await axios.get(
-        `https://store.steampowered.com/api/appdetails?appids=${props.appid}&l=korean`
+        env.VITE_GAME_DETAIL + props.appid
       );
       if (response.data[props.appid ?? "null"].success) {
         setTitle(response.data[props.appid ?? "null"].data.name);
