@@ -12,6 +12,7 @@ function ComputerSpecGPU() {
   const setModifiedSpecInfo = useSetRecoilState(modifiedSpecInfoState);
 
   const brand: string[] = [
+    "선택",
     "Nvidia",
     "Gigabyte",
     "Asus",
@@ -52,6 +53,13 @@ function ComputerSpecGPU() {
           setIsOpenOption(true);
         }
       }
+    } else {
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          gpu_name: "",
+        };
+      });
     }
   };
 

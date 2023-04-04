@@ -17,22 +17,15 @@ function ComputerSpec() {
   const [isFirstSetting, setIsFirstSetting] = useState<boolean>(false);
   const [isValidate, setIsValidate] = useState<boolean>(true);
 
-  const handleResetComputerSpec = (): void => {
-    // 사양 초기화
-    getMyComputerSpecFunc();
-  };
-
-  // 컴퓨터 스펙 정보 가져오기
   const getMyComputerSpecFunc = async (): Promise<void> => {
     const response = await getMyComputerSpec(userId);
 
     if (response) {
-      // 스펙 설정이 처음인지 확인
       if (response.MyPcSpecs === null) {
-        setIsFirstSetting(true);
+        setIsFirstSetting(true); // 스펙 설정이 처음인지 확인
       } else {
-        // recoil에 현재 컴퓨터 사양 상태 저장
         setSpecInfo({
+          // recoil에 현재 컴퓨터 사양 상태 저장
           cpu_com: response.MyPcSpecs.cpu_com,
           cpu_series: response.MyPcSpecs.cpu_series,
           gpu_com: response.MyPcSpecs.gpu_com,
@@ -58,9 +51,11 @@ function ComputerSpec() {
         user_id: userId,
       };
 
+      // 유효성 검사
       if (
-        (modifiedSpecInfo.cpu_series === "" && specInfo.cpu_series === "") ||
-        (modifiedSpecInfo.gpu_name === "" && specInfo.gpu_name === "") ||
+        (modifiedSpecInfo.cpu_com === "선택" && specInfo.cpu_com === "") ||
+        (modifiedSpecInfo.gpu_com === "선택" && specInfo.gpu_com === "") ||
+        (modifiedSpecInfo.os === "선택" && specInfo.os === "") ||
         (modifiedSpecInfo.ram === 0 && specInfo.ram === 0)
       ) {
         setIsValidate(false);
@@ -72,7 +67,7 @@ function ComputerSpec() {
       const response = await postMyComputerSpec(body);
 
       if (response) {
-        alert("등록되었습니다.");
+        alert("등록되었어요. 😀");
         setIsFirstSetting(false);
         location.reload();
       }
@@ -87,12 +82,12 @@ function ComputerSpec() {
         spec_id: specInfo.spec_id,
       };
 
-      const response = await putMyComputerSpec(body);
+      // const response = await putMyComputerSpec(body);
 
-      if (response) {
-        alert("수정되었습니다.");
-        location.reload();
-      }
+      // if (response) {
+      //   alert("수정되었습니다.");
+      //   location.reload();
+      // }
     }
   };
 
@@ -100,13 +95,21 @@ function ComputerSpec() {
     getMyComputerSpecFunc();
   }, []);
 
+  useEffect(() => {
+    console.log("specInfo : ", specInfo);
+  }, [specInfo]);
+
+  useEffect(() => {
+    console.log("modifiedSpecInfo : ", modifiedSpecInfo);
+  }, [modifiedSpecInfo]);
+
   return (
     <div css={computerSpecWrapper}>
       <div css={computerSpecBox}>
         <div css={computerSpecHeader}>
           <h4>내 컴퓨터 사양</h4>
           {!isValidate && <span>빈칸을 모두 채워주세요.</span>}
-          <BiReset size="28" onClick={handleResetComputerSpec} />
+          {!isFirstSetting && <BiReset size="28" onClick={getMyComputerSpecFunc} />}
         </div>
         <ComputerSpecCPU />
         <ComputerSpecGPU />

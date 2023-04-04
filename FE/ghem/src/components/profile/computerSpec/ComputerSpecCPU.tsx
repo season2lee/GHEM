@@ -10,7 +10,7 @@ function ComputerSpecCPU() {
   const resultModalRef = useRef<HTMLDivElement>(null);
   const specInfo = useRecoilValue(specInfoState);
   const setModifiedSpecInfo = useSetRecoilState(modifiedSpecInfoState);
-  const brand: string[] = ["Intel", "AMD"];
+  const brand: string[] = ["선택", "Intel", "AMD"];
   const [series, setSeries] = useState<string[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>(brand[0]);
   const [selectedSeries, setSelectedSeries] = useState<string>("");
@@ -31,6 +31,13 @@ function ComputerSpecCPU() {
           setIsOpenOption(true);
         }
       }
+    } else {
+      setModifiedSpecInfo((prev) => {
+        return {
+          ...prev,
+          cpu_series: "",
+        };
+      });
     }
   };
 
@@ -55,8 +62,8 @@ function ComputerSpecCPU() {
   }, [selectedBrand]);
 
   useEffect(() => {
-    // 기존에 설정된 스펙 값 세팅
     if (specInfo.cpu_com !== "" && specInfo.cpu_series !== "") {
+      // 기존에 설정된 스펙 값 세팅
       setSelectedBrand(specInfo.cpu_com);
       setSelectedSeries(specInfo.cpu_series);
     }
