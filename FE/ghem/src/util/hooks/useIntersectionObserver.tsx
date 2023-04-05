@@ -9,7 +9,6 @@ const useIntersectionObsever = (targetRef: RefObject<HTMLDivElement>) => {
     if (!observer.current) {
       const observerCallback = (entries: IntersectionObserverEntry[]) => {
         entries.forEach((entry) => {
-          console.log(entry.isIntersecting)
           if (entry.isIntersecting) {
             setIsInViewport(true)
           } else {

@@ -279,6 +279,10 @@ const buttonText = css`
       top: 0;
     }
   }
+
+  ${mobile} {
+        font-size: 1.2rem;
+      }
 `;
 
 export default FifthContainer;
