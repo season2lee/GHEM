@@ -10,10 +10,12 @@ const REVIEW_COUNT = 5;
 
 type ReciewSectionProps = {
   currentRating: number,
-  appID: string
+  appID: number,
+  userID: number
 }
 
 type ReviewType = {
+  appId: number,
   userId: number,
   profileImageURL?: string,
   name: string,
@@ -22,9 +24,9 @@ type ReviewType = {
   helpfulCount?: number,
 }
 
-function ReviewSection({currentRating, appID}: ReciewSectionProps) {
+function ReviewSection({currentRating, appID, userID}: ReciewSectionProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [reviewData, setReviewData] = useState<ReviewType[]>()
+  const [reviewData, setReviewData] = useState<ReviewType[]>([]);
   const [lastPageNum, setLastPageNum] = useState(1);  // 마지막 페이지 번호
   const env = import.meta.env;
   
@@ -41,6 +43,7 @@ function ReviewSection({currentRating, appID}: ReciewSectionProps) {
       if (reviewDatas !== null) {
         for (const reviewData of reviewDatas) {
           const data: ReviewType = {
+            appId: appID,
             userId: parseInt(reviewData.user.user_id),
             profileImageURL: reviewData.user.userProfile.substr(1, reviewData.user.userProfile.length - 2),
             name: reviewData.user.nickname,
@@ -53,9 +56,8 @@ function ReviewSection({currentRating, appID}: ReciewSectionProps) {
         }
       } else {
         console.log("리뷰 데이터 없음");
-        setReviewData(undefined);
+        setReviewData([]);
       }
-      
     } catch {
       console.log("ratingData 불러오기 실패");
     }
@@ -75,10 +77,10 @@ function ReviewSection({currentRating, appID}: ReciewSectionProps) {
       <h2 css={header}>리뷰</h2>
 
       {/* 리뷰 입력 컴포넌트 */}
-      <ReviewInput isRated={currentRating !== 0} setCurrentPage={setCurrentPage}/>
+      <ReviewInput isRated={currentRating !== 0} setReviewData={setReviewData} appID={appID} userID={userID}/>
 
       {/* 리뷰들 보여지는 body */}
-      <ReviewBody reviewData={reviewData}/>
+      <ReviewBody reviewData={reviewData} setReviewData={setReviewData}/>
 
       {/* 페이지 컴포넌트 */}
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} lastPageNum={lastPageNum}/>

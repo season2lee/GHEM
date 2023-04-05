@@ -4,10 +4,11 @@ import StarRating from '@components/common/StarRating'
 import { FaHeart, FaRegHeart } from "react-icons/fa"
 import Indicator from './Indicator'
 import { mobile, tabletH } from '@/util/Mixin'
+import steamLogo from '@/assets/image/steamLogo.png'
 
 type GameInfoProps = {
   gameData: {
-    appID: string,
+    appID: number,
     name: string,
     shortDescription: string
   } | null,
@@ -46,6 +47,10 @@ function GameInfo({gameData, currentRating, ratingHandler}: GameInfoProps) {
         </div>
         <h1 css={titleStyle}>{gameData.name}</h1>
         <p css={descContinater}>{gameData.shortDescription}</p>
+        <a css={toSteamButtonStyle} href={'https://store.steampowered.com/app/' + gameData.appID} target='_blank'>
+          <img src={steamLogo} />
+          <p>Steam에서 보기</p>
+        </a>
         <StarRating starSize={3} currentRating={currentRating} ratingHandler={ratingHandler} />
       </div>
     )
@@ -65,6 +70,20 @@ const favoriteContainer = css`
   display: flex;
   align-items: center;
   margin-top: 120px;
+`
+
+const filledHeartIconStyle = css`
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: red;
+  &:active {
+    color: rgb(255, 75, 75);
+  }
+`
+
+const heartIconStyle = css`
+  cursor: pointer;
+  font-size: 1.5rem;
 `
 
 const noMoreRecomm = css`
@@ -107,18 +126,29 @@ const descContinater = css`
   line-height: 30px;
 `
 
-const filledHeartIconStyle = css`
-  cursor: pointer;
-  font-size: 1.5rem;
-  color: red;
-  &:active {
-    color: rgb(255, 75, 75);
+const toSteamButtonStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 250px;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: white;
+  color: black;
+  margin-top: 10px;
+  padding: 10px 50px 10px 10px;
+  border-radius: 10px;
+  img {
+    width: 35px;
   }
-`
-
-const heartIconStyle = css`
   cursor: pointer;
-  font-size: 1.5rem;
+  &:hover {
+    background-color: #D8D8D8;
+  }
+  &:active {
+    background-color: #D8D8D8;
+  }
 `
 
 export default GameInfo
