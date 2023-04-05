@@ -100,19 +100,26 @@ const textsection = css`
     text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
       0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
       0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
-    ${mobile} {
-      font-size: 1.5rem;
-    }
+    
+      ${mobile} {
+        font-size: 1.7rem;
+      }
+  
     }
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin: 2rem;
     text-align: start;
-    font-weight: 500;
+
+    color: #23152a;
+    text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
+    0 0 2px #f6b4ffb9, 0 0 5px #f1c1ff53, 0 0 8px #ffd8f840, 0 0 5px #eb68ffba,
+    0 0 5px #ffa9cb3a;
+
     ${mobile} {
-      font-size: 1rem;
-    }
+        font-size: 1.2rem;
+      }
   }
   h3 {
     font-size: 1rem;
@@ -122,6 +129,10 @@ const textsection = css`
     margin-right: 2rem;
     text-align: start;
     font-weight: 400;
+    color: #ffffffef;
+    text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
+      0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
+      0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
     ${mobile} {
       font-size: 0.7rem;
     }

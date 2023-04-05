@@ -195,15 +195,10 @@ function HoverGameTitle(props: HoverGameTitleProps) {
                 fill="#8e83bb8f"
               />
 
-              {realyUnLike && (
-                <p
-                  onClick={() => {
-                    setDoUnLike(false);
-                  }}
-                >
-                  {unLikeTimer}
-                  취소?
-                </p>
+              {realyUnLike && (<div css={cancelBtn}>
+                <p>{unLikeTimer} </p>
+                <button  onClick={() => {setDoUnLike(false);}}>취소?</button>
+              </div>
               )}
             </div>
           </div>
@@ -218,5 +213,41 @@ const justifyDiv = css`
   justify-content: space-between;
   margin: 0rem 2rem;
 `;
+
+const cancelBtn = css`
+  display: inline-flex;
+  justify-content: flex-end;
+  text-align: center;
+  align-items: center;
+  p{
+    width: 1.6rem;
+    height: 1.4rem;
+    color:rgb(88, 74, 110) ;
+    border: 0.2rem solid rgb(88, 74, 110);
+    border-radius: 1.5rem;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-weight: 700;
+    margin: 0.5rem;
+  }
+  button {
+    width: 4rem;
+    height:2rem ;
+    border-radius: 5px;
+    padding: 7px 10px;
+    border: none;
+    color: white;
+    margin-right: 10%;
+    background-color: rgb(88, 74, 110);
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(117, 98, 146);
+  }
+  
+  }
+
+  `
 
 export default HoverGameTitle;
