@@ -5,6 +5,7 @@ import Review from './Review'
 import EmptyBox from "@/assets/image/grayempty.svg"
 
 type ReviewType = {
+  appId: number,
   userId: number,
   profileImageURL?: string,
   name: string,
@@ -14,16 +15,17 @@ type ReviewType = {
 }
 
 type ReviewBodyType = {
-  reviewData: ReviewType[] | undefined
+  reviewData: ReviewType[],
+  setReviewData: React.Dispatch<React.SetStateAction<ReviewType[]>>
 }
 
-function ReviewBody({reviewData}: ReviewBodyType) {
-  if (reviewData) {
+function ReviewBody({reviewData, setReviewData}: ReviewBodyType) {
+  if (reviewData.length > 0) {
     return (
       <div css={container}>
         {reviewData?.map((review, index) => {
           return <div key={index}>
-            <Review review={review} />
+            <Review review={review} setReviewData={setReviewData}/>
             {index !== dummyReviews.length-1 && (
               <div css={reviewBorder}></div>
             )}
