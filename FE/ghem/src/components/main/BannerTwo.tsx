@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { FaInfoCircle } from "react-icons/fa";
 import CommonGameList from "./game/CommonGameList";
 import { PageXY } from "@/pages/MainPage";
+import { useNavigate } from "react-router";
 
 type BannerTwoProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
@@ -27,6 +28,8 @@ function BannerTwo(props: BannerTwoProps) {
   const [loginRandomGame, setLoginRandomGame] =
     useRecoilState<{ appid: number }[]>(loginRandomGameList);
 
+  const navigator = useNavigate();
+
   const [secondBannerList, setSecondBannerList] = useState<{ appid: number }[]>(
     []
   );
@@ -40,7 +43,9 @@ function BannerTwo(props: BannerTwoProps) {
       // 내가 평가한 게임 중 하나 랜덤의 유사게임
       if (userId && loginRandomGame.length > 0) {
         setSecondBannerList(loginRandomGame);
-        console.log("이부분 이후에 콘솔창 확인하고 좀 수정하세요");
+        // console.log("이부분 이후에 콘솔창 확인하고 좀 수정하세요");
+      } else if (!userId) {
+        navigator("/category");
       }
     }
   }, [gameRecommend, loginRandomGame]);
