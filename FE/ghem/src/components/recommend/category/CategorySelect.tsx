@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { mobile } from "@/util/Mixin";
 import styled from "@emotion/styled";
+import GhemLogo from "@/assets/image/GhemLogo.png";
+
 
 type categoryListType = {
   genre_id: number;
@@ -94,7 +96,7 @@ function CategorySelect() {
             </label>
           );
         })}
-        <div className="logo">흠</div>
+        <div className="logo"/>
       </Item>
     </div>
   );
@@ -119,8 +121,13 @@ const moveBtn = css`
 `
 
 const btnContainer = css`
+  padding: 1rem;
   display: flex;
   justify-content: flex-end;
+  ${mobile}{
+    justify-content: center;
+
+  }
 `
 
 
@@ -162,6 +169,7 @@ const selectedCategory = css`
 
     ${mobile} {
       display: flex;
+      width: 100%;
     }
   }
 `;
@@ -200,11 +208,11 @@ const Item = styled.div<{ checked: boolean }>`
     width: 25%;
   } */
   .logo {
+    color: transparent;
     height: 30%;
     width: 25%;
     margin: 1%;
-    padding: 0.5%;
-    border: 1px solid white;
+    padding: 0.5%;;
     border-radius: 0.5rem;
     ${mobile} {
       font-size: 1rem;

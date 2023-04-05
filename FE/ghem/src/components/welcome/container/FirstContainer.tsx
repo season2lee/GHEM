@@ -83,7 +83,13 @@ const section = css`
     text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
       0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
       0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
-  }
+    
+    ${mobile} {
+      font-size: 5rem;
+      top:-15rem;
+    }
+
+    }
 
   /* h1 {
     z-index: 10;
