@@ -34,7 +34,7 @@ type responseType = {
 function Navbar() {
   const navigater = useNavigate();
   const userId: number | null = Number(localStorage.getItem("id"));
-  const [isLoginStatus, setIsLoginStatus] = useState<boolean>(true);
+  const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [searchList, setSearchList] = useState<searchResultDropdown[]>([]);
   const [searchWord, setSearchWord] = useState<string>("");
