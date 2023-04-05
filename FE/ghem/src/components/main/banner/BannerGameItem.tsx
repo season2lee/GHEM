@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import React, { useEffect, useRef, RefObject, useState } from "react";
+import { mobile } from "@/util/Mixin";
 import { useNavigate } from "react-router";
 import BannerGameItemDetail from "./BannerGameItemDetail";
 import heroCapsule from "../../../assets/image/hero_capsule.jpg";
@@ -56,15 +57,12 @@ function BannerGameItem(props: BannerGameItemProps) {
       >
         <div css={blurDiv}>
           <div css={flexDiv}>
-            <div
-              css={flexDiv}
-              style={errorCount ? { width: "auto", height: "448px" } : {}}
-            >
+            <div css={flexDivtwo}>
               <img
                 src={imgSrc}
                 alt={`${props.title}`}
                 onError={handleImgError}
-                style={errorCount ? { objectFit: "cover" } : {}}
+                style={{ maxWidth: "100%", maxHeight: "100%" }}
                 draggable="false"
               />
               {errorCount === 3 && (
@@ -107,6 +105,23 @@ const flexDiv = css`
   align-items: center;
   position: relative;
   margin: 0rem 2.5rem;
+  ${mobile} {
+    flex-direction: column;
+  }
+`;
+
+const flexDivtwo = css`
+  display: flex;
+  width: 100rem;
+  height: 30rem;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 0rem 2.5rem;
+  ${mobile} {
+    width: 20rem;
+    height: 20rem;
+  }
 `;
 
 const inImgText = css`
@@ -120,6 +135,9 @@ const inImgText = css`
     color: #1e043d;
     text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 4px #fff, 0 0 7px #f6b4ff,
       0 0 10px #f1c1ff, 0 0 15px #ffd8f8, 0 0 18px #eb68ff, 0 0 23px #ffa9cb;
+  }
+  ${mobile} {
+    flex-direction: column;
   }
 `;
 

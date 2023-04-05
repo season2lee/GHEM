@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GameDetailFromSteam } from "../HoverGameItem";
 import { MdOutlineRecommend } from "react-icons/md";
+import { mobile } from "@/util/Mixin";
 
 type BannerGameItemDetailProps = {
   appId: number;
@@ -12,11 +13,25 @@ type BannerGameItemDetailProps = {
 
 function BannerGameItemDetail(props: BannerGameItemDetailProps) {
   const [gameData, setGameData] = useState<GameDetailFromSteam>();
+  const [gameDescripbe, setGameDescripbe] = useState<string>();
   const env = import.meta.env;
 
   useEffect(() => {
     getGameDetail();
   }, []);
+
+  useEffect(() => {
+    let describe: string | undefined = gameData?.short_description;
+    if (describe) {
+      describe = describe.replaceAll("<br>", "\n");
+      describe = describe.replaceAll("&gt;", ">");
+      describe = describe.replaceAll("&lt;", "<");
+      describe = describe.replaceAll("&quot;", "");
+      describe = describe.replaceAll("&nbsp;", " ");
+      describe = describe.replaceAll("&amp;", "&");
+    }
+    setGameDescripbe(describe);
+  }, [gameData]);
 
   const getGameDetail = async () => {
     try {
@@ -41,7 +56,7 @@ function BannerGameItemDetail(props: BannerGameItemDetailProps) {
         <b>{props.title}</b>
       </p>
       <p css={genresCss}>{props.genres}</p>
-      <p css={gameDescription}>{gameData?.short_description}</p>
+      <p css={gameDescription}>{gameDescripbe}</p>
       <hr color="#caaed1" />
       <div css={priceDiv}>
         {gameData?.recommendations?.total && (
@@ -67,12 +82,17 @@ function BannerGameItemDetail(props: BannerGameItemDetailProps) {
 
 const gameTitle = css`
   font-size: 2rem;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  ${mobile} {
+    font-size: 1rem;
+  }
 `;
 
 const gameDetail = css`
   margin: 0rem 2rem;
+  width: 100%;
 `;
 
 const gameDescription = css`
@@ -85,6 +105,11 @@ const gameDescription = css`
   word-break: normal;
   &::-webkit-scrollbar {
     background-color: aliceblue;
+  }
+
+  ${mobile} {
+    font-size: 0.8rem;
+    font-weight: 100;
   }
 `;
 

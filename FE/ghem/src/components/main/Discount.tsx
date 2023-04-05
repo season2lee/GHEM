@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import CommonGameList from "./game/CommonGameList";
 import { PageXY } from "@/pages/MainPage";
+import { mobile } from "@/util/Mixin";
 
 type DiscountList = {
   appid: number;
@@ -99,6 +100,14 @@ const discountDiv = css`
   padding: 1rem 0rem 1rem 0rem;
   background-color: #352c42;
   border-radius: 30px;
+  ${mobile} {
+    > span {
+      font-size: 30px;
+    }
+    margin: 3rem 1rem;
+    padding: 1rem 0rem;
+    border-radius: 20px;
+  }
 `;
 
 const discountText = css`
