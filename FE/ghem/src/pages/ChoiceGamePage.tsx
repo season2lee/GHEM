@@ -76,6 +76,9 @@ function ChoiceGamePage() {
           `http://j8d107.p.ssafy.io:32003/games/genre/v1?genre=${state}&top=30`
         );
         let item = response.data;
+        if (item.length === 0) {
+        }
+        console.log(item)
         for (let i = 0; i < item.length; i++) {
           setGameList((gameList) => [...gameList, item[i]]);
         }
