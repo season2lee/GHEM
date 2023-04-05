@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import DiscountGameDetail from "../discount/DiscountGameDetail";
 import { PageXY } from "@/pages/MainPage";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { userDevice } from "@/store/mainState";
 import HeroCapsule from "../../../assets/image/hero_capsule.jpg";
 import HeaderImg from "../../../assets/image/header.jpg";
 import axios from "axios";
@@ -30,6 +32,9 @@ type CommonGameListItemProps = {
 
 function CommonGameListItem(props: CommonGameListItemProps) {
   const navigator = useNavigate();
+  const [userDeviceSet, setUserDeviceSet] = useRecoilState<boolean | number>(
+    userDevice
+  );
   const [currentHeaderImg, setCurrentHeaderImg] = useState<string>(
     `https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appid}/header.jpg`
   );
@@ -41,10 +46,33 @@ function CommonGameListItem(props: CommonGameListItemProps) {
   const [isData, setIsData] = useState<boolean>(true);
   const env = import.meta.env;
 
+  useEffect(() => {
+    console.log(userDeviceSet, "===============");
+  }, []);
+
   const toDetail = () => {
     if (props.canClick && props.canClickWithHover) {
       // console.log(props.canClickWithHover);
       navigator(`../detail/${props.appid}`);
+    }
+  };
+
+  const handleHoverModal = (e: React.MouseEvent<HTMLDivElement>) => {
+    props.setAppid(props.appid);
+    props.setColId(props.colId);
+    if (!props.isDrag) {
+      props.setIsEnter(true);
+      let x: number = e.clientX;
+      let y: number = e.clientY;
+      let windowWidth: number = window.innerWidth;
+      let windowHeight: number = window.innerHeight;
+      if (x > windowWidth / 2) {
+        x -= windowWidth * 0.3;
+      }
+      if (y > windowHeight / 2) {
+        y -= windowHeight * 0.4;
+      }
+      props.setPageXY({ x, y });
     }
   };
 
@@ -63,7 +91,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         );
       } else {
         setIsData(false);
-        const target = e.target as HTMLInputElement;
+        const target = e.target as HTMLImageElement;
         target.style.display = "none";
       }
     } catch (err) {
@@ -99,30 +127,16 @@ function CommonGameListItem(props: CommonGameListItemProps) {
     <div
       id={`${props.appid}`}
       css={gameItem}
-      onMouseOver={(e) => {
-        props.setAppid(props.appid);
-        props.setColId(props.colId);
-        if (!props.isDrag) {
-          props.setIsEnter(true);
-          let x: number = e.clientX;
-          let y: number = e.clientY;
-          let windowWidth: number = window.innerWidth;
-          let windowHeight: number = window.innerHeight;
-          if (x > windowWidth / 2) {
-            x -= windowWidth * 0.3;
-          }
-          if (y > windowHeight / 2) {
-            y -= windowHeight * 0.4;
-          }
-          props.setPageXY({ x, y });
-        }
-      }}
+      onMouseOver={handleHoverModal}
       onMouseLeave={() => {
         props.setIsEnter(false);
         props.setColId("empty");
       }}
     >
-      <div onClick={toDetail} css={relativeDiv}>
+      <div
+        onClick={userDeviceSet ? handleHoverModal : toDetail}
+        css={relativeDiv}
+      >
         {props.imgType === "header" && (
           <img
             css={headerImgSize}

@@ -2,8 +2,12 @@ import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
 import HoverGameDescription from "./hover-modal/HoverGameDescription";
 import HoverGameTitle from "./hover-modal/HoverGameTitle";
+import { userDevice } from "@/store/mainState";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { PageXY } from "@/pages/MainPage";
 import axios from "axios";
+import { mobile } from "@/util/Mixin";
+import { useNavigate } from "react-router";
 
 type HoverGameItemProps = {
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
@@ -54,7 +58,15 @@ function HoverGameItem(props: HoverGameItemProps) {
   const [haveData, setHaveData] = useState<"have" | "null" | "loading">(
     "loading"
   );
+
+  const [userDeviceSet, setUserDeviceSet] = useRecoilState<boolean | number>(
+    userDevice
+  );
+
+  const navigator = useNavigate();
+
   const env = import.meta.env;
+
   useEffect(() => {
     getGameDetail();
     return () => {};
@@ -70,9 +82,7 @@ function HoverGameItem(props: HoverGameItemProps) {
 
   const getGameDetail = async () => {
     try {
-      const response = await axios.get(
-        env.VITE_GAME_DETAIL + props.appid
-      );
+      const response = await axios.get(env.VITE_GAME_DETAIL + props.appid);
       if (response.data[props.appid ?? "null"].success) {
         setGamedetail(response.data[props.appid ?? "null"].data);
         setHaveData("have");
@@ -88,10 +98,14 @@ function HoverGameItem(props: HoverGameItemProps) {
   return (
     <div
       css={hoverModal}
-      style={{
-        top: `${props.pageXY.y}px`,
-        left: `${props.pageXY.x}px`,
-      }}
+      style={
+        userDeviceSet
+          ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
+          : {
+              top: `${props.pageXY.y}px`,
+              left: `${props.pageXY.x}px`,
+            }
+      }
       onMouseLeave={() => {
         props.setIsEnter(false);
         props.setColId("empty");
@@ -110,6 +124,15 @@ function HoverGameItem(props: HoverGameItemProps) {
         setIsEnter={props.setIsEnter}
       />
       <HoverGameDescription gameDetail={gameDetail} haveData={haveData} />
+      {userDeviceSet && haveData === "have" && (
+        <p
+          onClick={() => {
+            navigator(`../detail/${props.appid}`);
+          }}
+        >
+          to Detail
+        </p>
+      )}
     </div>
   );
 }
@@ -122,6 +145,9 @@ const hoverModal = css`
   padding: 1rem 0rem;
   color: black;
   border-radius: 10px;
+  ${mobile} {
+    width: 80%;
+  }
 `;
 
 export default HoverGameItem;
