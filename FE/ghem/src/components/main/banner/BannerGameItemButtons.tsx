@@ -143,24 +143,26 @@ function BannerGameItemButtons(props: BannerGameItemButtonsProps) {
           style={{ cursor: "pointer" }}
         />
       )}
-      <FaRegMeh
-        onClick={() => {
-          setRealyUnLike(true);
-        }}
-        size="25"
-        color="white"
-        style={{ cursor: "pointer" }}
-      />
-      {realyUnLike && (
-        <p
+      <span>
+        <FaRegMeh
           onClick={() => {
-            setDoUnLike(false);
+            setRealyUnLike(true);
           }}
-        >
-          {unLikeTimer}
-          취소?
-        </p>
-      )}
+          size="25"
+          color="white"
+          style={{ cursor: "pointer" }}
+        />
+        {realyUnLike && (
+          <span
+            onClick={() => {
+              setDoUnLike(false);
+            }}
+          >
+            {unLikeTimer}
+            취소?
+          </span>
+        )}
+      </span>
     </div>
   );
 }
@@ -170,6 +172,11 @@ const bannerDetail = css`
   /* padding: 1rem 0rem 1rem 1rem; */
   padding: 0.2rem;
   background-color: #584a6e;
+  display: flex;
+  justify-content: space-between;
+  > * {
+    margin: 0% 10%;
+  }
   /* border-radius: 0px 0px 30px 30px; */
 `;
 

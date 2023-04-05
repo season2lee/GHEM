@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
+import { mobile } from "@/util/Mixin";
 import {
   gameRecommendState,
   gameRecommendStateType,
@@ -9,7 +10,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { FaInfoCircle } from "react-icons/fa";
 import CommonGameList from "./game/CommonGameList";
 import { PageXY } from "@/pages/MainPage";
-import axios from "axios";
 
 type BannerTwoProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
@@ -76,6 +76,12 @@ const flexDiv = css`
     font-size: 70px;
     padding: 1rem 4rem 0rem 4rem;
   }
+  ${mobile} {
+    > span {
+      font-size: 30px;
+      padding: 0rem 1.5rem;
+    }
+  }
 `;
 
 const bannerTwoDiv = css`
@@ -83,6 +89,11 @@ const bannerTwoDiv = css`
   padding: 1rem 0rem;
   background-color: #352c42;
   border-radius: 30px;
+  ${mobile} {
+    margin: 3rem 1rem;
+    padding: 1rem 0rem;
+    border-radius: 20px;
+  }
 `;
 
 const bannerTwoText = css`

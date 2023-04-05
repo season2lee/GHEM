@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CommonGameList from "./game/CommonGameList";
 import { PageXY } from "@/pages/MainPage";
+import { mobile } from "@/util/Mixin";
 
 type RankList = {
   rank: number;
@@ -101,6 +102,15 @@ const steadyDiv = css`
   background-color: #352c42;
   border-radius: 30px;
   overflow: hidden;
+
+  ${mobile} {
+    > span {
+      font-size: 30px;
+    }
+    margin: 3rem 1rem;
+    padding: 1rem 0rem;
+    border-radius: 20px;
+  }
 `;
 
 const steadyText = css`

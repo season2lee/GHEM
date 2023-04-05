@@ -1,3 +1,4 @@
+import { mobile } from "@/util/Mixin";
 import { css } from "@emotion/react";
 import React from "react";
 import { useNavigate } from "react-router";
@@ -49,12 +50,27 @@ const friedCard = css`
     0 0 2.5px #e7aaff, inset 0 0 2.8px #e9b2ff;
   margin: 3rem;
   padding: 3rem;
+
+  ${mobile} {
+    font-size: 0.8rem;
+    font-weight: 100;
+    border-radius: 1rem;
+    padding: 0.2rem;
+    margin: 1rem;
+    padding: 2rem;
+    word-break: break-all;
+  }
 `;
 
 const imgSize = css`
   width: 5rem;
   height: 5rem;
   border-radius: 50%;
+
+  ${mobile} {
+    width: 3rem;
+    height: 3rem;
+  }
 `;
 
 export default FriendListItem;
