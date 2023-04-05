@@ -120,3 +120,10 @@ export const choiceGameState = atom<number[]>({
   key: "choiceGame",
   default: [],
 });
+
+// 유저의 디바이스가 터치스크린인가(1) 아닌가(false)
+
+export const userDevice = atom<boolean | number>({
+  key: "userDevice",
+  default: false,
+});
