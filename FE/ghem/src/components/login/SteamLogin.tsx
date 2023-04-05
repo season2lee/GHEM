@@ -1,38 +1,37 @@
-import { useEffect } from "react";
 import Loading from "@components/common/Loading";
-import { useLocation, useNavigate } from "react-router-dom";
-import { getRequestSteamLogin } from "@/api/oauth";
-
-type responseType = {
-  AccessToken: string;
-  userId: number;
-  userNickname: string | null;
-};
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SteamLogin() {
-  const location = useLocation();
   const navigate = useNavigate();
-  const authorizationCode: string = location.search.split("=")[1];
 
-  const handleKakaoLogin = async (code: string) => {
-    const response: responseType = await getRequestSteamLogin(code);
+  const handleSteamLogin = async (code: string) => {
+    console.log(code);
+    // const response = await getRequestSteamLogin(code);
 
-    if (response) {
-      console.log(response);
-      localStorage.setItem("accessToken", response.AccessToken);
-      localStorage.setItem("id", JSON.stringify(response.userId));
+    // if (response) {
+    //   console.log(response);
+    //   localStorage.setItem("accessToken", response.AccessToken);
+    //   localStorage.setItem("id", JSON.stringify(response.userId));
 
-      if (response.userNickname === null) {
-        navigate("/update/profile"); // 닉네임 설정X -> 마이프로필 이동
-      } else {
-        navigate("/main");
-      }
-    }
+    //   if (response.userNickname === null) {
+    //     navigate("/update/profile"); // 닉네임 설정X -> 마이프로필 이동
+    //   } else {
+    //     navigate("/main");
+    //   }
+    // }
   };
 
   useEffect(() => {
-    console.log("@@@@", location.pathname);
-    // handleKakaoLogin(authorizationCode);
+    const url = window.location.href;
+    const regex = /openid%2Fid%2F(\d{17})/;
+    const match = url.match(regex);
+
+    if (match && match[1]) {
+      handleSteamLogin(match[1]);
+    } else {
+      navigate("/");
+    }
   }, []);
 
   return <Loading />;
