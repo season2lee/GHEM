@@ -19,7 +19,7 @@ import { getUserID } from "@/api/user";
 const BROKER_URL = "ws://192.168.100.209:8080/ws";
 
 type GameDataType = {
-  appID: string;
+  appID: number;
   name: string;
   shortDescription: string;
 };
@@ -28,22 +28,29 @@ function GameDetailPage() {
   const [gameData, setGameData] = useState<GameDataType | null>(null); // 보여질 게임에 대한 상세 정보
   const [currentRating, setCurrentRating] = useState(0);
   const [userID, setUserID] = useState<number | null>(null);
-  const appID = useParams().appid; // URL의 path variable로 부터 APP_ID 추출
+  const [appID, setAppID] = useState<number | null>(null);
+  const pathAppID = useParams().appid;
   const env = import.meta.env;
 
   /*-------------------------- API 요청 함수들... --------------------------*/
   // 게임 상세 정보 가져오기
-  const getGameData = async () => {
+  const getGameData = async (appID: number) => {
     try {
       const response = await axios.get(env.VITE_GAME_DETAIL + appID + "&filters=basic");
-      const data = response.data[String(appID)].data;
-      setGameData(() => {
-        return {
-          appID: data.steam_appid,
-          name: data.name,
-          shortDescription: data.short_description,
-        };
-      });
+      if ("data" in response.data[appID]) {
+        setAppID(appID);
+        const {data} = response.data[appID]
+        setGameData(() => {
+          return {
+            appID: data.steam_appid,
+            name: data.name,
+            shortDescription: data.short_description,
+          };
+        });
+        
+      } else {
+        setAppID(null);
+      }
     } catch {
       console.log("gameData 불러오기 실패");
     }
@@ -134,24 +141,30 @@ function GameDetailPage() {
       });
     }
   };
-
-  const setUserLoginState = () => {
-    setUserID((oldState) => {
-      return getUserID();
-    })
-  }
   /*----------------------------------------------------*/
 
+  // 로그인 상태 점검
   useEffect(() => {
-    getGameData();
-  }, [appID]);
+    setUserID(() => {
+      const loginID = getUserID();
+      if (loginID === null) {
+        return null;
+      } else {
+        return loginID;
+      }
+    });
+
+    if (pathAppID && !isNaN(parseInt(pathAppID))) {
+      getGameData(parseInt(pathAppID));
+    }
+  }, [])
 
   useEffect(() => {
-    setUserLoginState();
-    if (userID !== null) {
+    if (appID && userID) {
       getRatingData();
     }
-  }, [userID])
+  }, [appID, userID])
+
 
   if (userID && appID) {
     return (
@@ -170,7 +183,7 @@ function GameDetailPage() {
             <div css={leftContainer}>
               {/* 리뷰 컴포넌트 */}
               <Section>
-                <ReviewSection currentRating={currentRating} appID={appID} />
+                <ReviewSection currentRating={currentRating} appID={appID} userID={userID}/>
               </Section>
               {/* 즐겨찾기한 유저들 컴포넌트 */}
               <br />
@@ -186,9 +199,13 @@ function GameDetailPage() {
         </div>
       </div>
     );
-  } else {
+  } else if (appID === null) {
     return (
-      <div>로그인 먼저 하세욤</div>
+      <div>유효하지 않은 게임 정보</div>
+    )
+  } else if (userID === null){
+    return (
+      <div>로그인 먼저ㄱㄱ</div>
     )
   }
 }

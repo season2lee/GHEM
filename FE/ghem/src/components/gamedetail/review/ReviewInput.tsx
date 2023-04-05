@@ -2,32 +2,31 @@ import { css } from '@emotion/react'
 import React, { useRef, useState, useEffect } from 'react'
 import defaultProfile from '@/assets/image/defaultProfile.jpg';
 import { getUserID, getUserProfile } from '@/api/user';
+import axios from 'axios';
+
+type ReviewType = {
+  appId: number,
+  userId: number,
+  profileImageURL?: string,
+  name: string,
+  date: string,
+  content: string,
+  helpfulCount?: number,
+}
 
 type ReviewInputProps = {
   isRated: boolean,
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  setReviewData: React.Dispatch<React.SetStateAction<ReviewType[]>>
+  appID: number,
+  userID: number
 }
 
-function ReviewInput({isRated}: ReviewInputProps) {
+function ReviewInput({isRated, setReviewData, appID, userID}: ReviewInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [profileImage, setProfileImage] = useState(defaultProfile);
-  const [userID, setUserID] = useState<number | null>(null);
-  useEffect(() => {
-    setUserID(() => {
-      const id = getUserID();
-      if (id !== null) {
-        const response = getUserProfile(id);
-        response
-          .then(result => {
-            const user = result?.user;
-            setProfileImage(user?.userProfile.substr(1, user.userProfile.length - 2) ?? defaultProfile);
-          });
-      }
-      return id;
-    });
-  }, [userID])
+  const env = import.meta.env;
 
   const onFocusHandler = () => {
     setIsFocused(true);
@@ -41,11 +40,30 @@ function ReviewInput({isRated}: ReviewInputProps) {
     }
   }
 
-  const onClickConfirm = () => {
+  const onClickConfirm = async () => {
     if (inputRef.current) {
       console.log(inputRef.current.value);
+      
       // API 요청하기...
+      try {
+        console.log(appID, userID);
+        const response = await axios.put(env.VITE_API_BASE_URL + "/review", {
+          app_id: appID,
+          user_id: userID,
+          content: inputRef.current.value
+        })
+
+        // Review 생성
+        setReviewData((oldState) => {
+          return [...oldState]
+        })
+        console.log("put 요청 결과:", response);
+      } catch {
+        console.log("평가 추가 실패...");
+      }
+
       inputRef.current.value = "";
+      setIsActive(false);
     }
   }
 
@@ -56,6 +74,7 @@ function ReviewInput({isRated}: ReviewInputProps) {
       setIsActive(true);
     }
   }
+
   const handleInputClick = () => {
     if (inputRef?.current) {
       if (inputRef.current.disabled === true) {
@@ -75,6 +94,18 @@ function ReviewInput({isRated}: ReviewInputProps) {
       }
     }
   }, [isRated])
+
+  useEffect(() => {
+    const id = getUserID();
+    if (id !== null) {
+      const response = getUserProfile(id);
+      response
+        .then(result => {
+          const user = result?.user;
+          setProfileImage(user?.userProfile.substr(1, user.userProfile.length - 2) ?? defaultProfile);
+        });
+    }
+  }, [])
 
   return (
     <div>

@@ -7,7 +7,7 @@ import { mobile, tabletH } from '@/util/Mixin'
 
 type GameInfoProps = {
   gameData: {
-    appID: string,
+    appID: number,
     name: string,
     shortDescription: string
   } | null,

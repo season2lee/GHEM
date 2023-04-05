@@ -7,7 +7,7 @@ import React, { useEffect } from 'react'
 import styled from '@emotion/styled'
 
 type ImageHeadType = {
-  appID: string
+  appID: number
 }
 
 function ImageHead({appID}: ImageHeadType) {
@@ -16,7 +16,7 @@ function ImageHead({appID}: ImageHeadType) {
   )
 }
 
-const ImageContainer = styled.div<{appID:string}>`
+const ImageContainer = styled.div<{appID: number}>`
   background-image: radial-gradient(ellipse 100% 100% at 50% 0,rgba(21,21,23,.55) 0,rgba(26,27,30,.65) 32%,#292233 100%), ${(props) => `url(https://cdn.cloudflare.steamstatic.com/steam/apps/${props.appID}/library_hero.jpg)`};
   width: 100%;
   height: 40rem;

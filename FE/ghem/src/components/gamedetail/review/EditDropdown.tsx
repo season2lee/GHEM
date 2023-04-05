@@ -1,25 +1,70 @@
 import { css } from '@emotion/react';
+import axios from 'axios';
 import React, { useEffect, useRef } from 'react'
 import { AiTwotoneAlert } from 'react-icons/ai';
 import { BsTrash3 } from 'react-icons/bs';
 
-type EditDropdownProps = {
-  setIsOpenEditDropdown: React.Dispatch<React.SetStateAction<boolean>>,
-  isWriter: boolean
+type ReviewType = {
+  appId: number,
+  userId: number,
+  profileImageURL?: string,
+  name: string,
+  date: string,
+  content: string,
+  helpfulCount?: number,
 }
 
-function EditDropdown({setIsOpenEditDropdown, isWriter}: EditDropdownProps) {
-  const handleClickItem = () => {
+type EditDropdownProps = {
+  setIsOpenEditDropdown: React.Dispatch<React.SetStateAction<boolean>>,
+  setReviewData: React.Dispatch<React.SetStateAction<ReviewType[]>>,
+  isWriter: boolean,
+  userID: number
+  appID: number,
+}
+
+function EditDropdown({setIsOpenEditDropdown, setReviewData, isWriter, userID, appID}: EditDropdownProps) {
+  const env = import.meta.env;
+
+  const handleDelete = async () => {
+    setIsOpenEditDropdown(false);
+    if (confirm("삭제 하시겠습니까??")) {
+      console.log("삭제 시작");
+      
+      try {
+        console.log(appID, userID);
+        const response = await axios.put(env.VITE_API_BASE_URL + "/review", {
+          app_id: appID,
+          user_id: userID,
+          content: null
+        })
+        
+        // 삭제 결과 반영하기
+        console.log("put 요청 결과:", response);
+      } catch {
+        console.log("삭제 실패...");
+      }
+    }
+    
+  }
+
+  const handleReport = () => {
+    console.log("신고할 리뷰의 정보:", userID, appID);
     setIsOpenEditDropdown(false);
   }
+
+  useEffect(() => {
+    console.log(userID, appID);
+    
+  }, [])
+
   return (
     <div css={container}>
       {isWriter &&
-      <div css={itemDeleteStyle} onClick={handleClickItem}>
+      <div css={itemDeleteStyle} onClick={handleDelete}>
         <span>삭제</span>
         <BsTrash3 />
       </div>}
-      <div css={itemStyle} onClick={handleClickItem}>
+      <div css={itemStyle} onClick={handleReport}>
         <span>신고하기</span>
         <AiTwotoneAlert />
       </div>
