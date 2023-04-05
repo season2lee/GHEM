@@ -26,6 +26,10 @@ public class QUserGame extends EntityPathBase<UserGame> {
 
     public final QGame game;
 
+    public final NumberPath<Integer> helpful = createNumber("helpful", Integer.class);
+
+    public final ListPath<Helpful, QHelpful> helpfulList = this.<Helpful, QHelpful>createList("helpfulList", Helpful.class, QHelpful.class, PathInits.DIRECT2);
+
     public final NumberPath<Integer> rating = createNumber("rating", Integer.class);
 
     public final DateTimePath<java.time.LocalDateTime> updateDate = createDateTime("updateDate", java.time.LocalDateTime.class);

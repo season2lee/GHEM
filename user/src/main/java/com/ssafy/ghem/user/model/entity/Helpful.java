@@ -9,31 +9,30 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="helpful")
 public class Helpful {
 
     @Id
     @GeneratedValue
     @Column(name = "helpful_id")
-    private Long helpfulId;
+    private Long HelpfulId;
 
-    @OneToOne
-    @JoinColumn(name = "usergame_id")
+    @Column(name = "user_id")
+    private Long userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_game_id")
     private UserGame userGame;
 
-    private int helpful;
 
-    public Helpful(){
-        this.helpful = 0;
+    @Builder
+    public Helpful(Long userId){
+        this.userId = userId;
     }
 
     public void setUserGame(UserGame userGame){
         this.userGame = userGame;
     }
-
-    public void increaseHelpful(){
-        this.helpful += 1;
-    }
-
 
 }

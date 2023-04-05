@@ -3,11 +3,9 @@ package com.ssafy.ghem.user.model.service;
 import com.ssafy.ghem.user.controller.exception.AlreadyExistData;
 import com.ssafy.ghem.user.controller.exception.DoesNotExistData;
 import com.ssafy.ghem.user.model.entity.Game;
-import com.ssafy.ghem.user.model.entity.Helpful;
 import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.entity.UserGame;
 import com.ssafy.ghem.user.model.respository.common.GameCommonRepository;
-import com.ssafy.ghem.user.model.respository.common.HelpfulCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserGameCommonRepository;
 import com.ssafy.ghem.user.model.vo.HttpVO;
@@ -16,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +23,6 @@ public class RatingServiceImpl implements RatingService{
     private final UserCommonRepository userCommonRepository;
     private final GameCommonRepository gameCommonRepository;
     private final UserGameCommonRepository userGameCommonRepository;
-    private final HelpfulCommonRepository helpfulCommonRepository;
     @Override
     public HttpVO create(RatingVO ratingInfo) {
 
@@ -45,6 +41,7 @@ public class RatingServiceImpl implements RatingService{
 
         usergame.setUser(user);
         usergame.setGame(game);
+        usergame.setHelpful(0);
 
         userGameCommonRepository.save(usergame);
 
@@ -89,7 +86,6 @@ public class RatingServiceImpl implements RatingService{
 
         if(usergame == null) throw new DoesNotExistData("해당게임에 대한 유저의 평점이 존재하지 않습니다.");
 
-        deleteHelpful(usergame);
 
         userGameCommonRepository.delete(usergame);
 
@@ -98,13 +94,6 @@ public class RatingServiceImpl implements RatingService{
         http.setData("success");
 
         return http;
-    }
-
-    private void deleteHelpful(UserGame userGame) {
-        Optional<Helpful> OptionalHelpful = helpfulCommonRepository.findByUserGame(userGame);
-        if(OptionalHelpful.isPresent()){
-            helpfulCommonRepository.delete(OptionalHelpful.get());
-        }
     }
 
     @Override

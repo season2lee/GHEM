@@ -40,16 +40,15 @@ public class ReviewServiceImpl implements ReviewService {
         Game game = getGame(reviewInfo.getApp_id());
         UserGame userGame = getUserGame(user, game);
 
-        String content = userGame.getContent();
+        int helpful = userGame.getHelpful();
 
-        if(content.isEmpty() || content == null){
-            throw new AlreadyExistData("이미 리뷰가 존재합니다. 삭제하시고 다시 이용해주세요");
+        if(helpful > 0){
+            helpfulCommonRepository.deleteAllUserGame(userGame);
         }
-
-        createHelpful(userGame);
 
         userGame.setContent(reviewInfo.getContent());
         userGame.setDateTime();
+        userGame.setHelpful(0);
         userGameCommonRepository.save(userGame);
 
         http.setFlag(true);
@@ -75,28 +74,11 @@ public class ReviewServiceImpl implements ReviewService {
         Game game = getGame(reviewInfo.getApp_id());
         UserGame userGame = getUserGame(user, game);
 
-        deleteHelpful(userGame);
+        // deleteHelpful(userGame);
         userGameCommonRepository.delete(userGame);
 
         http.setFlag(true);
         return http;
-    }
-
-    private void deleteHelpful(UserGame userGame) {
-        Optional<Helpful> OptionalHelpful = helpfulCommonRepository.findByUserGame(userGame);
-        if(OptionalHelpful.isPresent()){
-            helpfulCommonRepository.delete(OptionalHelpful.get());
-        }
-    }
-
-    private void createHelpful(UserGame userGame) {
-        Optional<Helpful> OptionalHelpful = helpfulCommonRepository.findByUserGame(userGame);
-        if(!OptionalHelpful.isPresent()){
-            Helpful helpful = new Helpful();
-            helpful.setUserGame(userGame);
-
-            helpfulCommonRepository.save(helpful);
-        }
     }
 
     @Transactional
