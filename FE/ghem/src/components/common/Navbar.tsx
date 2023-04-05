@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
 import { getSearchList } from "@/api/search";
+import { mobile } from "@/util/Mixin";
 
 type searchResultDropdown = {
   appId: string;
@@ -145,16 +146,22 @@ function Navbar() {
                       {searchList.map((search) => {
                         return (
                           <div
+                            className="searchitem"
                             key={search.appId}
                             onClick={() => {
                               navigater(`../detail/${search.appId}`);
                             }}
                           >
-                            {search.appId}
+                            <img
+                              css={image}
+                              src={`https://cdn.cloudflare.steamstatic.com/steam/apps/${search.appId}/header.jpg`}
+                              alt={`${search.appId}`}
+                            />
+                            <div className="gametitle">{search.title}</div>
                           </div>
                         );
                       })}
-                      <button
+                      <button css={nextBtn}
                         onClick={() => {
                           setSearchPage(searchPage + 1);
                         }}
@@ -174,6 +181,7 @@ function Navbar() {
 }
 
 const navbar = css`
+  z-index: 1000;
   position: relative;
   top: 0px;
   bottom: 0px;
@@ -243,20 +251,50 @@ const searchInput = css`
 `;
 
 const search = css`
+  top: 3rem;
   background: #292233;
   right: 0px;
-  width: 20%;
+  width: 30%;
+  height: 50vh;
   z-index: 500;
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   border-radius: 0.2rem;
   box-shadow: 0.2rem 0.2rem 0.5rem #15121b, -0.2rem -0.2rem 0.5rem transparent;
   position: absolute;
   text-align: start;
   margin-right: 3rem;
-  div {
-    border-bottom: 1px solid white;
+  overflow: scroll;
+  .gametitle {
+    font-size: 0.5rem;
+    display: flex;
+    text-align: center;
+  }
+  .searchitem {
+    display: inline-flex;
+    justify-content: start;
+    text-align: center;
+  }
+  ${mobile}{
+    width: 50%;
   }
 `;
+
+const image = css`
+  width: 5rem;
+  height: 3rem;
+  ${mobile} {
+    width: 4rem;
+    height: 2rem;
+  }
+
+`;
+
+const nextBtn = css`
+  background-color: #725f8c;
+  border-radius: 0.2rem;
+  border: none;
+  color:white;
+`
 
 export default Navbar;

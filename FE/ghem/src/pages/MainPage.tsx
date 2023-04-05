@@ -38,7 +38,14 @@ function MainPage(props: {
 
   return (
     <div css={centerDiv}>
-      <div style={{ right: "0" }}>필터버튼</div>
+      <div className="toggle" style={{ right: "0" }}>
+        <div css={switchBtn}>
+          <div>
+            <input type="checkbox" id="switch" />
+            <label htmlFor="switch"></label>
+          </div>
+        </div>
+      </div>
       <FixedButtom />
       {isLoginStatus && <Banner />}
       <BannerTwo
@@ -98,6 +105,64 @@ function MainPage(props: {
 const centerDiv = css`
   text-align: center;
   position: relative;
+
+  .toggle {
+    display: flex;
+    justify-content: flex-end;
+    margin-left:10%;
+    margin-right:10%;
+    margin-bottom: 0;
+
+    
+  }
+`;
+
+const switchBtn = css`
+
+input[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+label {
+	cursor: pointer;
+	text-indent: -99px;
+	width: 80px;
+	height: 40px;
+	background: grey;
+	display: block;
+	border-radius: 40px;
+	position: relative;
+}
+
+label:after {
+	content: '';
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 30px;
+	height: 30px;
+	background: #fff;
+	border-radius: 20px;
+	transition: 0.2s;
+}
+
+input:checked + label {
+	background: #52395a;
+}
+
+input:checked + label:after {
+	left: calc(100% - 5px);
+	transform: translateX(-100%);
+}
+
+label:active:after {
+	width: 13px;
+}
+
+
+ 
 `;
 
 export default MainPage;
