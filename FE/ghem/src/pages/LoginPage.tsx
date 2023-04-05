@@ -1,8 +1,8 @@
-import React from "react";
 import { css } from "@emotion/react";
 import loginBackground from "../assets/image/loginBackground.jpg";
 import kakaoOauth from "../assets/image/kakaoOauth.png";
 import naverOauth from "../assets/image/naverOauth.png";
+import steamOauth from "../assets/image/steamOauth.png";
 import forLogo from "../assets/image/for_logo.png";
 import { mobile } from "@/util/Mixin";
 
@@ -17,6 +17,15 @@ function LoginPage() {
   const NAVER_REDIRECT_URI = env.VITE_NAVER_REDIRECT_URI;
   const NAVER_CALLBACK_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_REST_API_KEY}&state=login&redirect_uri=${NAVER_REDIRECT_URI}`;
 
+  // const STEAM_REDIRECT_URI = env.VITE_STEAM_REDIRECT_URI;
+  // const STEAM_CALLBACK_URL = `https://steamcommunity.com/oauth/login?response_type=code&client_id=client_id_here&state=whatever_you_want`;
+  // const returnUrl = "http://j8d107.p.ssafy.io:32000/user/oauth2/code/steam";
+  // const STEAM_REALM = env.VITE_STEAM_REALM;
+  // const STEAM_REDIRECT_URI = env.VITE_STEAM_REDIRECT_URI;
+  const STEAM_REALM = "http://j8d107.p.ssafy.io";
+  const STEAM_REDIRECT_URI = "http://j8d107.p.ssafy.io/oauth/steam/callback";
+  const STEAM_CALLBACK_URL = `https://steamcommunity.com/openid/login?openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.mode=checkid_setup&openid.ns=http://specs.openid.net/auth/2.0&openid.realm=${STEAM_REALM}&openid.return_to=${STEAM_REDIRECT_URI}`;
+
   const handleOauthLoginClcik = (flag: string): void => {
     switch (flag) {
       case "kakao":
@@ -24,6 +33,9 @@ function LoginPage() {
         break;
       case "naver":
         window.location.href = NAVER_CALLBACK_URL;
+        break;
+      case "steam":
+        window.location.href = STEAM_CALLBACK_URL;
         break;
       default:
     }
@@ -35,14 +47,9 @@ function LoginPage() {
       <div css={loginBoxWrapper}>
         <img src={forLogo} alt="GHEM" css={logoSize} />
         <div css={oauthWrapper}>
-          <img
-            src={kakaoOauth}
-            onClick={() => handleOauthLoginClcik("kakao")}
-          />
-          <img
-            src={naverOauth}
-            onClick={() => handleOauthLoginClcik("naver")}
-          />
+          <img src={kakaoOauth} onClick={() => handleOauthLoginClcik("kakao")} />
+          <img src={naverOauth} onClick={() => handleOauthLoginClcik("naver")} />
+          <img src={steamOauth} onClick={() => handleOauthLoginClcik("steam")} />
         </div>
       </div>
     </div>
@@ -63,12 +70,7 @@ const wrapper = css`
 const bgWrapper = css`
   width: 100%;
   height: 600px;
-  background-image: linear-gradient(
-      360deg,
-      #292233 0%,
-      rgba(41, 34, 51, 0) 169.72%
-    ),
-    url(${loginBackground});
+  background-image: linear-gradient(360deg, #292233 0%, rgba(41, 34, 51, 0) 169.72%), url(${loginBackground});
   background-repeat: repeat-x;
   position: absolute;
   left: 0;

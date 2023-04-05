@@ -23,3 +23,14 @@ export const getRequestNaverLogin = async (code: string) => {
     console.log(error);
   }
 };
+
+export const getRequestSteamLogin = async (code: string) => {
+  try {
+    const { data } = await axios.get(`/oauth2/code/steam?code=${code}`);
+
+    if (data.flag) return data.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+  }
+};
