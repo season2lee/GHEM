@@ -57,7 +57,7 @@ public class OauthController {
 
     @GetMapping("/code/steam")
     public ResponseEntity<?> openIdSteam(@RequestParam("openid.identity") String openIdIdentity) {
-        
+
         // Steam ID 추출
         String steamId = extractSteamId(openIdIdentity);
         HttpVO http = oauthService.tryOpenIdSteam(steamId);
