@@ -12,20 +12,24 @@ import thumbUp from '@/assets/image/thumbup.svg';
 import { css } from '@emotion/react';
 import { BiDotsVerticalRounded } from 'react-icons/bi';
 import EditDropdown from './EditDropdown';
+import { getUserID } from '@/api/user';
+
+type ReviewType = {
+  userId: number,
+  profileImageURL?: string,
+  name: string,
+  date: string,
+  content: string,
+  helpfulCount?: number,
+}
 
 type ReviewProps = {
-  review: {
-    id?: string,
-    profileImageURL?: string,
-    name: string,
-    date: string,
-    content: string,
-    helpfulCount: number,
-  }
+  review: ReviewType
 }
 
 function Review({review}: ReviewProps) {
   const [isHelpful, setIsHelpful] = useState(false);
+  const [userID, setUserID] = useState<number | null>(null);
   const [isOpenEditDropdown, setIsOpenEditDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -43,6 +47,18 @@ function Review({review}: ReviewProps) {
     return () => window.removeEventListener("mousedown", handleClickOutside);
   }, [])
 
+  useEffect(() => {
+    setUserID(() => {
+      const id = getUserID();
+      console.log("kkk", id, review.userId);
+      if (id !== null) {
+        return id;
+      } else {
+        return null;
+      }
+    });
+  }, [userID])
+
   return (
     <div css={container}>
       {/* 프로필 이미지 */}
@@ -57,9 +73,10 @@ function Review({review}: ReviewProps) {
             <p css={nameStyle}>{review.name}</p>
             <p css={dateStyle}>{review.date}</p>
           </div>
+          {/* 삭제, 수정 드롭다운 */}
           <div css={editContainer} ref={dropdownRef}>
             <span><BiDotsVerticalRounded css={threeDotStyle} onClick={handleClickEditButton}/></span>
-            {isOpenEditDropdown && <EditDropdown setIsOpenEditDropdown={setIsOpenEditDropdown}/>}
+            {isOpenEditDropdown && <EditDropdown setIsOpenEditDropdown={setIsOpenEditDropdown} isWriter={review.userId === userID} />}
           </div>
           {/* 해당 유저가 평가한 점수 들어갈 것 
             ...
@@ -70,13 +87,13 @@ function Review({review}: ReviewProps) {
           {review.content}
         </div>
         {/* 도움됨 버튼 및 누적된 횟수 */}
-        <div css={helpfulContainer}>
+        {/* <div css={helpfulContainer}>
           <p css={helpfulTextStyle}>이 리뷰가 도움되었나요??</p>
           <button css={helpfulButton}>
             <img src={isHelpful ? thumbUp : thumbupLine} style={{height: "15px"}} />
           </button>
           <p css={helpfulTextStyle}>{review.helpfulCount}</p>
-        </div>
+        </div> */}
       </div>
     </div>
   )
