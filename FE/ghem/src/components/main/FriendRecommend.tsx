@@ -1,3 +1,4 @@
+import { mobile } from "@/util/Mixin";
 import { css } from "@emotion/react";
 import React from "react";
 import FriendList from "./friend/FriendList";
@@ -20,6 +21,11 @@ const friendText = css`
   /* color: #352c42;
   text-shadow: -1px 0px #f6b4ff, 0 0 2px #fff, 0 0 8px #ffd8f8, 0 0 4px #fff,
     0px 1px #f1c1ff, 1px 0px #ffd8f8, 0px -1px #ffa9cb; */
+
+  ${mobile} {
+    font-size: 30px;
+    margin: 2rem;
+  }
 `;
 
 export default FriendRecommend;

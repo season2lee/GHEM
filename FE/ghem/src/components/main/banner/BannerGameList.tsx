@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { disLikeGameList, banGameList } from "@/store/mainState";
 import useIntersectionObsever from "@/util/hooks/useIntersectionObserver";
+import { mobile } from "@/util/Mixin";
 import BannerGameItem from "./BannerGameItem";
 import {
   MdAutorenew,
@@ -110,13 +111,13 @@ function BannerGameList() {
   const toLeft = () => {
     const current =
       (scrollElement.scrollLeft - window.innerWidth) / window.innerWidth;
-    scrollElement.scrollLeft = Math.round(current) * window.innerWidth;
+    scrollElement.scrollLeft = Math.round(current) * window.innerWidth - 5;
   };
 
   const toRight = () => {
     const current =
       (scrollElement.scrollLeft + window.innerWidth) / window.innerWidth;
-    scrollElement.scrollLeft = Math.round(current) * window.innerWidth;
+    scrollElement.scrollLeft = Math.round(current) * window.innerWidth + 5;
   };
 
   return (
@@ -182,6 +183,13 @@ const bannerDetail = css`
   padding: 1rem 0rem 1rem 1rem;
   background-color: #352c42;
   border-radius: 0px 0px 30px 30px;
+
+  ${mobile} {
+    margin: 0rem 1.5rem 1rem;
+    padding: 1rem 0rem 1rem 1rem;
+    background-color: #352c42;
+    border-radius: 0px 0px 20px 20px;
+  }
 `;
 
 const recommendForU = css`
@@ -194,6 +202,18 @@ const recommendForU = css`
   padding: 1rem 4rem 0rem 4rem;
   background-color: #352c42;
   border-radius: 30px 30px 0px 0px;
+
+  ${mobile} {
+    > span {
+      font-size: 35px;
+    }
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 1.5rem 0rem;
+    padding: 1rem 1rem 0rem 1rem;
+    background-color: #352c42;
+    border-radius: 20px 20px 0px 0px;
+  }
 `;
 
 const recommendList = css`

@@ -6,6 +6,7 @@ import { PageXY } from "@/pages/MainPage";
 import HeroCapsule from "../../../assets/image/hero_capsule.jpg";
 import HeaderImg from "../../../assets/image/header.jpg";
 import axios from "axios";
+import { mobile } from "@/util/Mixin";
 
 type CommonGameListItemProps = {
   gameType?: "discount" | "steady";
@@ -174,11 +175,17 @@ const relativeDiv = css`
 const headerImgSize = css`
   width: auto;
   height: 20vh;
+  ${mobile} {
+    height: 10vh;
+  }
 `;
 
 const capsuleImgSize = css`
   width: auto;
   height: 45vh;
+  ${mobile} {
+    height: 20vh;
+  }
 `;
 
 const inImgText = css`
