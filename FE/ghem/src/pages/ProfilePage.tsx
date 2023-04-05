@@ -7,21 +7,31 @@ import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
 import { mobile } from "@/util/Mixin";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "@/store/mainState";
+import { getUserProfile } from "@/api/user";
 
 function ProfilePage() {
   const navigate = useNavigate();
   const userInfo = useRecoilValue(userInfoState);
+  const userId: number | null = Number(localStorage.getItem("id"));
 
-  useEffect(() => {
-    const accessToken: string | null = localStorage.getItem("accessToken");
+  const getUserProfileFunc = async (): Promise<void> => {
+    const response = await getUserProfile(userId);
 
-    if (!accessToken) {
-      navigate("/login");
-    } else {
-      if (!userInfo.nickname || userInfo.nickname === "") {
+    if (response) {
+      const { user } = response;
+
+      if (!user.nickname || user.nickname === "") {
         alert("닉네임을 설정해주세요. 😀");
         navigate("/update/profile");
       }
+    }
+  };
+
+  useEffect(() => {
+    if (!userId) {
+      navigate("/login");
+    } else {
+      getUserProfileFunc();
     }
   }, []);
 
