@@ -153,7 +153,7 @@ function GameDetailPage() {
     }
   }, [userID])
 
-  if (userID) {
+  if (userID && appID) {
     return (
       <div>
         {/* 라이브러리 이미지를 가진 헤드 컴포넌트*/}
@@ -170,7 +170,7 @@ function GameDetailPage() {
             <div css={leftContainer}>
               {/* 리뷰 컴포넌트 */}
               <Section>
-                <ReviewSection currentRating={currentRating} />
+                <ReviewSection currentRating={currentRating} appID={appID} />
               </Section>
               {/* 즐겨찾기한 유저들 컴포넌트 */}
               <br />
@@ -196,7 +196,7 @@ function GameDetailPage() {
 const container = css`
   padding: 0px 2.5rem 2.5rem 2.5rem;
   ${mobile} {
-    padding: 0px 2rem 2rem 2rem;
+    padding: 0px 1rem 1rem 1rem;
   }
 `;
 

@@ -20,6 +20,7 @@ function Header() {
           .then(result => {
             const user = result?.user;
             setProfileImage(user?.userProfile.substr(1, user.userProfile.length - 2) ?? defaultProfile);
+            setUserName(user?.nickname ?? "");
           });
       }
       

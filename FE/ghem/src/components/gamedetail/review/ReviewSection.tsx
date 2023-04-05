@@ -4,31 +4,61 @@ import { css } from '@emotion/react'
 import Pagination from './Pagination'
 import ReviewBody from './ReviewBody';
 import { dummyReviews } from './dummyReviews';
+import axios from 'axios';
 
 const REVIEW_COUNT = 5;
 
 type ReciewSectionProps = {
-  currentRating: number
+  currentRating: number,
+  appID: string
 }
 
 type ReviewType = {
-  id?: string,
+  userId: number,
   profileImageURL?: string,
   name: string,
   date: string,
   content: string,
-  helpfulCount: number,
+  helpfulCount?: number,
 }
 
-function ReviewSection({currentRating}: ReciewSectionProps) {
+function ReviewSection({currentRating, appID}: ReciewSectionProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [reviewData, setReviewData] = useState<ReviewType[]>()
   const [lastPageNum, setLastPageNum] = useState(1);  // 마지막 페이지 번호
+  const env = import.meta.env;
   
-  const loadReviewData = (reviewCount: number, pageNum: number) => {
-    // 비동기 요청하기
-    console.log("요청합니다:", reviewCount, "개 만큼", pageNum, "페이지를 요청함");
-    // setReviewData(dummyReviews);
+  const getReviewData = async (reviewCount: number, pageNum: number) => {
+    try {
+      const response = await axios.get(`${env.VITE_API_BASE_URL}/review/${appID}`, {
+        params: {
+          size: REVIEW_COUNT,
+          page: pageNum-1
+        }
+      });
+      const reviewDatas = response.data?.data.content ?? null;
+      const temp: ReviewType[] = [];
+      if (reviewDatas !== null) {
+        for (const reviewData of reviewDatas) {
+          const data: ReviewType = {
+            userId: parseInt(reviewData.user.user_id),
+            profileImageURL: reviewData.user.userProfile.substr(1, reviewData.user.userProfile.length - 2),
+            name: reviewData.user.nickname,
+            date: reviewData.updateDate,
+            content: reviewData.content
+          }
+          
+          temp.push(data);
+          setReviewData(temp);
+        }
+      } else {
+        console.log("리뷰 데이터 없음");
+        setReviewData(undefined);
+      }
+      
+    } catch {
+      console.log("ratingData 불러오기 실패");
+    }
   }
 
   // useEffect(() => {
@@ -36,7 +66,7 @@ function ReviewSection({currentRating}: ReciewSectionProps) {
   // }, [])
 
   useEffect(() => {
-    loadReviewData(REVIEW_COUNT, currentPage);
+    getReviewData(REVIEW_COUNT, currentPage);
   }, [currentPage])
   
   return (

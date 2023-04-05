@@ -2,15 +2,15 @@ import { css } from '@emotion/react'
 import React from 'react'
 import { dummyReviews } from './dummyReviews'
 import Review from './Review'
-import EmptyBox from "@/assets/image/emptybox.svg"
+import EmptyBox from "@/assets/image/grayempty.svg"
 
 type ReviewType = {
-  id?: string,
+  userId: number,
   profileImageURL?: string,
   name: string,
   date: string,
   content: string,
-  helpfulCount: number,
+  helpfulCount?: number,
 }
 
 type ReviewBodyType = {
@@ -53,8 +53,9 @@ const imageContainer = css`
   align-items: center;
   p {
     margin-top: 10px;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
+    color: gray;
   }
 `
 

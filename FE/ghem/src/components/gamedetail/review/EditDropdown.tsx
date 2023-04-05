@@ -4,19 +4,21 @@ import { AiTwotoneAlert } from 'react-icons/ai';
 import { BsTrash3 } from 'react-icons/bs';
 
 type EditDropdownProps = {
-  setIsOpenEditDropdown: React.Dispatch<React.SetStateAction<boolean>>
+  setIsOpenEditDropdown: React.Dispatch<React.SetStateAction<boolean>>,
+  isWriter: boolean
 }
 
-function EditDropdown({setIsOpenEditDropdown}: EditDropdownProps) {
+function EditDropdown({setIsOpenEditDropdown, isWriter}: EditDropdownProps) {
   const handleClickItem = () => {
     setIsOpenEditDropdown(false);
   }
   return (
     <div css={container}>
+      {isWriter &&
       <div css={itemDeleteStyle} onClick={handleClickItem}>
         <span>삭제</span>
         <BsTrash3 />
-      </div>
+      </div>}
       <div css={itemStyle} onClick={handleClickItem}>
         <span>신고하기</span>
         <AiTwotoneAlert />
