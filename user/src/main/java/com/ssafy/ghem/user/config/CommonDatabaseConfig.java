@@ -65,39 +65,3 @@ public class CommonDatabaseConfig {
     }
 }
 
-//@Configuration
-//@EnableJpaRepositories(
-//        basePackages = "com.ssafy.ghem.user.common.repository", // Master Repository 경로
-//        entityManagerFactoryRef = "commonManager",
-//        transactionManagerRef = "commonTransactionManager"
-//)
-//public class CommonDatabaseConfig {
-//    @Bean
-//    @Primary
-//    public LocalContainerEntityManagerFactoryBean commonManager() {
-//        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-//
-//        em.setDataSource(mysqlDataSource());
-//        em.setPackagesToScan(new String[]{"com.ssafy.ghem.user.model.entity"});
-//        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-//
-//        return em;
-//    }
-//
-//    @Bean
-//    @Primary
-//    @ConfigurationProperties(prefix = "spring.datasource")
-//    public DataSource mysqlDataSource() {
-//        return DataSourceBuilder.create().build();
-//    }
-//
-//    @Bean
-//    @Primary
-//    public PlatformTransactionManager commonTransactionManager() {
-//        JpaTransactionManager transactionManager = new JpaTransactionManager();
-//
-//        transactionManager.setEntityManagerFactory(commonManager().getObject());
-//
-//        return transactionManager;
-//    }
-//}

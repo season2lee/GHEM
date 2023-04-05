@@ -9,7 +9,6 @@ public interface OauthService {
 
     HttpVO tryOauthNaver(String code);
 
-//    String buildSteamAuthUrl();
-//
-//    boolean verifySteamAuth(String identity, String claimedId, HttpSession session);
+    HttpVO tryOpenIdSteam(String steamId);
+
 }

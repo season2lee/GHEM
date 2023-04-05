@@ -2,12 +2,14 @@ package com.ssafy.ghem.user.model.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.ghem.user.controller.exception.DoesNotExistData;
 import com.ssafy.ghem.user.controller.exception.NoModify;
 import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.UserVO;
 import com.ssafy.ghem.user.tool.JwtProvider;
+import com.ssafy.ghem.user.tool.SteamAPI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +33,7 @@ public class OauthServiceImpl implements OauthService {
 
     private final UserCommonRepository userCommonRepository;
     private final JwtProvider jwtProvider;
+    private final SteamAPI steamAPI;
     private final String clientId = "09a612622415a74fb256afb4648d932d";
 
     @Value("${naver.id}")
@@ -274,45 +277,39 @@ public class OauthServiceImpl implements OauthService {
                 .build();
     }
 
+    @Override
+    public HttpVO tryOpenIdSteam(String steamId) {
+        HttpVO http = new HttpVO();
+        Map<String, Object> map = new HashMap<>();
 
-//    public String buildSteamAuthUrl() {
-//
-//        UriComponentsBuilder steamAuthUrlBuilder = UriComponentsBuilder.fromHttpUrl(STEAM_AUTH_URL)
-//                .queryParam("openid.ns", "http://specs.openid.net/auth/2.0")
-//                .queryParam("openid.mode", "checkid_setup")
-//                .queryParam("openid.return_to", STEAM_VERIFY_URL)
-//                .queryParam("openid.realm", STEAM_VERIFY_URL)
-//                .queryParam("openid.identity", "http://specs.openid.net/auth/2.0/identifier_select")
-//                .queryParam("openid.claimed_id", "http://specs.openid.net/auth/2.0/identifier_select");
-//
-//        return steamAuthUrlBuilder.toUriString();
-//    }
-//
-//    public boolean verifySteamAuth(String identity, String claimedId, HttpSession session) {
-//        try {
-//            // Step 0: Setup the shared associations with Steam OpenID provider
-//            List<DiscoveryInformation> discoveries = consumerManager.discover("https://steamcommunity.com/openid");
-//            DiscoveryInformation discovered = consumerManager.associate(discoveries);
-//            session.setAttribute("openid-disc", discovered);  // 세션에 DiscoveryInformation 객체 저장
-//
-//
-//            // Step 3: Verify the Steam OpenID response
-//            ParameterList openIdAuthParams = new ParameterList();
-//            openIdAuthParams.set(new Parameter("openid.ns", "http://specs.openid.net/auth/2.0"));
-//            openIdAuthParams.set(new Parameter("openid.mode", "checkid_setup"));
-//            openIdAuthParams.set(new Parameter("openid.return_to", STEAM_CALLBACK_URL));
-//            openIdAuthParams.set(new Parameter("openid.realm", "http://localhost:8080"));
-//            openIdAuthParams.set(new Parameter("openid.identity", "http://specs.openid.net/auth/2.0/identifier_select"));
-//            openIdAuthParams.set(new Parameter("openid.claimed_id", "http://specs.openid.net/auth/2.0/identifier_select"));
-//
-//            VerificationResult verification = consumerManager.verify(claimedId, openIdAuthParams, (DiscoveryInformation) session.getAttribute("openid-disc"));
-//
-//            if (verification.getVerifiedId().equals(identity)) {
-//                return true;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
+        // Steam ID를 사용하여 사용자 정보를 가져오고 로그인 처리를 진행
+        Map<String, Object> playerInfo = steamAPI.getPlayerSummaries(steamId);
+
+
+        // 로그인 처리를 진행하세요. 예를 들면, 토큰 발행, 세션 설정 등
+        User user = userCommonRepository.findUserById((String) playerInfo.get("steamid"));
+        // 회원가입 진행
+        if(user == null) {
+            user = User.builder()
+                    .id((String) playerInfo.get("steamid"))
+                    .userProfile((String) playerInfo.get("avatarfull"))
+                    .build();
+
+            user.setSteamId((String) playerInfo.get("steamid"));
+            userCommonRepository.save(user);
+        }
+
+
+        String accessToken = jwtProvider.createToken(user.getUser_id());
+        map.put("AccessToken", accessToken);
+        map.put("userId", user.getUser_id());
+        map.put("userNickname", user.getNickname());
+
+        http.setData(map);
+        http.setFlag(true);
+
+        return http;
+
+    }
+
 }

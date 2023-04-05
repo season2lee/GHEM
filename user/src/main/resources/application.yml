@@ -38,3 +38,7 @@ server:
 naver:
   id: 4KTRJeSReuNJYRdnQdgt
   secret: 4KugOOPWh5
+
+steam:
+  api:
+    key: 5C46EE40D78C6C42A0202BC22912DBAE

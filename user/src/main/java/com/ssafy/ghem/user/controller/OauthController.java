@@ -55,18 +55,22 @@ public class OauthController {
         return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
-//    @GetMapping("/code/steam")
-//    @ApiOperation(value = " Steam OpenID 로그인",
-//            response = RedirectView.class)
-//    public RedirectView steamAuth(@AuthenticationPrincipal OAuth2User principal, RedirectAttributes redirectAttributes) {
-//        Map<String, Object> attributes = principal.getAttributes();
-//
-//        // 모든 사용자 속성 출력
-//        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
-//            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-//        }
-//
-//        return new RedirectView("http://j8d107.p.ssafy.io/");
-//    }
+    @GetMapping("/code/steam")
+    public ResponseEntity<?> openIdSteam(@RequestParam("openid.identity") String openIdIdentity) {
+        
+        // Steam ID 추출
+        String steamId = extractSteamId(openIdIdentity);
+        HttpVO http = oauthService.tryOpenIdSteam(steamId);
+        // Steam ID를 사용하여 사용자 정보를 가져오고 로그인 처리를 진행
+
+        // 성공적으로 로그인 처리가 완료되면 클라이언트에게 적절한 응답을 반환합니다.
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
+    }
+
+    private String extractSteamId(String openIdIdentity) {
+        // OpenID Identity URL에서 Steam ID를 추출합니다.
+        String[] parts = openIdIdentity.split("/");
+        return parts[parts.length - 1];
+    }
 
 }
