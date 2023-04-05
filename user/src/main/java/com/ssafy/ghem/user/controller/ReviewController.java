@@ -6,6 +6,7 @@ import com.ssafy.ghem.user.model.vo.ReviewVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +34,8 @@ public class ReviewController {
     @ApiOperation(value = "app_id의 모든 리뷰리스트를 반환하는 API\n",
             notes = "app_id = (게임 고유번호)\n",
             response = String.class)
-    public ResponseEntity<?> getListRating(@PathVariable Long app_id){
-        HttpVO http = reviewService.getReview(app_id);
+    public ResponseEntity<?> getListRating(@PathVariable Long app_id, Pageable pageable){
+        HttpVO http = reviewService.getReview(app_id, pageable);
         return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 

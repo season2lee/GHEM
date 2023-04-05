@@ -56,21 +56,21 @@ public class OauthController {
     }
 
     @GetMapping("/code/steam")
-    public ResponseEntity<?> openIdSteam(@RequestParam("openid.identity") String openIdIdentity) {
+    public ResponseEntity<?> openIdSteam(@RequestParam String code) {
 
         // Steam ID 추출
-        String steamId = extractSteamId(openIdIdentity);
-        HttpVO http = oauthService.tryOpenIdSteam(steamId);
+        //String steamId = extractSteamId(openIdIdentity);
+        HttpVO http = oauthService.tryOpenIdSteam(code);
         // Steam ID를 사용하여 사용자 정보를 가져오고 로그인 처리를 진행
 
         // 성공적으로 로그인 처리가 완료되면 클라이언트에게 적절한 응답을 반환합니다.
         return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
-    private String extractSteamId(String openIdIdentity) {
-        // OpenID Identity URL에서 Steam ID를 추출합니다.
-        String[] parts = openIdIdentity.split("/");
-        return parts[parts.length - 1];
-    }
+//    private String extractSteamId(String openIdIdentity) {
+//        // OpenID Identity URL에서 Steam ID를 추출합니다.
+//        String[] parts = openIdIdentity.split("/");
+//        return parts[parts.length - 1];
+//    }
 
 }

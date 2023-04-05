@@ -11,10 +11,12 @@ import com.ssafy.ghem.user.model.vo.HttpVO;
 import com.ssafy.ghem.user.model.vo.ReviewVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -24,6 +26,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserCommonRepository userCommonRepository;
     private final GameCommonRepository gameCommonRepository;
     private final UserGameCommonRepository userGameCommonRepository;
+   // private final HelpfulCommonRepository helpfulCommonRepository;
 
     @Override
     @Transactional
@@ -34,6 +37,8 @@ public class ReviewServiceImpl implements ReviewService {
         Game game = getGame(reviewInfo.getApp_id());
         UserGame userGame = getUserGame(user, game);
 
+       // createHelpful(userGame);
+
         userGame.setContent(reviewInfo.getContent());
         userGame.setDateTime();
         userGameCommonRepository.save(userGame);
@@ -42,11 +47,21 @@ public class ReviewServiceImpl implements ReviewService {
         return http;
     }
 
+//    private void createHelpful(UserGame userGame) {
+//        Optional<Helpful> OptionalHelpful = helpfulCommonRepository.findByUserGame(userGame);
+//        if(!OptionalHelpful.isPresent()){
+//            Helpful helpful = new Helpful();
+//            helpful.setUserGame(userGame);
+//
+//            helpfulCommonRepository.save(helpful);
+//        }
+//    }
+
     @Override
-    public HttpVO getReview(Long app_id) {
+    public HttpVO getReview(Long app_id, Pageable pageable) {
         HttpVO http = new HttpVO();
 
-        List<UserGame> userGames = userGameCommonRepository.findByAppId(app_id);
+        Page<UserGame> userGames = userGameCommonRepository.findByAppId(app_id, pageable);
 
         http.setFlag(true);
         http.setData(userGames);
