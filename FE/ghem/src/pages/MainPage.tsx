@@ -3,6 +3,7 @@ import FixedButtom from "@components/main/FixedButtom";
 import HoverGameItem from "@components/main/HoverGameItem";
 import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
+import { mobile } from "@/util/Mixin";
 import Banner from "../components/main/Banner";
 import Discount from "../components/main/Discount";
 import FriendRecommend from "../components/main/FriendRecommend";
