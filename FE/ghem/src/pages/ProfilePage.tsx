@@ -19,9 +19,11 @@ function ProfilePage() {
     if (!accessToken) {
       navigate("/login");
     } else {
+      console.log(userInfo);
+      console.log(userInfo.nickname);
       if (userInfo.nickname === "") {
         alert("닉네임을 설정해주세요. 😀");
-        navigate("/update/profile");
+        location.href = "/update/profile";
       }
     }
   }, []);
