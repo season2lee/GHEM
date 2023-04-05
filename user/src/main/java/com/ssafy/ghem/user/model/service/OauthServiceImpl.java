@@ -292,7 +292,7 @@ public class OauthServiceImpl implements OauthService {
         if(user == null) {
             user = User.builder()
                     .id((String) playerInfo.get("steamid"))
-                    .userProfile((String) playerInfo.get("avatarfull"))
+                    .userProfile("\""+(String) playerInfo.get("avatarfull")+"\"")
                     .build();
 
             user.setSteamId((String) playerInfo.get("steamid"));
