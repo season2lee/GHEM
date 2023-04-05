@@ -17,13 +17,8 @@ function LoginPage() {
   const NAVER_REDIRECT_URI = env.VITE_NAVER_REDIRECT_URI;
   const NAVER_CALLBACK_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_REST_API_KEY}&state=login&redirect_uri=${NAVER_REDIRECT_URI}`;
 
-  // const STEAM_REDIRECT_URI = env.VITE_STEAM_REDIRECT_URI;
-  // const STEAM_CALLBACK_URL = `https://steamcommunity.com/oauth/login?response_type=code&client_id=client_id_here&state=whatever_you_want`;
-  // const returnUrl = "http://j8d107.p.ssafy.io:32000/user/oauth2/code/steam";
-  // const STEAM_REALM = env.VITE_STEAM_REALM;
-  // const STEAM_REDIRECT_URI = env.VITE_STEAM_REDIRECT_URI;
-  const STEAM_REALM = "http://j8d107.p.ssafy.io";
-  const STEAM_REDIRECT_URI = "http://j8d107.p.ssafy.io/oauth/steam/callback";
+  const STEAM_REALM = env.VITE_STEAM_REALM;
+  const STEAM_REDIRECT_URI = env.VITE_STEAM_REDIRECT_URI;
   const STEAM_CALLBACK_URL = `https://steamcommunity.com/openid/login?openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.mode=checkid_setup&openid.ns=http://specs.openid.net/auth/2.0&openid.realm=${STEAM_REALM}&openid.return_to=${STEAM_REDIRECT_URI}`;
 
   const handleOauthLoginClcik = (flag: string): void => {
