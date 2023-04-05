@@ -1,25 +1,25 @@
-import Loading from "@components/common/Loading";
 import { useEffect } from "react";
+import Loading from "@components/common/Loading";
+import { getRequestSteamLogin } from "@/api/oauth";
 import { useNavigate } from "react-router-dom";
 
 function SteamLogin() {
   const navigate = useNavigate();
 
   const handleSteamLogin = async (code: string) => {
-    console.log(code);
-    // const response = await getRequestSteamLogin(code);
+    const response = await getRequestSteamLogin(code);
 
-    // if (response) {
-    //   console.log(response);
-    //   localStorage.setItem("accessToken", response.AccessToken);
-    //   localStorage.setItem("id", JSON.stringify(response.userId));
+    if (response) {
+      console.log(response);
+      localStorage.setItem("accessToken", response.AccessToken);
+      localStorage.setItem("id", JSON.stringify(response.userId));
 
-    //   if (response.userNickname === null) {
-    //     navigate("/update/profile"); // 닉네임 설정X -> 마이프로필 이동
-    //   } else {
-    //     navigate("/main");
-    //   }
-    // }
+      if (response.userNickname === null) {
+        navigate("/update/profile"); // 닉네임 설정X -> 마이프로필 이동
+      } else {
+        navigate("/main");
+      }
+    }
   };
 
   useEffect(() => {
