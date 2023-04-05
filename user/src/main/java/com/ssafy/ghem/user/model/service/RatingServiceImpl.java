@@ -3,9 +3,11 @@ package com.ssafy.ghem.user.model.service;
 import com.ssafy.ghem.user.controller.exception.AlreadyExistData;
 import com.ssafy.ghem.user.controller.exception.DoesNotExistData;
 import com.ssafy.ghem.user.model.entity.Game;
+import com.ssafy.ghem.user.model.entity.Helpful;
 import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.entity.UserGame;
 import com.ssafy.ghem.user.model.respository.common.GameCommonRepository;
+import com.ssafy.ghem.user.model.respository.common.HelpfulCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserGameCommonRepository;
 import com.ssafy.ghem.user.model.vo.HttpVO;
@@ -24,7 +26,7 @@ public class RatingServiceImpl implements RatingService{
     private final UserCommonRepository userCommonRepository;
     private final GameCommonRepository gameCommonRepository;
     private final UserGameCommonRepository userGameCommonRepository;
-    //private final HelpfulCommonRepository helpfulCommonRepository;
+    private final HelpfulCommonRepository helpfulCommonRepository;
     @Override
     public HttpVO create(RatingVO ratingInfo) {
 
@@ -87,7 +89,7 @@ public class RatingServiceImpl implements RatingService{
 
         if(usergame == null) throw new DoesNotExistData("해당게임에 대한 유저의 평점이 존재하지 않습니다.");
 
-        // deleteHelpful(usergame);
+        deleteHelpful(usergame);
 
         userGameCommonRepository.delete(usergame);
 
@@ -98,12 +100,12 @@ public class RatingServiceImpl implements RatingService{
         return http;
     }
 
-//    private void deleteHelpful(UserGame userGame) {
-//        Optional<Helpful> OptionalHelpful = helpfulCommonRepository.findByUserGame(userGame);
-//        if(OptionalHelpful.isPresent()){
-//            helpfulCommonRepository.delete(OptionalHelpful.get());
-//        }
-//    }
+    private void deleteHelpful(UserGame userGame) {
+        Optional<Helpful> OptionalHelpful = helpfulCommonRepository.findByUserGame(userGame);
+        if(OptionalHelpful.isPresent()){
+            helpfulCommonRepository.delete(OptionalHelpful.get());
+        }
+    }
 
     @Override
     public HttpVO read(Long user_id, Long app_id) {

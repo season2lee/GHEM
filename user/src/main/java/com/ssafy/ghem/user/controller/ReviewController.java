@@ -39,4 +39,14 @@ public class ReviewController {
         return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
     }
 
+    @DeleteMapping
+    @ApiOperation(value = "리뷰 삭제 시 사용하는 API\n",
+            notes = "app_id = (게임 고유번호)\n" +
+                    "user_id = 유저 고유번호(카카오, 네이버 고유번호 아님)",
+            response = String.class)
+    public ResponseEntity<?> deleteReview(@RequestParam ReviewVO reviewInfo){
+        HttpVO http = reviewService.deleteReview(reviewInfo);
+        return new ResponseEntity<HttpVO>(http, HttpStatus.OK);
+    }
+
 }

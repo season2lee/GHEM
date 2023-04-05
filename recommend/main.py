@@ -235,8 +235,9 @@ async def create_game(game : Game):
 # 유저와 비슷한 유저 추천
 @app.get("/user", response_model=List[UserRecommendation])
 def recommuser(steam_id : int = 0):
-    if steam_id == 0:
-        return '', 200
+    if steam_id not in userinfo['steam_id'].values:
+        # 이미 존재하는 경우, 빈 배열 반환
+        return []
 
     similar_users = get_similar_users(steam_id, svd, trainset, userinfo)
     return similar_users
@@ -245,8 +246,9 @@ def recommuser(steam_id : int = 0):
 # 유저에게 게임 추천 
 @app.get("/user/games", response_model=List[GameRecommendation])
 def recommusergames(steam_id : int = 0, start : int = 0, end : int = 10):
-    if steam_id == 0:
-        return [], 200
+    if steam_id not in userinfo['steam_id'].values:
+        # 이미 존재하는 경우, 빈 배열 반환
+        return []
 
     games = recommend_games(steam_id, svd, ratings, gameinfo, start, end)
     return games

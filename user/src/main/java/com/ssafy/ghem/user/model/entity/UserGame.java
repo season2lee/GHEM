@@ -17,8 +17,8 @@ public class UserGame {
     private Long userGameId;
     private int rating;
 
-//    @OneToOne(mappedBy = "userGame")
-//    private Helpful helpful;
+    @OneToOne(mappedBy = "userGame")
+    private Helpful helpful;
 
     @Builder
     public UserGame(int rating){

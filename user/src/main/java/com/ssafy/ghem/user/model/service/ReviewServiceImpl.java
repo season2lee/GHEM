@@ -1,10 +1,13 @@
 package com.ssafy.ghem.user.model.service;
 
+import com.ssafy.ghem.user.controller.exception.AlreadyExistData;
 import com.ssafy.ghem.user.controller.exception.DoesNotExistData;
 import com.ssafy.ghem.user.model.entity.Game;
+import com.ssafy.ghem.user.model.entity.Helpful;
 import com.ssafy.ghem.user.model.entity.User;
 import com.ssafy.ghem.user.model.entity.UserGame;
 import com.ssafy.ghem.user.model.respository.common.GameCommonRepository;
+import com.ssafy.ghem.user.model.respository.common.HelpfulCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserCommonRepository;
 import com.ssafy.ghem.user.model.respository.common.UserGameCommonRepository;
 import com.ssafy.ghem.user.model.vo.HttpVO;
@@ -26,7 +29,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserCommonRepository userCommonRepository;
     private final GameCommonRepository gameCommonRepository;
     private final UserGameCommonRepository userGameCommonRepository;
-   // private final HelpfulCommonRepository helpfulCommonRepository;
+    private final HelpfulCommonRepository helpfulCommonRepository;
 
     @Override
     @Transactional
@@ -37,7 +40,13 @@ public class ReviewServiceImpl implements ReviewService {
         Game game = getGame(reviewInfo.getApp_id());
         UserGame userGame = getUserGame(user, game);
 
-       // createHelpful(userGame);
+        String content = userGame.getContent();
+
+        if(content.isEmpty() || content == null){
+            throw new AlreadyExistData("이미 리뷰가 존재합니다. 삭제하시고 다시 이용해주세요");
+        }
+
+        createHelpful(userGame);
 
         userGame.setContent(reviewInfo.getContent());
         userGame.setDateTime();
@@ -46,16 +55,6 @@ public class ReviewServiceImpl implements ReviewService {
         http.setFlag(true);
         return http;
     }
-
-//    private void createHelpful(UserGame userGame) {
-//        Optional<Helpful> OptionalHelpful = helpfulCommonRepository.findByUserGame(userGame);
-//        if(!OptionalHelpful.isPresent()){
-//            Helpful helpful = new Helpful();
-//            helpful.setUserGame(userGame);
-//
-//            helpfulCommonRepository.save(helpful);
-//        }
-//    }
 
     @Override
     public HttpVO getReview(Long app_id, Pageable pageable) {
@@ -66,6 +65,38 @@ public class ReviewServiceImpl implements ReviewService {
         http.setFlag(true);
         http.setData(userGames);
         return http;
+    }
+
+    @Override
+    public HttpVO deleteReview(ReviewVO reviewInfo) {
+        HttpVO http = new HttpVO();
+
+        User user = getUser(reviewInfo.getUser_id());
+        Game game = getGame(reviewInfo.getApp_id());
+        UserGame userGame = getUserGame(user, game);
+
+        deleteHelpful(userGame);
+        userGameCommonRepository.delete(userGame);
+
+        http.setFlag(true);
+        return http;
+    }
+
+    private void deleteHelpful(UserGame userGame) {
+        Optional<Helpful> OptionalHelpful = helpfulCommonRepository.findByUserGame(userGame);
+        if(OptionalHelpful.isPresent()){
+            helpfulCommonRepository.delete(OptionalHelpful.get());
+        }
+    }
+
+    private void createHelpful(UserGame userGame) {
+        Optional<Helpful> OptionalHelpful = helpfulCommonRepository.findByUserGame(userGame);
+        if(!OptionalHelpful.isPresent()){
+            Helpful helpful = new Helpful();
+            helpful.setUserGame(userGame);
+
+            helpfulCommonRepository.save(helpful);
+        }
     }
 
     @Transactional
