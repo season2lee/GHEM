@@ -46,10 +46,6 @@ function CommonGameListItem(props: CommonGameListItemProps) {
   const [isData, setIsData] = useState<boolean>(true);
   const env = import.meta.env;
 
-  useEffect(() => {
-    console.log(userDeviceSet, "===============");
-  }, []);
-
   const toDetail = () => {
     if (props.canClick && props.canClickWithHover) {
       // console.log(props.canClickWithHover);
@@ -148,7 +144,11 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         )}
         {props.imgType === "capsule" && (
           <img
-            css={capsuleImgSize}
+            css={
+              props.gameType === "steady"
+                ? steadyCapsuleImgSize
+                : capsuleImgSize
+            }
             src={currentCapsuleImg}
             alt={`${props.appid}`}
             onError={handleCapsuleImgError}
@@ -199,6 +199,14 @@ const capsuleImgSize = css`
   height: 45vh;
   ${mobile} {
     height: 20vh;
+  }
+`;
+
+const steadyCapsuleImgSize = css`
+  width: auto;
+  height: 35vh;
+  ${mobile} {
+    height: 17vh;
   }
 `;
 

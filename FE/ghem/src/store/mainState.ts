@@ -122,8 +122,13 @@ export const choiceGameState = atom<number[]>({
 });
 
 // 유저의 디바이스가 터치스크린인가(1) 아닌가(false)
-
 export const userDevice = atom<boolean | number>({
   key: "userDevice",
   default: false,
+});
+
+// 성인 필터 받는가 안 받는가
+export const userFilter = atom<boolean>({
+  key: "userFilter",
+  default: true,
 });
