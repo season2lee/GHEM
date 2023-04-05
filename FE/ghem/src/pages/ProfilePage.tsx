@@ -7,7 +7,6 @@ import ComputerSpec from "@components/profile/computerSpec/ComputerSpec";
 import { mobile } from "@/util/Mixin";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "@/store/mainState";
-import { getUserProfile } from "@/api/user";
 
 function ProfilePage() {
   const navigate = useNavigate();
@@ -19,11 +18,9 @@ function ProfilePage() {
     if (!accessToken) {
       navigate("/login");
     } else {
-      console.log(userInfo);
-      console.log(userInfo.nickname);
-      if (userInfo.nickname === "") {
+      if (!userInfo.nickname || userInfo.nickname === "") {
         alert("닉네임을 설정해주세요. 😀");
-        location.href = "/update/profile";
+        navigate("/update/profile");
       }
     }
   }, []);
