@@ -141,8 +141,8 @@ function ChoiceGamePage() {
 
   return (
     <div css={layout}>
-      <div css={section}>
-        <div>
+      <div css={textsection}>
+        <div css={text}>
         {isLoginStatus ? (
           <div className="text"> 플레이 한 게임을 평가 해 보세요 </div>
         ) : (
@@ -158,7 +158,7 @@ function ChoiceGamePage() {
         ) : null}
         </div>
       </div>
-      <div>
+      <div css={section}>
         <ChoiceGameList
           gameList={gameList}
           userId={userId}
@@ -173,7 +173,36 @@ const layout = css`
   display: flex;
   flex-wrap: wrap;
   margin: 10%;
+  ${mobile}{
+    margin: 0;
+  }
 `;
+
+const textsection = css`
+  flex-direction: column;
+  font-size: 2rem;
+  display:flex;
+  align-items: flex-start;
+  width: 100%;
+  height: 20%;
+  margin-right: 5%;
+  margin-left: 5%;
+  text-align: center;
+  color: #ffffffef;
+    text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
+      0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
+      0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
+      ${mobile} {
+        width: 80%;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15%;
+  margin-left: 15%;
+  margin-bottom: 5%;
+    }
+  
+`
+
 const section = css`
   flex-direction: column;
   font-size: 2rem;
@@ -181,15 +210,20 @@ const section = css`
   align-items: flex-start;
   width: 100%;
   height: 20%;
-  margin: 1rem;
   color: #ffffffef;
     text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
       0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
       0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
   .text {
     /* margin-left:1%; */
+   
   }
       ${mobile} {
+        width: 80%;
+        align-items: center;
+        justify-content: center;
+   
+        
     }
 
 `;
@@ -206,8 +240,21 @@ const moveBtn = css`
   cursor: pointer;
   &:hover {
     background-color: rgb(117, 98, 146);
+
+   
   }
+  ${mobile}{
+      width: 5rem;
+    }
 `
+
+const text = css`
+ ${mobile}{
+    text-align: start;
+      width: 85%;
+      font-size: 1.2rem;
+    }
+`;
 
 const btnContainer = css`
   padding-top:1rem ;
@@ -215,5 +262,13 @@ const btnContainer = css`
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
+  text-align: end;
+
+  ${mobile}{
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 `
 export default ChoiceGamePage;

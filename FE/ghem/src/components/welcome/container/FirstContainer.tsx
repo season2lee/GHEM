@@ -1,12 +1,14 @@
-import React, { useRef,useEffect } from "react";
+import React, { useRef,useEffect,useState } from "react";
 import { css,keyframes } from "@emotion/react";
 import useIntersectionObsever from "../../../util/hooks/useIntersectionObserver";
 import { mobile } from "@/util/Mixin";
+import styled from "@emotion/styled";
 
 function FirstContainer() {
   const ref = useRef<HTMLDivElement>(null);
   const isInViewport = useIntersectionObsever(ref)
-  let count = 0
+
+
   setInterval(() => {
     const title = document.getElementById("title");
     const titleStyle = title?.style;
@@ -49,8 +51,8 @@ function FirstContainer() {
         <h1 css={discountText} id="title" data-text ="GHEM">
           GHEM
         </h1>
-        <div css={grid}>
-        </div>
+        <Grid ref={ref} className={isInViewport ? "animation" : ""}>
+        </Grid>
         <div></div>
       </div>
     </div>
@@ -81,7 +83,13 @@ const section = css`
     text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
       0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
       0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
-  }
+    
+    ${mobile} {
+      font-size: 5rem;
+      top:-15rem;
+    }
+
+    }
 
   /* h1 {
     z-index: 10;
@@ -127,7 +135,7 @@ const section = css`
   } */
 `;
 
-const grid = css`
+const Grid = styled.div`
   top: -400px;
   bottom: -400px;
   left: -400px;
@@ -148,6 +156,9 @@ const grid = css`
     100% {
       transform: perspective(300px) rotateX(80deg) translateY(3%);
     }
+  }
+  &.animation {
+
   }
   /* ${mobile} {
     top:-200px;

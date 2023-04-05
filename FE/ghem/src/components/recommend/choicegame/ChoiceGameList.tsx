@@ -1,6 +1,7 @@
 import React, { SetStateAction, useEffect, useState } from "react";
 import ChoiceGameListItem from "./ChoiceGameListItem";
 import { css } from "@emotion/react";
+import { mobile } from "@/util/Mixin";
 
 type GameList = {
   app_id: number;
