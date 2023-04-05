@@ -27,8 +27,8 @@ type GameDataType = {
 function GameDetailPage() {
   const [gameData, setGameData] = useState<GameDataType | null>(null); // 보여질 게임에 대한 상세 정보
   const [currentRating, setCurrentRating] = useState(0);
-  const [userID, setUserID] = useState<number | null>(null);
-  const [appID, setAppID] = useState<number | null>(null);
+  const [userID, setUserID] = useState<number | undefined | null>(undefined);
+  const [appID, setAppID] = useState<number | undefined | null>(undefined);
   const pathAppID = useParams().appid;
   const env = import.meta.env;
 
@@ -165,8 +165,19 @@ function GameDetailPage() {
     }
   }, [appID, userID])
 
-
-  if (userID && appID) {
+  if (appID === undefined || userID === undefined) {
+    return (
+      <div>로딩중...</div>
+    )
+  } else if (appID === null){
+    return (
+      <div>유효하지 않은 게임 정보</div>
+    )
+  } else if (userID === null) {
+    return (
+      <div>로그인 먼저ㄱㄱ</div>
+    )
+  } else {
     return (
       <div>
         {/* 라이브러리 이미지를 가진 헤드 컴포넌트*/}
@@ -199,14 +210,6 @@ function GameDetailPage() {
         </div>
       </div>
     );
-  } else if (appID === null) {
-    return (
-      <div>유효하지 않은 게임 정보</div>
-    )
-  } else if (userID === null){
-    return (
-      <div>로그인 먼저ㄱㄱ</div>
-    )
   }
 }
 
