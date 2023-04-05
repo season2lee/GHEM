@@ -38,6 +38,7 @@ function MainPage(props: {
 
   return (
     <div css={centerDiv}>
+      <div style={{ right: "0" }}>필터버튼</div>
       <FixedButtom />
       {isLoginStatus && <Banner />}
       <BannerTwo
@@ -96,6 +97,7 @@ function MainPage(props: {
 
 const centerDiv = css`
   text-align: center;
+  position: relative;
 `;
 
 export default MainPage;
