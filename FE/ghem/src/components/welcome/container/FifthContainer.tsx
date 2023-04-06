@@ -41,8 +41,8 @@ function FifthContainer() {
       >
         <h1>PC 환경 적합도 <br /> 분석 서비스</h1>
         <h2># PC 환경 비교 </h2>
-        <h3>- 게임 구매하고 사양이 달라 게임을 못한 경우</h3>
-        <h3>- PC 환경이 적절하지 않아 게임 플레이에 불편을 느끼는 경우</h3>
+        <h3> 게임 구매하고 사양이 달라 게임을 못한 경우</h3>
+        <h3> PC 환경이 적절하지 않아 게임 플레이에 불편을 느끼는 경우</h3>
       </div>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
         <div className="monitor">

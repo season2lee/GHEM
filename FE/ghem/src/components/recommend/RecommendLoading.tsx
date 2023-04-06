@@ -34,7 +34,7 @@ function RecommendLoading() {
             <>
               {currentGameRecommend.length === 0 ? null : (
                 <>
-                  <button onClick={moveToMainPage}>추천결과 보기</button>
+                  <button css={btn} onClick={moveToMainPage}>추천결과 보기</button>
                 </>
               )}
             </>
@@ -96,5 +96,20 @@ const spanWrapper = css`
     }
   }
 `;
+
+const btn = css`
+   width: 8rem;
+    height:2rem ;
+    border-radius: 5px;
+    padding: 7px 10px;
+    border: none;
+    color: white;
+    margin-right: 10%;
+    background-color: rgb(88, 74, 110);
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(117, 98, 146);
+  }
+`
 
 export default RecommendLoading;
