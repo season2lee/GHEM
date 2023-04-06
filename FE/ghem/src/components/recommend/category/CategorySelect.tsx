@@ -195,6 +195,10 @@ const categoryLength = css`
   justify-content: flex-end;
   margin-top: 2%;
   margin-bottom: 2%;
+
+  ${mobile} {
+    margin-bottom: 8%;
+  }
 `;
 
 const Item = styled.div<{ checked: boolean }>`
