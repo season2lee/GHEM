@@ -5,6 +5,7 @@ import {
   gameRecommendState,
   gameRecommendStateType,
   loginRandomGameList,
+  choiceGameState
 } from "@/store/mainState";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { FaInfoCircle } from "react-icons/fa";
@@ -31,10 +32,8 @@ function BannerTwo(props: BannerTwoProps) {
     useRecoilState<{ appid: number }[]>(loginRandomGameList);
 
   const navigator = useNavigate();
-
-  const [secondBannerList, setSecondBannerList] = useState<{ appid: number }[]>(
-    []
-  );
+  const [secondBannerList, setSecondBannerList] = useState<{ appid: number }[]>([]);
+  const currentChoiceGame = useRecoilValue(choiceGameState)
   const [currentAppTitle, setCurrentAppTitle] = useState<number>();
 
   const env = import.meta.env;
@@ -58,11 +57,17 @@ function BannerTwo(props: BannerTwoProps) {
     getGameDetail();
   }, [props.randomAppid]);
 
+
+
   useEffect(() => {
     if (gameRecommend.length > 0) {
-      const newList = gameRecommend.map((game) => {
-        return { appid: game.app_id };
-      });
+      const newList = gameRecommend.map((game) => {  
+        // 내가 평가한 게임이 비슷한 게임 추천에 포함 되어 있을 시 
+        if (currentChoiceGame.includes(game.app_id)){    
+        }else {
+          return { appid: game.app_id };
+        } 
+      }).filter((game) => game !== undefined) as { appid: number }[]
       setSecondBannerList(newList);
     } else {
       // 내가 평가한 게임 중 하나 랜덤의 유사게임
