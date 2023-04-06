@@ -203,6 +203,7 @@ function GameDetailPage() {
         <div css={container}>
           <GameInfo
             gameData={gameData}
+            userID={userID}
             currentRating={currentRating}
             ratingHandler={ratingHandler}
           />
