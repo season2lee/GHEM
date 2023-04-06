@@ -16,7 +16,7 @@ import SimilarUserSection from "@components/gamedetail/similaruser/SimilarUserSe
 import { mobile, tabletH } from "@/util/Mixin";
 import { getUserID } from "@/api/user";
 
-const BROKER_URL = "ws://192.168.100.209:8080/ws";
+const BROKER_URL = "ws://192.168.100.118:15674/ws";
 
 type GameDataType = {
   appID: number;
@@ -204,7 +204,7 @@ function GameDetailPage() {
             </div>
             <div css={rightContainer}>
               {/* 채팅창 컴포넌트 */}
-              <ChatBox brokerUrl={BROKER_URL} />
+              <ChatBox brokerUrl={BROKER_URL} appID={appID} userID={userID}/>
             </div>
           </div>
         </div>

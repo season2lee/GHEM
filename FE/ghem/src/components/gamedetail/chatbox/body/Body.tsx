@@ -8,10 +8,11 @@ import Message from './Message';
 import { MessageType } from './MessageType';
 
 type BodyProps = {
-  messages: MessageType[]
+  messages: MessageType[],
+  userID: number
 }
 
-function Body({messages}: BodyProps) {
+function Body({messages, userID}: BodyProps) {
   const bodyRef = useRef<HTMLDivElement | null>(null);
 
   // 스크롤 위치 맨 아래에서 시작함
@@ -19,11 +20,11 @@ function Body({messages}: BodyProps) {
     if (bodyRef.current) {
       bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
     }
-  }, [])
+  }, [messages])
 
   return (
     <div css={container} ref={bodyRef}>
-      {messages.map((message, index) => <Message key={index} msg={message.content} isSender={index%2 === 0 ? true : false}/>)}
+      {messages.map((message, index) => <Message key={index} msg={message} isSender={message.userID === userID}/>)}
     </div>
   )
 }

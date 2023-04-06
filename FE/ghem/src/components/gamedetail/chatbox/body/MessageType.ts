@@ -1,3 +1,5 @@
 export type MessageType = {
-  content: string
+  userID: number,
+  content: string,
+  profileURL: string
 }
