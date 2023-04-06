@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { css } from "@emotion/react";
 import SteamLogin from "@components/login/SteamLogin";
+import NotFound404Page from "./pages/NotFound404Page";
 
 function App() {
   const userId: number | null = Number(localStorage.getItem("id"));
