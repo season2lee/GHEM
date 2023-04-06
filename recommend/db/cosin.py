@@ -77,6 +77,7 @@ def get_similar_games(item_id, model, trainset, gameinfo, n_similar_items=10, n_
             })
 
         recommendations.sort(key=lambda x: (x['positive_reviews'], x['rating']), reverse=True)
+        recommendations = recommendations[:min(30, len(recommendations))]
 
         return convert(recommendations)
     except:
