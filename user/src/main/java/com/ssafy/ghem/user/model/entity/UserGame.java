@@ -1,5 +1,6 @@
 package com.ssafy.ghem.user.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,12 +25,12 @@ public class UserGame {
         this.rating = rating;
     }
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "app_id")
     private Game game;
 
@@ -41,6 +42,7 @@ public class UserGame {
     @Column(name = "helpful")
     private int helpful;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "userGame", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Helpful> helpfulList = new ArrayList<>();
 
