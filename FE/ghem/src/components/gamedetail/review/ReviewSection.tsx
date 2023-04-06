@@ -21,6 +21,7 @@ type ReviewType = {
   date: string,
   content: string,
   helpfulCount?: number,
+  rating: number
 }
 
 function ReviewSection({currentRating, appID, userID}: ReciewSectionProps) {
@@ -47,7 +48,8 @@ function ReviewSection({currentRating, appID, userID}: ReciewSectionProps) {
             profileImageURL: reviewData.user.userProfile.substr(1, reviewData.user.userProfile.length - 2),
             name: reviewData.user.nickname,
             date: reviewData.updateDate,
-            content: reviewData.content
+            content: reviewData.content,
+            rating: reviewData.rating
           }
           temp.unshift(data);
         }
