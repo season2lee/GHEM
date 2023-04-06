@@ -2,7 +2,7 @@ import { css, keyframes } from "@emotion/react";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { disLikeGameList, banGameList } from "@/store/mainState";
+import { disLikeGameList, banGameList, userAllApp } from "@/store/mainState";
 import useIntersectionObsever from "@/util/hooks/useIntersectionObserver";
 import { mobile } from "@/util/Mixin";
 import BannerGameItem from "./BannerGameItem";
@@ -43,13 +43,14 @@ function BannerGameList() {
   const [userDisLikeGame, setUserDisLikeGame] =
     useRecoilState<number[]>(disLikeGameList); // 가져온 게임 리스트에서 밴 or 관심 없는 게임 필터링 처리
   const [banGame, setBanGame] = useRecoilState<number[]>(banGameList);
+  const [useAllApp, setUseAllApp] = useRecoilState<boolean>(userAllApp);
 
   const scrollElement = scrollRef.current as HTMLDivElement;
 
   useEffect(() => {
     bannerListApi();
     return () => {};
-  }, [userDisLikeGame, startPage]);
+  }, [userDisLikeGame, startPage, useAllApp]);
 
   useEffect(() => {
     if (bannerList) {
@@ -71,14 +72,20 @@ function BannerGameList() {
           return !userDisLikeGame.includes(game.app_id);
         }
       );
-      const newBanner = bannerListData.filter((newGame: { app_id: number }) => {
-        return !banGame.includes(newGame.app_id);
-      });
+      if (!useAllApp) {
+        const newBanner = bannerListData.filter(
+          (newGame: { app_id: number }) => {
+            return !banGame.includes(newGame.app_id);
+          }
+        );
+        setBannerList(newBanner);
+      } else {
+        setBannerList(bannerListData);
+      }
       // console.log(response);
       // console.log(newBanner);
       // console.log(userDisLikeGame);
       // console.log(banGame);
-      setBannerList(newBanner);
     } catch (err) {
       console.log("Error >>", err);
     }
