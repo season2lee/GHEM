@@ -20,11 +20,11 @@ function Body({messages, userID}: BodyProps) {
     if (bodyRef.current) {
       bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
     }
-  }, [])
+  }, [messages])
 
   return (
     <div css={container} ref={bodyRef}>
-      {messages.map((message, index) => <Message key={index} msg={message.content} isSender={message.userID === userID}/>)}
+      {messages.map((message, index) => <Message key={index} msg={message} isSender={message.userID === userID}/>)}
     </div>
   )
 }

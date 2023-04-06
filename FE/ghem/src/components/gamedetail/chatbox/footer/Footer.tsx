@@ -2,8 +2,9 @@
 
 import { css } from "@emotion/react";
 import { Client } from "@stomp/stompjs";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { MessageType } from "../body/MessageType";
+import { getUserProfileURL } from "@/api/user";
 
 type FooterProps = {
   setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
@@ -15,7 +16,13 @@ type FooterProps = {
 
 function Footer({ setMessages, client, appID, userID, isConnected }: FooterProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [profileURL, setProfileURL] = useState<string | null>(null);
 
+  useEffect(() => {
+    const response = getUserProfileURL(userID);
+    response
+      .then(result => setProfileURL(result))
+  }, [])
   // 공백 문자인지 점검함
   const isWhitespace = (str: string) => {
     return /^\s*$/.test(str);
@@ -34,7 +41,8 @@ function Footer({ setMessages, client, appID, userID, isConnected }: FooterProps
     if (textareaRef.current?.value) {
       const newMessage = {
         userID: userID,
-        content: textareaRef.current.value
+        content: textareaRef.current.value,
+        profileURL: profileURL ?? ""
       }
       sendMessage(newMessage);
       textareaRef.current.value = "";
@@ -47,7 +55,8 @@ function Footer({ setMessages, client, appID, userID, isConnected }: FooterProps
       e.preventDefault();
       const newMessage = {
         userID: userID,
-        content: textareaRef.current.value
+        content: textareaRef.current.value,
+        profileURL: profileURL ?? ""
       }
       sendMessage(newMessage);
       textareaRef.current.value = "";

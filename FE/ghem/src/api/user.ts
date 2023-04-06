@@ -12,6 +12,18 @@ export const getUserID = () => {
   }
 }
 
+export const getUserProfileURL = async (userId: number) => {
+  try {
+    const { data } = await axios.get(`/${userId}`);
+    const user = data.data.user;
+    const url = user.userProfile.substr(1, user.userProfile.length - 2);
+    return url;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 export const getUserProfile = async (userId: number) => {
   try {
     const { data } = await axios.get(`/${userId}`);
