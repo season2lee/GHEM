@@ -68,6 +68,7 @@ const senderMessageStyle = css`
 `
 
 const otherMessageStyle = css`
+  display: inline-block;
   background-color: rgb(117, 98, 146);
   color: black;
   font-size: 16px;
