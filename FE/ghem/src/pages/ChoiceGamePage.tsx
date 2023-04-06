@@ -140,10 +140,47 @@ function ChoiceGamePage() {
       console.log(err);
     }
   };
+
+  const [ScrollY, setScrollY] = useState(0);
+  const [BtnStatus, setBtnStatus] = useState(false); // 버튼 상태
+  
+  const handleFollow = () => {
+    setScrollY(window.pageYOffset);
+    if(ScrollY > 100) {
+      // 100 이상이면 버튼이 보이게
+      setBtnStatus(true);
+    } else {
+      // 100 이하면 버튼이 사라지게
+      setBtnStatus(false);
+    }
+  }
+
+  const handleTop = () => {  // 클릭하면 스크롤이 위로 올라가는 함수
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+    setScrollY(0);  // ScrollY 의 값을 초기화
+    setBtnStatus(false); // BtnStatus의 값을 false로 바꿈 => 버튼 숨김
+  }
+
+  useEffect(() => {
+    const watch = () => {
+      window.addEventListener('scroll', handleFollow)
+    }
+    watch();
+    return () => {
+      window.removeEventListener('scroll', handleFollow)
+    }
+  })
   
 
   return (
     <div css={layout}>
+       <button 
+        className={BtnStatus ? "topBtn active" : "topBtn"} // 버튼 노출 여부
+        onClick={handleTop}  // 버튼 클릭시 함수 호출
+      >TOP</button>
       <div css={textsection}>
         <div css={text}>
         {isLoginStatus ? (
@@ -175,6 +212,44 @@ function ChoiceGamePage() {
 const layout = css`
   display: flex;
   flex-wrap: wrap;
+
+  .topBtn {
+  position: fixed; 
+  opacity: 0; 
+  bottom: 40px; 
+  right: 40px;
+  z-index: -10; 
+  width: 50px; 
+  height: 50px;
+  border-radius: 100%;
+  border: 0 none;
+  background:transparent;
+  color: white;
+  border: 2px solid #ffa9cb3a;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: -0.06em;
+  box-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
+      0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
+      0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in;
+  text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
+      0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
+      0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
+}
+
+.topBtn.active {
+  z-index: 10; 
+  opacity: 1; 
+}
+
+.topBtn:hover,
+.topBtn:focus,
+.topBtn:active { 
+  outline: 0 none; 
+}
+
   margin: 10%;
   ${mobile}{
     margin: 0;

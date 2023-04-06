@@ -172,18 +172,12 @@ function HoverGameTitle(props: HoverGameTitleProps) {
         </div>
       )}
       {props.haveData === "have" && (
-        <div>
+        <div><span 
+        css={titleContainer}>
           <p>{props.gameTitle}</p>
-          <div css={justifyDiv}>
-            <div>
-              <span>
-                <img src={thumbUp} style={{ height: "15px" }} />
-              </span>
-              <span>{props.gameRecommend?.total}</span>
-            </div>
-            <div>
-              {isWish && (
-                <FaHeart
+          {isWish && (
+                <FaHeart 
+                  className="heart"
                   onClick={unWishGame}
                   size="25"
                   color="red"
@@ -192,12 +186,23 @@ function HoverGameTitle(props: HoverGameTitleProps) {
               )}
               {!isWish && (
                 <FaHeart
+                 className="heart"
                   onClick={wishGame}
                   size="25"
                   color="white"
                   style={{ cursor: "pointer" }}
                 />
               )}
+        </span>
+          <div css={justifyDiv}>
+            <div className="thumbup">
+              <span >
+                <img src={thumbUp} style={{ height: "15px" }} />
+              </span>
+              <span>{props.gameRecommend?.total}</span>
+            </div>
+            <div css={btnContainer}>
+              
               <FaRegMeh
                 onClick={() => {
                   setRealyUnLike(true);
@@ -231,7 +236,15 @@ const justifyDiv = css`
   display: flex;
   justify-content: space-between;
   margin: 0rem 2rem;
+  .thumbup {
+   margin-top: 1.3rem;
+  }
 `;
+
+const btnContainer = css`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`
 
 const cancelBtn = css`
   display: inline-flex;
@@ -252,13 +265,16 @@ const cancelBtn = css`
     margin: 0.5rem;
   }
   button {
-    width: 4rem;
-    height: 2rem;
+    font-size: 0.5rem;
+    text-align: center;
+    align-items: center;
+    width: 3rem;
+    height: 1rem;
     border-radius: 5px;
-    padding: 7px 10px;
+    /* padding: 7px 10px; */
     border: none;
     color: white;
-    margin-right: 10%;
+    /* margin-right: 10%; */
     background-color: rgb(88, 74, 110);
     cursor: pointer;
     &:hover {
@@ -266,5 +282,12 @@ const cancelBtn = css`
     }
   }
 `;
+
+const titleContainer = css`
+  display: inline-flex;
+  .heart {
+    margin-left: 0.5rem;
+  }
+`
 
 export default HoverGameTitle;

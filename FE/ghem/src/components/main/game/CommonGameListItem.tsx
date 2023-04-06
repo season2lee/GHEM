@@ -158,7 +158,7 @@ function CommonGameListItem(props: CommonGameListItemProps) {
         {isData && errorCount === 2 && (
           <div css={inImgText}>
             <p>
-              <b>{title}</b>
+              <b css={gameTitle}>{title}</b>
             </p>
           </div>
         )}
@@ -224,6 +224,11 @@ const inImgText = css`
       0 0 10px #f1c1ff, 0 0 15px #ffd8f8, 0 0 18px #eb68ff, 0 0 23px #ffa9cb;
   }
 `;
+
+const gameTitle = css`
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
 
 export default CommonGameListItem;
 

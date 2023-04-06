@@ -4,7 +4,6 @@ import { gameRecommendState } from "@/store/mainState";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router";
 import GameCanvas from "@components/common/GameCanvas";
-import Footer from "@components/common/Footer";
 
 function RecommendLoading() {
   const currentGameRecommend = useRecoilValue(gameRecommendState);
@@ -19,29 +18,34 @@ function RecommendLoading() {
     <div>
       <div css={wrapper}>
         <h1>게임 추천 중</h1>
-        <div css={spanWrapper}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+
         <GameCanvas />
         <div>
           {userId ? (
             <>
-              <button css={btn} onClick={moveToMainPage}>추천결과 보기</button>
+              <button css={btn} onClick={moveToMainPage}>
+                추천결과 보기
+              </button>
             </>
           ) : (
             <>
-              {currentGameRecommend.length === 0 ? null : (
+              {currentGameRecommend.length === 0 ? (
+                <div css={spanWrapper}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              ) : (
                 <>
-                  <button css={btn} onClick={moveToMainPage}>추천결과 보기</button>
+                  <button css={btn} onClick={moveToMainPage}>
+                    추천결과 보기
+                  </button>
                 </>
               )}
             </>
           )}
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
@@ -98,18 +102,18 @@ const spanWrapper = css`
 `;
 
 const btn = css`
-   width: 8rem;
-    height:2rem ;
-    border-radius: 5px;
-    padding: 7px 10px;
-    border: none;
-    color: white;
-    margin-right: 10%;
-    background-color: rgb(88, 74, 110);
-    cursor: pointer;
-    &:hover {
-      background-color: rgb(117, 98, 146);
+  width: 8rem;
+  height: 2rem;
+  border-radius: 5px;
+  padding: 7px 10px;
+  border: none;
+  color: white;
+  margin-right: 10%;
+  background-color: rgb(88, 74, 110);
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(117, 98, 146);
   }
-`
+`;
 
 export default RecommendLoading;
