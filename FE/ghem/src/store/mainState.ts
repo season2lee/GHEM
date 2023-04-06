@@ -128,7 +128,7 @@ export const userDevice = atom<boolean | number>({
 });
 
 // 성인 필터 받는가 안 받는가
-export const userFilter = atom<boolean>({
-  key: "userFilter",
-  default: true,
+export const userAllApp = atom<boolean>({
+  key: "userAllApp",
+  default: false,
 });
