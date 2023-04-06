@@ -108,10 +108,13 @@ function Navbar() {
         }}
       />
       <div css={menu}>
+        {!isSearch && (
         <NavLink to="/main">
           <FaHome size={20} />
         </NavLink>
-        {isLoginStatus && (
+        )}
+        
+        {!isSearch && isLoginStatus && (
           <a onClick={moveToMyProfile}>
             <FaUserCircle size={19} />
           </a>
@@ -121,12 +124,14 @@ function Navbar() {
             <FaPowerOff fill="#aaffb7" />
           </NavLink>
         )}
-        {isLoginStatus && (
+        { isLoginStatus && (
           <>
             {/* 이건 나중에 css 수정하며 수정하겠슴다 */}
+            {!isSearch && (
             <span id="logout" onClick={handleLogOut}>
               <FaPowerOff fill="#ff8484" />
             </span>
+            )}
             <span>
               <FaSearch
                 onClick={() => {
@@ -216,6 +221,12 @@ const navbar = css`
   #logout:hover {
     color: #ff8484;
   }
+  ${mobile} {
+    
+    div{
+      padding: 0;
+    }
+  }
 `;
 
 const title = css`
@@ -237,7 +248,7 @@ const menu = css`
 const searchInput = css`
   border-radius: 0.5rem;
   border: none;
-  width: 40%;
+  width: 60%;
   box-shadow: inset 0.2rem 0.2rem 0.5rem #15121b,
     inset -0.2rem -0.2rem 0.5rem #5a4b70;
   background: none;
@@ -247,6 +258,10 @@ const searchInput = css`
 
   &:focus {
     outline: none;
+  }
+
+  ${mobile} {
+
   }
 `;
 

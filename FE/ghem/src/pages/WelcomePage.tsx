@@ -5,6 +5,7 @@ import CategoryPage from "./CategoryPage";
 import ChoiceGamePage from "./ChoiceGamePage";
 import WelcomeContainer from "@components/welcome/WelcomeContainer";
 import RecommendLoading from "@components/recommend/RecommendLoading";
+import NotFound404Page from "./NotFound404Page";
 
 function WelcomePage() {
 
@@ -15,6 +16,7 @@ function WelcomePage() {
         <Route path="/choicegame" element={<ChoiceGamePage />} />
         <Route path="/recommendloading" element={<RecommendLoading />} />
         <Route path="/" element={<WelcomeContainer />} />
+        <Route path="*" element={<NotFound404Page />} />
       </Routes> 
     </div>
   );
