@@ -73,7 +73,7 @@ function ChoiceGamePage() {
     const NotLoginListApi = async (state: string) => {
       try {
         const response = await axios.get(
-          `http://j8d107.p.ssafy.io:32003/games/genre/v1?genre=${state}&top=30`
+          `http://j8d107.p.ssafy.io:32003/games/genre/v1?genre=${state}&top=50`
         );
         let item = response.data;
         if (item.length === 0) {

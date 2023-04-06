@@ -32,8 +32,6 @@ function CategorySelect() {
   };
 
   const onSelectedItem = (checked: boolean, item: string) => {
-    // 로그인 시
-    // 비로그인 시
     if (checked) {
       setSelectedList([...selectedList, item]);
     } else if (!checked) {

@@ -87,6 +87,7 @@ function App() {
   useEffect(() => {
     if (randomAppid) {
       randomAppidGameList();
+      console.log(randomAppid)
     }
   }, [randomAppid]);
 

@@ -104,6 +104,7 @@ function GameDetailPage() {
     }
   };
 
+  
   // 유저가 매긴 평점 변경하기
   const putRatingData = async (rating: number) => {
     try {
