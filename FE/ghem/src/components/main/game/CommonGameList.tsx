@@ -56,8 +56,10 @@ function CommonGameList(props: CommonGameListProps) {
       const newNewList = newList?.filter((newGame) => {
         return !banGame.includes(newGame.appid);
       });
+      // console.log(useAllApp, "=====???")
       setGameList(newNewList);
     } else {
+      // console.log(useAllApp, "=====!!!!!")
       setGameList(newList);
     }
   }, [props.gameList, userDisLikeGame, useAllApp]);
@@ -147,7 +149,7 @@ function CommonGameList(props: CommonGameListProps) {
             gameType={props.gameType}
             appid={item.appid}
             imgType={props.imgType}
-            key={index}
+            key={item.appid}
             canClick={canClick}
             discountPercent={item.discountPercent}
             originalPrice={item.originalPrice}
