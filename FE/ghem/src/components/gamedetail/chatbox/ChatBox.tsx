@@ -64,7 +64,7 @@ function ChatBox({brokerUrl, appID, userID}: ChatBoxProps) {
           }
         }, queueConfig)
       setIsConnected(true);
-      console.log("연결 성공");
+      console.log("채팅 연결 성공!:", appID);
     }
     client.onWebSocketClose = () => {
       console.log("웹소켓 연결 끊김...");
@@ -82,7 +82,7 @@ function ChatBox({brokerUrl, appID, userID}: ChatBoxProps) {
     connetToBroker();
 
     return () => disconnectToBroker();
-  }, [])
+  }, [brokerUrl, appID, userID])
   
   return (
     <div css={container}>
