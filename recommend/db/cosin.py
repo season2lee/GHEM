@@ -49,9 +49,12 @@ def get_similar_games(item_id, model, trainset, gameinfo, n_similar_items=10, n_
                 similarity = future.result()
                 item_similarities.append((trainset.to_raw_iid(inner_id), similarity))
 
+        
+
         item_similarities.sort(key=lambda x: x[1], reverse=True)
 
-        item_similarities = item_similarities[:n_similar_items]
+
+        item_similarities = item_similarities[:min(1000, len(item_similarities))]
 
         recommendations = []
         for item, r in item_similarities:
@@ -73,6 +76,7 @@ def get_similar_games(item_id, model, trainset, gameinfo, n_similar_items=10, n_
                 'negative_reviews': negative
             })
 
+        recommendations.sort(key=lambda x: (x['positive_reviews'], x['rating']), reverse=True)
 
         return convert(recommendations)
     except:
@@ -129,33 +133,43 @@ def recommend_games(steam_id, model, data, gameinfo, start, end):
         unique_items = data["app_id"].unique()
         # print(unique_items.shape) # (19762,)
         user_item_ratings = [(steam_id, item, model.predict(steam_id, item).est) for item in unique_items]
-        user_item_ratings.sort(key=lambda x: x[2])
 
-        recomm = user_item_ratings[start:end]
+        user_item_ratings.sort(key=lambda x: x[2], reverse=True)
+
+        recomm = user_item_ratings[:1000]
 
         # 아이템 제목 추가
         recommendations = []
-        for user, item, r in recomm:
-            title = gameinfo.loc[gameinfo['app_id'] == item, 'title'].values[0]
-            genre = gameinfo.loc[gameinfo['app_id'] == item, 'genre'].values[0]
-            release_date = gameinfo.loc[gameinfo['app_id'] == item, 'release_date'].values[0]
-            rating = gameinfo.loc[gameinfo['app_id'] == item, 'rating'].values[0]
-            rating_desc = gameinfo.loc[gameinfo['app_id'] == item, 'rating_desc'].values[0]
-            positive = gameinfo.loc[gameinfo['app_id'] == item, 'positive_reviews'].values[0]
-            negative = gameinfo.loc[gameinfo['app_id'] == item, 'negative_reviews'].values[0]
-            recommendations.append({
-                'app_id': item,
-                'title': title,
-                'genre': genre,
-                'release_date': release_date,
-                'rating': rating,
-                'rating_desc': rating_desc,
-                'positive_reviews': positive,
-                'negative_reviews': negative
-            })
-        
+
+        for steam_id, item, rank in recomm:
+            try:
+                title = gameinfo.loc[gameinfo['app_id'] == item, 'title'].values[0]
+                genre = gameinfo.loc[gameinfo['app_id'] == item, 'genre'].values[0]
+                release_date = gameinfo.loc[gameinfo['app_id'] == item, 'release_date'].values[0]
+                rating = gameinfo.loc[gameinfo['app_id'] == item, 'rating'].values[0]
+                rating_desc = gameinfo.loc[gameinfo['app_id'] == item, 'rating_desc'].values[0]
+                positive = gameinfo.loc[gameinfo['app_id'] == item, 'positive_reviews'].values[0]
+                negative = gameinfo.loc[gameinfo['app_id'] == item, 'negative_reviews'].values[0]
+                recommendations.append({
+                    'app_id': item,
+                    'title': title,
+                    'genre': genre,
+                    'release_date': release_date,
+                    'rating': rating,
+                    'rating_desc': rating_desc,
+                    'positive_reviews': positive,
+                    'negative_reviews': negative
+                })
+            except:
+                continue
+
+        recommendations.sort(key=lambda x: (x['positive_reviews'], x['rating']), reverse=True)
+
+        recommendations = recommendations[start:end]
+
         return convert(recommendations)
-    except:
+    except Exception as e:
+        print(e)
         return []
 
 #장르 추천 -------------------------------------------------------------------------------------------------------------

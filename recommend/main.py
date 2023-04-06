@@ -240,7 +240,6 @@ def recommuser(steam_id : int = 0):
         return []
 
     similar_users = get_similar_users(steam_id, svd, trainset, userinfo)
-    similar_users = list({game['app_id']: game for game in similar_users}.values())
     return similar_users
 
 
@@ -252,6 +251,12 @@ def recommusergames(steam_id : int = 0, start : int = 0, end : int = 10):
         return []
 
     games = recommend_games(steam_id, svd, ratings, gameinfo, start, end)
+    # model.steam_id에 해당하는 사용자가 이미 평가한 app_id를 찾습니다.
+    rated_app_ids = set(ratings[ratings['steam_id'] == steam_id]['app_id'])
+
+    # 이미 평가한 app_id를 제외하고 recommend_games를 필터링합니다.
+    games = [game for game in games if game['app_id'] not in rated_app_ids]
+
     games = list({game['app_id']: game for game in games}.values())
     return games
 
@@ -297,6 +302,8 @@ def recommgames(model : GameRecomm = Depends(GameRecomm)):
 
     # 중복 제거
     recommend_games = list({game['app_id']: game for game in recommend_games}.values())
+
+    recommend_games.sort(key=lambda x: (x['positive_reviews'], x['rating']), reverse=True)
     return recommend_games
 
 # 게임 장르별 추천
@@ -335,7 +342,7 @@ def recommgames(model : GenreRecomm = Depends(GenreRecomm)):
             continue
         
 
-        # model.steam_id에 해당하는 사용자가 이미 평가한 app_id를 찾습니다.
+    # model.steam_id에 해당하는 사용자가 이미 평가한 app_id를 찾습니다.
     rated_app_ids = set(ratings[ratings['steam_id'] == model.steam_id]['app_id'])
 
     # 이미 평가한 app_id를 제외하고 recommend_games를 필터링합니다.
