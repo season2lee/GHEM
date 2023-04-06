@@ -13,8 +13,8 @@ function ThirdContainer() {
       <div ref={ref} className={isInViewport ? "animation" : ""} css={textsection}>
       <h1>게임 추천 서비스</h1>
         <h2># 게임평가 기반 추천 </h2>
-        <h3>- 내가 했던 게임과 비슷한 게임을 알고 싶은 경우</h3>
-        <h3>- 내 게임 성향에 맞는 게임을 찾고 싶은 경우</h3>      
+        <h3> 내가 했던 게임과 비슷한 게임을 알고 싶은 경우</h3>
+        <h3> 내 게임 성향에 맞는 게임을 찾고 싶은 경우</h3>
       </div>
       <div ref={ref} className={isInViewport ? "animation" : ""} css={section}>
         <div>
