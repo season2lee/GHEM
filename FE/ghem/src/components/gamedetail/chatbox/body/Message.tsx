@@ -11,24 +11,29 @@ type MessageProps = {
 function Message({msg, isSender}: MessageProps) {
   if (isSender) {
     return (
-      <div>
-        {msg.content}
+      <div css={container}>
+        <div css={senderMessageStyle}>
+          {msg.content}
+        </div>
+      </div>
+    )
+  } else {
+    return (
+      <div css={container}>
+        <img css={profileImageStyle} src={msg.profileURL} alt="" />
+        <div css={msgContainer}>
+          <p>{msg.nickname}</p>
+          <div css={otherMessageStyle}>
+            {msg.content}
+          </div>
+        </div>
       </div>
     )
   }
-  return (
-    <div css={container}>
-      {!isSender &&
-        <img css={profileImageStyle} src={msg.profileURL} style={{}} />
-      }
-      <StyledMessageBox isSender={isSender}>
-        {msg.content}
-      </StyledMessageBox>
-    </div>
-  )
 }
 const container = css`
   display: flex;
+  margin-top: 20px;
 `
 
 const profileImageStyle = css`
@@ -49,4 +54,35 @@ const StyledMessageBox = styled.div<{isSender:boolean}>`
   padding: 10px;
   border-radius: 5px;
 `
+
+const senderMessageStyle = css`
+  background-color: rgb(212, 206, 221);
+  color: black;
+  font-size: 16px;
+  margin: 5px 5px;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: 0px;
+  padding: 10px;
+  border-radius: 5px;
+`
+
+const otherMessageStyle = css`
+  background-color: rgb(117, 98, 146);
+  color: black;
+  font-size: 16px;
+  margin: 5px 5px;
+  margin-left: 0px;
+  margin-right: auto;
+  padding: 10px;
+  border-radius: 5px;
+`
+
+const msgContainer = css`
+  width: 80%;
+  p {
+    font-size: 16px;
+  }
+`
+
 export default Message

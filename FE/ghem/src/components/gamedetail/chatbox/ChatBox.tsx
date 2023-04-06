@@ -5,7 +5,6 @@ import Header from './header/Header'
 import Body from './body/Body'
 import Footer from './footer/Footer'
 
-import { dummyMessages } from './dummyMessages'
 import { MessageType } from './body/MessageType'
 import { Client } from '@stomp/stompjs'
 import { mobile } from '@/util/Mixin'
@@ -34,7 +33,6 @@ function ChatBox({brokerUrl, appID, userID}: ChatBoxProps) {
     const client = clientRef.current;
     client.activate();
   }
-
   const disconnectToBroker = () => {
     const client = clientRef.current;
     client.deactivate();

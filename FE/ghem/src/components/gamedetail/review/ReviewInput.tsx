@@ -12,6 +12,7 @@ type ReviewType = {
   date: string,
   content: string,
   helpfulCount?: number,
+  rating: number
 }
 
 type ReviewInputProps = {
@@ -46,7 +47,6 @@ function ReviewInput({isRated, getReviewData, appID, userID}: ReviewInputProps) 
       
       // API 요청하기...
       try {
-        console.log(appID, userID);
         const response = await axios.put(env.VITE_API_USER_BASE_URL + "/review", {
           app_id: appID,
           user_id: userID,

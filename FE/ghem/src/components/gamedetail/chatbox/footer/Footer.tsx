@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 import { Client } from "@stomp/stompjs";
 import React, { useRef, useEffect, useState } from "react";
 import { MessageType } from "../body/MessageType";
-import { getUserProfileURL } from "@/api/user";
+import { getUserProfile, getUserProfileURL } from "@/api/user";
 
 type FooterProps = {
   setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
@@ -17,11 +17,21 @@ type FooterProps = {
 function Footer({ setMessages, client, appID, userID, isConnected }: FooterProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [profileURL, setProfileURL] = useState<string | null>(null);
+  const [nickname, setNickname] = useState<string | null>(null);
 
   useEffect(() => {
-    const response = getUserProfileURL(userID);
+    // const response = getUserProfileURL(userID);
+    // response
+    //   .then(result => setProfileURL(result))
+
+    const response = getUserProfile(userID);
     response
-      .then(result => setProfileURL(result))
+      .then(result => {
+        setProfileURL(result.user.userProfile.substr(1, result.user.userProfile.length - 2))
+        setNickname(result.user.nickname);
+      })
+    // console.log(response);
+    
   }, [])
   // 공백 문자인지 점검함
   const isWhitespace = (str: string) => {
@@ -38,15 +48,16 @@ function Footer({ setMessages, client, appID, userID, isConnected }: FooterProps
   // 보내기 버튼 클릭 했을 때의 핸들러
   const handleSendClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (textareaRef.current?.value) {
-      const newMessage = {
-        userID: userID,
-        content: textareaRef.current.value,
-        profileURL: profileURL ?? ""
-      }
-      sendMessage(newMessage);
-      textareaRef.current.value = "";
-    }
+    // if (textareaRef.current?.value) {
+    //   const newMessage = {
+    //     userID: userID,
+    //     nickname: 
+    //     content: textareaRef.current.value,
+    //     profileURL: profileURL ?? ""
+    //   }
+    //   sendMessage(newMessage);
+    //   textareaRef.current.value = "";
+    // }
   };
 
   // textarea에서 엔터 쳤을 때의 핸들러
@@ -55,6 +66,7 @@ function Footer({ setMessages, client, appID, userID, isConnected }: FooterProps
       e.preventDefault();
       const newMessage = {
         userID: userID,
+        nickname: nickname ?? "",
         content: textareaRef.current.value,
         profileURL: profileURL ?? ""
       }
