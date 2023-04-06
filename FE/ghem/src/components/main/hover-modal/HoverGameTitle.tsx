@@ -32,17 +32,21 @@ function HoverGameTitle(props: HoverGameTitleProps) {
   // 관심없어요 3초 세기 함수
   useEffect(() => {
     if (realyUnLike) {
-      const timer = setTimeout(() => {
-        setUnLikeTimer(unLikeTimer - 1);
-        // console.log("카운트중", unLikeTimer);
-      }, 1000);
-      if (unLikeTimer === 0) {
-        if (doUnLike) {
-          clearInterval(timer);
-          disLikeGame();
-          console.log("관심없음 완료");
-          props.setIsEnter(false);
-          setRealyUnLike(false);
+      if (!userId) {
+        alert("로그인 하세요!");
+      } else {
+        const timer = setTimeout(() => {
+          setUnLikeTimer(unLikeTimer - 1);
+          // console.log("카운트중", unLikeTimer);
+        }, 1000);
+        if (unLikeTimer === 0) {
+          if (doUnLike) {
+            clearInterval(timer);
+            disLikeGame();
+            console.log("관심없음 완료");
+            props.setIsEnter(false);
+            setRealyUnLike(false);
+          }
         }
       }
     } else {
@@ -93,34 +97,42 @@ function HoverGameTitle(props: HoverGameTitleProps) {
   };
 
   const wishGame = async () => {
-    const data = {
-      appId: props.appid,
-      userId: userId,
-    };
-    try {
-      const response = await axios.post(
-        `http://j8d107.p.ssafy.io:32000/user/dibs`,
-        data
-      );
-      setIsWish(true);
-      setNumDib(response.data.data.result.dibs_id);
-      // console.log(response);
-      // console.log(userDisLikeGame);
-    } catch (err) {
-      console.log("Error >>", err);
+    if (!userId) {
+      alert("로그인 하세요!");
+    } else {
+      const data = {
+        appId: props.appid,
+        userId: userId,
+      };
+      try {
+        const response = await axios.post(
+          `http://j8d107.p.ssafy.io:32000/user/dibs`,
+          data
+        );
+        setIsWish(true);
+        setNumDib(response.data.data.result.dibs_id);
+        // console.log(response);
+        // console.log(userDisLikeGame);
+      } catch (err) {
+        console.log("Error >>", err);
+      }
     }
   };
 
   const unWishGame = async () => {
-    try {
-      const response = await axios.delete(
-        `http://j8d107.p.ssafy.io:32000/user/dibs/delete/${numDib}`
-      );
-      setIsWish(false);
-      setNumDib(null);
-      // console.log(response);
-    } catch (err) {
-      console.log("Error >>", err);
+    if (!userId) {
+      alert("로그인 하세요!");
+    } else {
+      try {
+        const response = await axios.delete(
+          `http://j8d107.p.ssafy.io:32000/user/dibs/delete/${numDib}`
+        );
+        setIsWish(false);
+        setNumDib(null);
+        // console.log(response);
+      } catch (err) {
+        console.log("Error >>", err);
+      }
     }
   };
 
@@ -195,10 +207,17 @@ function HoverGameTitle(props: HoverGameTitleProps) {
                 fill="#8e83bb8f"
               />
 
-              {realyUnLike && (<div css={cancelBtn}>
-                <p>{unLikeTimer} </p>
-                <button  onClick={() => {setDoUnLike(false);}}>취소?</button>
-              </div>
+              {realyUnLike && (
+                <div css={cancelBtn}>
+                  <p>{unLikeTimer} </p>
+                  <button
+                    onClick={() => {
+                      setDoUnLike(false);
+                    }}
+                  >
+                    취소?
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -219,10 +238,10 @@ const cancelBtn = css`
   justify-content: flex-end;
   text-align: center;
   align-items: center;
-  p{
+  p {
     width: 1.6rem;
     height: 1.4rem;
-    color:rgb(88, 74, 110) ;
+    color: rgb(88, 74, 110);
     border: 0.2rem solid rgb(88, 74, 110);
     border-radius: 1.5rem;
     display: flex;
@@ -234,7 +253,7 @@ const cancelBtn = css`
   }
   button {
     width: 4rem;
-    height:2rem ;
+    height: 2rem;
     border-radius: 5px;
     padding: 7px 10px;
     border: none;
@@ -244,10 +263,8 @@ const cancelBtn = css`
     cursor: pointer;
     &:hover {
       background-color: rgb(117, 98, 146);
+    }
   }
-  
-  }
-
-  `
+`;
 
 export default HoverGameTitle;
