@@ -183,9 +183,9 @@ const layout = css`
 
 const textsection = css`
   flex-direction: column;
-  font-size: 2rem;
+  font-size: 1.8rem;
   display:flex;
-  align-items: flex-start;
+  align-items:center;
   width: 100%;
   height: 20%;
   margin-right: 5%;
@@ -196,12 +196,14 @@ const textsection = css`
       0 0 7px #f6b4ffb9, 0 0 10px #f1c1ff53, 0 0 15px #ffd8f840,
       0 0 18px #eb68ffba, 0 0 23px #ffa9cb3a;
       ${mobile} {
-        width: 80%;
+        width: 90%;
         align-items: center;
         justify-content: center;
         margin-right: 15%;
-  margin-left: 15%;
-  margin-bottom: 5%;
+        margin-left: 15%;
+        margin-bottom: 5%;
+        margin-top: 15%;
+        font-size: 1rem;
     }
   
 `
@@ -252,11 +254,15 @@ const moveBtn = css`
 `
 
 const text = css`
+
  ${mobile}{
     text-align: start;
       width: 85%;
       font-size: 1.2rem;
     }
+   div{
+    margin-bottom: 4%;
+   } 
 `;
 
 const btnContainer = css`
@@ -266,6 +272,7 @@ const btnContainer = css`
   align-items: flex-end;
   justify-content: flex-end;
   text-align: end;
+  margin-bottom: 1rem;
 
   ${mobile}{
     justify-content: flex-end;
