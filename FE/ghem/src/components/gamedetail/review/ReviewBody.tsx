@@ -1,6 +1,5 @@
 import { css } from '@emotion/react'
 import React from 'react'
-import { dummyReviews } from './dummyReviews'
 import Review from './Review'
 import EmptyBox from "@/assets/image/grayempty.svg"
 
@@ -12,6 +11,7 @@ type ReviewType = {
   date: string,
   content: string,
   helpfulCount?: number,
+  rating: number
 }
 
 type ReviewBodyType = {
@@ -26,7 +26,7 @@ function ReviewBody({reviewData, getReviewData}: ReviewBodyType) {
         {reviewData?.map((review, index) => {
           return <div key={index}>
             <Review review={review} getReviewData={getReviewData}/>
-            {index !== dummyReviews.length-1 && (
+            {index !== reviewData.length-1 && (
               <div css={reviewBorder}></div>
             )}
           </div>

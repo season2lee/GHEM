@@ -22,6 +22,7 @@ type ReviewType = {
   date: string,
   content: string,
   helpfulCount?: number,
+  rating: number
 }
 
 type ReviewProps = {
@@ -71,7 +72,9 @@ function Review({review, getReviewData}: ReviewProps) {
         {/* 작성자명과 작성일자 */}
         <div css={headContainer}>
           <div>
-            <p css={nameStyle}>{review.name}</p>
+            <p css={nameStyle}>{review.name}
+              <span>{review.rating}★</span>
+            </p>
             <p css={dateStyle}>{review.date}</p>
           </div>
           {/* 삭제, 수정 드롭다운 */}
@@ -128,6 +131,10 @@ const threeDotStyle = css`
 const nameStyle = css`
   font-weight: bold;
   margin-bottom: 3px;
+  span {
+    margin-left: 5px;
+    color: #fc0
+  }
 `
 
 const dateStyle = css`
