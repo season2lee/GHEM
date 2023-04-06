@@ -28,7 +28,7 @@ function RecommendLoading() {
         <div>
           {userId ? (
             <>
-              <button css={btn}  onClick={moveToMainPage}>추천결과 보기</button>
+              <button css={btn} onClick={moveToMainPage}>추천결과 보기</button>
             </>
           ) : (
             <>

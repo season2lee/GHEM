@@ -6,7 +6,6 @@ import { mobile } from "@/util/Mixin";
 import styled from "@emotion/styled";
 import GhemLogo from "@/assets/image/GhemLogo.png";
 
-
 type categoryListType = {
   genre_id: number;
   genre: string;
@@ -16,7 +15,18 @@ function CategorySelect() {
   const navigate = useNavigate();
   const [selectedList, setSelectedList] = useState<string[]>([]);
   const [categoryList, setCategoryList] = useState<categoryListType[]>([]);
-
+  const filterCategory = [
+    "Massively Multiplayer",
+    "Free to Play",
+    "Animation & Modeling",
+    "Audio Production",
+    "Design & Illustration",
+    "Video Production",
+    "Web Publishing",
+    "Game Development",
+    "Documentary",
+    "Tutorial",
+  ];
   useEffect(() => {
     CategoryListApi();
     return () => {};
@@ -25,7 +35,17 @@ function CategorySelect() {
   const CategoryListApi = async () => {
     try {
       const response = await axios.get("http://j8d107.p.ssafy.io:32003/genres");
-      setCategoryList(response.data);
+      const categoryDataList: categoryListType[] = response.data;
+      const filterDataList: categoryListType[] = categoryDataList
+        .map((game) => {
+          if (filterCategory.includes(game.genre)) {
+          } else {
+            return game;
+          }
+        })
+        .filter((game) => game !== undefined) as categoryListType[];
+      console.log(filterDataList);
+      setCategoryList(filterDataList);
     } catch (err) {
       console.log(err);
     }
@@ -51,7 +71,7 @@ function CategorySelect() {
   return (
     <div>
       <div css={categoryLength}>
-      <div >{selectedList.length}/3</div>
+        <div>{selectedList.length}/3</div>
       </div>
 
       <div css={section}>
@@ -59,7 +79,6 @@ function CategorySelect() {
           {selectedList.length === 0 && (
             <div className="text">장르를 선택해 주세요</div>
           )}
-        
         </div>
         <div css={selectedCategory}>
           {selectedList.map((item) => {
@@ -72,12 +91,14 @@ function CategorySelect() {
             );
           })}
         </div>
-        </div>
-        <div css={btnContainer}>
+      </div>
+      <div css={btnContainer}>
         {selectedList.length >= 3 ? (
-          <button css={moveBtn} onClick={onMoveToChoice}>이동하기</button>
+          <button css={moveBtn} onClick={onMoveToChoice}>
+            이동하기
+          </button>
         ) : null}
-        </div>
+      </div>
       <Item checked={false}>
         {categoryList.map((item) => {
           return (
@@ -94,7 +115,7 @@ function CategorySelect() {
             </label>
           );
         })}
-        <div className="logo"/>
+        <div className="logo" />
       </Item>
     </div>
   );
@@ -102,11 +123,9 @@ function CategorySelect() {
 
 export default CategorySelect;
 
-
-
 const moveBtn = css`
   width: 10rem;
-  height:2rem ;
+  height: 2rem;
   border-radius: 5px;
   padding: 7px 10px;
   border: none;
@@ -116,18 +135,16 @@ const moveBtn = css`
   &:hover {
     background-color: rgb(117, 98, 146);
   }
-`
+`;
 
 const btnContainer = css`
   padding: 1rem;
   display: flex;
   justify-content: flex-end;
-  ${mobile}{
+  ${mobile} {
     justify-content: center;
-
   }
-`
-
+`;
 
 const section = css`
   display: inline-flex;
@@ -144,7 +161,7 @@ const section = css`
   }
   ${mobile} {
     font-size: 0.68rem;
-    .text{
+    .text {
       width: 10rem;
     }
   }
@@ -156,7 +173,7 @@ const selectedCategory = css`
   flex-wrap: wrap;
   width: 100%;
   div {
-    width:15rem;    
+    width: 15rem;
     display: inline-flex;
     justify-content: center;
     margin-right: 1rem;
@@ -184,7 +201,7 @@ const selectedItem = css`
   ${mobile} {
     font-size: 0.68rem;
     height: 1rem;
-     width: 2rem;
+    width: 2rem;
   }
 `;
 
@@ -214,7 +231,7 @@ const Item = styled.div<{ checked: boolean }>`
     height: 30%;
     width: 25%;
     margin: 1%;
-    padding: 0.5%;;
+    padding: 0.5%;
     border-radius: 0.5rem;
     ${mobile} {
       font-size: 1rem;
