@@ -34,6 +34,7 @@ function App() {
   const [userDeviceSet, setUserDeviceSet] = useRecoilState<boolean | number>(
     userDevice
   );
+
   const [randomAppList, setRandomAppList] = useState<number[]>();
   const [randomAppid, setRandomAppid] = useState<number>();
   const [isLoginStatus, setIsLoginStatus] = useState<boolean>(false);
@@ -52,6 +53,7 @@ function App() {
   // 위험 요소 게임은 로그인 여부 관계 없이 필요
   useEffect(() => {
     getAllBanGame();
+    // 디바이스 종류 확인
     const isTouchDevice: boolean | number =
       navigator.maxTouchPoints || "ontouchstart" in document.documentElement;
     setUserDeviceSet(isTouchDevice);
@@ -94,9 +96,9 @@ function App() {
   // 내가 평가한 게임 리스트에서 랜덤 1개를 뽑기 위한  함수
   const getRandomAppId = () => {
     if (randomAppList) {
-      setRandomAppid(
-        randomAppList[Math.floor(Math.random() * randomAppList.length)]
-      );
+      const newAppid =
+        randomAppList[Math.floor(Math.random() * randomAppList.length)];
+      setRandomAppid(newAppid);
     }
   };
 
@@ -192,7 +194,9 @@ function App() {
         <Route path="/profile/*" element={<ProfilePage />} />
         <Route
           path="/main"
-          element={<MainPage setCheckLogin={setCheckLogin} />}
+          element={
+            <MainPage setCheckLogin={setCheckLogin} randomAppid={randomAppid} />
+          }
         />
         <Route path="/*" element={<WelcomePage />} />
         <Route path="/gameban" element={<GameBanPage />} />

@@ -11,21 +11,23 @@ import { Client } from '@stomp/stompjs'
 import { mobile } from '@/util/Mixin'
 
 const STOMP_CONFIG = {
-  debug: (str: string) => {
-    console.log(str);
-  },
+  // debug: (str: string) => {
+  //   console.log(str);
+  // },
   reconnectDelay: 1000,
-  heartbeatIncoming: 4000,
-  heartbeatOutgoing: 4000,
+  heartbeatIncoming: 0,
+  heartbeatOutgoing: 0,
 }
 
 type ChatBoxProps = {
-  brokerUrl: string
+  brokerUrl: string,
+  appID: number,  // routing key로 생각할 것
+  userID: number
 }
 
-function ChatBox({brokerUrl}: ChatBoxProps) {
+function ChatBox({brokerUrl, appID, userID}: ChatBoxProps) {
   const [messages, setMessages] = useState<MessageType[]>([]);
-  const clientRef = useRef(new Client(STOMP_CONFIG));
+  const clientRef = useRef<Client>(new Client(STOMP_CONFIG));
   const [isConnected, setIsConnected] = useState(false);
 
   const connetToBroker = () => {
@@ -38,36 +40,57 @@ function ChatBox({brokerUrl}: ChatBoxProps) {
     client.deactivate();
   }
 
-  useEffect(() => {
-    // const client = clientRef.current;
-    // client.brokerURL = brokerUrl;
-    // client.onConnect = (frame) => {
-    //   console.log("연결 성공!");
-    //   setIsConnected(true);
-    // }
-    // client.onWebSocketClose = () => {
-    //   console.log("웹소켓 연결 끊김...");
-    //   setIsConnected(false);
-    // }
-    // client.onDisconnect = () => {
-    //   console.log("연결 해제...");
-    //   setIsConnected(false);
-    // }
-    // client.onStompError = (frame) => {
-    //   console.log('Broker reported error: ' + frame.headers['message']);
-    //   console.log('Additional details: ' + frame.body);
-    //   setIsConnected(false);
-    // }
-    // connetToBroker();
+  const isMessageType = (obj: any): obj is MessageType => {
+    return obj.userID !== undefined && obj.content !== undefined;
+  }
 
-    // return () => {client.deactivate()}
+  useEffect(() => {
+    const client = clientRef.current;
+    const destination = '/exchange/collector/' + appID;
+    const queueConfig = {
+      "auto-delete": "true",
+      "durable": "false",
+      "exclusive": "false",
+    }
+    client.brokerURL = brokerUrl;
+    client.onConnect = (frame) => {
+      client.subscribe(destination,
+        (message) => {
+          const newMsg = JSON.parse(message.body);
+          if (isMessageType(newMsg)) {
+            setMessages((oldState) => {
+              return [...oldState, JSON.parse(message.body)]
+            })
+          } else {
+            console.log("형식에 맞지 않는 메시지임:", newMsg);
+          }
+        }, queueConfig)
+      setIsConnected(true);
+      console.log("연결 성공");
+    }
+    client.onWebSocketClose = () => {
+      console.log("웹소켓 연결 끊김...");
+      setIsConnected(false);
+    }
+    client.onDisconnect = () => {
+      console.log("연결 해제...");
+      setIsConnected(false);
+    }
+    client.onStompError = (frame) => {
+      console.log('Broker reported error: ' + frame.headers['message']);
+      console.log('Additional details: ' + frame.body);
+      setIsConnected(false);
+    }
+    connetToBroker();
+
+    return () => disconnectToBroker();
   }, [])
   
   return (
     <div css={container}>
       <Header />
-      <Body messages={messages} />
-      <Footer setMessages={setMessages} isConnected={isConnected} />
+      <Body messages={messages} userID={userID} />
+      <Footer setMessages={setMessages} client={clientRef.current} appID={appID} userID={userID} isConnected={isConnected} />
     </div>
   )
 }

@@ -16,12 +16,12 @@ type ReviewType = {
 
 type ReviewInputProps = {
   isRated: boolean,
-  setReviewData: React.Dispatch<React.SetStateAction<ReviewType[]>>
+  getReviewData: (reviewCount: number, pageNum: number) => void,
   appID: number,
   userID: number
 }
 
-function ReviewInput({isRated, setReviewData, appID, userID}: ReviewInputProps) {
+function ReviewInput({isRated, getReviewData, appID, userID}: ReviewInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -47,17 +47,13 @@ function ReviewInput({isRated, setReviewData, appID, userID}: ReviewInputProps) 
       // API 요청하기...
       try {
         console.log(appID, userID);
-        const response = await axios.put(env.VITE_API_BASE_URL + "/review", {
+        const response = await axios.put(env.VITE_API_USER_BASE_URL + "/review", {
           app_id: appID,
           user_id: userID,
           content: inputRef.current.value
         })
-
-        // Review 생성
-        setReviewData((oldState) => {
-          return [...oldState]
-        })
         console.log("put 요청 결과:", response);
+        getReviewData(5, 1);
       } catch {
         console.log("평가 추가 실패...");
       }

@@ -1,23 +1,41 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import React from 'react'
+import { MessageType } from './MessageType'
 
 type MessageProps = {
-  msg: string,
+  msg: MessageType,
   isSender: boolean
 }
 
 function Message({msg, isSender}: MessageProps) {
+  if (isSender) {
+    return (
+      <div>
+        {msg.content}
+      </div>
+    )
+  }
   return (
     <div css={container}>
+      {!isSender &&
+        <img css={profileImageStyle} src={msg.profileURL} style={{}} />
+      }
       <StyledMessageBox isSender={isSender}>
-        {msg}
+        {msg.content}
       </StyledMessageBox>
     </div>
   )
 }
 const container = css`
   display: flex;
+`
+
+const profileImageStyle = css`
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  margin-right: 10px;
 `
 
 const StyledMessageBox = styled.div<{isSender:boolean}>`
