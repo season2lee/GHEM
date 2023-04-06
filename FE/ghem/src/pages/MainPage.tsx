@@ -3,7 +3,7 @@ import FixedButtom from "@components/main/FixedButtom";
 import HoverGameItem from "@components/main/HoverGameItem";
 import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState,useSetRecoilState } from "recoil";
 import { userInfoStateType } from "atomTypes";
 import { userAllApp, userInfoState } from "@/store/mainState";
 import Banner from "../components/main/Banner";
@@ -13,6 +13,7 @@ import SteadySeller from "../components/main/SteadySeller";
 import TopRankNewRelease from "../components/main/TopRankNewRelease";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { getUserProfile } from "@/api/user";
 
 export type PageXY = {
   x: number;
@@ -31,16 +32,22 @@ function MainPage(props: {
   const [colId, setColId] = useState<string>("empty");
   const [pageXY, setPageXY] = useState<PageXY>({ x: 0, y: 0 });
   const [canClickWithHover, setCanClickWithHover] = useState<boolean>(true);
-
   const [useAllApp, setUseAllApp] = useRecoilState<boolean>(userAllApp);
-  const [userStatus, setUserStatus] =
-    useRecoilState<userInfoStateType>(userInfoState);
+  const [userStatus, setUserStatus] = useRecoilState<userInfoStateType>(userInfoState);
+  const setUserInfo = useSetRecoilState(userInfoState);
+  const [nickname, setNickname] = useState<string>("");
+  const [steamId, setSteamId] = useState<string>("미등록");
+  const [introduce, setIntroduce] = useState<string>("");
+
+
+
 
   const navigate = useNavigate();
 
   useEffect(() => {
     props.setCheckLogin(true);
     haveRatingGame();
+    getUserProfileFunc(userId);
   }, []);
 
   useEffect(() => {
@@ -52,6 +59,32 @@ function MainPage(props: {
   useEffect(() => {
     console.log(useAllApp);
   }, [useAllApp]);
+
+  const getUserProfileFunc = async (id: number) => {
+    const response = await getUserProfile(id);
+
+    if (response) {
+      const { user } = response;
+
+      if (user.nickname) setNickname(user.nickname);
+      if (user.steamId && user.steamId !== "") setSteamId(user.steamId);
+      if (user.introduce) setIntroduce(user.introduce);
+
+      // recoil에 유저의 정보 담기
+      setUserInfo((prev) => {
+        return {
+          ...prev,
+          user_id: user.user_id,
+          nickname: user.nickname,
+          steamId: user.steamId,
+          introduce: user.introduce,
+          userProfile: user.userProfile,
+          birth: user.birth,
+          gender: user.gender,
+        };
+      });
+    }
+  };
 
   const setBtnChange = () => {
     if (userId) {
