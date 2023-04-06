@@ -59,10 +59,9 @@ function GameDetailPage() {
   // 유저가 매긴 평점 가져오기
   const getRatingData = async () => {
     try {
-      const response = await axios.get(`${env.VITE_API_BASE_URL}/rating/${userID}/${appID}`);
+      const response = await axios.get(`${env.VITE_API_USER_BASE_URL}/rating/${userID}/${appID}`);
       const { data } = response.data;
       const rating = data?.rating ?? 0;
-      console.log("ratingData:", rating);
       setCurrentRating(() => {
         return rating;
       })
@@ -75,12 +74,19 @@ function GameDetailPage() {
   const deleteRatingData = async () => {
     try {
       if (userID !== null) {
-        await axios.delete(`${env.VITE_API_BASE_URL}/rating`, {
+        await axios.delete(`${env.VITE_API_USER_BASE_URL}/rating`, {
           params: {
             user_id: userID,
             app_id: appID
           }
         });
+        await axios.delete(`${env.VITE_FAST_API_BASE_URL}/rating`, {
+          params: {
+            steam_id: appID,
+            user_id: userID,
+            rating: 0
+          }
+        })
         alert("삭제 완료!");
       }
     } catch {
@@ -92,8 +98,13 @@ function GameDetailPage() {
   const postRatingData = async (rating: number) => {
     try {
       if (userID !== null) {
-        await axios.post(`${env.VITE_API_BASE_URL}/rating`, {
+        await axios.post(`${env.VITE_API_USER_BASE_URL}/rating`, {
           app_id: appID,
+          user_id: userID,
+          rating: rating
+        });
+        await axios.post(`${env.VITE_FAST_API_BASE_URL}/rating`, {
+          steam_id: appID,
           user_id: userID,
           rating: rating
         });
@@ -108,11 +119,16 @@ function GameDetailPage() {
   const putRatingData = async (rating: number) => {
     try {
       if (userID !== null) {
-        await axios.put(env.VITE_API_BASE_URL + "/rating", {
+        await axios.put(env.VITE_API_USER_BASE_URL + "/rating", {
           app_id: appID,
           user_id: userID,
           rating: rating
         });
+        await axios.put(`${env.VITE_FAST_API_BASE_URL}/rating`, {
+          steam_id: appID,
+          user_id: userID,
+          rating: rating
+        })
         alert("변경 완료!");
       }
     } catch {
