@@ -11,12 +11,14 @@ import { FaInfoCircle } from "react-icons/fa";
 import CommonGameList from "./game/CommonGameList";
 import { PageXY } from "@/pages/MainPage";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 type BannerTwoProps = {
   setAppid: React.Dispatch<React.SetStateAction<number | null>>;
   setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   setColId: React.Dispatch<React.SetStateAction<string>>;
   setPageXY: React.Dispatch<React.SetStateAction<PageXY>>;
+  randomAppid: number | undefined;
   currentColId: string;
   canClickWithHover: boolean;
 };
@@ -33,6 +35,29 @@ function BannerTwo(props: BannerTwoProps) {
   const [secondBannerList, setSecondBannerList] = useState<{ appid: number }[]>(
     []
   );
+  const [currentAppTitle, setCurrentAppTitle] = useState<number>();
+
+  const env = import.meta.env;
+
+  const getGameDetail = async () => {
+    try {
+      const response = await axios.get(
+        env.VITE_GAME_DETAIL + props.randomAppid + "&filters=basic"
+      );
+      if (response.data[props.randomAppid ?? "null"].success) {
+        setCurrentAppTitle(
+          response.data[props.randomAppid ?? "null"].data.name
+        );
+      }
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
+  useEffect(() => {
+    getGameDetail();
+  }, [props.randomAppid]);
+
   useEffect(() => {
     if (gameRecommend.length > 0) {
       const newList = gameRecommend.map((game) => {
@@ -53,7 +78,10 @@ function BannerTwo(props: BannerTwoProps) {
   return (
     <div css={bannerTwoDiv}>
       <div css={flexDiv}>
-        <span css={bannerTwoText}>LIKE YOU LIKE</span>
+        {userId !== 0 && (
+          <span css={bannerTwoText}>LIKE YOUR "{currentAppTitle}"</span>
+        )}
+        {!userId && <span css={bannerTwoText}>LIKE YOU LIKE</span>}
         <span>
           <FaInfoCircle size={25} />
         </span>
