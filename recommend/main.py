@@ -48,7 +48,7 @@ async def get_data_from_databases():
         # rating in mysql
         await mysql_cur.execute("SELECT * FROM usergame;")
         rows = await mysql_cur.fetchall()
-        col_name = ['user_game_id', 'rating', 'app_id', 'steam_id', 'content', 'update_date']
+        col_name = ['user_game_id', 'rating', 'app_id', 'steam_id', 'content', 'update_date', 'helpful']
         ratings_mysql = pd.DataFrame(rows, columns=col_name)
         ratings_mysql = ratings_mysql[['app_id','steam_id', 'rating']]
 
@@ -240,6 +240,7 @@ def recommuser(steam_id : int = 0):
         return []
 
     similar_users = get_similar_users(steam_id, svd, trainset, userinfo)
+    similar_users = list({game['app_id']: game for game in similar_users}.values())
     return similar_users
 
 
@@ -251,6 +252,7 @@ def recommusergames(steam_id : int = 0, start : int = 0, end : int = 10):
         return []
 
     games = recommend_games(steam_id, svd, ratings, gameinfo, start, end)
+    games = list({game['app_id']: game for game in games}.values())
     return games
 
 # 게임과 비슷한 게임 추천

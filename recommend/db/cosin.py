@@ -125,9 +125,11 @@ def get_similar_users(steam_id, model, trainset, userinfo, start = 0, end = 10, 
 
 def recommend_games(steam_id, model, data, gameinfo, start, end):
     try:
+        # print(data.shape) # (1455144, 3)
         unique_items = data["app_id"].unique()
+        # print(unique_items.shape) # (19762,)
         user_item_ratings = [(steam_id, item, model.predict(steam_id, item).est) for item in unique_items]
-        user_item_ratings.sort(key=lambda x: x[2], reverse=True)
+        user_item_ratings.sort(key=lambda x: x[2])
 
         recomm = user_item_ratings[start:end]
 
