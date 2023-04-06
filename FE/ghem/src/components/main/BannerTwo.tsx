@@ -87,9 +87,6 @@ function BannerTwo(props: BannerTwoProps) {
           <span css={bannerTwoText}>LIKE YOUR "{currentAppTitle}"</span>
         )}
         {!userId && <span css={bannerTwoText}>LIKE YOU LIKE</span>}
-        <span>
-          <FaInfoCircle size={25} />
-        </span>
       </div>
       <CommonGameList
         gameList={secondBannerList}
@@ -140,4 +137,15 @@ const bannerTwoText = css`
     0 0 10px #f1c1ff, 0 0 15px #ffd8f8, 0 0 18px #eb68ff, 0 0 23px #ffa9cb;
 `;
 
+const description = css`
+
+  div{
+    display: none;
+    width: 10rem ;
+    height: 10rem;
+    :hover{
+      display: block;
+    }
+  }
+`
 export default BannerTwo;

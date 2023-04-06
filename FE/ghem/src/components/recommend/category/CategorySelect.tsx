@@ -15,6 +15,7 @@ function CategorySelect() {
   const navigate = useNavigate();
   const [selectedList, setSelectedList] = useState<string[]>([]);
   const [categoryList, setCategoryList] = useState<categoryListType[]>([]);
+  const [loading, setLoading] =useState<boolean>(false)
   const filterCategory = [
     "Massively Multiplayer",
     "Free to Play",
@@ -35,6 +36,7 @@ function CategorySelect() {
   const CategoryListApi = async () => {
     try {
       const response = await axios.get("http://j8d107.p.ssafy.io:32003/genres");
+      setLoading(true)
       const categoryDataList: categoryListType[] = response.data;
       const filterDataList: categoryListType[] = categoryDataList
         .map((game) => {
@@ -80,6 +82,7 @@ function CategorySelect() {
             <div className="text">장르를 선택해 주세요</div>
           )}
         </div>
+        {}
         <div css={selectedCategory}>
           {selectedList.map((item) => {
             return (
@@ -99,6 +102,7 @@ function CategorySelect() {
           </button>
         ) : null}
       </div>
+      {loading ? (
       <Item checked={false}>
         {categoryList.map((item) => {
           return (
@@ -117,12 +121,57 @@ function CategorySelect() {
         })}
         <div className="logo" />
       </Item>
+      ):( <div css={spanWrapper}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>)}
     </div>
   );
 }
 
-export default CategorySelect;
+const spanWrapper = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 
+  > span {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    animation: loading 1s 0s linear infinite;
+  }
+
+  > span:nth-of-type(1) {
+    animation-delay: 0s;
+    background-color: #f1eff4;
+  }
+
+  > span:nth-of-type(2) {
+    animation-delay: 0.2s;
+    background-color: #756292;
+  }
+
+  > span:nth-of-type(3) {
+    animation-delay: 0.4s;
+    background-color: #584a6e;
+  }
+
+  @keyframes loading {
+    0%,
+    100% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+`;
 const moveBtn = css`
   width: 10rem;
   height: 2rem;
@@ -273,3 +322,8 @@ const Item = styled.div<{ checked: boolean }>`
     display: none;
   }
 `;
+
+
+export default CategorySelect;
+
+

@@ -9,6 +9,7 @@ import LastContainer from "./container/LastContainer";
 import { css } from "@emotion/react";
 
 function WelcomeContainer() {
+  
   //   const [position, setPosition] = useState(0);
   //   const ScrollHandler = () => {
   //     setPosition(window.scrollY);
@@ -33,6 +34,7 @@ function WelcomeContainer() {
         {/* <SixthContainer /> */}
         <LastContainer />
       </div>
+
     </div>
   );
 }

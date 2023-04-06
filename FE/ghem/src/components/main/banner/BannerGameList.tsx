@@ -45,6 +45,8 @@ function BannerGameList() {
   const [banGame, setBanGame] = useRecoilState<number[]>(banGameList);
   const [useAllApp, setUseAllApp] = useRecoilState<boolean>(userAllApp);
 
+  const [loading, setLoading] = useState<boolean>(false)
+
   const scrollElement = scrollRef.current as HTMLDivElement;
 
   useEffect(() => {
@@ -67,6 +69,7 @@ function BannerGameList() {
           params: { steam_id: userId, start: startPage, end: startPage + 10 },
         }
       );
+      if (response) {setLoading(true)}
       const bannerListData = response.data.filter(
         (game: { app_id: number }) => {
           return !userDisLikeGame.includes(game.app_id);
@@ -142,45 +145,56 @@ function BannerGameList() {
           <MdAutorenew size={40} color="white" />
         </span>
       </div>
-      <div css={relativeDiv}>
-        {!isLeftInViewport && (
-          <MdOutlineArrowBackIos
-            css={absoluteLeft}
-            size={40}
-            onClick={toLeft}
-          />
-        )}
-        {!isRightInViewport && (
-          <MdOutlineArrowForwardIos
-            css={absoluteRight}
-            size={40}
-            onClick={toRight}
-          />
-        )}
-        <div
-          css={recommendList}
-          ref={scrollRef}
-          onMouseDown={onDragStart}
-          onMouseMove={onDragMove}
-          onMouseUp={onDragEnd}
-          onMouseLeave={onDragLeave}
-        >
-          <div ref={leftTarget}></div>
-          {bannerList?.map((bannerGame) => {
-            return (
-              <BannerGameItem
-                appId={bannerGame.app_id}
-                title={bannerGame.title}
-                genres={bannerGame.genre}
-                canClick={canClick}
-                key={bannerGame.app_id}
-              />
-            );
-          })}
-          <div ref={rightTarget}></div>
+      {loading ? (
+        <>
+        
+        <div css={relativeDiv}>
+          {!isLeftInViewport && (
+            <MdOutlineArrowBackIos
+              css={absoluteLeft}
+              size={40}
+              onClick={toLeft}
+            />
+          )}
+          {!isRightInViewport && (
+            <MdOutlineArrowForwardIos
+              css={absoluteRight}
+              size={40}
+              onClick={toRight}
+            />
+          )}
+          <div
+            css={recommendList}
+            ref={scrollRef}
+            onMouseDown={onDragStart}
+            onMouseMove={onDragMove}
+            onMouseUp={onDragEnd}
+            onMouseLeave={onDragLeave}
+          >
+            <div ref={leftTarget}></div>
+            {bannerList?.map((bannerGame) => {
+              return (
+                <BannerGameItem
+                  appId={bannerGame.app_id}
+                  title={bannerGame.title}
+                  genres={bannerGame.genre}
+                  canClick={canClick}
+                  key={bannerGame.app_id}
+                />
+              );
+            })}
+            <div ref={rightTarget}></div>
+          </div>
         </div>
+        <div css={bannerDetail}></div>
+        </>
+      ):(
+        <div ref={scrollRef} css={spanWrapper}>
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-      <div css={bannerDetail}></div>
+      )}
     </div>
   );
 }
@@ -208,7 +222,7 @@ const recommendForU = css`
   margin: 2rem 6rem 0rem;
   padding: 1rem 4rem 0rem 4rem;
   background-color: #352c42;
-  border-radius: 30px 30px 0px 0px;
+  border-radius: 30px 30px 30px 30px;
 
   ${mobile} {
     > span {
@@ -219,7 +233,7 @@ const recommendForU = css`
     margin: 1rem 1.5rem 0rem;
     padding: 1rem 1rem 0rem 1rem;
     background-color: #352c42;
-    border-radius: 20px 20px 0px 0px;
+    border-radius: 20px 20px  20px 20px;
   }
 `;
 
@@ -273,6 +287,53 @@ const absoluteRight = css`
 
 const relativeDiv = css`
   position: relative;
+`;
+
+const spanWrapper = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 86%;
+  margin-left: 7%;
+  height: 3rem;
+
+
+  > span {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    animation: loading 1s 0s linear infinite;
+  }
+
+  > span:nth-of-type(1) {
+    animation-delay: 0s;
+    background-color: #f1eff4;
+  }
+
+  > span:nth-of-type(2) {
+    animation-delay: 0.2s;
+    background-color: #756292;
+  }
+
+  > span:nth-of-type(3) {
+    animation-delay: 0.4s;
+    background-color: #584a6e;
+  }
+
+  @keyframes loading {
+    0%,
+    100% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
 `;
 
 export default BannerGameList;

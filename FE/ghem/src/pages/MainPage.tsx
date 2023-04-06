@@ -3,7 +3,7 @@ import FixedButtom from "@components/main/FixedButtom";
 import HoverGameItem from "@components/main/HoverGameItem";
 import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
-import { useRecoilState,useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { userInfoStateType } from "atomTypes";
 import { userAllApp, userInfoState } from "@/store/mainState";
 import Banner from "../components/main/Banner";
@@ -33,14 +33,12 @@ function MainPage(props: {
   const [pageXY, setPageXY] = useState<PageXY>({ x: 0, y: 0 });
   const [canClickWithHover, setCanClickWithHover] = useState<boolean>(true);
   const [useAllApp, setUseAllApp] = useRecoilState<boolean>(userAllApp);
-  const [userStatus, setUserStatus] = useRecoilState<userInfoStateType>(userInfoState);
+  const [userStatus, setUserStatus] =
+    useRecoilState<userInfoStateType>(userInfoState);
   const setUserInfo = useSetRecoilState(userInfoState);
   const [nickname, setNickname] = useState<string>("");
   const [steamId, setSteamId] = useState<string>("미등록");
   const [introduce, setIntroduce] = useState<string>("");
-
-
-
 
   const navigate = useNavigate();
 
@@ -123,19 +121,22 @@ function MainPage(props: {
 
   return (
     <div css={centerDiv}>
-      <div className="toggle" style={{ right: "0" }}>
-        <div css={switchBtn}>
-          <div>
-            <input
-              type="checkbox"
-              id="switch"
-              checked={useAllApp}
-              onChange={setBtnChange}
-            />
-            <label htmlFor="switch"></label>
+      {isLoginStatus && (
+        <div className="toggle" style={{ right: "0" }}>
+          <div css={switchBtn}>
+            <div>
+              <input
+                type="checkbox"
+                id="switch"
+                checked={useAllApp}
+                onChange={setBtnChange}
+              />
+              <label htmlFor="switch"></label>
+            </div>
+            <div css={filterName}>{useAllApp ? <div>Adult+</div> : <div>Child</div>}</div>
           </div>
         </div>
-      </div>
+      )}
       <FixedButtom />
       {isLoginStatus && <Banner />}
       <BannerTwo
@@ -178,7 +179,6 @@ function MainPage(props: {
         currentColId={colId}
         canClickWithHover={canClickWithHover}
       />
-      먼가 깐지나는 말
       {isEnter && (
         <HoverGameItem
           setIsEnter={setIsEnter}
@@ -196,7 +196,7 @@ function MainPage(props: {
 const centerDiv = css`
   text-align: center;
   position: relative;
-
+  text-overflow: ellipsis;
   .toggle {
     display: flex;
     justify-content: flex-end;
@@ -249,5 +249,12 @@ const switchBtn = css`
     width: 13px;
   }
 `;
+
+const filterName = css`
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 4px #fff, 0 0 1px #f6b4ff,
+    0 0 5px #f1c1ff, 0 0 2px #ffd8f8, 0 0 3px #eb68ff, 0 0 4px #ffa9cb;
+`
 
 export default MainPage;

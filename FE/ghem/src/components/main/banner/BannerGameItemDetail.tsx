@@ -114,6 +114,8 @@ const gameDescription = css`
 `;
 
 const genresCss = css`
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-indent: 1rem;
   font-size: 0.8rem;
   line-height: 120%;
