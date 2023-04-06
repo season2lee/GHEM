@@ -11,9 +11,9 @@ import { Client } from '@stomp/stompjs'
 import { mobile } from '@/util/Mixin'
 
 const STOMP_CONFIG = {
-  debug: (str: string) => {
-    console.log(str);
-  },
+  // debug: (str: string) => {
+  //   console.log(str);
+  // },
   reconnectDelay: 1000,
   heartbeatIncoming: 0,
   heartbeatOutgoing: 0,
@@ -21,10 +21,11 @@ const STOMP_CONFIG = {
 
 type ChatBoxProps = {
   brokerUrl: string,
-  appID: number  // routing key로 생각할 것
+  appID: number,  // routing key로 생각할 것
+  userID: number
 }
 
-function ChatBox({brokerUrl, appID}: ChatBoxProps) {
+function ChatBox({brokerUrl, appID, userID}: ChatBoxProps) {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const clientRef = useRef<Client>(new Client(STOMP_CONFIG));
   const [isConnected, setIsConnected] = useState(false);
@@ -39,6 +40,10 @@ function ChatBox({brokerUrl, appID}: ChatBoxProps) {
     client.deactivate();
   }
 
+  const isMessageType = (obj: any): obj is MessageType => {
+    return obj.userID !== undefined && obj.content !== undefined;
+  }
+
   useEffect(() => {
     const client = clientRef.current;
     const destination = '/exchange/collector/' + appID;
@@ -51,7 +56,14 @@ function ChatBox({brokerUrl, appID}: ChatBoxProps) {
     client.onConnect = (frame) => {
       client.subscribe(destination,
         (message) => {
-          console.log(message);
+          const newMsg = JSON.parse(message.body);
+          if (isMessageType(newMsg)) {
+            setMessages((oldState) => {
+              return [...oldState, JSON.parse(message.body)]
+            })
+          } else {
+            console.log("형식에 맞지 않는 메시지임:", newMsg);
+          }
         }, queueConfig)
       setIsConnected(true);
       console.log("연결 성공");
@@ -77,8 +89,8 @@ function ChatBox({brokerUrl, appID}: ChatBoxProps) {
   return (
     <div css={container}>
       <Header />
-      <Body messages={messages} />
-      <Footer setMessages={setMessages} isConnected={isConnected} />
+      <Body messages={messages} userID={userID} />
+      <Footer setMessages={setMessages} client={clientRef.current} appID={appID} userID={userID} isConnected={isConnected} />
     </div>
   )
 }

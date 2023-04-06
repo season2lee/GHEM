@@ -1,43 +1,55 @@
 // Footer는 단순히 textarea를 통해 사용자로부터 입력을 받아, ChatBox에서 props로 받은 핸들러에 입력값을 넘겨주는 컴포넌트 이다
 
 import { css } from "@emotion/react";
-import React, { useRef } from "react";
+import { Client } from "@stomp/stompjs";
+import React, { useRef, useEffect } from "react";
 import { MessageType } from "../body/MessageType";
 
 type FooterProps = {
   setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
+  client: Client,
+  appID: number,
+  userID: number,
   isConnected: boolean
 };
 
-function Footer({ setMessages, isConnected }: FooterProps) {
+function Footer({ setMessages, client, appID, userID, isConnected }: FooterProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  // 보내기 버튼 클릭 했을 때의 핸들러
-  const handleSendClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (textareaRef.current?.value) {
-      console.log(textareaRef.current.value);
-      textareaRef.current.value = "";
-    }
-  };
 
   // 공백 문자인지 점검함
   const isWhitespace = (str: string) => {
     return /^\s*$/.test(str);
   }
 
+  const sendMessage = (msg: MessageType) => {
+    client.publish({
+      destination: '/exchange/collector/' + appID,
+      body: JSON.stringify(msg)
+    })
+  }
+
+  // 보내기 버튼 클릭 했을 때의 핸들러
+  const handleSendClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (textareaRef.current?.value) {
+      const newMessage = {
+        userID: userID,
+        content: textareaRef.current.value
+      }
+      sendMessage(newMessage);
+      textareaRef.current.value = "";
+    }
+  };
+
   // textarea에서 엔터 쳤을 때의 핸들러
   const handleSendEnterDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && textareaRef.current && !isWhitespace(textareaRef.current.value)) {
-      const newContent = textareaRef.current.value;
       e.preventDefault();
-      console.log("엔터빵!", newContent);
-      setMessages((oldState) => {
-        const newMessage = {
-          content: newContent
-        }
-        return [...oldState, newMessage];
-      })
+      const newMessage = {
+        userID: userID,
+        content: textareaRef.current.value
+      }
+      sendMessage(newMessage);
       textareaRef.current.value = "";
     }
   }
