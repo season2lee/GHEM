@@ -16,23 +16,20 @@ type ReviewType = {
 
 type EditDropdownProps = {
   setIsOpenEditDropdown: React.Dispatch<React.SetStateAction<boolean>>,
-  setReviewData: React.Dispatch<React.SetStateAction<ReviewType[]>>,
+  getReviewData: (reviewCount: number, pageNum: number) => void,
   isWriter: boolean,
   userID: number
   appID: number,
 }
 
-function EditDropdown({setIsOpenEditDropdown, setReviewData, isWriter, userID, appID}: EditDropdownProps) {
+function EditDropdown({setIsOpenEditDropdown, getReviewData, isWriter, userID, appID}: EditDropdownProps) {
   const env = import.meta.env;
 
   const handleDelete = async () => {
     setIsOpenEditDropdown(false);
     if (confirm("삭제 하시겠습니까??")) {
-      console.log("삭제 시작");
-      
       try {
-        console.log(appID, userID);
-        const response = await axios.put(env.VITE_API_BASE_URL + "/review", {
+        const response = await axios.put(env.VITE_API_USER_BASE_URL + "/review", {
           app_id: appID,
           user_id: userID,
           content: null
@@ -40,22 +37,17 @@ function EditDropdown({setIsOpenEditDropdown, setReviewData, isWriter, userID, a
         
         // 삭제 결과 반영하기
         console.log("put 요청 결과:", response);
+        getReviewData(5, 1);
       } catch {
         console.log("삭제 실패...");
       }
     }
-    
   }
 
   const handleReport = () => {
     console.log("신고할 리뷰의 정보:", userID, appID);
     setIsOpenEditDropdown(false);
   }
-
-  useEffect(() => {
-    console.log(userID, appID);
-    
-  }, [])
 
   return (
     <div css={container}>

@@ -83,7 +83,7 @@ function ChatBox({brokerUrl, appID, userID}: ChatBoxProps) {
     }
     connetToBroker();
 
-    return () => {client.deactivate()}
+    return () => disconnectToBroker();
   }, [])
   
   return (

@@ -26,10 +26,10 @@ type ReviewType = {
 
 type ReviewProps = {
   review: ReviewType,
-  setReviewData: React.Dispatch<React.SetStateAction<ReviewType[]>>
+  getReviewData: (reviewCount: number, pageNum: number) => void,
 }
 
-function Review({review, setReviewData}: ReviewProps) {
+function Review({review, getReviewData}: ReviewProps) {
   const [isHelpful, setIsHelpful] = useState(false);
   const [userID, setUserID] = useState<number | null>(null);
   const [isOpenEditDropdown, setIsOpenEditDropdown] = useState(false);
@@ -77,7 +77,7 @@ function Review({review, setReviewData}: ReviewProps) {
           {/* 삭제, 수정 드롭다운 */}
           <div css={editContainer} ref={dropdownRef}>
             <span><BiDotsVerticalRounded css={threeDotStyle} onClick={handleClickEditButton}/></span>
-            {isOpenEditDropdown && <EditDropdown setIsOpenEditDropdown={setIsOpenEditDropdown} setReviewData={setReviewData} isWriter={review.userId === userID} userID={review.userId} appID={review.appId}/>}
+            {isOpenEditDropdown && <EditDropdown setIsOpenEditDropdown={setIsOpenEditDropdown} getReviewData={getReviewData} isWriter={review.userId === userID} userID={review.userId} appID={review.appId}/>}
           </div>
           {/* 해당 유저가 평가한 점수 들어갈 것 
             ...

@@ -16,16 +16,16 @@ type ReviewType = {
 
 type ReviewBodyType = {
   reviewData: ReviewType[],
-  setReviewData: React.Dispatch<React.SetStateAction<ReviewType[]>>
+  getReviewData: (reviewCount: number, pageNum: number) => void
 }
 
-function ReviewBody({reviewData, setReviewData}: ReviewBodyType) {
+function ReviewBody({reviewData, getReviewData}: ReviewBodyType) {
   if (reviewData.length > 0) {
     return (
       <div css={container}>
         {reviewData?.map((review, index) => {
           return <div key={index}>
-            <Review review={review} setReviewData={setReviewData}/>
+            <Review review={review} getReviewData={getReviewData}/>
             {index !== dummyReviews.length-1 && (
               <div css={reviewBorder}></div>
             )}

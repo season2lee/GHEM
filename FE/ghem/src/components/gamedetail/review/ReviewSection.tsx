@@ -3,7 +3,6 @@ import ReviewInput from '@components/gamedetail/review/ReviewInput'
 import { css } from '@emotion/react'
 import Pagination from './Pagination'
 import ReviewBody from './ReviewBody';
-import { dummyReviews } from './dummyReviews';
 import axios from 'axios';
 
 const REVIEW_COUNT = 5;
@@ -32,7 +31,7 @@ function ReviewSection({currentRating, appID, userID}: ReciewSectionProps) {
   
   const getReviewData = async (reviewCount: number, pageNum: number) => {
     try {
-      const response = await axios.get(`${env.VITE_API_BASE_URL}/review/${appID}`, {
+      const response = await axios.get(`${env.VITE_API_USER_BASE_URL}/review/${appID}`, {
         params: {
           size: REVIEW_COUNT,
           page: pageNum-1
@@ -50,10 +49,9 @@ function ReviewSection({currentRating, appID, userID}: ReciewSectionProps) {
             date: reviewData.updateDate,
             content: reviewData.content
           }
-          
-          temp.push(data);
-          setReviewData(temp);
+          temp.unshift(data);
         }
+        setReviewData(temp);
       } else {
         console.log("리뷰 데이터 없음");
         setReviewData([]);
@@ -77,10 +75,10 @@ function ReviewSection({currentRating, appID, userID}: ReciewSectionProps) {
       <h2 css={header}>리뷰</h2>
 
       {/* 리뷰 입력 컴포넌트 */}
-      <ReviewInput isRated={currentRating !== 0} setReviewData={setReviewData} appID={appID} userID={userID}/>
+      <ReviewInput isRated={currentRating !== 0} getReviewData={getReviewData} appID={appID} userID={userID}/>
 
       {/* 리뷰들 보여지는 body */}
-      <ReviewBody reviewData={reviewData} setReviewData={setReviewData}/>
+      <ReviewBody reviewData={reviewData} getReviewData={getReviewData}/>
 
       {/* 페이지 컴포넌트 */}
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} lastPageNum={lastPageNum}/>

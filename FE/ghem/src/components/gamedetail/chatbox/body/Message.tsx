@@ -9,6 +9,13 @@ type MessageProps = {
 }
 
 function Message({msg, isSender}: MessageProps) {
+  if (isSender) {
+    return (
+      <div>
+        {msg.content}
+      </div>
+    )
+  }
   return (
     <div css={container}>
       {!isSender &&
