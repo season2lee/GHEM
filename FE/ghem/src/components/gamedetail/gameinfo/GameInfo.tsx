@@ -24,10 +24,6 @@ function GameInfo({gameData, userID, currentRating, ratingHandler}: GameInfoProp
   const [dibsID, setDibsID] = useState<number | null>(null);
   const env = import.meta.env;
 
-  const handleHeartClick = () => {
-    setIsLike(!isLike);
-  }
-
   const likeGame = async () => {
     if (isLike === false) {
       try {
@@ -67,22 +63,27 @@ function GameInfo({gameData, userID, currentRating, ratingHandler}: GameInfoProp
   const getLikeInfo = async () => {
     try {
       const { data } = await axios.get(`${env.VITE_API_USER_BASE_URL}/dibs/${gameData?.appID}/${userID}`)
-      setDibsID(data.data.Dib.dibs_id);
-      if (data.data.Dib.dibs_id === null) {
+      if (data.data.Dib === null) {
         setIsLike(false);
+        return;
       } else {
-        setIsLike(true);
+        setDibsID(data.data.Dib.dibs_id);
+        if (data.data.Dib.dibs_id === null) {
+          setIsLike(false);
+        } else {
+          setIsLike(true);
+        }
       }
-      console.log(data.data.Dib.dibs_id);
-      
     } catch {
       console.log("찜하기 정보 얻어오기 실패...");
     }
   }
 
   useEffect(() => {
-    getLikeInfo();
-  }, [])
+    if (gameData) {
+      getLikeInfo();
+    }
+  }, [gameData?.appID])
 
   if (gameData) {
     return (

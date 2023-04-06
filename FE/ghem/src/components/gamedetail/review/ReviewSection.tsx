@@ -69,7 +69,7 @@ function ReviewSection({currentRating, appID, userID}: ReciewSectionProps) {
 
   useEffect(() => {
     getReviewData(REVIEW_COUNT, currentPage);
-  }, [currentPage])
+  }, [currentPage, appID])
   
   return (
     <div css={container}>

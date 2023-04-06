@@ -173,8 +173,9 @@ function GameDetailPage() {
 
     if (pathAppID && !isNaN(parseInt(pathAppID))) {
       getGameData(parseInt(pathAppID));
+      setAppID(parseInt(pathAppID));
     }
-  }, [])
+  }, [pathAppID])
 
   useEffect(() => {
     if (appID && userID) {
