@@ -88,9 +88,9 @@ function ChoiceGameListItem({
 
   // 로그인 시 게임 평점 매기기
   const ratingHandler = (newRating: number) => {
+    setFlipped(true);
+    setChecked(true);
     if (newRating !== 0) {
-      setChecked(true);
-      setFlipped(true);
       if (evaluatedGame.some((obj) => obj.app_id === app_id)) {
         // 평가 수정하는 경우
         setCurrentRating(newRating);
@@ -127,7 +127,8 @@ function ChoiceGameListItem({
     setEvaluatedGame(evaluatedGame.filter((game) => game.app_id !== app_id));
     setDbGame(dbGame.filter((game) => game.app_id !== app_id));
     setCurrentRating(0);
-    setChecked(!checked);
+    setChecked(false);
+    setFlipped(false)
     console.log(evaluatedGame);
   };
 
@@ -143,7 +144,7 @@ function ChoiceGameListItem({
   };
 
   return (
-    <CardContainer key={app_id} onClick={handleClick} checked={checked}>
+    <CardContainer key={app_id} checked={checked}>
       {isLoginStatus ? (
         <div className={`card__flipper ${flipped ? "flipped" : ""}`}>
           <CardFront className="card_front">
@@ -175,7 +176,7 @@ function ChoiceGameListItem({
           </CardBack>
         </div>
       ) : (
-        <div className={`card__flipper ${flipped ? "flipped" : ""}`}>
+        <div key={app_id} onClick={handleClick} className={`card__flipper ${flipped ? "flipped" : ""}`}>
           <CardFront key={app_id}>
             <SelectTmg src={currentCapsuleImg} alt={`${app_id}`} />
             <h1 css={text}>{title}</h1>
@@ -206,6 +207,7 @@ const CardContainer = styled.div<{ checked: boolean }>`
   margin: 1rem;
   perspective: 80rem;
   display: inline-block;
+
   ${mobile}{
     margin: 0;
     width: 10rem;
@@ -222,6 +224,7 @@ const CardContainer = styled.div<{ checked: boolean }>`
     border-radius: 1rem;
     width: 20rem;
     height: 20rem;
+
     box-shadow: 0 15px 15px rgb(0 0 0 / 50%);
     ${mobile}{
     margin: 0;
@@ -321,6 +324,7 @@ const removeBtn = css`
 `;
 const text = css`
   width: 80%;
+  font-size: 1.8rem;
   color: #23152a;
   text-shadow: 0 0 1px #ffffff4b, 0 0 2px #ffffff3a, 0 0 4px #ffffff45,
     0 0 2px #f6b4ffb9, 0 0 5px #f1c1ff53, 0 0 8px #ffd8f840, 0 0 5px #eb68ffba,

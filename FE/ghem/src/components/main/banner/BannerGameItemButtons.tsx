@@ -153,13 +153,17 @@ function BannerGameItemButtons(props: BannerGameItemButtonsProps) {
           style={{ cursor: "pointer" }}
         />
         {realyUnLike && (
-          <span
-            onClick={() => {
-              setDoUnLike(false);
-            }}
-          >
-            {unLikeTimer}
-            취소?
+          <span>
+            <div css={cancelBtn}>
+                  <p>{unLikeTimer} </p>
+                  <button
+                    onClick={() => {
+                      setDoUnLike(false);
+                    }}
+                  >
+                    취소?
+                  </button>
+                </div>
           </span>
         )}
       </span>
@@ -170,14 +174,53 @@ function BannerGameItemButtons(props: BannerGameItemButtonsProps) {
 const bannerDetail = css`
   /* margin: 0rem 6rem 2rem; */
   /* padding: 1rem 0rem 1rem 1rem; */
-  padding: 0.2rem;
+  padding-top: 0.7rem;
+  height: 3rem;
   background-color: #584a6e;
   display: flex;
+  text-align: center;
+  align-items: center;
   justify-content: space-between;
   > * {
     margin: 0% 10%;
   }
   /* border-radius: 0px 0px 30px 30px; */
 `;
+
+const cancelBtn= css`
+  height: 100%;
+  display: inline-flex;
+  justify-content: flex-end;
+  text-align: center;
+  align-items: center;
+  font-size: 1rem;
+  p {
+    width: 1.6rem;
+    height: 1rem;
+    color: white;
+    border: 0.2rem solid rgb(88, 74, 110);
+    border-radius: 1.5rem;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-weight: 700;
+    margin: 0.5rem;
+  }
+  button {
+    text-align: center;
+    width: 4rem;
+    height: 1.5rem;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    margin-right: 10%;
+    background-color: rgb(54, 45, 68);
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(117, 98, 146);
+    }
+  }
+`
 
 export default BannerGameItemButtons;

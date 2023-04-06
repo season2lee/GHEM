@@ -21,7 +21,6 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { css } from "@emotion/react";
-import Footer from "@components/common/Footer";
 import SteamLogin from "@components/login/SteamLogin";
 
 function App() {
@@ -205,7 +204,6 @@ function App() {
         <Route path="/oauth/naver/callback" element={<NaverLogin />} />
         <Route path="/oauth/steam/callback" element={<SteamLogin />} />
       </Routes>
-      <Footer />
     </div>
   );
 }

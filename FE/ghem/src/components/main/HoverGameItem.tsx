@@ -124,14 +124,15 @@ function HoverGameItem(props: HoverGameItemProps) {
         setIsEnter={props.setIsEnter}
       />
       <HoverGameDescription gameDetail={gameDetail} haveData={haveData} />
-      {userDeviceSet && haveData === "have" && (
-        <p
+      {userDeviceSet && haveData === "have" && (<div css={btnContainer}>
+        <button css={btn}
           onClick={() => {
             navigator(`../detail/${props.appid}`);
           }}
         >
           to Detail
-        </p>
+        </button>
+      </div>
       )}
     </div>
   );
@@ -145,9 +146,34 @@ const hoverModal = css`
   padding: 1rem 0rem;
   color: black;
   border-radius: 10px;
+  text-overflow: ellipsis;
   ${mobile} {
     width: 80%;
   }
 `;
+
+const btn = css`
+  width: 6rem;
+  height: 2rem;
+  border-radius: 5px;
+  padding: 7px 10px;
+  border: none;
+  color: white;
+  margin-right: 10%;
+  background-color: rgb(88, 74, 110);
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(117, 98, 146);
+  }
+`;
+const btnContainer = css`
+  width:100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+`
 
 export default HoverGameItem;
