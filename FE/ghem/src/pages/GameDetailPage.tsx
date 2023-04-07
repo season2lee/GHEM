@@ -216,10 +216,10 @@ function GameDetailPage() {
                 <ReviewSection currentRating={currentRating} appID={appID} userID={userID}/>
               </Section>
               {/* 즐겨찾기한 유저들 컴포넌트 */}
-              <br />
+              {/* <br />
               <Section>
                 <SimilarUserSection />
-              </Section>
+              </Section> */}
             </div>
             <div css={rightContainer}>
               {/* 채팅창 컴포넌트 */}

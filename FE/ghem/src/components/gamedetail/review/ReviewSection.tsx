@@ -38,7 +38,10 @@ function ReviewSection({currentRating, appID, userID}: ReciewSectionProps) {
           page: pageNum-1
         }
       });
+      setLastPageNum(response.data?.data.totalPages);
       const reviewDatas = response.data?.data.content ?? null;
+      console.log(response);
+      
       const temp: ReviewType[] = [];
       if (reviewDatas !== null) {
         for (const reviewData of reviewDatas) {
