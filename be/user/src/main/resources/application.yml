@@ -1,0 +1,44 @@
+spring.mvc.pathmatch.matching-strategy: ant-path-matcher
+
+spring:
+  datasource:
+    jdbcUrl: jdbc:mysql://j8d107.p.ssafy.io:3306/ghem?useUniCode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowMultiQueries=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password : d107
+
+  second-datasource:
+    jdbcUrl: jdbc:mysql://j8d107.p.ssafy.io:4000/ghem?useUniCode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowMultiQueries=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: d107
+
+
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.sql : debug
+    org.hibernate.type : trace
+
+server:
+  port: 8080
+
+naver:
+  id: 4KTRJeSReuNJYRdnQdgt
+  secret: 4KugOOPWh5
+
+steam:
+  api:
+    key: 5C46EE40D78C6C42A0202BC22912DBAE
