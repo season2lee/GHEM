@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of ={"appId", "title", "rating", "genre", "releaseDate", "estimatedTime"})
+@ToString(of ={"appId", "title", "rating", "genre", "releaseDate"})
 @Table(name="game")
 public class Game {
     @Id
