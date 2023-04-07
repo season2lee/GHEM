@@ -16,7 +16,7 @@
 
 ![메인페이지](https://user-images.githubusercontent.com/72495712/230568054-b3fa4f8c-5ab6-4757-bc08-59a7fb08be5b.gif)
 
-- [발표 자료](#pdf링크)
+- [발표 자료](./docs/ghem_pdf.pdf)
 - [UCC](https://youtu.be/WAnrTIMFzoY)
 
 ### 진행 기간
