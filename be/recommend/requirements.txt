@@ -1,0 +1,9 @@
+numpy
+pandas
+scikit-learn
+fastapi
+uvicorn
+aiomysql
+asyncpg
+surprise
+requests
