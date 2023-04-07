@@ -43,6 +43,7 @@ function ChatBox({brokerUrl, appID, userID}: ChatBoxProps) {
   }
 
   useEffect(() => {
+    setMessages([]);
     const client = clientRef.current;
     const destination = '/exchange/collector/' + appID;
     const queueConfig = {
