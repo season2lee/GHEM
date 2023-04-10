@@ -15,9 +15,10 @@
 
 #### 빅데이터 기반의 개인 맞춤형 스팀 게임 추천 웹 서비스
 
-![메인페이지](https://user-images.githubusercontent.com/72495712/230568054-b3fa4f8c-5ab6-4757-bc08-59a7fb08be5b.gif)
+![](./docs/welcome.gif)
 
 - [발표 자료](./docs/ghem_pdf.pdf)
+
 - [UCC](https://youtu.be/WAnrTIMFzoY)
 
 ### 진행 기간
