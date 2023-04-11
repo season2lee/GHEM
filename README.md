@@ -153,3 +153,9 @@
 ## 화면 구성 💻
 
 - [화면 구성 보러 가기](https://profuse-school-12a.notion.site/fcad6ed6e69847d69dfa5901b219a89b)
+
+
+
+## 시연 영상🎬
+
+- [스팀 게임 추천 서비스, GHEM 시연 영상 - YouTube](https://youtu.be/1aZodmAtztY)
